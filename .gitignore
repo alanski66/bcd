@@ -8,7 +8,6 @@ Source/.idea/*
 *.orig
 *.sass-cache/*
 *Thumbs.db
-*aspnet_client/*
 Build/*
 *.sass-cache
 node_modules/
