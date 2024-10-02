@@ -1,0 +1,167 @@
+dateModified: 1727872477
+email:
+  fromEmail: alan@craftcode.co.uk
+  fromName: 'Brighton Counselling Directory'
+  transportType: craft\mail\transportadapters\Sendmail
+fs:
+  generalImages:
+    hasUrls: true
+    name: 'General images'
+    settings:
+      path: $ASSET_BASE_PATH
+    type: craft\fs\Local
+    url: $ASSET_BASE_URL
+  landingImages:
+    hasUrls: true
+    name: 'Landing images'
+    settings:
+      path: $ASSET_BASE_PATH
+    type: craft\fs\Local
+    url: $ASSET_BASE_URL
+  tempFiles:
+    hasUrls: false
+    name: 'Temp files'
+    settings:
+      path: $ASSET_TMP_PATH
+    type: craft\fs\Local
+    url: null
+  userMembershipLogos:
+    hasUrls: true
+    name: 'User membership logos'
+    settings:
+      path: $ASSET_BASE_PATH
+    type: craft\fs\Local
+    url: $ASSET_BASE_URL
+  userphotos:
+    hasUrls: true
+    name: 'User photos'
+    settings:
+      path: $ASSET_BASE_PATH
+    type: craft\fs\Local
+    url: $ASSET_BASE_URL
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
+meta:
+  __names__:
+    0d2c9898-3ec4-4a84-a6c2-012d385c7fa3: 'Practice description' # Practice description
+    3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
+    4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
+    5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
+    7b2532c7-d315-4039-9398-2bdf9550067b: home # home
+    8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
+    015c4aa9-1da9-442b-869a-1315bc916a30: Intro # Intro
+    39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
+    43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
+    48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
+    92bed5f0-da6f-4abc-8a49-47690cf6b3b7: Therapists # Therapists
+    374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
+    6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
+    8799e074-514f-4b7a-af19-f42b60826eb9: 'Featured image' # Featured image
+    13311efd-c22d-440c-9713-216f3cf5e4bd: Availability # Availability
+    49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
+    90155b7e-865d-4cb6-a76b-76906dedad56: 'Type of Issues' # Type of Issues
+    99287739-b68e-4cec-b31c-9f8b612d8fa6: Articles # Articles
+    a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
+    a1736c2d-efe2-4d60-a66c-6834c06ef483: 'User membership logos' # User membership logos
+    a8055963-f807-47a4-9d1c-438e42b5aed3: Images # Images
+    adccc74b-e492-4515-903f-798f62bb0256: Body # Body
+    ae114463-f12c-454b-99e4-8f356f97759e: Qualifications # Qualifications
+    aea81fe7-465e-41aa-9b2c-04e6578b3c4b: Article # Article
+    b49c197d-26ab-4194-bf60-959a99761cb0: Counsellors # Counsellors
+    c0ed5fcd-bf5e-4d52-9094-794f737b4080: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    c8e19182-bf6c-49f8-9aa6-9c9fd87ea0d6: Issue # Issue
+    c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
+    cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
+    d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
+    e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training qualifications & experience' # Training qualifications & experience
+    f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
+plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.0.0.0
+  codefield:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  convergine-contentbuddy:
+    edition: standard
+    enabled: true
+    licenseKey: EHVKNAU2HJPARGVNA0ZGE81I
+    schemaVersion: 1.0.0
+    settings:
+      apiToken: $OPENAI_API_KEY
+      enabledFields:
+        __assoc__:
+          -
+            - title
+            - '1'
+          -
+            - aboutMe
+            - '1'
+          -
+            - body
+            - '1'
+          -
+            - intro
+            - '1'
+          -
+            - phoneNumber
+            - ''
+          -
+            - practiceDescription
+            - '1'
+          -
+            - qualifications
+            - ''
+          -
+            - trainingQualificationsExperience
+            - '1'
+      frequencyPenalty: 0.0
+      generateImageAssetId: 5e570744-2e2c-4726-9c28-43c151acf227
+      generateImageFromText: true
+      imageModel: openai
+      imageSize: 1024x1024
+      imagesStyles: colourful
+      maxTokens: 256
+      preferredModel: gpt-4-turbo
+      presencePenalty: 0.0
+      stabilityAPIKey: ''
+      stabilityEngine: stable-diffusion-512-v2-1
+      stabilitySampler: DDIM
+      stabilityScale: 7
+      stabilitySteps: 50
+      stabilityStyle: enhance
+      systemMessage: ''
+      temperature: 0.7
+      usePageLang: true
+  feed-me:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.1.1
+  plausible:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.0.0
+  postmark:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.0.1
+  seomatic:
+    edition: standard
+    enabled: true
+    licenseKey: GQSGB9GRKKMTHKGRREBK6TWM
+    schemaVersion: 3.0.12
+  wordsmith:
+    edition: standard
+    enabled: true
+    schemaVersion: 0.0.0.0
+system:
+  edition: pro
+  live: true
+  name: 'Brighton Counselling Directory'
+  schemaVersion: 5.3.0.2
+  timeZone: America/Los_Angeles
