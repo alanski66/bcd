@@ -4,41 +4,19 @@ instructions: null
 name: SEO
 searchable: false
 settings:
-  errorMessage: 'Unable to find component class ''nystudio107\seomatic\fields\SeoSettings''.'
-  expectedType: nystudio107\seomatic\fields\SeoSettings
-  settings:
-    __assoc__:
-      -
-        - elementDisplayPreviewType
-        - google
-      -
-        - facebookEnabledFields
-        - ''
-      -
-        - facebookTabEnabled
-        - ''
-      -
-        - generalEnabledFields
-        -
-          - seoPreview
-          - seoTitle
-          - seoDescription
-          - seoImage
-      -
-        - generalTabEnabled
-        - '1'
-      -
-        - sitemapEnabledFields
-        - ''
-      -
-        - sitemapTabEnabled
-        - ''
-      -
-        - twitterEnabledFields
-        - ''
-      -
-        - twitterTabEnabled
-        - ''
+  elementDisplayPreviewType: google
+  facebookEnabledFields: ''
+  facebookTabEnabled: ''
+  generalEnabledFields:
+    - seoPreview
+    - seoTitle
+    - seoDescription
+    - seoImage
+  generalTabEnabled: '1'
+  sitemapEnabledFields: ''
+  sitemapTabEnabled: ''
+  twitterEnabledFields: ''
+  twitterTabEnabled: ''
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\MissingField
+type: nystudio107\seomatic\fields\SeoSettings

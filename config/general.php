@@ -46,7 +46,8 @@ return [
     'dev' => [
         // Base site URL
        //'baseUrl' => getenv('CRAFTENV_BASE_URL'),
-
+       'backupCommand' => getenv('BACKUP_COMMAND'),
+       'restoreCommand' => getenv('RESTORE_COMMAND'),
         // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,
         'enableTemplateCaching' => false,

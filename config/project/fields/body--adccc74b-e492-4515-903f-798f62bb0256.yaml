@@ -4,35 +4,20 @@ instructions: null
 name: Body
 searchable: false
 settings:
-  errorMessage: 'Unable to find component class ''craft\ckeditor\Field''.'
-  expectedType: craft\ckeditor\Field
-  settings:
-    __assoc__:
-      0:
-        - availableTransforms
-        - ''
-      1:
-        - availableVolumes
-        - '*'
-      5:
-        - enableSourceEditingForNonAdmins
-        - false
-      6:
-        - entryTypes
-        -
-          - aea81fe7-465e-41aa-9b2c-04e6578b3c4b # Article
-      8:
-        - purifyHtml
-        - true
-      9:
-        - showUnpermittedFiles
-        - false
-      10:
-        - showUnpermittedVolumes
-        - false
-      11:
-        - showWordCount
-        - false
+  availableTransforms: ''
+  availableVolumes: '*'
+  ckeConfig: null
+  createButtonLabel: null
+  defaultTransform: null
+  enableSourceEditingForNonAdmins: false
+  entryTypes:
+    - aea81fe7-465e-41aa-9b2c-04e6578b3c4b # Article
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  wordLimit: null
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\MissingField
+type: craft\ckeditor\Field
