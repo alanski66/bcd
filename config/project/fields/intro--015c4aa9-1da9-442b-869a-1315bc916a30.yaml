@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: intro
+instructions: 'Short 60 word intro for listing and seo purposes'
+name: Intro
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: 120
+  code: false
+  initialRows: 4
+  multiline: false
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

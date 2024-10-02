@@ -1,0 +1,109 @@
+columnSuffix: null
+handle: typeOfClient
+instructions: 'These are the types of clients you work with'
+name: 'Type of client'
+searchable: false
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Children
+        -
+          - value
+          - children
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Couples
+        -
+          - value
+          - couples
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Families
+        -
+          - value
+          - families
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Groups
+        -
+          - value
+          - groups
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Adults
+        -
+          - value
+          - adults
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Employee Assistance Programme'
+        -
+          - value
+          - eaps
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Young people'
+        -
+          - value
+          - youngPeople
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Older adults'
+        -
+          - value
+          - olderAdults
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Organisations
+        -
+          - value
+          - organisations
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Checkboxes

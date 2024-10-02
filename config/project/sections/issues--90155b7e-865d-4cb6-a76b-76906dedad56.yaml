@@ -1,0 +1,31 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  - c8e19182-bf6c-49f8-9aa6-9c9fd87ea0d6 # Issue
+  - aea81fe7-465e-41aa-9b2c-04e6578b3c4b # Article
+handle: issues
+maxAuthors: 1
+name: 'Type of Issues'
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - refresh
+        - '1'
+      -
+        - urlFormat
+        - '{url}'
+propagationMethod: all
+siteSettings:
+  c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
+    enabledByDefault: true
+    hasUrls: true
+    template: issues/_entry.twig
+    uriFormat: 'issues/{slug}'
+structure:
+  maxLevels: null
+  uid: 8d793ad1-9432-42ac-879b-ccc04ad88660
+type: structure

@@ -46,5 +46,10 @@
       "url": "https://composer.craftcms.com",
       "canonical": false
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "modules\\fetchprofile\\": "modules/fetch-profile/"
+    }
+  }
 }

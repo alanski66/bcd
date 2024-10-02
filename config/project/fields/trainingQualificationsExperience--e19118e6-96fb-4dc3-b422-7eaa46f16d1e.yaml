@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: trainingQualificationsExperience
+instructions: null
+name: 'Training qualifications & experience'
+searchable: false
+settings:
+  errorMessage: 'Unable to find component class ''craft\ckeditor\Field''.'
+  expectedType: craft\ckeditor\Field
+  settings:
+    __assoc__:
+      0:
+        - availableTransforms
+        - ''
+      1:
+        - availableVolumes
+        - ''
+      2:
+        - ckeConfig
+        - 39db330b-457a-4938-8ab1-b93536a6aa9b # Simple
+      5:
+        - enableSourceEditingForNonAdmins
+        - false
+      7:
+        - purifyHtml
+        - true
+      8:
+        - showUnpermittedFiles
+        - false
+      9:
+        - showUnpermittedVolumes
+        - false
+      10:
+        - showWordCount
+        - true
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\MissingField

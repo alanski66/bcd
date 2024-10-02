@@ -1,0 +1,304 @@
+tabs:
+  -
+    elementCondition: null
+    elements:
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2024-09-20T19:20:00+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        includeInCards: false
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        providesThumbs: false
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\UsernameField
+        uid: 51b9d624-d9c2-4eef-97e7-fb3027f05561
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        attribute: fullName
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2024-09-20T19:20:00+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        includeInCards: false
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        providesThumbs: false
+        readonly: false
+        requirable: true
+        required: true
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\FullNameField
+        uid: 7ec1b2e6-1726-406a-8330-f262d4eea431
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2024-09-20T19:20:00+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        includeInCards: false
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        providesThumbs: false
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\EmailField
+        uid: a50b2fe3-2d09-46a5-a548-41d63a259ace
+        userCondition: null
+        width: 100
+      -
+        dateAdded: '2024-09-20T19:20:00+00:00'
+        elementCondition: null
+        id: null
+        includeInCards: false
+        instructions: null
+        label: null
+        orientation: null
+        providesThumbs: false
+        requirable: false
+        tip: null
+        type: craft\fieldlayoutelements\users\PhotoField
+        uid: 4d1e3689-575b-4625-b06e-01c5dc2a7b32
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-28T20:07:08+00:00'
+        elementCondition: null
+        fieldUid: 48e5cd5f-156a-4a9b-9323-1139b7dda01f # Phone number
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 4ec15848-5fd4-4df7-8560-3205ebe142bb
+        userCondition: null
+        warning: null
+        width: 100
+    name: Content
+    uid: 7ea29024-ee27-4bdd-a556-08b34d9e6dea
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2024-09-28T22:50:43+00:00'
+        elementCondition: null
+        fieldUid: 374a5750-6957-4022-9d77-07e164a153b1 # About me
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: fbdc481d-df2a-4bf9-9e03-b363859aed67
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'About you'
+    uid: 38902c2b-0d4f-46e8-80a3-da76bd6864f4
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2024-09-28T22:50:43+00:00'
+        elementCondition: null
+        fieldUid: e19118e6-96fb-4dc3-b422-7eaa46f16d1e # Training qualifications & experience
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: ade3977c-836d-4233-975d-222de8728c05
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-29T16:40:34+00:00'
+        elementCondition: null
+        fieldUid: c53fedbd-f0cc-4695-b607-17403adb9be9 # Types of therapy you offer
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 75c24fcc-381c-404d-91df-9b7778c128b4
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-29T16:40:34+00:00'
+        elementCondition: null
+        fieldUid: e943d4ec-4cf4-4c3a-89e8-6308943df394 # Types of issues you can help
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 14d4d58d-5316-4a77-b47a-0e5529c76de8
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Training & experience'
+    uid: 521a9082-78af-44f4-9ebd-af566357c09a
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2024-09-28T22:50:43+00:00'
+        elementCondition: null
+        fieldUid: 0d2c9898-3ec4-4a84-a6c2-012d385c7fa3 # Practice description
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: a8e803e9-f026-47d2-bd28-18de4eb58200
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Practice description'
+    uid: 10128402-cbdf-49ec-b81a-1bf8a8816afb
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2024-09-28T20:07:08+00:00'
+        elementCondition: null
+        fieldUid: 5ba00d2b-52da-4b64-b6e1-64c24d426c19 # Type of client
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 4153f663-651d-4291-8901-65035f584c1a
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Who you work with'
+    uid: a8c3e53b-e093-4392-b20e-5d56841a08e0
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2024-09-29T13:44:27+00:00'
+        elementCondition: null
+        fieldUid: a7da37e8-4e55-4596-b38a-edd9266963a5 # Session rate
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 115d7d22-0c68-41bf-8f5e-b2d86226b5e6
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-29T13:46:39+00:00'
+        elementCondition: null
+        fieldUid: 4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6 # Concessions
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: f83307fc-0f4e-4f26-b51a-46b5bf603016
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-29T16:35:00+00:00'
+        elementCondition: null
+        fieldUid: 13311efd-c22d-440c-9713-216f3cf5e4bd # Availability
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: f8aa5976-55a5-4713-a6db-ff17c70dd6fb
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Fees & availability'
+    uid: 0b2d9e71-2bc2-4eb0-90ec-88afce3d31cc
+    userCondition: null
