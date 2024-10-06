@@ -1,4 +1,5 @@
 {% extends "_layouts/generic-page-layout.twig" %}
+{% set bodyClass = "" %}
 {% block content %}
 {% set userId = craft.app.request.getSegment('3') %}
 
@@ -14,7 +15,7 @@
               <div class="row align-items-center ">
                 <div class="col-xl-6 col-lg-7 col-md-12 col-12 order-1 text-center text-lg-start ">
                   <!-- caption -->
-                  <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR INSTRUCTOR</span>
+                  <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR THERAPIST</span>
                   <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
                     <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span></h2>
                   <p class="fs-3 pe-6">{{user.shortSummary | default("Descriptive short summary of counsellors orientation, or practice, or favourite cat")}}</p>
@@ -67,11 +68,11 @@
                         <div class="d-flex flex-md-row flex-column justify-content-between gap-2">
                           <!--heading-->
                           <div>
-                            <h1 class="mb-0">Jitu Chauhan</h1>
+                            <h1 class="mb-0">{{user.fullName}}</h1>
                             <!--content-->
                             <div class="d-flex flex-lg-row flex-column gap-2">
-                              <small class="fw-medium text-gray-800">Software Engineer&nbsp;at&nbsp;Apple</small>
-                              <small class="fw-medium text-success">7+ years in UX Design &amp; Brand Design.</small>
+                              <small class="fw-medium text-gray-800">{{user.titleRole}}</small>
+                              <small class="fw-medium text-success">{{user.qualifications}}</small>
                             </div>
                           </div>
                           <!--button-->
@@ -87,7 +88,7 @@
                             <a href="#!" class="btn btn-outline-white">Ask questions</a>
                           </div>
                         </div>
-                        <div class="d-flex flex-md-row flex-column gap-md-4 gap-2">
+                        <div class="d-none d-flex flex-md-row flex-column gap-md-4 gap-2">
                           <div class="d-flex flex-row gap-2 align-items-center lh-1">
                             <!--icon-->
                             <span>
@@ -162,19 +163,16 @@
                   <h3 class="mb-0">About</h3>
                   <div class="d-flex flex-column">
                     <!--para-->
-                    <p class="mb-1">
-                      An award-winning designer with 7+ years of experience in UX design, product design and branding. I've mentored and placed students in design jobs in the US, Europe, Japan and
-                      India. I'm on a mission to unleash design maestros, fueling their creative superpowers, unlocking awesome full-time gigs, and igniting their industry influence through
-                      mind-blowing creative adventures!
+                    <p class="mb-1">{{user.aboutMe}}
                     </p>
                     <div class="collapse" id="collapseAbout">
                       <p class="my-3">
                         I've helped businesses in US, Europe and Japan generate $200M+ in revenue, through my product design and branding skills. My top 3 industries are web3, AI and edtech.
                       </p>
                     </div>
-                    <div>
+                    {# <div>
                       <a class="btn-link" data-bs-toggle="collapse" href="#collapseAbout" role="button" aria-expanded="false" aria-controls="collapseAbout">Read more</a>
-                    </div>
+                    </div> #}
                   </div>
                 </div>
               </div>
@@ -204,290 +202,22 @@
                   </div>
                 </div>
               </div>
-              <!--card-->
               <div class="card">
                 <!--card body-->
-                <div class="card-body p-md-5">
-                  <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-between gap-2">
-                    <!--heading-->
-                    <div>
-                      <h3 class="mb-0">What mentees say</h3>
-                    </div>
-                    <div>
-                      <!--form-->
-                      <form>
-                        <div class="d-flex flex-row align-items-center gap-2">
-                          <label for="exampleInputmentees" class="form-label text-nowrap mb-0">Sort by:</label>
-                          <div class="choices" data-type="select-one" tabindex="0" role="listbox" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select choices__input" data-choices="" aria-label="Default select example" id="exampleInputmentees" name="exampleInputmentees" hidden="" tabindex="-1" data-choice="active"><option value="Recommended" data-custom-properties="[object Object]">Recommended</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="Recommended" data-custom-properties="[object Object]" aria-selected="true">Recommended</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><div class="choices__list" role="listbox"><div id="choices--exampleInputmentees-item-choice-1" class="choices__item choices__item--choice choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="1" data-select-text="" data-choice-selectable="" aria-selected="true">Most Recent</div><div id="choices--exampleInputmentees-item-choice-2" class="choices__item choices__item--choice is-selected choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Recommended" data-select-text="" data-choice-selectable="">Recommended</div></div></div></div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column gap-3">
-                    <div class="py-4 d-flex flex-column gap-3 border-bottom">
-                      <div class="d-flex flex-row justify-content-between align-items-md-center">
-                        <div class="d-flex flex-row gap-3 align-items-center">
-                          <!--img-->
-                          <div>
-                            <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar 1" class="avatar avatar-lg rounded-circle">
-                          </div>
-                          <div>
-                            <!--heading-->
-                            <h4 class="mb-1">Satvik</h4>
-                            <div class="d-flex flex-md-row flex-column gap-md-2 align-items-md-center lh-1">
-                              <!--icons-->
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                              </span>
-                              <!--text-->
-                              <span>
-                                <small class="fw-medium">September 9, 2024</small>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <small>Plan:</small>
-                          <small class="border-bottom">1 Month</small>
-                        </div>
-                      </div>
-                      <!--para-->
-                      <div>
-                        <p class="mb-0">
-                          The mentor was really knowledgeable and solved all my doubt regarding my Tech Stack and carrer as well.... if you are really confused or do need to know how to start your
-                          DSA career have a session with Sir... it will really help you.
-                        </p>
-                      </div>
-                      <!--link-->
-                    </div>
-                    <div class="py-4 d-flex flex-column gap-5 border-bottom">
-                      <div class="d-flex flex-column gap-3">
-                        <div class="d-flex flex-row justify-content-between align-items-md-center">
-                          <div class="d-flex flex-row gap-3 align-items-center">
-                            <!--img-->
-                            <div>
-                              <img src="../assets/images/avatar/avatar-2.jpg" alt="avatar 2" class="avatar avatar-lg rounded-circle">
-                            </div>
-                            <div>
-                              <!--heading-->
-                              <h4 class="mb-1">Monica</h4>
-                              <div class="d-flex flex-md-row flex-column gap-md-2 align-items-md-center lh-1">
-                                <!---icons-->
-                                <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                </span>
-                                <!--text-->
-                                <span>
-                                  <small class="fw-medium">September 11, 2024</small>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div>
-                            <small>Plan:</small>
-                            <small class="border-bottom">3 Month</small>
-                          </div>
-                        </div>
-                        <!--para-->
-                        <div>
-                          <p class="mb-0">Very good session with Jitu Chauhan. He listens to mentee clearly, note down things and device a proper plan to achieve those goals</p>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column gap-3 ps-md-8">
-                        <div class="d-flex flex-row gap-3 align-items-center">
-                          <!--img-->
-                          <div>
-                            <img src="../assets/images/avatar/avatar-4.jpg" alt="avatar 4" class="avatar avatar-lg rounded-circle">
-                          </div>
-                          <div class="d-flex flex-column gap-1">
-                            <!--heading-->
-                            <h4 class="mb-1">Jitu Chauhan</h4>
-                            <div>
-                              <span class="rounded-pill badge text-success-emphasis bg-success-subtle border border-success align-items-center fs-6">Mentor</span>
-                            </div>
-                          </div>
-                        </div>
-                        <!--para-->
-                        <div>
-                          <p class="mb-0">Very good session with Jitu Chauhan. He listens to mentee clearly, note down things and device a proper plan to achieve those goals</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="py-4 d-flex flex-column gap-3 border-bottom">
-                      <div class="d-flex flex-row justify-content-between align-items-md-center">
-                        <div class="d-flex flex-row gap-3 align-items-center">
-                          <!--img-->
-                          <div>
-                            <img src="../assets/images/avatar/avatar-3.jpg" alt="avatar 3" class="avatar avatar-lg rounded-circle">
-                          </div>
-                          <div>
-                            <!--heading-->
-                            <h4 class="mb-1">Levisa</h4>
-                            <div class="d-flex flex-md-row flex-column gap-md-2 align-items-md-center lh-1">
-                              <!--icons-->
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                              </span>
-                              <!--text-->
-                              <span>
-                                <small class="fw-medium">September 9, 2024</small>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <small>Plan:</small>
-                          <small class="border-bottom">2 Month</small>
-                        </div>
-                      </div>
-                      <!--para-->
-                      <div>
-                        <p class="mb-0">I appreciate Jitu Chauhan patience to listen all the doubts and provided honest suggestions and roadmap according to my current situation. Thank you.</p>
-                      </div>
-                      <!--link-->
-                    </div>
-                    <!--button-->
-                    <div>
-                      <div class="collapse" id="collapseReview">
-                        <div class="pb-4 d-flex flex-column gap-3 border-bottom">
-                          <div class="d-flex flex-row justify-content-between align-items-md-center">
-                            <div class="d-flex flex-row gap-3 align-items-center">
-                              <!--img-->
-                              <div>
-                                <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar 1" class="avatar avatar-lg rounded-circle">
-                              </div>
-                              <div>
-                                <!--heading-->
-                                <h4 class="mb-1">Satvik</h4>
-                                <div class="d-flex flex-md-row flex-column gap-md-2 align-items-md-center lh-1">
-                                  <!--icons-->
-                                  <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                    </svg>
-                                  </span>
-                                  <!--text-->
-                                  <span>
-                                    <small class="fw-medium">September 9, 2024</small>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <small>Plan:</small>
-                              <small class="border-bottom">1 Month</small>
-                            </div>
-                          </div>
-                          <!--para-->
-                          <div>
-                            <p class="mb-0">
-                              The mentor was really knowledgeable and solved all my doubt regarding my Tech Stack and carrer as well.... if you are really confused or do need to know how to start
-                              your DSA career have a session with Sir... it will really help you.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="py-4 d-flex flex-column gap-3">
-                          <div class="d-flex flex-row gap-3 align-items-center">
-                            <!--img-->
-                            <div>
-                              <img src="../assets/images/avatar/avatar-4.jpg" alt="avatar 4" class="avatar avatar-lg rounded-circle">
-                            </div>
-                            <div class="d-flex flex-column gap-1">
-                              <!--heading-->
-                              <h4 class="mb-1">Jitu Chauhan</h4>
-                              <div class="d-flex flex-md-row flex-column gap-md-2 align-items-md-center lh-1">
-                                <!--icons-->
-                                <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                  </svg>
-                                </span>
-                                <!--text-->
-                                <span>
-                                  <small class="fw-medium">September 9, 2024</small>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <!--para-->
-                          <div>
-                            <p class="mb-0">Very good session with Jitu Chauhan. He listens to mentee clearly, note down things and device a proper plan to achieve those goals</p>
-                          </div>
-                        </div>
-                      </div>
-                      <a id="loadMoreButton" class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseReview" role="button" aria-expanded="false" aria-controls="collapseReview">
-                        Load more reviews
-                      </a>
-                    </div>
+                <div class="card-body p-md-5 d-flex flex-column gap-3">
+                  <!--heading-->
+                  <h3 class="mb-0">Training and experience</h3>
+                  <div class="d-flex flex-column">
+                    <!--para-->
+                    <p class="mb-1">{{user.trainingAndExperience}}
+                    </p>
+                    
+              
                   </div>
                 </div>
               </div>
+              <!--card-->
+             
             </div>
           </div>
           <div class="col-xl-4 col-12">
