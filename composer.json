@@ -5,14 +5,17 @@
     "convergine/craft-content-buddy": "1.1.8",
     "craftcms/ckeditor": "4.2.0",
     "craftcms/cms": "5.4.6",
+    "craftcms/element-api": "4.1.0",
     "craftcms/feed-me": "6.4.0",
     "craftcms/postmark": "3.1.0",
     "nystudio107/craft-code-field": "5.0.0",
+    "nystudio107/craft-minify": "5.0.0",
     "nystudio107/craft-seomatic": "5.1.4",
     "shornuk/craft-plausible": "3.0.0",
     "symfony/css-selector": "^7.1",
     "symfony/dom-crawler": "^7.1",
     "topshelfcraft/wordsmith": "5.0.0",
+    "verbb/navigation": "3.0.4",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
@@ -21,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "modules\\": "modules/"
+      "modules\\fetchprofile\\": "modules/fetch-profile/"
     }
   },
   "config": {
@@ -46,10 +49,5 @@
       "url": "https://composer.craftcms.com",
       "canonical": false
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "modules\\fetchprofile\\": "modules/fetch-profile/"
-    }
-  }
+  ]
 }

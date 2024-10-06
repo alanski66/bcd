@@ -1,0 +1,45 @@
+{# -- Basic meta tags -- #}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+
+{# -- Prefetch & preconnect headers and links -- #}
+{% set headerLink = "Link: " %}
+{% for url in prefetchUrls %}
+    {% set headerLink = headerLink ~ "<#{url}>; rel=dns-prefetch;," %}
+    {% set headerLink = headerLink ~ "<#{url}>; rel=preconnect; crossorigin;" %}
+    {% if not loop.last %}
+        {% set headerLink = headerLink ~ "," %}
+    {% endif %}
+    <link rel="dns-prefetch" href="{{ url }}">
+    <link rel="preconnect" href="{{ url }}" crossorigin>
+{% endfor %}
+{% header headerLink %}
+
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ alias('@baseUrl') }}/assets/images/favicon/favicon.ico" />
+
+    <!-- darkmode js -->
+    <script src="{{ alias('@baseUrl') }}/assets/js/vendors/darkMode.js"></script>
+
+    <!-- Libs CSS -->
+    <link href="{{ alias('@baseUrl') }}/assets/fonts/feather/feather.css" rel="stylesheet" />
+    <link href="{{ alias('@baseUrl') }}/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="{{ alias('@baseUrl') }}/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{{ alias('@baseUrl') }}/assets/css/theme.min.css" />
+
+    <link rel="stylesheet" href="{{ alias('@baseUrl') }}/assets/libs/tiny-slider/dist/tiny-slider.css" />
+   
+<!-- google fonts -->
+
+
+<!--<link type="text/css" href="//cdn.snipcart.com/themes/base/snipcart.min.css" rel="stylesheet" />-->
+
+
+
+{# <link rel="stylesheet" type="text/css" href="{{ siteUrl}}/assets/css/ostyle.css"> #}
+
+{# -- Favicons, webapp manifests, etc. -- #}
+{# {{ craft.vite.inline("@webroot/dist/assets/favicons/webapp.html") }} #}

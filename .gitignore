@@ -10,6 +10,7 @@ Source/.idea/*
 *Thumbs.db
 Build/*
 *.sass-cache
+geek
 node_modules/
 public_html/assets/*
 storage

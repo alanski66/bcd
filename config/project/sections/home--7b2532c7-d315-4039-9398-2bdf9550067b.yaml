@@ -12,16 +12,16 @@ previewTargets:
         - label
         - 'Primary entry page'
       -
-        - refresh
-        - '1'
-      -
         - urlFormat
         - '{url}'
+      -
+        - refresh
+        - '1'
 propagationMethod: all
 siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     enabledByDefault: true
     hasUrls: true
-    template: home/_entry.twig
+    template: index.twig
     uriFormat: __home__
 type: single

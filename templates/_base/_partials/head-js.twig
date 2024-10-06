@@ -1,0 +1,11 @@
+{# -- Register our Service Worker -- #}
+{# {% if not craft.app.config.general.devMode %}
+    {% include "_base/_partials/register-service-worker.twig" %}
+{% endif %} #}
+{# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  #}
+{# -- Handle tabs gracefully as per https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2 -- #}
+{# {% include "_base/_partials/tab-handler.twig" %} #}
+{# -- Tiny Cookie JavaScript -- #}
+<script>
+    {{ source("_inline-js/tiny-cookie.min.js") }}
+</script>

@@ -11,4 +11,7 @@ toolbar:
   - '|'
   - bold
   - italic
+  - numberedList
+  - bulletedList
   - link
+  - sourceEditing

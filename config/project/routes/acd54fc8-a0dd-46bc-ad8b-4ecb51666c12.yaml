@@ -1,0 +1,13 @@
+siteUid: null
+sortOrder: 1
+template: users/user-profile.twig
+uriParts:
+  0: counsellors/
+  1:
+    - '*'
+    - '[^\/]+'
+  3: /
+  4:
+    - '*'
+    - '[^\/]+'
+uriPattern: 'counsellors/<any:[^\/]+>/<any2:[^\/]+>'

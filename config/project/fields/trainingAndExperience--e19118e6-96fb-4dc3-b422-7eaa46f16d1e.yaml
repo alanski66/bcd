@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: trainingQualificationsExperience
+handle: trainingAndExperience
 instructions: null
-name: 'Training qualifications & experience'
+name: 'Training & experience'
 searchable: false
 settings:
   availableTransforms: ''

@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: qualifications
-instructions: 'Please write your formal qualifications here'
+instructions: 'Write your main formal qualifications here and use the training and experience field below to add more and further info'
 name: Qualifications
 searchable: true
 settings:

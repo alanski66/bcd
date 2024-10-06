@@ -125,7 +125,39 @@ tabs:
         userCondition: null
         warning: null
         width: 100
-    name: Content
+      -
+        dateAdded: '2024-10-06T20:22:08+00:00'
+        elementCondition: null
+        fieldUid: 49a16490-f1a4-45d4-8189-dda278265b5a # Title role
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 303c7389-1c36-4bd1-b033-ec21fed5023b
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-10-06T22:10:12+00:00'
+        elementCondition: null
+        fieldUid: 8742d0e0-5abb-4774-b8a6-05a5668e9098 # Short summary
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 6b47cd5b-51f5-46c2-9108-b2103c2570a8
+        userCondition: null
+        warning: null
+        width: 100
+    name: Profile
     uid: 7ea29024-ee27-4bdd-a556-08b34d9e6dea
     userCondition: null
   -
@@ -154,9 +186,25 @@ tabs:
     elementCondition: null
     elements:
       -
+        dateAdded: '2024-10-06T20:27:46+00:00'
+        elementCondition: null
+        fieldUid: ae114463-f12c-454b-99e4-8f356f97759e # Qualifications
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 89c55397-55e0-4b51-99db-b9fef1d278c9
+        userCondition: null
+        warning: null
+        width: 100
+      -
         dateAdded: '2024-09-28T22:50:43+00:00'
         elementCondition: null
-        fieldUid: e19118e6-96fb-4dc3-b422-7eaa46f16d1e # Training qualifications & experience
+        fieldUid: e19118e6-96fb-4dc3-b422-7eaa46f16d1e # Training & experience
         handle: null
         includeInCards: false
         instructions: null

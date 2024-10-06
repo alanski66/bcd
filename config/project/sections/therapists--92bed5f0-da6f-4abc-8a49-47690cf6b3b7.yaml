@@ -12,19 +12,16 @@ previewTargets:
         - label
         - 'Primary entry page'
       -
-        - refresh
-        - '1'
-      -
         - urlFormat
         - '{url}'
+      -
+        - refresh
+        - '1'
 propagationMethod: all
 siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     enabledByDefault: true
     hasUrls: true
-    template: therapists/_entry.twig
-    uriFormat: 'therapists/{slug}'
-structure:
-  maxLevels: null
-  uid: b389c539-94e7-49e1-8921-2b8cc541613e
-type: structure
+    template: users/user-list.twig
+    uriFormat: find-a-therapist
+type: single

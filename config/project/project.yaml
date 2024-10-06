@@ -1,4 +1,4 @@
-dateModified: 1727873515
+dateModified: 1728252612
 email:
   fromEmail: alan@craftcode.co.uk
   fromName: 'Brighton Counselling Directory'
@@ -7,6 +7,13 @@ fs:
   generalImages:
     hasUrls: true
     name: 'General images'
+    settings:
+      path: $ASSET_BASE_PATH
+    type: craft\fs\Local
+    url: $ASSET_BASE_URL
+  icons:
+    hasUrls: true
+    name: Icons
     settings:
       path: $ASSET_BASE_PATH
     type: craft\fs\Local
@@ -51,13 +58,21 @@ meta:
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
+    12f0e524-edea-401a-a140-70061e2a4795: Icon # Icon
     015c4aa9-1da9-442b-869a-1315bc916a30: Intro # Intro
+    22acdfae-ec39-4281-ba0d-dc432a5cf4da: Issues # Issues
     39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
+    45f99bef-ed2c-476b-a382-35d04507ba5e: Icons # Icons
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
+    49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
+    84d3be0c-c468-4664-914c-b80e544b5114: Category # Category
     92bed5f0-da6f-4abc-8a49-47690cf6b3b7: Therapists # Therapists
+    156ff3cf-4dae-4881-87f1-ee5e4dee68c1: 'Profile small' # Profile small
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
+    659d92e0-6da5-49f3-a37b-4897b5a7272c: 'Main Menu' # Main Menu
     6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
+    8742d0e0-5abb-4774-b8a6-05a5668e9098: 'Short summary' # Short summary
     8799e074-514f-4b7a-af19-f42b60826eb9: 'Featured image' # Featured image
     13311efd-c22d-440c-9713-216f3cf5e4bd: Availability # Availability
     49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
@@ -75,8 +90,9 @@ meta:
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    e9b55431-481c-480d-9cc8-ea4734a67d0e: 'Category description' # Category description
     e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
-    e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training qualifications & experience' # Training qualifications & experience
+    e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
 plugins:
   ckeditor:
@@ -125,9 +141,9 @@ plugins:
       generateImageFromText: true
       imageModel: openai
       imageSize: 1024x1024
-      imagesStyles: colourful
+      imagesStyles: natural
       maxTokens: 256
-      preferredModel: gpt-4-turbo
+      preferredModel: gpt-4o
       presencePenalty: 0.0
       stabilityAPIKey: ''
       stabilityEngine: stable-diffusion-512-v2-1
@@ -138,10 +154,23 @@ plugins:
       systemMessage: ''
       temperature: 0.7
       usePageLang: true
+  element-api:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   feed-me:
     edition: standard
     enabled: true
     schemaVersion: 5.1.1
+  minify:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  navigation:
+    edition: standard
+    enabled: true
+    licenseKey: XL45BW10BCJLY592GWQ2QH6O
+    schemaVersion: 2.1.0
   plausible:
     edition: standard
     enabled: true
