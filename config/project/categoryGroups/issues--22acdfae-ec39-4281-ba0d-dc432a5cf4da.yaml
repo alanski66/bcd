@@ -75,7 +75,7 @@ name: Issues
 siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     hasUrls: true
-    template: issues/_category.twig
+    template: content/category-list.twig
     uriFormat: 'issues/{slug}'
 structure:
   maxLevels: 1

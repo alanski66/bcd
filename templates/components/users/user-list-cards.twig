@@ -1,5 +1,6 @@
 {# Create a user query with the 'group' parameter #}
 {% set myUserQuery = craft.users()
+  .hasPhoto()
     .group('counsellors') %}
   
   {# Fetch the users #}

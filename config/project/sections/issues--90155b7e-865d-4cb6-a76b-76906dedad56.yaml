@@ -22,7 +22,7 @@ siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     enabledByDefault: true
     hasUrls: true
-    template: issues/_entry.twig
+    template: content/category-entry.twig
     uriFormat: '{% if object.level == 1 %}issues/{category.inReverse().one().uri}/{slug}{% else %}issues/{parent.uri}/{slug}{% endif %}'
 structure:
   maxLevels: null
