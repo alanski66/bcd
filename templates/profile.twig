@@ -117,11 +117,11 @@
               <div class="d-flex align-items-end justify-content-between">
                 <div class="d-flex align-items-center">
                   <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                    <img src="../assets/images/avatar/avatar-3.jpg" class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
+                    <img src="{{user.photo.url('profileSmall')}}" class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
                   </div>
                   <div class="lh-1">
                     <h2 class="mb-0">
-                      Stella Flores
+                      {{user.fullName}}
                       <a href="#" data-bs-toggle="tooltip" data-placement="top" aria-label="Beginner" data-bs-original-title="Beginner">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
@@ -268,15 +268,33 @@
               <div class="card-body">
                 <div class="d-lg-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center mb-4 mb-lg-0">
-                    <img src="../assets/images/avatar/avatar-3.jpg" id="img-uploaded" class="avatar-xl rounded-circle" alt="avatar">
+                    <img src="{{user.photo.url('profileSmall')}}" id="img-uploaded" class="avatar-xl rounded-circle" alt="avatar">
                     <div class="ms-3">
-                      <h4 class="mb-0">Your avatar</h4>
-                      <p class="mb-0">PNG or JPG no bigger than 800px wide and tall.</p>
+                      <h4 class="mb-0">Your photo</h4>
+                      <p class="mb-0">PNG or JPG square format best, no bigger than 800px wide and tall.</p>
                     </div>
                   </div>
                   <div>
-                    <a href="#" class="btn btn-outline-secondary btn-sm">Update</a>
-                    <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                    {% if user.photo %}
+                    <div class="mb-3 col-12 col-md-6">
+                         <label for="delete-photo">
+                        {{ input('checkbox', 'deletePhoto', '1', {
+                          id: 'delete-photo',
+                          class: 'form-check-input border'
+                        }) }}
+                        Delete photo
+                      </label>
+                    </div>
+  {% endif %}
+                <div class="mb-3 col-12 col-md-6">
+                    <label for="photo">Upload a new photo</label>
+                    {{ input('file', 'photo', null, {
+                      id: 'photo',
+                      accept: 'image/png,image/jpeg',
+                      class: ''
+                    }) }}
+                </div>
+                    
                   </div>
                 </div>
                 <hr class="my-5">

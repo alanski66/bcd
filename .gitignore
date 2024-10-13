@@ -10,9 +10,11 @@ Source/.idea/*
 *Thumbs.db
 Build/*
 *.sass-cache
+backups
 geek
 node_modules/
 public_html/assets/*
+scripts
 storage
 vendor/
 /bower_components

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f904ff4bd70bb08072d9828cd3f9ba6",
+    "content-hash": "95a4840b1f2538a78529ddb0a7059658",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -85,11 +85,11 @@
         },
         {
             "name": "cakephp/core",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/f0c9c3701ed092ea03654bfec74a4b62b00faa3f",
-                "reference": "f0c9c3701ed092ea03654bfec74a4b62b00faa3f",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/2cf48ca0177fbf860f6295a0de08d6870a5a93af",
+                "reference": "2cf48ca0177fbf860f6295a0de08d6870a5a93af",
                 "shasum": ""
             },
             "require": {
@@ -131,11 +131,11 @@
                 "core",
                 "framework"
             ],
-            "time": "2024-09-06T12:23:52+00:00"
+            "time": "2024-09-24T13:09:59+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/cakephp/utility/zipball/e40c6ed007e3a9eb5873ca174c2f9160677b5570",
@@ -436,6 +436,59 @@
             "time": "2024-09-26T22:30:20+00:00"
         },
         {
+            "name": "convergine/craft-pexels",
+            "version": "1.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/convergine/craft-pexels/zipball/144df649b79d66b3182a2df2e6f3ad5ae82f3930",
+                "reference": "144df649b79d66b3182a2df2e6f3ad5ae82f3930",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^4.0.0 || ^5.0.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Pexels",
+                "handle": "convergine-pexels",
+                "hasCpSettings": true,
+                "hasCpSection": true,
+                "changelogUrl": "https://github.com/convergine/craft-pexels/blob/master/CHANGELOG.md",
+                "class": "convergine\\pexels\\PexelsPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "convergine\\pexels\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Convergine Corp.",
+                    "homepage": "https://www.convergine.com"
+                }
+            ],
+            "description": "This plugin allows searching and downloading photos from \"Pexels.com\"",
+            "keywords": [
+                "cms",
+                "convergine",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "pexels",
+                "royalty free photos",
+                "stock photos"
+            ],
+            "support": {
+                "issues": "https://github.com/convergine/craft-pexels/issues?state=open",
+                "source": "https://github.com/convergine/craft-pexels",
+                "docs": "https://github.com/convergine/craft-pexels/blob/master/README.md"
+            },
+            "time": "2024-03-09T20:42:08+00:00"
+        },
+        {
             "name": "craftcms/ckeditor",
             "version": "4.2.0",
             "dist": {
@@ -489,11 +542,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.4.6",
+            "version": "5.4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/d44a2d4628b02db2290ecff4248ba70f664c070d",
-                "reference": "d44a2d4628b02db2290ecff4248ba70f664c070d",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/7f26db4a36c374117c281707a22b5493335e042b",
+                "reference": "7f26db4a36c374117c281707a22b5493335e042b",
                 "shasum": ""
             },
             "require": {
@@ -590,7 +643,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2024-09-27T18:53:45+00:00"
+            "time": "2024-10-09T08:30:12+00:00"
         },
         {
             "name": "craftcms/element-api",
@@ -644,11 +697,11 @@
         },
         {
             "name": "craftcms/feed-me",
-            "version": "6.4.0",
+            "version": "6.4.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/34f2eda2fa9e0535f76c65b0bab808fd128c3614",
-                "reference": "34f2eda2fa9e0535f76c65b0bab808fd128c3614",
+                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/ea611033beba2ef441459f92a14b134e74adee41",
+                "reference": "ea611033beba2ef441459f92a14b134e74adee41",
                 "shasum": ""
             },
             "require": {
@@ -698,7 +751,7 @@
                 "docs": "https://docs.craftcms.com/feed-me/v6/",
                 "rss": "https://github.com/craftcms/feed-me/commits/master.atom"
             },
-            "time": "2024-09-26T00:45:49+00:00"
+            "time": "2024-10-09T22:02:56+00:00"
         },
         {
             "name": "craftcms/html-field",
@@ -1947,11 +2000,11 @@
         },
         {
             "name": "league/csv",
-            "version": "9.16.0",
+            "version": "9.17.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/998280c6c34bd67d8125fdc8b45bae28d761b440",
-                "reference": "998280c6c34bd67d8125fdc8b45bae28d761b440",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/8cab815fb11ec93aa2f7b8a57b3daa1f1a364011",
+                "reference": "8cab815fb11ec93aa2f7b8a57b3daa1f1a364011",
                 "shasum": ""
             },
             "require": {
@@ -1974,7 +2027,7 @@
                     "src/functions_include.php"
                 ],
                 "psr-4": {
-                    "League\\Csv\\": "src"
+                    "League\\Csv\\": "src/"
                 }
             },
             "license": [
@@ -2000,7 +2053,7 @@
                 "transform",
                 "write"
             ],
-            "time": "2024-05-24T11:04:54+00:00"
+            "time": "2024-10-10T10:30:28+00:00"
         },
         {
             "name": "league/fractal",
@@ -3135,15 +3188,31 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.32.0",
+            "version": "1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpdoc-parser.git",
+                "reference": "82a311fd3690fb2bf7b64d5c98f912b3dd746140"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/6ca22b154efdd9e3c68c56f5d94670920a1c19a4",
-                "reference": "6ca22b154efdd9e3c68c56f5d94670920a1c19a4",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/82a311fd3690fb2bf7b64d5c98f912b3dd746140",
+                "reference": "82a311fd3690fb2bf7b64d5c98f912b3dd746140",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^2.0",
+                "nikic/php-parser": "^4.15",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.5",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/process": "^5.2"
             },
             "type": "library",
             "autoload": {
@@ -3153,11 +3222,16 @@
                     ]
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2024-09-26T07:23:32+00:00"
+            "support": {
+                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.33.0"
+            },
+            "time": "2024-10-13T11:25:22+00:00"
         },
         {
             "name": "pimple/pimple",

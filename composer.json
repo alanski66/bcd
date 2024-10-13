@@ -3,10 +3,11 @@
   "prefer-stable": true,
   "require": {
     "convergine/craft-content-buddy": "1.1.8",
+    "convergine/craft-pexels": "1.0.1",
     "craftcms/ckeditor": "4.2.0",
-    "craftcms/cms": "5.4.6",
+    "craftcms/cms": "5.4.7.1",
     "craftcms/element-api": "4.1.0",
-    "craftcms/feed-me": "6.4.0",
+    "craftcms/feed-me": "6.4.1",
     "craftcms/postmark": "3.1.0",
     "nystudio107/craft-code-field": "5.0.0",
     "nystudio107/craft-minify": "5.0.0",
