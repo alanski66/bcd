@@ -39,7 +39,11 @@ return [
             '@baseUrl' => getenv('CRAFTENV_BASE_URL'),
             '@basePath' => getenv('CRAFTENV_BASE_PATH')
         ],
-        'errorTemplatePrefix' => "/errors/"
+        'errorTemplatePrefix' => "/errors/",
+        'postLoginRedirect' => "/profile",
+        'logoutPath'    => "logout",
+        'verifyEmailPath' =>    "verify-email",
+        'verifyEmailSuccessPath' =>    "verified-email"
     ],
 
     // Dev environment settings
