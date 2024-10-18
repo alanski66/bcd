@@ -43,7 +43,8 @@ return [
         'postLoginRedirect' => "/profile",
         'logoutPath'    => "logout",
         'verifyEmailPath' =>    "verify-email",
-        'verifyEmailSuccessPath' =>    "verified-email"
+        'verifyEmailSuccessPath' =>    "verified-email",
+        'useEmailAsUsername'    => true
     ],
 
     // Dev environment settings

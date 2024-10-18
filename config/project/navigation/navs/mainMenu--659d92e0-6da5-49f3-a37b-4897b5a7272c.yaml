@@ -170,7 +170,7 @@ fieldLayouts:
         uid: aad719e9-35ff-4bc0-bbef-a41279952d45
         userCondition: null
 handle: mainMenu
-instructions: ''
+instructions: null
 maxNodes: null
 name: 'Main Menu'
 permissions:

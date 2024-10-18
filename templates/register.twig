@@ -12,34 +12,76 @@
             <!-- Card body -->
             <div class="card-body p-6 d-flex flex-column gap-4">
               <div>
-                <a href="../index.html"><img src="../assets/images/brand/logo/logo-icon.svg" class="mb-4" alt="logo"></a>
+                
                 <div class="d-flex flex-column gap-1">
                   <h1 class="mb-0 fw-bold">Sign up</h1>
                   <span>
                     Already have an account?
                     <a href="sign-in.html" class="ms-1">Sign in</a>
                   </span>
+                  <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                       <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </svg>
+                    <div>
+                       You must be a member of a counselling or psychotherapy membership organisation to join.
+                    </div>
+                 </div>
                 </div>
               </div>
               <!-- Form -->
-              <form class="needs-validation" novalidate="">
+              {% macro errorList(errors) %}
+                {% if errors %}
+                    {{ ul(errors, {class: 'errors'}) }}
+                {% endif %}
+                {% endmacro %}
+
+                {# `user` is defined if the form returns validation errors. #}
+                {% set user = user ?? null %}
+              <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
+                {{ csrfInput() }}
+                {{ actionInput('users/save-user') }}
+                {{ redirectInput('verify') }}
+
                 <!-- Username -->
                 <div class="mb-3">
-                  <label for="signUpName" class="form-label">User Name</label>
-                  <input type="text" id="signUpName" class="form-control" name="signUpName" placeholder="User Name" required="">
-                  <div class="invalid-feedback">Please enter valid username.</div>
+                    <label for="full-name" class="form-label">Full Name</label>
+                    {{ input('text', 'fullName', user.fullName ?? null, {
+                      id: 'full-name',
+                      autocomplete: 'name',
+                      class: 'form-control',
+                      required: '',
+                      placeholder: 'full name'
+                    }) }}
+                    {{ user ? _self.errorList(user.getErrors('fullName')) }}
+                  <div class="invalid-feedback">Please enter your full name.</div>
                 </div>
                 <!-- Email -->
                 <div class="mb-3">
-                  <label for="signUpEmail" class="form-label">Email</label>
-                  <input type="email" id="signUpEmail" class="form-control" name="signUpEmail" placeholder="Email address here" required="">
-                  <div class="invalid-feedback">Please enter valid Email.</div>
+                    <label for="email"  class="form-label">Email</label>
+                    {{ input('email', 'email', user.email ?? null, {
+                      id: 'email',
+                      autocomplete: 'email',
+                      class: 'form-control',
+                      required: '',
+                      placeholder: 'email'
+                    }) }}
+                    {{ user ? _self.errorList(user.getErrors('email')) }}
+                  
+                  <div class="invalid-feedback">Please enter a valid Email.</div>
                 </div>
                 <!-- Password -->
                 <div class="mb-3">
-                  <label for="signUpPassword" class="form-label">Password</label>
-                  <input type="password" id="signUpPassword" class="form-control" name="signUpPassword" placeholder="**************" required="">
-                  <div class="invalid-feedback">Please enter valid password.</div>
+                    <label for="password"  class="form-label">Password</label>
+                    {{ input('password', 'password', null, {
+                      id: 'password',
+                      class: 'form-control',
+                      required: '',
+                      placeholder: '********'
+                    }) }}
+                    {{ user ? _self.errorList(user.getErrors('password')) }}
+                  
+                 <div class="invalid-feedback">Please enter a password.</div>
                 </div>
                 <!-- Checkbox -->
                 <div class="mb-3">

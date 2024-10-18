@@ -1,4 +1,38 @@
-dateModified: 1728857974
+dateModified: 1729106257
+elementSources:
+  craft\elements\User:
+    -
+      defaultSort:
+        - email
+        - asc
+      disabled: false
+      key: '*'
+      tableAttributes:
+        - id
+        - status
+        - fullName
+        - email
+        - dateCreated
+        - lastLoginDate
+      type: native
+    -
+      key: admins
+      type: native
+    -
+      heading: 'Account Type'
+      type: heading
+    -
+      key: credentialed
+      type: native
+    -
+      key: inactive
+      type: native
+    -
+      heading: Groups
+      type: heading
+    -
+      key: 'group:b49c197d-26ab-4194-bf60-959a99761cb0' # Counsellors
+      type: native
 email:
   fromEmail: alan@craftcode.co.uk
   fromName: 'Brighton Counselling Directory'
@@ -71,7 +105,7 @@ meta:
     156ff3cf-4dae-4881-87f1-ee5e4dee68c1: 'Profile small' # Profile small
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
     659d92e0-6da5-49f3-a37b-4897b5a7272c: 'Main Menu' # Main Menu
-    3811ac36-4010-4a09-8a2e-94f26500d9cc: 'Profile medium' # Profile medium
+    835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
     6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
     8742d0e0-5abb-4774-b8a6-05a5668e9098: 'Short summary' # Short summary
     8799e074-514f-4b7a-af19-f42b60826eb9: 'Featured image' # Featured image
@@ -158,8 +192,13 @@ plugins:
   convergine-pexels:
     edition: standard
     enabled: true
-    licenseKey: 8CE94A6MUT29X8ZXKSDFW4KV
+    licenseKey: JU6S3J56528UY7O3JWNSAHRC
     schemaVersion: 1.0.0
+    settings:
+      apiKey: CfhRYSzrLCWV9GQEbNNNGAf91qTHnmk7lAoDgC5nSQ4uPdmg6hUOa6Z6
+      langLocale: en-US
+      picsPerPage: '15'
+      uploadLocation: 'volumeId:a8055963-f807-47a4-9d1c-438e42b5aed3/folderId:5e570744-2e2c-4726-9c28-43c151acf227' # Images
   element-api:
     edition: standard
     enabled: true

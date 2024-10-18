@@ -1,0 +1,81 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+
+<main>
+    <section class="container d-flex flex-column vh-100">
+      <div class="row align-items-center justify-content-center g-0 h-lg-100 py-8">
+        <div class="col-lg-5 col-md-8 py-8 py-xl-0">
+          <!-- Card -->
+          <div class="card shadow">
+            <!-- Card body -->
+            <div class="card-body p-6 d-flex flex-column gap-4">
+              <div>
+                
+                <div class="d-flex flex-column gap-1">
+                  <h1 class="mb-0 fw-bold">Verification</h1>
+                  
+                  <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                       <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </svg>
+                    <div>
+                      Use the form below to enter your verification details.
+                    </div>
+                 </div>
+                </div>
+              </div>
+              <!-- Form -->
+              {% macro errorList(errors) %}
+                {% if errors %}
+                    {{ ul(errors, {class: 'errors'}) }}
+                {% endif %}
+                {% endmacro %}
+
+                {# `user` is defined if the form returns validation errors. #}
+                {% set user = user ?? null %}
+              <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
+                {# {{ csrfInput() }}
+                {{ actionInput('users/save-user') }}
+                #}
+                {{uid}}
+                {{ dump(user) }}
+                <hr class="my-4">
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="position-absolute bottom-0 m-4">
+      <div class="dropdown">
+        <button class="btn btn-light btn-icon rounded-circle d-flex align-items-center" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+          <i class="bi theme-icon-active"><i class="bi theme-icon bi-sun-fill"></i></i>
+          <span class="visually-hidden bs-theme-text">Toggle theme</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bs-theme-text">
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+              <i class="bi theme-icon bi-sun-fill"></i>
+              <span class="ms-2">Light</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+              <i class="bi theme-icon bi-moon-stars-fill"></i>
+              <span class="ms-2">Dark</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+              <i class="bi theme-icon bi-circle-half"></i>
+              <span class="ms-2">Auto</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+{% endblock content %}

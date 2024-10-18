@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95a4840b1f2538a78529ddb0a7059658",
+    "content-hash": "82db344c68dc5fcd442d38687fb212fc",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -542,11 +542,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.4.7.1",
+            "version": "5.4.8",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/7f26db4a36c374117c281707a22b5493335e042b",
-                "reference": "7f26db4a36c374117c281707a22b5493335e042b",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/be2ded297900d1ce0b3ae63d64422165e0ba892f",
+                "reference": "be2ded297900d1ce0b3ae63d64422165e0ba892f",
                 "shasum": ""
             },
             "require": {
@@ -643,7 +643,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2024-10-09T08:30:12+00:00"
+            "time": "2024-10-15T22:36:00+00:00"
         },
         {
             "name": "craftcms/element-api",
@@ -697,11 +697,11 @@
         },
         {
             "name": "craftcms/feed-me",
-            "version": "6.4.1",
+            "version": "6.5.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/ea611033beba2ef441459f92a14b134e74adee41",
-                "reference": "ea611033beba2ef441459f92a14b134e74adee41",
+                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/c627253a286c0e3869a307aaa9a730a7d060d4a2",
+                "reference": "c627253a286c0e3869a307aaa9a730a7d060d4a2",
                 "shasum": ""
             },
             "require": {
@@ -751,7 +751,7 @@
                 "docs": "https://docs.craftcms.com/feed-me/v6/",
                 "rss": "https://github.com/craftcms/feed-me/commits/master.atom"
             },
-            "time": "2024-10-09T22:02:56+00:00"
+            "time": "2024-10-15T22:56:22+00:00"
         },
         {
             "name": "craftcms/html-field",
@@ -3189,11 +3189,6 @@
         {
             "name": "phpstan/phpdoc-parser",
             "version": "1.33.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "82a311fd3690fb2bf7b64d5c98f912b3dd746140"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/82a311fd3690fb2bf7b64d5c98f912b3dd746140",
@@ -3203,17 +3198,6 @@
             "require": {
                 "php": "^7.2 || ^8.0"
             },
-            "require-dev": {
-                "doctrine/annotations": "^2.0",
-                "nikic/php-parser": "^4.15",
-                "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^1.5",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpstan/phpstan-strict-rules": "^1.0",
-                "phpunit/phpunit": "^9.5",
-                "symfony/process": "^5.2"
-            },
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3222,15 +3206,10 @@
                     ]
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "support": {
-                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.33.0"
-            },
             "time": "2024-10-13T11:25:22+00:00"
         },
         {

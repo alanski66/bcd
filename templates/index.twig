@@ -26,11 +26,15 @@
             <div class="d-flex flex-column gap-5">
               <!--form-->
               <!-- form autocomplete of issues list-->
+              {% set issues = craft.entries.section('issues').limit(null).all() %}
               <form>
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 justify-content-center">
                   <label for="mentorFind" class="form-label visually-hidden">Find a counsellor</label>
-                  <input type="text" class="form-control form-control-lg" id="mentorFind" name="mentorFind"
-                    placeholder="Search by Skills" aria-label="Search by Skills" aria-describedby="basic-addon2" />
+                  <input type="text" class="awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
+                        {{entry.title}}, 
+                      {% endfor %}" id="mentorFind" name="mentorFind"
+                    placeholder="Search by issue" aria-label="Search by issue" aria-describedby="basic-addon2" />
+                 
                   <button class="btn btn-primary btn-lg" id="basic-addon2">Find counsellor</button>
                 </div>
               </form>
