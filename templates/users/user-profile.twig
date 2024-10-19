@@ -4,589 +4,184 @@
 {% set userId = craft.app.request.getSegment('3') %}
 
 {% set user = craft.users()
-    .hasPhoto()
-    .group('counsellors')
-    .id(userId).one() %} 
+.hasPhoto()
+.group('counsellors')
+.id(userId).one() %}
 <main>
-    <div class="py-8 ">
-        <div class="container">
-          <div class="row mb-6 align-items-center justify-content-center">
-            <div class="col-md-10">
-              <div class="row align-items-center ">
-                <div class="col-xl-6 col-lg-7 col-md-12 col-12 order-1 text-center text-lg-start ">
-                  <!-- caption -->
-                  <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR THERAPIST</span>
-                  <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
-                    <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span></h2>
-                  <p class="fs-3 pe-6">{{user.shortSummary | default("Descriptive short summary of counsellors orientation, or practice, or favourite cat")}}</p>
-      
-                  <hr class="my-5">
-                    <!-- Counter -->
-                  <div class="row">
-                    <div class="col-sm mb-3 mb-lg-0">
-                      <h2 class="h1 fw-bold mb-0 ls-xs">£{{user.sessionRate}}</h2>
-                      <p class="mb-0">Session rate</p>
-                    </div>
-                    <div class="col-lg-5 col-sm mb-3 mb-lg-0">
-                      <h2 class="h1 fw-bold mb-0 ls-xs">{{user.qualifications}}</h2>
-                      <p class="mb-0">Qualification</p>
-                    </div>
-                    <div class="col-sm mb-3 mb-lg-0">
-                      <h2 class="h1 fw-bold mb-0 ls-xs">12+</h2>
-                      <p class="mb-0">Year of practice</p>
-                    </div>
-                  </div>
-                </div>
-                  <!-- Img -->
-                <div class="offset-xl-1 col-xl-5 col-lg-5 col-12 mb-6 mb-lg-0 order-lg-2 text-center ">
-                  <img src="{{user.photo.url}}" alt="" class="rounded-circle img-fluid">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <!--hero section-->
-    <section class="py-xl-8 py-6">
-      <div class="container">
-        <!--row-->
-        <div class="row gy-4">
-          <div class="col-xl-8 col-12">
-            <div class="d-flex flex-column gap-4">
-              <!--card-->
-              <div class="card">
-                <!--img-->
-                <div class="rounded-top-3" style="background-image: url(../../assets/images/mentor/mentor-single.png); background-position: center; background-size: cover; background-repeat: no-repeat; height: 228px"></div>
-                <div class="card-body p-md-5">
-                  <div class="d-flex flex-column gap-5">
-                    <!--img-->
-                    <div class="mt-n8">
-                      <img src="{{user.photo.url('profileSmall')}}" alt="mentor 1" class="img-fluid rounded-4 mt-n8">
-                    </div>
-                    <div class="d-flex flex-column gap-5">
-                      <div class="d-flex flex-column gap-3">
-                        <div class="d-flex flex-md-row flex-column justify-content-between gap-2">
-                          <!--heading-->
-                          <div>
-                            <h1 class="mb-0">{{user.fullName}}</h1>
-                            <!--content-->
-                            <div class="d-flex flex-lg-row flex-column gap-2">
-                              <small class="fw-medium text-gray-800">{{user.titleRole}}</small>
-                              <small class="fw-medium text-success">{{user.qualifications}}</small>
-                            </div>
-                          </div>
-                          <!--button-->
-                          <div class="d-flex flex-row gap-3 align-items-center">
-                            <a href="#!" class="btn btn-outline-white">
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill me-1" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"></path>
-                                </svg>
-                              </span>
-                              Save
-                            </a>
-                            <a href="#!" class="btn btn-outline-white">Ask questions</a>
-                          </div>
-                        </div>
-                        <div class="d-none d-flex flex-md-row flex-column gap-md-4 gap-2">
-                          <div class="d-flex flex-row gap-2 align-items-center lh-1">
-                            <!--icon-->
-                            <span>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning align-baseline" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                              </svg>
-                            </span>
-                            <span>
-                              <!--text-->
-                              <span class="text-gray-800 fw-bold">5.0</span>
-                              (16&nbsp;Reviews)
-                            </span>
-                          </div>
-                          <div class="d-flex flex-row gap-2 align-items-center lh-1">
-                            <!--icon-->
-                            <span>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-people-fill text-primary align-baseline" viewBox="0 0 16 16">
-                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"></path>
-                              </svg>
-                            </span>
-                            <!--text-->
-                            <span>
-                              <span class="text-gray-800 fw-bold">40+</span>
-                              Mentees
-                            </span>
-                          </div>
-                          <div class="d-flex flex-row gap-2 align-items-center lh-1">
-                            <!--icon-->
-                            <span>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-geo-alt-fill text-danger" viewBox="0 0 16 16">
-                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"></path>
-                              </svg>
-                            </span>
-                            <!--text-->
-                            <span>Gujarat,India</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column gap-2">
-                        <!--heading-->
-                        <h3 class="mb-0">Skills</h3>
+  <div class="pt-8">
+    <div class="container">
+      <div class="row mb-6 align-items-center justify-content-center">
+        <div class="col-md-10">
+          <div class="row align-items-start ">
+            <div class=" col-lg-8 col-md-12 col-12 order-1 text-center text-lg-start ">
+              <!-- caption -->
+              <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR THERAPIST</span>
+              <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
+                <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span>
+              </h2>
+              <p class="fs-3 pe-6 mb-3">{{user.shortSummary | default("Descriptive short summary of counsellors orientation, or practice, or favourite cat")}}</p>
 
-                        <div class="gap-2 d-flex flex-wrap">
-                          <a href="#!" class="btn btn-tag btn-sm">Frontend</a>
-                          <a href="#!" class="btn btn-tag btn-sm">HTML</a>
-                          <a href="#!" class="btn btn-tag btn-sm">CSS</a>
-                          <a href="#!" class="btn btn-tag btn-sm">React</a>
-                          <a href="#!" class="btn btn-tag btn-sm">Javascript</a>
-                          <a href="#!" class="btn btn-tag btn-sm">Vuejs</a>
-                          <a href="#!" class="btn btn-tag btn-sm">Next.js</a>
-                        </div>
-                      </div>
-                      <div>
-                        <span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success align-items-center">
-                          <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-reply-fill me-1 align-text-top" viewBox="0 0 16 16">
-                              <path d="M5.921 11.9 1.353 8.62a.72.72 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"></path>
-                            </svg>
-                          </span>
-                          Quick Responder
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--card-->
-              <div class="card">
-                <!--card body-->
-                <div class="card-body p-md-5 d-flex flex-column gap-3">
-                  <!--heading-->
-                  <h3 class="mb-0">About</h3>
-                  <div class="d-flex flex-column">
-                    <!--para-->
-                    <p class="mb-1">{{user.aboutMe}}
-                    </p>
-                    <div class="collapse" id="collapseAbout">
-                      <p class="my-3">
-                        I've helped businesses in US, Europe and Japan generate $200M+ in revenue, through my product design and branding skills. My top 3 industries are web3, AI and edtech.
-                      </p>
-                    </div>
-                    {# <div>
-                      <a class="btn-link" data-bs-toggle="collapse" href="#collapseAbout" role="button" aria-expanded="false" aria-controls="collapseAbout">Read more</a>
-                    </div> #}
-                  </div>
-                </div>
-              </div>
-              <!--card-->
-              <div class="card">
-                <!--card body-->
-                <div class="card-body p-md-5">
-                  <div class="d-flex flex-column gap-3">
-                    <!--heading-->
-                    <h3 class="mb-0">Skills</h3>
+              <h2 class="fs-3">Qualifications</h4>
+                <p class="strong">
+                  <span>
+                    <svg width="24" height="25" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M28.5782 15.2724C28.5792 14.2137 28.3197 13.171 27.8226 12.2363C27.3255 11.3016 26.606 10.5035 25.7277 9.91249C24.8493 9.32146 23.839 8.95561 22.7859 8.8472C21.7328 8.73879 20.6691 8.89115 19.6888 9.29084C18.7084 9.69054 17.8415 10.3253 17.1644 11.1391C16.4873 11.953 16.0208 12.9209 15.8061 13.9576C15.5913 14.9943 15.635 16.0679 15.9331 17.0837C16.2313 18.0996 16.7748 19.0265 17.5157 19.7827V26.3349C17.5156 26.4922 17.5557 26.6468 17.6322 26.7842C17.7087 26.9215 17.819 27.037 17.9528 27.1197C18.0865 27.2024 18.2391 27.2495 18.3962 27.2566C18.5532 27.2636 18.7095 27.2304 18.8501 27.16L22.1251 25.5214L25.4001 27.16C25.5407 27.2304 25.6969 27.2636 25.854 27.2566C26.011 27.2495 26.1637 27.2024 26.2974 27.1197C26.4311 27.037 26.5415 26.9215 26.618 26.7842C26.6945 26.6468 26.7346 26.4922 26.7345 26.3349V19.7827C27.9169 18.5793 28.579 16.9595 28.5782 15.2724ZM22.1251 10.663C23.0367 10.663 23.9279 10.9333 24.6859 11.4398C25.4439 11.9463 26.0347 12.6662 26.3836 13.5085C26.7325 14.3507 26.8238 15.2775 26.6459 16.1716C26.4681 17.0658 26.0291 17.8871 25.3844 18.5317C24.7398 19.1764 23.9185 19.6154 23.0243 19.7932C22.1302 19.9711 21.2034 19.8798 20.3611 19.5309C19.5189 19.182 18.799 18.5913 18.2925 17.8332C17.786 17.0752 17.5157 16.1841 17.5157 15.2724C17.5157 14.0499 18.0013 12.8775 18.8657 12.0131C19.7302 11.1486 20.9026 10.663 22.1251 10.663ZM22.5376 23.6661C22.4095 23.602 22.2683 23.5686 22.1251 23.5686C21.9819 23.5686 21.8406 23.602 21.7125 23.6661L19.3594 24.8438V21.1021C20.2236 21.5126 21.1684 21.7255 22.1251 21.7255C23.0818 21.7255 24.0265 21.5126 24.8907 21.1021V24.8438L22.5376 23.6661ZM15.6719 22.6474C15.6719 22.8919 15.5748 23.1264 15.4019 23.2993C15.229 23.4722 14.9945 23.5693 14.7501 23.5693H4.60938C4.12039 23.5693 3.65142 23.3751 3.30565 23.0293C2.95988 22.6835 2.76563 22.2145 2.76562 21.7256V6.97549C2.76562 6.48649 2.95988 6.01752 3.30565 5.67175C3.65142 5.32598 4.12039 5.13173 4.60938 5.13173H24.8907C25.3797 5.13173 25.8487 5.32598 26.1945 5.67175C26.5402 6.01752 26.7345 6.48649 26.7345 6.97549C26.7345 7.21998 26.6374 7.45447 26.4645 7.62735C26.2916 7.80024 26.0571 7.89737 25.8126 7.89737C25.5681 7.89737 25.3336 7.80024 25.1607 7.62735C24.9878 7.45447 24.8907 7.21998 24.8907 6.97549H4.60938V21.7256H14.7501C14.9945 21.7256 15.229 21.8227 15.4019 21.9956C15.5748 22.1684 15.6719 22.4029 15.6719 22.6474ZM13.8282 16.1943C13.8282 16.4388 13.731 16.6733 13.5582 16.8461C13.3853 17.019 13.1508 17.1162 12.9063 17.1162H8.2969C8.0524 17.1162 7.81792 17.019 7.64503 16.8461C7.47215 16.6733 7.37502 16.4388 7.37502 16.1943C7.37502 15.9498 7.47215 15.7153 7.64503 15.5424C7.81792 15.3695 8.0524 15.2724 8.2969 15.2724H12.9063C13.1508 15.2724 13.3853 15.3695 13.5582 15.5424C13.731 15.7153 13.8282 15.9498 13.8282 16.1943ZM13.8282 12.5068C13.8282 12.7513 13.731 12.9857 13.5582 13.1586C13.3853 13.3315 13.1508 13.4286 12.9063 13.4286H8.2969C8.0524 13.4286 7.81792 13.3315 7.64503 13.1586C7.47215 12.9857 7.37502 12.7513 7.37502 12.5068C7.37502 12.2623 7.47215 12.0278 7.64503 11.8549C7.81792 11.682 8.0524 11.5849 8.2969 11.5849H12.9063C13.1508 11.5849 13.3853 11.682 13.5582 11.8549C13.731 12.0278 13.8282 12.2623 13.8282 12.5068Z"
+                        fill="#139A74"></path>
+                    </svg>
+                  </span>
+                  {{user.qualifications}}
+                </p>
+                <hr class="my-5">
+                <!-- expertise -->
+                <h3 class="">Areas of expertise</h3>
+                {% set expertCats = user.category.all() %}
+                
+                {% for cat in expertCats %}
+                <a href="{{ cat.url }}" class="fs-4 btn rounded me-3 mt-1 mb-1 btn-light">{{ cat.title }}</a>
 
-                    <div class="gap-2 d-flex flex-wrap">
-                      <a href="#!" class="btn btn-tag btn-sm">Frontend</a>
-                      <a href="#!" class="btn btn-tag btn-sm">UX Design</a>
-                      <a href="#!" class="btn btn-tag btn-sm">HTML</a>
-                      <a href="#!" class="btn btn-tag btn-sm">UI Design</a>
-                      <a href="#!" class="btn btn-tag btn-sm">CSS</a>
-                      <a href="#!" class="btn btn-tag btn-sm">Landing page design</a>
-                      <a href="#!" class="btn btn-tag btn-sm">Figma</a>
-                      <a href="#!" class="btn btn-tag btn-sm">eCommerce Design</a>
-                      <a href="#!" class="btn btn-tag btn-sm">React</a>
-                      <a href="#!" class="btn btn-tag btn-sm">ReactJS</a>
-                      <a href="#!" class="btn btn-tag btn-sm">Javascript</a>
-                      <a href="#!" class="btn btn-tag btn-sm">Vuejs</a>
-                      <a href="#!" class="btn btn-tag btn-sm">Next.js</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <!--card body-->
-                <div class="card-body p-md-5 d-flex flex-column gap-3">
-                  <!--heading-->
-                  <h3 class="mb-0">Training and experience</h3>
-                  <div class="d-flex flex-column">
-                    <!--para-->
-                    <p class="mb-1">{{user.trainingAndExperience}}
-                    </p>
-                    
-              
-                  </div>
-                </div>
-              </div>
-              <!--card-->
-             
-            </div>
-          </div>
-          <div class="col-xl-4 col-12">
-            <!--card-->
-            <div class="card">
-              <!--card body-->
-              <div class="card-body px-md-5 pt-2">
-                <!--nav tab-->
-                <ul class="nav nav-lb-tab mb-4" id="tab" role="tablist">
-                  <li class="nav-item ms-0" role="presentation">
-                    <a class="nav-link active" id="membership-tab" data-bs-toggle="pill" href="#membership" role="tab" aria-controls="membership" aria-selected="true">Membership Plan</a>
+                {% endfor %}
+                <hr class="my-5">
+                <h3>Issues I can help with</h3>
+                {% set issues = user.typesOfIssuesYouCanHelp.all() %}
+
+                {% for issue in issues %}
+                <a href="{{ issue.url }}" class="btn btn-ta btn-sm ms-0 m-2 btn-outline-secondary">{{ issue.title }}</a>
+                {% endfor %}
+                <hr class="my-5">
+                
+                <!-- works with-->
+                <h3 class=" mb-3 ">I work with</h3>
+                {% set clients = user.typeOfClient %}
+                <ul class="list-unstyled list-inline">
+                  {% for item in clients %}
+                  <li class="list-inline-item ">
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+                        </path>
+                      </svg>
+                    </span>
+                    <span class="ps-1 me-2">{{item.label}}</span>
                   </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="session-tab" data-bs-toggle="pill" href="#session" role="tab" aria-controls="session" aria-selected="false" tabindex="-1">Sessions</a>
-                  </li>
+                  {% endfor %}
+
                 </ul>
-                <div class="tab-content" id="tabContent">
-                  <div class="tab-pane fade show active" id="membership" role="tabpanel" aria-labelledby="membership-tab">
-                    <div class="d-flex flex-column gap-4">
-                      <!--heading-->
-                      <h3 class="mb-0">
-                        Book a
-                        <span class="text-success">Free 1:1 Trial</span>
-                        :&nbsp;To Plan Your Mentorship with&nbsp;Jitu Chauhan
-                      </h3>
-                      <div class="d-flex flex-column gap-3">
-                        <!--content-->
-                        <div class="d-flex flex-column gap-1">
-                          <span>Starting from</span>
-                          <div class="d-flex flex-row align-items-center gap-1">
-                            <h3 class="mb-0 h2">$125.00</h3>
-                            <small class="text-gray-800 fw-medium">/ Month</small>
-                          </div>
-                        </div>
-                        <div class="d-flex flex-column gap-2">
-                          <!--heading-->
-                          <div>
-                            <h4 class="mb-1">Every Month Of Mentorship</h4>
-                          </div>
-                          <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
-                            <li class="d-flex flex-row gap-2">
-                              <!--icon-->
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-video text-primary" viewBox="0 0 16 16">
-                                  <path d="M8 9.05a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"></path>
-                                  <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm10.798 11c-.453-1.27-1.76-3-4.798-3-3.037 0-4.345 1.73-4.798 3H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1z"></path>
-                                </svg>
-                              </span>
-                              <!--text-->
-                              <span>1 session/week&nbsp;(1:1 Sessions)</span>
-                            </li>
-                            <li class="d-flex flex-row gap-2">
-                              <!--icon-->
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots-fill text-primary" viewBox="0 0 16 16">
-                                  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"></path>
-                                </svg>
-                              </span>
-                              <!--text-->
-                              <span>Within 12hours&nbsp;(Chat Support)</span>
-                            </li>
-                            <li class="d-flex flex-row gap-2">
-                              <!--icon-->
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task text-primary" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"></path>
-                                  <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"></path>
-                                  <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"></path>
-                                </svg>
-                              </span>
-                              <!--text-->
-                              <span>Everyday&nbsp;(Tasks &amp; Followup)</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                <hr class="my-5">
 
-                      <div class="d-flex flex-column gap-3">
-                        <a href="#!" class="btn btn-primary d-grid" data-bs-toggle="modal" data-bs-target="#signupModal">Book a Free Trial</a>
-                        <span class="text-success fw-medium">Next Available:&nbsp;Tuesday June 05 2025</span>
-                      </div>
+            </div>
+            <!-- end left inner column -->
+
+
+            <!-- Img right col -->
+            <div class=" col-lg-4 col-12 mb-6 mb-lg-0 order-lg-2 text-cente ">
+              <img src="{{user.photo.url}}" alt="" class="rounded-circle img-fluid">
+              <div class="mt-4 ">
+                <!-- card -->
+                <div class="card mb-4">
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div class="text-center">
+                      <h4 class="mb-0">Fees</h4>
+
                     </div>
-                  </div>
-                  <div class="tab-pane fade" id="session" role="tabpanel" aria-labelledby="session-tab">
-                    <div class="d-flex flex-column gap-4">
-                      <div class="list-group">
-                        <div class="list-group-item list-group-item-action p-3" aria-current="true">
-                          <!--form-->
-                          <div class="form-check">
-                            <input class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked="">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                              <span class="d-flex flex-column">
-                                <span class="fs-5 text-dark fw-semibold">Introductory Call</span>
-                                <span class="">20 minutes, $39 per session</span>
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action p-3">
-                          <!--form-->
-                          <div class="form-check">
-                            <input class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                              <span class="d-flex flex-column">
-                                <span class="fs-5 text-dark fw-semibold">Session Name with Call</span>
-                                <span class="">30 minutes, $89 per session</span>
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action p-3">
-                          <!--form-->
-                          <div class="form-check">
-                            <input class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                            <label class="form-check-label" for="flexRadioDefault3">
-                              <span class="d-flex flex-column">
-                                <span class="fs-5 text-dark fw-semibold">Session Name with Call</span>
-                                <span class="">30 minutes, $89 per sessio</span>
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <!--button-->
-                      <div class="d-grid">
-                        <a href="#!" class="btn btn-primary">Book Now</a>
-                      </div>
+                    <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                      <span>Sessions from</span>
+                      <span class="text-dark">£{{user.sessionRate}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                      <span>Availability</span>
+                      <span class="text-warning pt-1 lh-1">
+                        {{user.availability | capitalize}}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                          class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                          <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                          </path>
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="d-flex justify-content-between pt-2">
+                      <span>Concessions</span>
+                      <span class="text-dark">{{user.concessions}}</span>
                     </div>
                   </div>
                 </div>
+
+                <!-- CTA card -->
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <div class="d-flex  mt-auto justify-content-around">
+                      <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white">Call now</a>
+                      <a href="https://bcd.test/counsellors/alan-thebrightontherapist-co-uk/1142"
+                        class="btn btn-primary mt-auto">Contact</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- end col right -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+  <!--hero section-->
+  <section class="">
+    <div class="container">
+      <!--row-->
+      <div class="row gy-4">
+        <div class="col-xl-7 offset-xl-1 col-12">
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>About me</h3>
+            {{user.aboutMe | raw}}
+          </div>
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>Training and experience</h3>
+            {{user.trainingAndExperience | raw}}
+          </div>
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>How I work</h3>
+            {{user.practiceDescription | raw}}
+          </div>
+
+          <!-- types of therapy offerred -->
+          <div class="d-flex flex-column mb-4 fs-4">
+            <h3>Types of therapy offerred</h3>
+            {% set typesOfTherapy = user.typesOfTherapyOfferred.all() %}
+            <ul class="list-group list-group-flush">
+              {% for therapy in typesOfTherapy %}
+              <!-- Flush list -->
+              <li class="list-group-item"><a href="{{ therapy.url }}" class="">{{ therapy.title }}</a></li>
+              {% endfor %}
+            </ul>
+
+          </div>
+          <!-- CTA card -->
+          <div class="card mb-4 bg-gray-200">
+            <div class="card-body">
+              <h2 class="display-5 text-center ">Get the help and support you need</h2>
+                <p class="lead  px-lg-8 mb-6 text-center">Call or email using the buttons below to start your journey.</p>
+              <div class="d-grid d-md-block text-center">
+                <a href="tel:{{user.phoneNumber}}" class="btn btn-lg btn-info me-2">Call now</a>
+                <a href="https://bcd.test/counsellors/alan-thebrightontherapist-co-uk/1142"
+                  class="btn btn-primary btn-lg mt-auto ">Contact</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <!--mentor-->
-    <section class="pb-xl-8 pb-6">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h2 class="mb-4">Similar mentors</h2>
-          </div>
-        </div>
-        <div class="row gy-4">
-          <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-              <div class="p-3 d-flex flex-column gap-3">
-                <!--img-->
-                <a href="#!">
-                  <img src="../assets/images/mentor/mentor-img-2.jpg" alt="mentor 2" class="img-fluid w-100 rounded-4">
-                </a>
-                <!--content-->
-                <div class="d-flex flex-column gap-4">
-                  <div class="d-flex flex-column gap-2">
-                    <div>
-                      <div class="d-flex align-items-center gap-2">
-                        <h3 class="mb-0">
-                          <a href="#!" class="text-reset">Jessica Abney</a>
-                        </h3>
-                        <span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                          </svg>
-                        </span>
-                      </div>
-                      <span class="text-gray-800">Frontend Engineer</span>
-                    </div>
 
-                    <div class="d-flex align-items-center justify-content-between fs-6">
-                      <div>
-                        <span>@ Target</span>
-                        <div class="vr mx-2 text-gray-200"></div>
-                        <span>2yrs Exp.</span>
-                      </div>
-                      <div class="d-flex gap-1 align-items-center lh-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                        </svg>
+    </div>
+    </div>
+  </section>
 
-                        <span class="fw-bold text-dark">5.0</span>
-                        <span>(34 Reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div>
-                      <span>Starting from</span>
-                      <div class="d-flex flex-row gap-1 align-items-center">
-                        <h4 class="mb-1">$65.00</h4>
-                        <span class="fs-6">/ Month</span>
-                      </div>
-                    </div>
-                    <div>
-                      <a href="#!" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#signupModal">Book a Free Trial</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-              <div class="p-3 d-flex flex-column gap-3">
-                <div class="position-relative">
-                  <!--img-->
-                  <a href="#!">
-                    <img src="../assets/images/mentor/mentor-img-3.jpg" alt="mentor 3" class="img-fluid w-100 rounded-4">
-                  </a>
-                  <div class="position-absolute bottom-0 left-0 p-3">
-                    <span class="badge text-bg-success">New Mentor</span>
-                  </div>
-                </div>
-                <!--content-->
-                <div class="d-flex flex-column gap-4">
-                  <div class="d-flex flex-column gap-2">
-                    <div>
-                      <div class="d-flex align-items-center gap-2">
-                        <h3 class="mb-0"><a href="#!" class="text-reset">James Anderson</a></h3>
-                        <span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                          </svg>
-                        </span>
-                      </div>
-                      <span class="text-gray-800">UI/UX Designer</span>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between fs-6">
-                      <div>
-                        <span>@ Figma</span>
-                        <div class="vr mx-2 text-gray-200"></div>
-                        <span>3 yrs Exp.</span>
-                      </div>
-                      <div class="d-flex gap-1 align-items-center lh-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                        </svg>
-                        <span class="fw-bold text-dark">4.5</span>
-                        <span>(3 Reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div>
-                      <span>Starting from</span>
-                      <div class="d-flex flex-row gap-1 align-items-center">
-                        <h4 class="mb-1">$35.00</h4>
-                        <span class="fs-6">/ Month</span>
-                      </div>
-                    </div>
-                    <div>
-                      <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xxl-3 col-xl-4 col-md-6 col-12">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-              <div class="p-3 d-flex flex-column gap-3">
-                <!--img-->
-                <a href="#!">
-                  <img src="../assets/images/mentor/mentor-img-4.jpg" alt="mentor 4" class="img-fluid w-100 rounded-4">
-                </a>
-                <!--content-->
-                <div class="d-flex flex-column gap-4">
-                  <div class="d-flex flex-column gap-2">
-                    <div>
-                      <div class="d-flex align-items-center gap-2">
-                        <h3 class="mb-0"><a href="#!" class="text-reset">Cathy Diehl</a></h3>
-                        <span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                          </svg>
-                        </span>
-                      </div>
-                      <span class="text-gray-800">Software Engineer</span>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between fs-6">
-                      <div>
-                        <span>@ Microsoft</span>
-                        <div class="vr mx-2 text-gray-200"></div>
-                        <span>5 yrs Exp.</span>
-                      </div>
-                      <div class="d-flex gap-1 align-items-center lh-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                        </svg>
-                        <span class="fw-bold text-dark">5.0</span>
-                        <span>(112 Reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div>
-                      <span>Starting from</span>
-                      <div class="d-flex flex-row gap-1 align-items-center">
-                        <h4 class="mb-1">$215.00</h4>
-                        <span class="fs-6">/ Month</span>
-                      </div>
-                    </div>
-                    <div>
-                      <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-6 col-12 d-md-block d-xl-none d-xxl-block">
-            <!--card-->
-            <div class="card rounded-4 card-bordered card-lift">
-              <div class="p-3 d-flex flex-column gap-3">
-                <!--img-->
-                <a href="#!">
-                  <img src="../assets/images/mentor/mentor-img-5.jpg" alt="mentor 5" class="img-fluid w-100 rounded-4">
-                </a>
-                <!--content-->
-                <div class="d-flex flex-column gap-4">
-                  <div class="d-flex flex-column gap-2">
-                    <div>
-                      <div class="d-flex align-items-center gap-2">
-                        <h3 class="mb-0"><a href="#!" class="text-reset">Patrice Long</a></h3>
-                        <span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
-                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708"></path>
-                          </svg>
-                        </span>
-                      </div>
-                      <span class="text-gray-800">Software Engineer</span>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between fs-6">
-                      <div>
-                        <span>@ Microsoft</span>
-                        <div class="vr mx-2 text-gray-200"></div>
-                        <span>5 yrs Exp.</span>
-                      </div>
-                      <div class="d-flex gap-1 align-items-center lh-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                        </svg>
-                        <span class="fw-bold text-dark">5.0</span>
-                        <span>(44 Reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div>
-                      <span>Starting from</span>
-                      <div class="d-flex flex-row gap-1 align-items-center">
-                        <h4 class="mb-1">$25.00</h4>
-                        <span class="fs-6">/ Month</span>
-                      </div>
-                    </div>
-                    <div>
-                      <a href="#!" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal">Book Sessions</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--mentor-->
-  </main>
-  {% endblock %}
+</main>
+{% endblock %}

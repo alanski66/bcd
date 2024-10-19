@@ -7,11 +7,11 @@ settings:
   allowSelfRelations: false
   branchLimit: null
   maintainHierarchy: false
-  maxRelations: 1
+  maxRelations: 4
   minRelations: null
   selectionLabel: null
   showCardsInGrid: false
-  showSiteMenu: false
+  showSiteMenu: true
   source: 'group:22acdfae-ec39-4281-ba0d-dc432a5cf4da' # Issues
   targetSiteId: null
   validateRelatedElements: false

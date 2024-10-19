@@ -110,6 +110,22 @@ tabs:
         warning: null
         width: 100
       -
+        dateAdded: '2024-10-19T19:17:56+00:00'
+        elementCondition: null
+        fieldUid: 85d7f167-b012-4f56-9d61-9157c12fc036 # Insurance proof
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 130473c2-5775-4c72-9f19-38039f831b32
+        userCondition: null
+        warning: null
+        width: 100
+      -
         dateAdded: '2024-09-28T20:07:08+00:00'
         elementCondition: null
         fieldUid: 48e5cd5f-156a-4a9b-9323-1139b7dda01f # Phone number
@@ -217,38 +233,6 @@ tabs:
         userCondition: null
         warning: null
         width: 100
-      -
-        dateAdded: '2024-09-29T16:40:34+00:00'
-        elementCondition: null
-        fieldUid: c53fedbd-f0cc-4695-b607-17403adb9be9 # Types of therapy you offer
-        handle: null
-        includeInCards: false
-        instructions: null
-        label: null
-        providesThumbs: false
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: 75c24fcc-381c-404d-91df-9b7778c128b4
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2024-09-29T16:40:34+00:00'
-        elementCondition: null
-        fieldUid: e943d4ec-4cf4-4c3a-89e8-6308943df394 # Types of issues you can help
-        handle: null
-        includeInCards: false
-        instructions: null
-        label: null
-        providesThumbs: false
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: 14d4d58d-5316-4a77-b47a-0e5529c76de8
-        userCondition: null
-        warning: null
-        width: 100
     name: 'Training & experience'
     uid: 521a9082-78af-44f4-9ebd-af566357c09a
     userCondition: null
@@ -278,6 +262,38 @@ tabs:
     elementCondition: null
     elements:
       -
+        dateAdded: '2024-10-19T12:26:56+00:00'
+        elementCondition: null
+        fieldUid: 84d3be0c-c468-4664-914c-b80e544b5114 # Category
+        handle: null
+        includeInCards: false
+        instructions: 'Choose no more than 4 areas in which you have good outcomes and enjoy working in'
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: f1737922-6ea9-498f-8f84-5127e2ecbcaa
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2024-09-29T16:40:34+00:00'
+        elementCondition: null
+        fieldUid: e943d4ec-4cf4-4c3a-89e8-6308943df394 # Types of issues you can help
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 14d4d58d-5316-4a77-b47a-0e5529c76de8
+        userCondition: null
+        warning: null
+        width: 100
+      -
         dateAdded: '2024-09-28T20:07:08+00:00'
         elementCondition: null
         fieldUid: 5ba00d2b-52da-4b64-b6e1-64c24d426c19 # Type of client
@@ -293,7 +309,23 @@ tabs:
         userCondition: null
         warning: null
         width: 100
-    name: 'Who you work with'
+      -
+        dateAdded: '2024-09-29T16:40:34+00:00'
+        elementCondition: null
+        fieldUid: c53fedbd-f0cc-4695-b607-17403adb9be9 # Types of therapy you offer
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 75c24fcc-381c-404d-91df-9b7778c128b4
+        userCondition: null
+        warning: null
+        width: 100
+    name: Expertise
     uid: a8c3e53b-e093-4392-b20e-5d56841a08e0
     userCondition: null
   -

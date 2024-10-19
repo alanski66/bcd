@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82db344c68dc5fcd442d38687fb212fc",
+    "content-hash": "af9cd542b0dca8e02cf91afce6ad760e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -370,11 +370,11 @@
         },
         {
             "name": "convergine/craft-content-buddy",
-            "version": "1.1.8",
+            "version": "1.1.9",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/convergine/craft-content-buddy/zipball/5d22c0f559f375689e69ec1a931ad49135220f34",
-                "reference": "5d22c0f559f375689e69ec1a931ad49135220f34",
+                "url": "https://api.github.com/repos/convergine/craft-content-buddy/zipball/a8cbd7ded1874e0a4b19b1ca45e53bdfe3ae2a9d",
+                "reference": "a8cbd7ded1874e0a4b19b1ca45e53bdfe3ae2a9d",
                 "shasum": ""
             },
             "require": {
@@ -433,7 +433,7 @@
                     "email": "info@convergine.com"
                 }
             },
-            "time": "2024-09-26T22:30:20+00:00"
+            "time": "2024-10-18T21:38:28+00:00"
         },
         {
             "name": "convergine/craft-pexels",
@@ -490,11 +490,11 @@
         },
         {
             "name": "craftcms/ckeditor",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/07d72b9d05c8f6383086c598c8d555752b72d797",
-                "reference": "07d72b9d05c8f6383086c598c8d555752b72d797",
+                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/49ea9012558cf78e5195b8e1769d6d2f90779d29",
+                "reference": "49ea9012558cf78e5195b8e1769d6d2f90779d29",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
                 "docs": "https://github.com/craftcms/ckeditor/blob/master/README.md",
                 "rss": "https://github.com/craftcms/ckeditor/commits/master.atom"
             },
-            "time": "2024-08-15T15:05:08+00:00"
+            "time": "2024-10-19T14:28:02+00:00"
         },
         {
             "name": "craftcms/cms",
@@ -755,11 +755,11 @@
         },
         {
             "name": "craftcms/html-field",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/html-field/zipball/34a5796c74e22d4ae80709541367114d03d280ca",
-                "reference": "34a5796c74e22d4ae80709541367114d03d280ca",
+                "url": "https://api.github.com/repos/craftcms/html-field/zipball/50a56e4cb4d4511b39674965e0fbff475f62f7f0",
+                "reference": "50a56e4cb4d4511b39674965e0fbff475f62f7f0",
                 "shasum": ""
             },
             "require": {
@@ -789,7 +789,7 @@
                 "docs": "https://github.com/craftcms/html-field/blob/main/README.md",
                 "rss": "https://github.com/craftcms/html-field/commits/main.atom"
             },
-            "time": "2024-06-11T14:58:59+00:00"
+            "time": "2024-10-15T20:02:05+00:00"
         },
         {
             "name": "craftcms/plugin-installer",
@@ -1489,11 +1489,11 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
-                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
+                "reference": "f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
                 "shasum": ""
             },
             "require": {
@@ -1540,7 +1540,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2024-07-18T10:29:17+00:00"
+            "time": "2024-10-17T10:06:22+00:00"
         },
         {
             "name": "guzzlehttp/psr7",

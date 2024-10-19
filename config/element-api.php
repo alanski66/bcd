@@ -1,6 +1,7 @@
 <?php
 
 use craft\elements\Entry;
+use craft\elements\Category;
 use craft\helpers\UrlHelper;
 
 return [
@@ -16,6 +17,21 @@ return [
                         'url' => $entry->url,
                         'jsonUrl' => UrlHelper::url("news/$entry->id.json"),
                         'intro' => $entry->intro,
+                    ];
+                },
+            ];
+        },
+        'categories.json' => function() {
+            return [
+                'elementType' => Category::class,
+                'criteria' => [
+                    'group' => 'issues',
+                    'orderBy'   => 'title asc'
+                ],
+                'transformer' => function(Category $category) {
+                    return [
+                        'id' => $category->id,
+                        'value' => $category->title
                     ];
                 },
             ];

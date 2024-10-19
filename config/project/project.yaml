@@ -1,4 +1,4 @@
-dateModified: 1729106257
+dateModified: 1729371666
 elementSources:
   craft\elements\User:
     -
@@ -66,6 +66,13 @@ fs:
       path: $ASSET_TMP_PATH
     type: craft\fs\Local
     url: null
+  userInsurance:
+    hasUrls: false
+    name: 'User insurance'
+    settings:
+      path: $ASSET_BASE_PATH_PRIVATE
+    type: craft\fs\Local
+    url: null
   userMembershipLogos:
     hasUrls: true
     name: 'User membership logos'
@@ -101,6 +108,7 @@ meta:
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
     49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
     84d3be0c-c468-4664-914c-b80e544b5114: Category # Category
+    85d7f167-b012-4f56-9d61-9157c12fc036: 'Insurance proof' # Insurance proof
     92bed5f0-da6f-4abc-8a49-47690cf6b3b7: Therapists # Therapists
     156ff3cf-4dae-4881-87f1-ee5e4dee68c1: 'Profile small' # Profile small
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
@@ -129,6 +137,7 @@ meta:
     e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
     e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
+    f738e4ee-a559-4e36-8c9a-a559088a75af: 'User insurance' # User insurance
 plugins:
   ckeditor:
     edition: standard

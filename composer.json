@@ -2,9 +2,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "convergine/craft-content-buddy": "1.1.8",
+    "convergine/craft-content-buddy": "1.1.9",
     "convergine/craft-pexels": "1.0.1",
-    "craftcms/ckeditor": "4.2.0",
+    "craftcms/ckeditor": "4.3.0",
     "craftcms/cms": "5.4.8",
     "craftcms/element-api": "4.1.0",
     "craftcms/feed-me": "6.5.0",
