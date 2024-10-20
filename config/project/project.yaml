@@ -1,4 +1,4 @@
-dateModified: 1729448214
+dateModified: 1729454522
 elementSources:
   craft\elements\User:
     -
@@ -31,7 +31,18 @@ elementSources:
       heading: Groups
       type: heading
     -
+      defaultSort:
+        - email
+        - asc
+      disabled: false
       key: 'group:b49c197d-26ab-4194-bf60-959a99761cb0' # Counsellors
+      tableAttributes:
+        - status
+        - fullName
+        - email
+        - dateCreated
+        - lastLoginDate
+        - id
       type: native
 email:
   fromEmail: alan@craftcode.co.uk

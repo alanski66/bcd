@@ -10,26 +10,32 @@
 
 {% js %}
 var aboutMeEditor = new FroalaEditor('#aboutMe');
+var trainingAndExperience = new FroalaEditor('#trainingAndExperience');
+var practiceDescription = new FroalaEditor('#practiceDescription');
 {% endjs %}
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
-      
+
       <!-- User info -->
       <div class="row align-items-center">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <!-- Bg -->
-          <div class="rounded-top" style="background: url(../assets/images/background/profile-bg.jpg) no-repeat; background-size: cover; height: 100px"></div>
+          <div class="rounded-top"
+            style="background: url(../assets/images/background/profile-bg.jpg) no-repeat; background-size: cover; height: 100px">
+          </div>
           <div class="card px-4 pt-2 pb-4 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2">
             <div class="d-flex align-items-end justify-content-between">
               <div class="d-flex align-items-center">
                 <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                  <img src="{{user.photo.url('profileSmall')}}" class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
+                  <img src="{{user.photo.url('profileSmall')}}"
+                    class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
                 </div>
                 <div class="lh-1">
                   <h2 class="mb-0">
                     {{user.fullName}}
-                    <a href="#" data-bs-toggle="tooltip" data-placement="top" aria-label="Beginner" data-bs-original-title="Beginner">
+                    <a href="#" data-bs-toggle="tooltip" data-placement="top" aria-label="Beginner"
+                      data-bs-original-title="Beginner">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
                         <rect x="7" y="5" width="2" height="9" rx="1" fill="#DBD8E9"></rect>
@@ -41,7 +47,8 @@ var aboutMeEditor = new FroalaEditor('#aboutMe');
                 </div>
               </div>
               <div>
-                <a href="profile-edit.html" class="btn btn-primary btn-sm d-none d-md-block">Complete your profile settings</a>
+                <a href="profile-edit.html" class="btn btn-primary btn-sm d-none d-md-block">Complete your profile
+                  settings</a>
               </div>
             </div>
           </div>
@@ -49,74 +56,79 @@ var aboutMeEditor = new FroalaEditor('#aboutMe');
       </div>
       <!-- Content -->
       <div class="row mt-0 mt-md-4">
-   
+
         <div class="col-lg-9 col-md-8 col-12">
           <!-- Card -->
           <div class="card">
-            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-                <!-- Form -->
-                  {{ csrfInput() }}
-                  {{ actionInput('users/save-user') }}
-                  {{ hiddenInput('userId', user.id) }}
-            <!-- Card header -->
-            <div class="card-header">
-              <h1 class="mb-0">Complete your profile</h1>
-              {% if user.hasErrors() %}
+            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8"
+              enctype="multipart/form-data">
+              <!-- Form -->
+              {{ csrfInput() }}
+              {{ actionInput('users/save-user') }}
+              {{ hiddenInput('userId', user.id) }}
+
+              <!-- Card header -->
+              <div class="card-header">
+                <h1 class="mb-0">Complete your profile</h1>
+                {% if user.hasErrors() %}
                 <p>Unable to save your profile.</p>
-              {% endif %}
-              
-              <div class="alert alert-danger" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
-                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-               </svg>
-                You must complete your profile in order for your listing to appear on the site.
-               </div>
-              <p class="mb-0"></p>
-            </div>
-            <!-- Card body -->
-            <div class="card-body">
-              {% macro errorList(errors) %}
-  {% if errors %}
-    {{ ul(errors, {class: 'errors'}) }}
-  {% endif %}
-{% endmacro %}
-              <div class="d-lg-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center mb-4 mb-lg-0">
-                  <img src="{{user.photo.url('profileSmall')}}" id="img-uploaded" class="avatar-xl rounded-circle" alt="avatar">
-                  <div class="ms-3">
-                    <h4 class="mb-0">Your photo</h4>
-                    <p class="mb-0">PNG or JPG square format best,<br> no bigger than 800px wide and tall.</p>
-                  </div>
+                {% endif %}
+
+                <div class="alert alert-danger" role="alert">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                    <path
+                      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                  </svg>
+                  You must complete your profile in order for your listing to appear on the site.
                 </div>
-                <div>
-                  {% if user.photo %}
-                  <div class="mb-3 col-12 col-md-6">
-                       <label class="form-label" for="delete-photo">
-                      {{ input('checkbox', 'deletePhoto', '1', {
+                <p class="mb-0"></p>
+              </div>
+              <!-- Card body -->
+              <div class="card-body">
+                {% macro errorList(errors) %}
+                {% if errors %}
+                {{ ul(errors, {class: 'errors'}) }}
+                {% endif %}
+                {% endmacro %}
+                <div class="d-lg-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center mb-4 mb-lg-0">
+                    <img src="{{user.photo.url('profileSmall')}}" id="img-uploaded" class="avatar-xl rounded-circle"
+                      alt="avatar">
+                    <div class="ms-3">
+                      <h4 class="mb-0">Your photo</h4>
+                      <p class="mb-0">PNG or JPG square format best,<br> no bigger than 800px wide and tall.</p>
+                    </div>
+                  </div>
+                  <div>
+                    {% if user.photo %}
+                    <div class="mb-3 col-12 col-md-6">
+                      <label class="form-label" for="delete-photo">
+                        {{ input('checkbox', 'deletePhoto', '1', {
                         id: 'delete-photo',
                         class: 'form-check-input border'
+                        }) }}
+                        Delete photo
+                      </label>
+                    </div>
+                    {% endif %}
+                    <div class="mb-3 col-12 col-md-6 w-100">
+                      <label for="photo">Upload a new photo</label>
+                      {{ input('file', 'photo', null, {
+                      id: 'photo',
+                      type: 'file',
+                      accept: 'image/png,image/jpeg',
+                      class: 'form-control'
                       }) }}
-                      Delete photo
-                    </label>
+                    </div>
+
                   </div>
-                {% endif %}
-              <div class="mb-3 col-12 col-md-6 w-100">
-                  <label for="photo">Upload a new photo</label>
-                  {{ input('file', 'photo', null, {
-                    id: 'photo',
-                    type: 'file',
-                    accept: 'image/png,image/jpeg',
-                    class: 'form-control'
-                  }) }}
-              </div>
-                  
                 </div>
-              </div>
-              <!-- details -->
-              <hr class="my-5">
-              <div class="row">
-                <h4 class="mb-0">Personal Details</h4>
-                <p class="mb-4">Edit your personal information and address.</p>
+                <!-- details -->
+                <hr class="my-5">
+                <div class="row">
+                  <h4 class="mb-0">Personal Details</h4>
+                  <p class="mb-4">Edit your personal information and address.</p>
 
                   <!-- Full name -->
                   <div class="mb-3 col-12 col-md-6">
@@ -135,51 +147,32 @@ var aboutMeEditor = new FroalaEditor('#aboutMe');
                   <div class="mb-3 col-12 col-md-6">
                     <label for="email" class="form-label">Email</label>
                     {{ input('text', 'email', user.unverifiedEmail ?? user.email, {
-                      id: 'email',
-                      class: 'form-control',
-                      autocomplete: 'email',
+                    id: 'email',
+                    class: 'form-control',
+                    autocomplete: 'email',
                     }) }}
                     {{ _self.errorList(user.getErrors('username')) }}
-                  
+
                   </div>
                   <!-- Title role -->
                   <div class="mb-3 col-12 col-md-6">
                     <label class="form-label" for="titleRole">Title</label>
-                    {{ input('text', 'titleRole', user.titleRole ?? null, {
-                      id: 'titleRole',
-                      class: 'form-control',
-                      placeholder: 'Title ',
-                      autocomplete: 'Title',
-                      required: '',
-                    }) }}
-                    {{ _self.errorList(user.getErrors('titleRole')) }}
+                    <input type="text" id="titleRole" name="fields[titleRole]" class="form-control"
+                      value="{{user.titleRole}}" placeholder="" required="">
+
                     <div class="invalid-feedback">Please enter your professional title.</div>
                   </div>
-                  <!-- Phone -->
                   <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="phoneNumber">Phone</label>
-                    {{ input('text', 'phoneNumber', user.phoneNumber ?? null, {
-                      id: 'phoneNumber',
-                      class: 'form-control',
-                      placeholder: 'Phone',
-                      autocomplete: 'Phone',
-                      required: '',
-                    }) }}
-                    {{ _self.errorList(user.getErrors('phoneNumber')) }}
+                    <label class="form-label" for="phoneNumber">Phone phtml</label>
+                    <input type="text" id="phoneNumber" name="fields[phoneNumber]" class="form-control"
+                      value="{{user.phoneNumber}}" placeholder="" required="">
                     <div class="invalid-feedback">Please enter phone number.</div>
-                  </div>                  
-                   <!-- Short summary role -->
-                   <div class="mb-3 col-12 col-md-12">
+                  </div>
+                  <!-- Short summary role -->
+                  <div class="mb-3 col-12 col-md-12">
                     <label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
-                    {{ tag('textarea', {
-                      text: user.shortSummary,
-                      class: 'form-control',
-                      id: 'shortSummary',
-                      cols: '32',
-                      rows: '3',
-                      name: 'fields[shortSummary]',
-                      required: ''
-                    }) }}
+                    <textarea rows="2" id="shortSummary" name="fields[shortSummary]" class="form-control"
+                      required>{{user.shortSummary}}</textarea>
                     {{ _self.errorList(user.getErrors('shortSummary')) }}
                     <div class="invalid-feedback">Please enter your summary.</div>
                   </div>
@@ -187,54 +180,75 @@ var aboutMeEditor = new FroalaEditor('#aboutMe');
                   <div>
                     <!-- about me -->
                     <div class="mb-4 col-12 col-md-12">
-                      <label class="form-label w-100" for="shortSummary">About me</label>
-                      {{ tag('textarea', {
-                        text: user.aboutMe,
-                        class: 'form-control',
-                        id: 'aboutMe',
-                        cols: '32',
-                        rows: '6',
-                        name: 'fields[aboutMe]',
-                        required: ''
-                      }) }}
-                      {{ _self.errorList(user.getErrors('aboutMe')) }}
+                      <label class="form-label w-100" for="aboutMe">About me</label>
+                      <textarea rows="2" col="32" id="aboutMe" name="fields[aboutMe]" class="form-control"
+                        required>{{user.aboutMe}}</textarea>
                       <div class="invalid-feedback">Please enter your about me info.</div>
                     </div>
-                     <!-- qualifications -->
-                  <div class="mb-4 col-12 col-md-12">
-                    <label class="form-label" for="qualifications">Main Qualification</label>
-                    {{ input('text', 'qualifications', user.qualifications ?? null, {
-                      id: 'qualifications',
-                      class: 'form-control',
-                      placeholder: 'qualifications',
-                      autocomplete: 'qualifications',
-                    }) }}
-                    {{ _self.errorList(user.getErrors('qualifications')) }}
-                    <div class="invalid-feedback">Please enter qualifications.</div>
-                  </div>    
+                    <!-- qualifications -->
+                    <div class="mb-4 col-12 col-md-12">
+                      <label class="form-label w-100" for="qualifications">Qualifications</label>
+                      <textarea rows="2" col="32" id="qualifications" name="fields[qualifications]" class="form-control"
+                        required>{{user.qualifications}}</textarea>
+                      <div class="invalid-feedback">Please enter qualifications.</div>
+                    </div>
                     <!-- trainingAndExperience -->
-                    <div class="mb-3 col-12 col-md-12">
-                      <label class="form-label w-100" for="trainingAndExperience">Training & experience</label>
-                      {{ tag('textarea', {
-                        text: user.trainingAndExperience,
-                        class: 'form-control',
-                        id: 'editor',
-                        cols: '32',
-                        rows: '6',
-                        name: 'fields[trainingAndExperience]',
-                        required: ''
-                      }) }}
-                      {{ _self.errorList(user.getErrors('trainingAndExperience')) }}
-                      <div class="invalid-feedback">Please enter your  training and experience.</div>
-                    </div>                    
+                    <div class="mb-4 col-12 col-md-12">
+                      <label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
+                      <textarea rows="8" col="32" id="trainingAndExperience" name="fields[trainingAndExperience]"
+                        class="form-control" required>{{user.trainingAndExperience}}</textarea>
+                      <div class="invalid-feedback">Please enter your training and experience info.</div>
+                    </div>
+                    <!-- practiceDescription -->
+                    <div class="mb-4 col-12 col-md-12">
+                      <label class="form-label w-100" for="practiceDescription">Practice description</label>
+                      <textarea rows="8" col="32" id="practiceDescription" name="fields[practiceDescription]"
+                        class="form-control" required>{{user.practiceDescription}}</textarea>
+                      <div class="invalid-feedback">Please enter your practice description.</div>
+                    </div>
+                    <hr class="my-5">
+                    <h3>Expertise</h3>
+                    <!-- categories -->
+                    <div class="mb-4 col-12 col-md-12">
+                      {% set myCategoryQuery = craft.categories()
+                      .group('issues') %}
+                      {% set categories = myCategoryQuery.orderBy('title asc').all() %}
+
+                      <label for="tags-input" class="form-label">Choose a maximum of 4 areas where you achieve good
+                        outcomes</label>
+                      <select class="form-select" id="tags-input" name="fields[category][]" multiple data-max="0">
+                        <option disabled hidden value="">Choose a area...</option>
+                        {% for cat in categories %}
+                        <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
+                          {{cat.title}}</option>
+                        {% endfor %}
+                      </select>
+                      <div class="invalid-feedback">Please select a valid area.</div>
+                    </div>
+
+                    <!-- expert exp issue -->
+                    <div class="mb-4 col-12 col-md-12">
+                      {% set issues = craft.entries.section('issues').limit(null).all() %}
+
+                      <label for="issue-input" class="form-label">Add a list of issues you commonly work with</label>
+                      <select class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple required>
+                        <option disabled hidden value="">Choose an issue...</option>
+                        {% for issue in issues %}
+                        <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{% endif %}>{{issue.title}}</option>
+                        {% endfor %}
+                      </select>
+                      <div class="invalid-feedback">Please select a valid issue.</div>
+                    </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-12 text-center">
                     <!-- Button -->
-                    <button class="btn btn-primary" type="submit">Update Profile</button>
+                    <button class="btn btn-primary" type="submit">Save Profile</button>
                   </div>
-                </form>
+
+                </div>
               </div>
-            </div>
+              <!-- end form -->
+            </form>
           </div>
         </div>
       </div>

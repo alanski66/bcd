@@ -162,7 +162,7 @@ tabs:
         elementCondition: null
         fieldUid: 48e5cd5f-156a-4a9b-9323-1139b7dda01f # Phone number
         handle: null
-        includeInCards: false
+        includeInCards: true
         instructions: null
         label: null
         providesThumbs: false
