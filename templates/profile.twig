@@ -1,7 +1,19 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 {% block content %}
+{# If there were any validation errors, a `user` variable will be passed to the
+   template, which contains the posted values and validation errors. If that’s not
+   set, we’ll default to the current user. #}
+   {% set user = user ?? currentUser %}
 {# Require that a user is logged in to view this form. #}
 {% requireLogin %}
+
+{% set forceVerify = null %}
+
+{% if user.profileComplete == "no" or user.verifiedMembership == "no" %}
+{% set forceVerify = true %}
+{% endif %}
+
+{% if forceVerify == true %}{% redirect "profile-complete" %}{% endif %}
 
 {% macro errorList(errors) %}
   {% if errors %}
@@ -9,105 +21,16 @@
   {% endif %}
 {% endmacro %}
 
-{# If there were any validation errors, a `user` variable will be passed to the
-   template, which contains the posted values and validation errors. If that’s not
-   set, we’ll default to the current user. #}
-{% set user = user ?? currentUser %}
+
 
 {% if user.hasErrors() %}
   <p>Unable to save your profile.</p>
 {% endif %}
-<h1>{{currentUser.id}}kkk{{user.phoneNumber}}</h1>
-<form method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-  {{ csrfInput() }}
-  {{ actionInput('users/save-user') }}
-  {{ hiddenInput('userId', user.id) }}
-  {{ redirectInput('users/{username}') }}
 
-  {# In Craft 4, `firstName` and `lastName` were combined into a single property: #}
-  <label for="full-name">Full Name</label>
-  {{ input('text', 'fullName', user.fullName, {
-    id: 'full-name',
-    class: user.hasErrors('fullName') ? 'error',
-    autocomplete: 'name',
-  }) }}
-  {{ _self.errorList(user.getErrors('fullName')) }}
-
-  {% if user.photo %}
-    <label>Photo</label>
-    {{ user.photo.getImg({width: 150, height: 150})|attr({
-      id: 'user-photo',
-      alt: user.friendlyName,
-    }) }}
-
-    <label for="delete-photo">
-      {{ input('checkbox', 'deletePhoto', '1', {
-        id: 'delete-photo',
-      }) }}
-      Delete photo
-    </label>
-  {% endif %}
-
-  <label for="photo">Upload a new photo</label>
-  {{ input('file', 'photo', null, {
-    id: 'photo',
-    accept: 'image/png,image/jpeg',
-  }) }}
-
-  {% if not craft.app.config.general.useEmailAsUsername %}
-    <label for="username">Username</label>
-    {{ input('text', 'username', user.username, {
-      id: 'username',
-      class: user.hasErrors('username') ? 'error',
-      autocomplete: 'username',
-    }) }}
-    {{ _self.errorList(user.getErrors('username')) }}
-  {% endif %}
-
-  <label for="email">Email</label>
-  {{ input('text', 'email', user.unverifiedEmail ?? user.email, {
-    id: 'email',
-    class: user.hasErrors('email') ? 'error',
-    autocomplete: 'email',
-  }) }}
-  {{ _self.errorList(user.getErrors('username')) }}
-
-  {% if craft.app.projectConfig.get('users.requireEmailVerification') %}
-    <p>New email addresses need to be verified.</p>
-  {% endif %}
-
-  <label for="new-password">New Password</label>
-  {{ input('password', 'newPassword', null, {
-    id: 'new-password',
-    class: user.hasErrors('newPassword') ? 'error',
-    autocomplete: 'new-password',
-  }) }}
-  {{ _self.errorList(user.getErrors('newPassword')) }}
-
-  <label for="current-password">Current Password</label>
-  {{ input('password', 'password', null, {
-    id: 'current-password',
-    class: user.hasErrors('currentPassword') ? 'error',
-    autocomplete: 'current-password',
-  }) }}
-  {{ _self.errorList(user.getErrors('currentPassword')) }}
-
-  {# Custom “Bio” field #}
-  <label for="aboutMe">Bio</label>
-  {{ tag('textarea', {
-    text: user.aboutMe,
-    id: 'aboutMe',
-    name: 'fields[aboutMe]',
-    class: user.hasErrors('aboutMe') ? 'error',
-  }) }}
-  {{ _self.errorList(user.getErrors('aboutMe')) }}
-
-  <button>Save Profile</button>
-</form>
-<hr>
 <main>
     <section class="pt-5 pb-5">
       <div class="container">
+        test: {{forceVerify}}
         <!-- User info -->
         <div class="row align-items-center">
           <div class="col-xl-12 col-lg-12 col-md-12 col-12">
@@ -130,7 +53,7 @@
                         </svg>
                       </a>
                     </h2>
-                    <p class="mb-0 d-block">@stellaflores</p>
+                    <p class="mb-0 d-block"></p>
                   </div>
                 </div>
                 <div>
@@ -154,9 +77,9 @@
               <!-- Collapse navbar -->
               <div class="collapse navbar-collapse" id="sidenav">
                 <div class="navbar-nav flex-column">
-                  <span class="navbar-header">Subscription</span>
+                  <span class="d-none navbar-header">Subscription</span>
                   <!-- List -->
-                  <ul class="list-unstyled ms-n2 mb-4">
+                  <ul class="d-none list-unstyled ms-n2 mb-4">
                     <!-- Nav item -->
                     <li class="nav-item">
                       <a class="nav-link" href="student-subscriptions.html">
@@ -197,7 +120,14 @@
                   <!-- List -->
                   <ul class="list-unstyled ms-n2 mb-0">
                     <!-- Nav item -->
-                    <li class="nav-item active">
+                    <li class="nav-item ">
+                      <a class="nav-link" href="profile-edit.html">
+                        <i class="fe fe-user nav-icon"></i>
+                        View profile
+                      </a>
+                    </li>
+                    <!-- Nav item -->
+                    <li class="nav-item ">
                       <a class="nav-link" href="profile-edit.html">
                         <i class="fe fe-settings nav-icon"></i>
                         Edit Profile
@@ -205,48 +135,7 @@
                     </li>
                     <!-- Nav item -->
                     <li class="nav-item">
-                      <a class="nav-link" href="security.html">
-                        <i class="fe fe-user nav-icon"></i>
-                        Security
-                      </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="social-profile.html">
-                        <i class="fe fe-refresh-cw nav-icon"></i>
-                        Social Profiles
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="notifications.html">
-                        <i class="fe fe-bell nav-icon"></i>
-                        Notifications
-                      </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="profile-privacy.html">
-                        <i class="fe fe-lock nav-icon"></i>
-                        Profile Privacy
-                      </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="delete-profile.html">
-                        <i class="fe fe-trash nav-icon"></i>
-                        Delete Profile
-                      </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="linked-accounts.html">
-                        <i class="fe fe-user nav-icon"></i>
-                        Linked Accounts
-                      </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="../index.html">
+                      <a class="nav-link" href="{{ alias('@baseUrl') }}/logout">
                         <i class="fe fe-power nav-icon"></i>
                         Sign Out
                       </a>
@@ -261,7 +150,7 @@
             <div class="card">
               <!-- Card header -->
               <div class="card-header">
-                <h3 class="mb-0">Profile Details</h3>
+                <h3 class="mb-0">Edit profile details</h3>
                 <p class="mb-0">You have full control to manage your own account setting.</p>
               </div>
               <!-- Card body -->

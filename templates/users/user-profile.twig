@@ -4,7 +4,6 @@
 {% set userId = craft.app.request.getSegment('3') %}
 
 {% set user = craft.users()
-.hasPhoto()
 .group('counsellors')
 .id(userId).one() %}
 <main>

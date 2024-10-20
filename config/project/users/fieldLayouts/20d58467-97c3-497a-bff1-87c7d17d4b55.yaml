@@ -3,6 +3,38 @@ tabs:
     elementCondition: null
     elements:
       -
+        dateAdded: '2024-10-20T16:34:00+00:00'
+        elementCondition: null
+        fieldUid: e5d33c8a-f8ba-41cc-a093-889571ae2fa5 # Profile complete
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: de418f51-8368-4211-aced-cdefcfdfc487
+        userCondition: null
+        warning: null
+        width: 50
+      -
+        dateAdded: '2024-10-20T16:34:00+00:00'
+        elementCondition: null
+        fieldUid: a01fdd0f-90f7-4242-8e96-f7ea7db5e752 # Verified membership
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: true
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 3febf21e-1051-4960-9a20-80776e67e899
+        userCondition: null
+        warning: null
+        width: 50
+      -
         autocapitalize: true
         autocomplete: false
         autocorrect: true
@@ -118,7 +150,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 130473c2-5775-4c72-9f19-38039f831b32
@@ -150,7 +182,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 303c7389-1c36-4bd1-b033-ec21fed5023b
@@ -166,7 +198,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 6b47cd5b-51f5-46c2-9108-b2103c2570a8
@@ -248,7 +280,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: a8e803e9-f026-47d2-bd28-18de4eb58200
@@ -270,7 +302,7 @@ tabs:
         instructions: 'Choose no more than 4 areas in which you have good outcomes and enjoy working in'
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: f1737922-6ea9-498f-8f84-5127e2ecbcaa
@@ -286,7 +318,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 14d4d58d-5316-4a77-b47a-0e5529c76de8
@@ -318,7 +350,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 75c24fcc-381c-404d-91df-9b7778c128b4
@@ -372,7 +404,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: f8aa5976-55a5-4713-a6db-ff17c70dd6fb

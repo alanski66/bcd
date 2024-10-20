@@ -27,6 +27,7 @@
                 <form method="post" accept-charset="UTF-8" class="needs-validation" novalidate="">
                   {{ csrfInput() }}
                   {{ actionInput('users/login') }}
+                  {{ redirectInput('profile') }}
                 <!-- Username -->
                 <div class="mb-3">
 
@@ -52,14 +53,14 @@
                   <div class="invalid-feedback">Please enter valid password.</div>
                 </div>
                 <!-- rememebr me -->
-                <div class="mb-3">
+                {# <div class="mb-3">
                 <label>
                   {{ input('checkbox', 'rememberMe', '1', {
                     class: 'form-check-input',
                   }) }}
                   Remember me
                 </label>
-              </div>
+              </div> #}
                 <!-- Checkbox -->
                 <div class="d-lg-flex justify-content-between align-items-center mb-4">
                   <div class="form-check">
@@ -74,11 +75,11 @@
                 <div>
                   <!-- Button -->
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Create Free Account</button>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
                   </div>
                 </div>
                 {% if errorMessage is defined %}
-                <p>{{ errorMessage }}</p>
+                <p class="errors">{{ errorMessage }}</p>
               {% endif %}
                 <hr class="my-4">
                

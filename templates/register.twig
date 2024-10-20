@@ -41,7 +41,7 @@
 
             {# `user` is defined if the form returns validation errors. #}
             {% set user = user ?? null %}
-            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
+            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
               {{ redirectInput('verify') }}
@@ -112,7 +112,7 @@
                 <div class="card-body">
                   {% set issues = craft.entries.section('issues').limit(null).all() %}
 
-                  <label for="issue-input" class="form-label">Ad a list of issues you commonly work with</label>
+                  <label for="issue-input" class="form-label">Add a list of issues you commonly work with</label>
                   <select class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple >
                     <option disabled hidden value="">Choose an issue...</option>
                     {% for issue in issues %}

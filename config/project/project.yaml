@@ -1,4 +1,4 @@
-dateModified: 1729371666
+dateModified: 1729448214
 elementSources:
   craft\elements\User:
     -
@@ -121,6 +121,7 @@ meta:
     49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
     90155b7e-865d-4cb6-a76b-76906dedad56: 'Type of Issues' # Type of Issues
     99287739-b68e-4cec-b31c-9f8b612d8fa6: Articles # Articles
+    a01fdd0f-90f7-4242-8e96-f7ea7db5e752: 'Verified membership' # Verified membership
     a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
     a1736c2d-efe2-4d60-a66c-6834c06ef483: 'User membership logos' # User membership logos
     a8055963-f807-47a4-9d1c-438e42b5aed3: Images # Images
@@ -133,6 +134,7 @@ meta:
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    e5d33c8a-f8ba-41cc-a093-889571ae2fa5: 'Profile complete' # Profile complete
     e9b55431-481c-480d-9cc8-ea4734a67d0e: 'Category description' # Category description
     e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
     e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
