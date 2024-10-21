@@ -1,6 +1,7 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 
-
+{# Require that a user is logged in to view this form. #}
+{% requireLogin %}
 {% block content %}
 {% set user = user ?? currentUser %}
 

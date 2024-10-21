@@ -1,4 +1,4 @@
-dateModified: 1729454522
+dateModified: 1729548764
 elementSources:
   craft\elements\User:
     -
@@ -220,7 +220,7 @@ plugins:
       apiKey: CfhRYSzrLCWV9GQEbNNNGAf91qTHnmk7lAoDgC5nSQ4uPdmg6hUOa6Z6
       langLocale: en-US
       picsPerPage: '15'
-      uploadLocation: 'volumeId:a8055963-f807-47a4-9d1c-438e42b5aed3/folderId:5e570744-2e2c-4726-9c28-43c151acf227' # Images
+      uploadLocation: 'volumeId:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
   element-api:
     edition: standard
     enabled: true
@@ -251,6 +251,14 @@ plugins:
     enabled: true
     licenseKey: GQSGB9GRKKMTHKGRREBK6TWM
     schemaVersion: 3.0.12
+  splashing-images:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.2.0
+    settings:
+      destination: '3'
+      folder: unsplash
+      pluginLabel: Unsplash
   wordsmith:
     edition: standard
     enabled: true

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af9cd542b0dca8e02cf91afce6ad760e",
+    "content-hash": "42ebc7f71990eb589ad115d6d6191827",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -490,11 +490,11 @@
         },
         {
             "name": "craftcms/ckeditor",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/49ea9012558cf78e5195b8e1769d6d2f90779d29",
-                "reference": "49ea9012558cf78e5195b8e1769d6d2f90779d29",
+                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/42325ca2cbc79787ff03ae15db417deb73359dce",
+                "reference": "42325ca2cbc79787ff03ae15db417deb73359dce",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
                 "docs": "https://github.com/craftcms/ckeditor/blob/master/README.md",
                 "rss": "https://github.com/craftcms/ckeditor/commits/master.atom"
             },
-            "time": "2024-10-19T14:28:02+00:00"
+            "time": "2024-10-21T03:16:03+00:00"
         },
         {
             "name": "craftcms/cms",
@@ -1630,6 +1630,48 @@
             "time": "2024-07-18T11:15:46+00:00"
         },
         {
+            "name": "hughbertd/oauth2-unsplash",
+            "version": "1.0.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HughbertD/oauth2-unsplash/zipball/f451f4a49dca4027f6edaa850d2fccdfa8721bfe",
+                "reference": "f451f4a49dca4027f6edaa850d2fccdfa8721bfe",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": ">=1.0",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unsplash\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hugh Downer",
+                    "email": "hugh.downer@gmail.com"
+                }
+            ],
+            "description": "Unsplash OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+            "keywords": [
+                "Authentication",
+                "SSO",
+                "Unsplash",
+                "authorization",
+                "identity",
+                "idp",
+                "oauth",
+                "oauth2",
+                "single sign on"
+            ],
+            "time": "2017-12-14T13:08:42+00:00"
+        },
+        {
             "name": "icanboogie/inflector",
             "version": "v2.2.1",
             "dist": {
@@ -2103,6 +2145,60 @@
                 "rest"
             ],
             "time": "2022-04-11T12:47:17+00:00"
+        },
+        {
+            "name": "league/oauth2-client",
+            "version": "2.7.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/160d6274b03562ebeb55ed18399281d8118b76c8",
+                "reference": "160d6274b03562ebeb55ed18399281d8118b76c8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0 || ^7.0",
+                "paragonie/random_compat": "^1 || ^2 || ^9.99",
+                "php": "^5.6 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Bilbie",
+                    "email": "hello@alexbilbie.com",
+                    "homepage": "http://www.alexbilbie.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "homepage": "https://github.com/shadowhand",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "OAuth 2.0 Client Library",
+            "keywords": [
+                "Authentication",
+                "SSO",
+                "authorization",
+                "identity",
+                "idp",
+                "oauth",
+                "oauth2",
+                "single sign on"
+            ],
+            "time": "2023-04-16T18:19:15+00:00"
         },
         {
             "name": "marcusschwarz/lesserphp",
@@ -4101,6 +4197,57 @@
                 "x690"
             ],
             "time": "2024-03-30T18:03:49+00:00"
+        },
+        {
+            "name": "studioespresso/craft-splashingimages",
+            "version": "5.0.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/studioespresso/craft-unsplash/zipball/ce9b262fdae9b991159ab9a570a80738d10d64a7",
+                "reference": "ce9b262fdae9b991159ab9a570a80738d10d64a7",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0-alpha",
+                "unsplash/unsplash": "^3.0.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Splashing Images",
+                "handle": "splashing-images",
+                "hasCpSettings": true,
+                "hasCpSection": true,
+                "schemaVersion": "1.2.0",
+                "changelogUrl": "https://github.com/studioespresso/craft3-unsplash/blob/develop/CHANGELOG.md",
+                "class": "studioespresso\\splashingimages\\SplashingImages"
+            },
+            "autoload": {
+                "psr-4": {
+                    "studioespresso\\splashingimages\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Studio Espresso",
+                    "homepage": "https://www.studioespresso.co"
+                }
+            ],
+            "description": "unsplash.com integration for Craft CMS",
+            "keywords": [
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "splashing images"
+            ],
+            "support": {
+                "docs": "https://github.com/studioespresso/craft3-unsplash/blob/develop/README.md",
+                "issues": "https://github.com/studioespresso/craft3-unsplashs/issues"
+            },
+            "time": "2024-02-12T14:48:09+00:00"
         },
         {
             "name": "sunra/php-simple-html-dom-parser",
@@ -6153,6 +6300,51 @@
             "time": "2024-09-09T17:55:12+00:00"
         },
         {
+            "name": "unsplash/unsplash",
+            "version": "3.2.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unsplash/unsplash-php/zipball/cdb174beaf62d187db1a777cf5fb11ee554d85cf",
+                "reference": "cdb174beaf62d187db1a777cf5fb11ee554d85cf",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3.0|^7.0",
+                "hughbertd/oauth2-unsplash": ">=1.0.3",
+                "league/oauth2-client": ">=1.4.2",
+                "php": ">=7.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unsplash\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Klaassen",
+                    "email": "aaron@unsplash.com"
+                },
+                {
+                    "name": "Luke Chesser",
+                    "email": "luke@unsplash.com"
+                },
+                {
+                    "name": "Charles Lalonde",
+                    "email": "charles@pickcrew.com"
+                },
+                {
+                    "name": "Hugh Downer",
+                    "email": "hugh.downer@gmail.com"
+                }
+            ],
+            "description": "Wrapper to access the Unsplash API and photo library",
+            "time": "2022-01-17T20:32:58+00:00"
+        },
+        {
             "name": "verbb/base",
             "version": "3.0.4",
             "dist": {
@@ -6185,11 +6377,11 @@
         },
         {
             "name": "verbb/navigation",
-            "version": "3.0.4",
+            "version": "3.0.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/navigation/zipball/248ac0437255d439907dc6562952636ad72c5533",
-                "reference": "248ac0437255d439907dc6562952636ad72c5533",
+                "url": "https://api.github.com/repos/verbb/navigation/zipball/97748fa6f0567b0ebc7b99391aeb47df115380c2",
+                "reference": "97748fa6f0567b0ebc7b99391aeb47df115380c2",
                 "shasum": ""
             },
             "require": {
@@ -6234,7 +6426,7 @@
                 "docs": "https://github.com/verbb/navigation",
                 "rss": "https://github.com/verbb/navigation/commits/v2.atom"
             },
-            "time": "2024-09-07T10:16:54+00:00"
+            "time": "2024-10-20T01:56:07+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

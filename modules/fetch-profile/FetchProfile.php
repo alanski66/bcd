@@ -4,6 +4,14 @@ namespace modules\fetchprofile;
 
 use Craft;
 use yii\base\Module as BaseModule;
+use yii\base\Event;
+use craft\events\UserEvent;
+use craft\fields\Users;
+use craft\events\ModelEvent;
+
+
+
+// use craft\services\UserSavePhotoEvent;
 
 /**
  * FetchProfile module
@@ -25,6 +33,15 @@ class FetchProfile extends BaseModule
 
         parent::init();
 
+        Event::on(
+            Users::class, 
+            Users::EVENT_AFTER_SAVE, 
+             
+            function (ModelEvent $event) {
+                $user = $event->sender;        
+                var_dump($user);
+            }
+        );
         $this->attachEventHandlers();
 
         // Any code that creates an element query or loads Twig should be deferred until
@@ -38,5 +55,10 @@ class FetchProfile extends BaseModule
     {
         // Register event handlers here ...
         // (see https://craftcms.com/docs/5.x/extend/events.html to get started)
+
+
+        
+   
+        
     }
 }

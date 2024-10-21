@@ -35,17 +35,87 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2024-10-21T20:57:03+00:00'
+            elementCondition: null
+            fieldUid: 8799e074-514f-4b7a-af19-f42b60826eb9 # Featured image
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9c09cdcd-cc4b-4a73-aae9-7e82c93b482d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2024-10-21T20:41:21+00:00'
+            elementCondition: null
+            fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 681eada3-c1a6-491f-be38-dccc45fab69c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2024-10-21T20:41:21+00:00'
+            elementCondition: null
+            fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: caf2492b-6ec8-4a0e-8a6a-19e44b6ff661
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: cadb26d2-3a30-4c88-acac-a4e20aee7db7
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2024-10-21T20:41:21+00:00'
+            elementCondition: null
+            fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 53a9bd3d-e661-4973-b991-ad43a70c7e13
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: a4b84d7a-e93d-46fd-8377-ecbd2fb252b4
+        userCondition: null
 handle: typeOf_Therapy
 hasTitleField: true
-icon: null
+icon: ''
 name: 'Type of therapy'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: null
+titleFormat: ''
 titleTranslationKeyFormat: null
 titleTranslationMethod: site

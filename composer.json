@@ -4,7 +4,7 @@
   "require": {
     "convergine/craft-content-buddy": "1.1.9",
     "convergine/craft-pexels": "1.0.1",
-    "craftcms/ckeditor": "4.3.0",
+    "craftcms/ckeditor": "4.3.1",
     "craftcms/cms": "5.4.8",
     "craftcms/element-api": "4.1.0",
     "craftcms/feed-me": "6.5.0",
@@ -13,10 +13,11 @@
     "nystudio107/craft-minify": "5.0.0",
     "nystudio107/craft-seomatic": "5.1.4",
     "shornuk/craft-plausible": "3.0.0",
+    "studioespresso/craft-splashingimages": "5.0.3",
     "symfony/css-selector": "^7.1",
     "symfony/dom-crawler": "^7.1",
     "topshelfcraft/wordsmith": "5.0.0",
-    "verbb/navigation": "3.0.4",
+    "verbb/navigation": "3.0.5",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
