@@ -34,7 +34,7 @@
                 <hr class="my-5">
                 <!-- expertise -->
                 <h3 class="">Areas of expertise</h3>
-                {% set expertCats = user.category.all() %}
+                {% set expertCats = user.category %}
                 
                 {% for cat in expertCats %}
                 <a href="{{ cat.url }}" class="fs-4 btn rounded me-3 mt-1 mb-1 btn-light">{{ cat.title }}</a>
