@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21f60a7ea1cbb01906e424b3e283d1aa",
+    "content-hash": "97aab177dcaf615a7f515ec385c23db7",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -542,11 +542,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.4.8",
+            "version": "5.4.9",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/be2ded297900d1ce0b3ae63d64422165e0ba892f",
-                "reference": "be2ded297900d1ce0b3ae63d64422165e0ba892f",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/8c354fc15b0fba8a8b9363f0f98883a76e57795f",
+                "reference": "8c354fc15b0fba8a8b9363f0f98883a76e57795f",
                 "shasum": ""
             },
             "require": {
@@ -643,7 +643,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2024-10-15T22:36:00+00:00"
+            "time": "2024-10-22T19:14:27+00:00"
         },
         {
             "name": "craftcms/element-api",
@@ -2963,11 +2963,11 @@
         },
         {
             "name": "nystudio107/craft-seomatic",
-            "version": "5.1.4",
+            "version": "5.1.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nystudio107/craft-seomatic/zipball/d70c6fd10f7fee7c450ac9098f69661f9933d337",
-                "reference": "d70c6fd10f7fee7c450ac9098f69661f9933d337",
+                "url": "https://api.github.com/repos/nystudio107/craft-seomatic/zipball/2ac2e093c39c72d7b95cf03c4481d5ca66476ff2",
+                "reference": "2ac2e093c39c72d7b95cf03c4481d5ca66476ff2",
                 "shasum": ""
             },
             "require": {
@@ -3019,7 +3019,7 @@
                 "issues": "https://nystudio107.com/plugins/seomatic/support",
                 "source": "https://github.com/nystudio107/craft-seomatic"
             },
-            "time": "2024-09-29T23:30:19+00:00"
+            "time": "2024-10-21T23:19:03+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
