@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42ebc7f71990eb589ad115d6d6191827",
+    "content-hash": "21f60a7ea1cbb01906e424b3e283d1aa",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -752,6 +752,55 @@
                 "rss": "https://github.com/craftcms/feed-me/commits/master.atom"
             },
             "time": "2024-10-15T22:56:22+00:00"
+        },
+        {
+            "name": "craftcms/guest-entries",
+            "version": "4.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craftcms/guest-entries/zipball/f0b94fa28efb7d24e8d80ee278584653759c05d2",
+                "reference": "f0b94fa28efb7d24e8d80ee278584653759c05d2",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^4.0.0-RC3|^5.0.0-beta.1"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Guest Entries",
+                "handle": "guest-entries",
+                "documentationUrl": "https://github.com/craftcms/guest-entries/blob/v2/README.md"
+            },
+            "autoload": {
+                "psr-4": {
+                    "craft\\guestentries\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pixel & Tonic",
+                    "homepage": "https://pixelandtonic.com/"
+                }
+            ],
+            "description": "This plugin allows you to save guest entries from the front-end of your website.",
+            "keywords": [
+                "cms",
+                "craftcms",
+                "entries",
+                "guest",
+                "yii2"
+            ],
+            "support": {
+                "email": "support@craftcms.com",
+                "issues": "https://github.com/craftcms/guest-entries/issues?state=open",
+                "source": "https://github.com/craftcms/guest-entries",
+                "docs": "https://github.com/craftcms/guest-entries/blob/v2/README.md",
+                "rss": "https://github.com/craftcms/guest-entries/commits/v2.atom"
+            },
+            "time": "2024-05-23T05:03:16+00:00"
         },
         {
             "name": "craftcms/html-field",

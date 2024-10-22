@@ -3,11 +3,16 @@
 namespace modules\fetchprofile;
 
 use Craft;
+use craft\base\Element;
 use yii\base\Module as BaseModule;
 use yii\base\Event;
-use craft\events\UserEvent;
-use craft\fields\Users;
+use craft\events\UserEvents;
+use craft\elements\User;
 use craft\events\ModelEvent;
+
+use craft\events\ElementEvent;
+use craft\helpers\ElementHelper;
+use craft\services\Elements;
 
 
 
@@ -32,16 +37,24 @@ class FetchProfile extends BaseModule
         }
 
         parent::init();
-
         Event::on(
-            Users::class, 
-            Users::EVENT_AFTER_SAVE, 
-             
-            function (ModelEvent $event) {
+            User::class,
+            User::EVENT_AFTER_SAVE,
+            function(ModelEvent $event) {
                 $user = $event->sender;        
-                var_dump($user);
+                //Craft::dd($user);
             }
         );
+    
+        // Event::on(
+        //     Users::class, 
+        //     Elements::EVENT_AFTER_SAVE_ELEMENT, 
+             
+        //     function (ModelEvent $event) {
+        //         $user = $event->sender;        
+        //         Craft::dd($user);
+        //     }
+        // );
         $this->attachEventHandlers();
 
         // Any code that creates an element query or loads Twig should be deferred until

@@ -1,4 +1,4 @@
-dateModified: 1729548764
+dateModified: 1729618994
 elementSources:
   craft\elements\User:
     -
@@ -229,6 +229,10 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 5.1.1
+  guest-entries:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.1.0
   minify:
     edition: standard
     enabled: true

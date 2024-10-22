@@ -72,7 +72,8 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
               <div class="card-header">
                 <h1 class="mb-0">Complete your profile</h1>
                 {% if user.hasErrors() %}
-                <p>Unable to save your profile.</p>
+               
+                <p class="errors">Unable to save your profile.</p>
                 {% endif %}
 
                 <div class="alert alert-danger" role="alert">
@@ -217,7 +218,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
 
                       <label for="tags-input" class="form-label">Choose a maximum of 4 areas where you achieve good
                         outcomes</label>
-                      <select class="form-select" id="tags-input" name="fields[category][]" multiple data-max="0">
+                      <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]" multiple data-max="0">
                         <option disabled hidden value="">Choose a area...</option>
                         {% for cat in categories %}
                         <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
@@ -232,7 +233,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                       {% set issues = craft.entries.section('issues').limit(null).all() %}
 
                       <label for="issue-input" class="form-label">Add a list of issues you commonly work with</label>
-                      <select class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple required>
+                      <select data-allow-clear="1" class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple required>
                         <option disabled hidden value="">Choose an issue...</option>
                         {% for issue in issues %}
                         <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{% endif %}>{{issue.title}}</option>
