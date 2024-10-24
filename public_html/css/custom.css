@@ -1,0 +1,10 @@
+.errors, .error{
+    color:red;
+}
+.fr-box.fr-basic .fr-element{
+    font-size:16px!important;
+}
+
+.tags-badge.badge{
+    font-size:16px!important;
+}

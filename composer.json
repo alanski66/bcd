@@ -19,6 +19,7 @@
     "symfony/dom-crawler": "^7.1",
     "topshelfcraft/wordsmith": "5.0.0",
     "verbb/navigation": "3.0.5",
+    "verbb/wishlist": "^3.0",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {

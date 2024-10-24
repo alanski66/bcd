@@ -1,0 +1,19 @@
+default: true
+handle: wishlist
+itemFieldLayouts:
+  44a63853-d1cc-4d84-a032-874d475917f5:
+    tabs:
+      -
+        elementCondition: null
+        name: Content
+        uid: 3e182fc3-6d64-4234-9a8e-b7a6ca8f0a1e
+        userCondition: null
+listFieldLayouts:
+  3ab94640-7879-42b3-a527-d434a1b3e73a:
+    tabs:
+      -
+        elementCondition: null
+        name: Content
+        uid: 92cfe135-d640-469f-8bb5-20317c831caf
+        userCondition: null
+name: Wishlist

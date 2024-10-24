@@ -1,4 +1,4 @@
-dateModified: 1729618994
+dateModified: 1729803499
 elementSources:
   craft\elements\User:
     -
@@ -108,8 +108,10 @@ meta:
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
+    5cf2f2b9-dbff-4828-94af-ed5e5560440b: Wishlist # Wishlist
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
+    9fe836ef-ed2f-4a2d-afae-4db9c920e3c6: 'Author Url' # Author Url
     12f0e524-edea-401a-a140-70061e2a4795: Icon # Icon
     015c4aa9-1da9-442b-869a-1315bc916a30: Intro # Intro
     22acdfae-ec39-4281-ba0d-dc432a5cf4da: Issues # Issues
@@ -122,6 +124,7 @@ meta:
     85d7f167-b012-4f56-9d61-9157c12fc036: 'Insurance proof' # Insurance proof
     92bed5f0-da6f-4abc-8a49-47690cf6b3b7: Therapists # Therapists
     156ff3cf-4dae-4881-87f1-ee5e4dee68c1: 'Profile small' # Profile small
+    319c85fe-482c-4f11-aa21-cb3849b718d3: Credit # Credit
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
     659d92e0-6da5-49f3-a37b-4897b5a7272c: 'Main Menu' # Main Menu
     835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
@@ -255,6 +258,15 @@ plugins:
     enabled: true
     licenseKey: GQSGB9GRKKMTHKGRREBK6TWM
     schemaVersion: 3.0.12
+  splash:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.0.0
+    settings:
+      authorField: credit
+      authorUrlField: authorUrl
+      colorField: null
+      volume: 3
   splashing-images:
     edition: standard
     enabled: true
@@ -263,6 +275,10 @@ plugins:
       destination: '3'
       folder: unsplash
       pluginLabel: Unsplash
+  wishlist:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.1.0
   wordsmith:
     edition: standard
     enabled: true
