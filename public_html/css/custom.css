@@ -8,3 +8,18 @@
 .tags-badge.badge{
     font-size:16px!important;
 }
+
+.main-content p{
+    /* margin-bottom:2rem; */
+}
+.main-content h3{
+    font-size: 1.8rem;
+}
+.main-content h4{
+        font-size: 1.5rem;
+}
+.main-content > p:first-of-type{
+    color: rgb(117, 79, 254);
+    font-weight:600;
+    font-size:1.4rem;
+}

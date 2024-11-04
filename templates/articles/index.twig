@@ -1,0 +1,119 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+       {% set posts = craft.entries()
+        .section('articles')
+        .with(['featuredImage'])
+        .orderBy('postDate DESC')
+        .limit(10)
+        .all() %}
+  <!-- cat section -->
+  <!-- category issues list-->
+  <section class="pb-8 py-8">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <!-- Flush Nav -->
+          <div class="d-none flush-nav">
+            <nav class="nav">
+              <a class="nav-link active ps-0" href="#">All</a>
+              <a class="nav-link" href="blog-category.html">Courses</a>
+              <a class="nav-link" href="blog-category.html">Workshop</a>
+              <a class="nav-link" href="blog-category.html">Tutorial</a>
+              <a class="nav-link" href="blog-category.html">Company</a>
+            </nav>
+          </div>
+        </div>
+
+        {% for entry in posts %}
+        {% set asset = entry.featuredImage[0] ?? null %}
+        {% if loop.first %}
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <!-- Card -->
+          <div class="card mb-4 shadow-lg card-lift">
+            <div class="row g-0">
+              <!-- Image -->
+              {% if asset | length %}
+              <a href="{{entry.url }}" class="col-lg-8 col-md-12 col-12 bg-cover img-left-rounded" style="background-image: url({{asset.url}})">
+                <img src="{{asset.url }}" class="img-fluid d-lg-none invisible" alt="image for article {{entry.title }}">
+              </a>
+              {% endif %}
+              <div class="col-lg-4 col-md-12 col-12">
+                <!-- Card body -->
+                <div class="card-body">
+                  <a href="#" class="fs-5 mb-3 fw-semibold d-block">Courses</a>
+                  <h1 class="mb-2 mb-lg-4"><a href="{{entry.url }}" class="text-inherit">{{entry.title }}</a></h1>
+                  <p>{{entry.intro}}</p>
+                  <!-- Media content -->
+                  <div class="row align-items-center g-0 mt-lg-7 mt-4">
+                    <div class="col-auto">
+                      <!-- Img  -->
+                      <img src="../assets/images/avatar/avatar-6.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+                    </div>
+                    <div class="col lh-1">
+                      <h5 class="mb-1">Dustin Warren</h5>
+                      <p class="fs-6 mb-0">{{ entry.postDate|datetime('F d, Y') }}</p>
+                    </div>
+                    <div class="col-auto">
+                      <p class="fs-6 mb-0">6 Min Read</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="col-xl-4 col-lg-4 col-md-6 col-12 d-flex align-items-stretch">
+        <!-- Card -->
+        
+        <div class="card mb-4 shadow-lg card-lift">
+          <a href="{{entry.url}}">
+            <!-- Img  -->
+            {% set asset = entry.featuredImage[0] ?? null %}
+                {% if asset | length %}
+            <img src="{{asset.url}}" class="card-img-top" alt="blogpost ">
+            {% endif %}
+          </a>
+          <!-- Card body -->
+          <div class="card-body flex-column">
+            <a href="#" class="fs-5 mb-2 fw-semibold d-block text-success">Courses</a>
+            <h3><a href="{{entry.url}}" class="text-inherit">{{ entry.title }}</a></h3>
+            <p>{{ entry.intro }}</p>
+            <!-- Media content -->
+            
+          </div>
+          <div class="row p-4 align-items-center g-0 mt-auto">
+            <div class="col-auto">
+              
+              <img src="../assets/images/avatar/avatar-3.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+            </div>
+            <div class="col lh-1">
+              <h5 class="mb-1">{{ entry.author }}</h5>
+              <p class="fs-6 mb-0">{{ entry.postDate|datetime('F d, Y') }}</p>
+            </div>
+            <div class="col-auto">
+              <p class="fs-6 mb-0">5 Min Read</p>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      {% endif %}
+      {% endfor %}
+
+
+        <!-- Buttom -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-4">
+          <a href="#" class="btn btn-primary">
+            <div class="spinner-border spinner-border-sm me-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            Load More
+          </a>
+        </div>
+      </div><!-- row end -->
+    </div>
+  </section>
+{% endblock %}
