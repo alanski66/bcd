@@ -1,3 +1,4 @@
+.ddev/
 .idea
 .env
 .php-cs-fixer.cache
@@ -18,7 +19,6 @@ public_html/assets/*
 scripts
 storage
 vendor/
-/bower_components
 cpresources/*
-.ddev/
 bcd.code-workspace
+!public_html/assets/images/brand/logo/
