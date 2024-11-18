@@ -1,1 +1,7 @@
-const lightbox=GLightbox({touchNavigation:!0,loop:!0,autoplayVideos:!0});
+// Glightbox
+
+const lightbox = GLightbox({
+    touchNavigation: true,
+    loop: true,
+    autoplayVideos: true
+});

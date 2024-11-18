@@ -1,5 +1,6 @@
 .ddev/
 .idea
+.config.codekit3
 .env
 .php-cs-fixer.cache
 Source/.idea/*

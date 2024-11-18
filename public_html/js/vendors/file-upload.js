@@ -1,1 +1,3 @@
-const upload=new FileUploadWithPreview.FileUploadWithPreview("courseImage");
+// File upload js
+
+const upload = new FileUploadWithPreview.FileUploadWithPreview('courseImage');

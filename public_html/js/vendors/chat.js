@@ -1,1 +1,20 @@
-!function(){var t=document.querySelectorAll(".contacts-list .contacts-link"),c=document.querySelector(".chat-body"),e=document.querySelectorAll("[data-close]");t.forEach(function(t){t.addEventListener("click",function(){c.classList.add("chat-body-visible")})}),e.forEach(function(t){t.addEventListener("click",function(t){t.preventDefault(),c.classList.remove("chat-body-visible")})})}();
+// Chat js
+
+(function () {
+  var contactsLinks = document.querySelectorAll('.contacts-list .contacts-link');
+  var chatBody = document.querySelector('.chat-body');
+  var closeButtons = document.querySelectorAll('[data-close]');
+
+  contactsLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      chatBody.classList.add('chat-body-visible');
+    });
+  });
+
+  closeButtons.forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      chatBody.classList.remove('chat-body-visible');
+    });
+  });
+})();

@@ -1,1 +1,12 @@
-document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("[data-choices]").forEach(function(e){new Choices(e,{removeItemButton:"true"===e.dataset.choicesRemoveitembutton,itemSelectText:"",searchEnabled:!1})})});
+// choices.js
+
+document.addEventListener("DOMContentLoaded", function () {
+  const elements = document.querySelectorAll("[data-choices]");
+  elements.forEach(function (element) {
+    new Choices(element, {
+      removeItemButton: element.dataset.choicesRemoveitembutton === "true",
+      itemSelectText: "",
+      searchEnabled: false,
+    });
+  });
+});

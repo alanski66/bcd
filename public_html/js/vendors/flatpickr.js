@@ -1,1 +1,10 @@
-var flatpickrElements;0<document.querySelectorAll(".flatpickr").length&&(flatpickrElements=document.querySelectorAll(".flatpickr")).forEach(function(l){flatpickr(l,{disableMobile:!0})});
+// Flatpickr
+
+if (document.querySelectorAll('.flatpickr').length > 0) {
+	var flatpickrElements = document.querySelectorAll('.flatpickr');
+	flatpickrElements.forEach(function (element) {
+		flatpickr(element, {
+			disableMobile: true,
+		});
+	});
+}
