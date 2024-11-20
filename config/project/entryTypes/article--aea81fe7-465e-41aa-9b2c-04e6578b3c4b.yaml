@@ -68,6 +68,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2024-10-24T20:46:46+00:00'
+            elementCondition: null
+            fieldUid: e943d4ec-4cf4-4c3a-89e8-6308943df394 # Types of issues you can help
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: 'Issue tags'
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8085fde5-da70-4880-bf25-83f99d392c67
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2024-09-30T20:47:49+00:00'
             elementCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body

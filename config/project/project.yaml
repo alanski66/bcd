@@ -1,4 +1,4 @@
-dateModified: 1729803499
+dateModified: 1731969286
 elementSources:
   craft\elements\User:
     -
@@ -108,12 +108,12 @@ meta:
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
-    5cf2f2b9-dbff-4828-94af-ed5e5560440b: Wishlist # Wishlist
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
     9fe836ef-ed2f-4a2d-afae-4db9c920e3c6: 'Author Url' # Author Url
     12f0e524-edea-401a-a140-70061e2a4795: Icon # Icon
     015c4aa9-1da9-442b-869a-1315bc916a30: Intro # Intro
+    20dd119d-9439-4bc6-b9b9-8485378f2cda: blur # blur
     22acdfae-ec39-4281-ba0d-dc432a5cf4da: Issues # Issues
     39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
@@ -148,6 +148,7 @@ meta:
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    df1fd57a-df99-4fc9-91c1-71b7f2afd04b: Wishlist # Wishlist
     e5d33c8a-f8ba-41cc-a093-889571ae2fa5: 'Profile complete' # Profile complete
     e9b55431-481c-480d-9cc8-ea4734a67d0e: 'Category description' # Category description
     e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
@@ -278,7 +279,29 @@ plugins:
   wishlist:
     edition: standard
     enabled: true
+    licenseKey: M2AX8N6J5IYWYSV2M9RE7K3X
     schemaVersion: 1.1.0
+    settings:
+      allowDuplicates: false
+      attachPdfToEmail: false
+      cookieExpiry: 0
+      manageDisabledLists: true
+      mergeLastListOnLogin: false
+      pdfAllowRemoteImages: true
+      pdfFilenameFormat: 'Brighton Counselling directory mylist-{id}'
+      pdfPaperOrientation: portrait
+      pdfPaperSize: letter
+      pdfPath: _pdf/wishlist
+      pluginName: Wishlist
+      purgeEmptyGuestListsOnly: true
+      purgeEmptyListsOnly: true
+      purgeInactiveGuestListsDuration: P1D
+      purgeInactiveLists: true
+      purgeInactiveListsDuration: P3M
+      showListInfoTab: true
+      templateEmail: null
+      updateItemSearchIndexes: true
+      updateListSearchIndexes: true
   wordsmith:
     edition: standard
     enabled: true

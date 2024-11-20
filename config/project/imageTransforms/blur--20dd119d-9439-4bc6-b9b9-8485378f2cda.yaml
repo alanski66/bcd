@@ -1,0 +1,11 @@
+fill: null
+format: webp
+handle: blur
+height: 30
+interlace: none
+mode: crop
+name: blur
+position: center-center
+quality: 10
+upscale: false
+width: 30

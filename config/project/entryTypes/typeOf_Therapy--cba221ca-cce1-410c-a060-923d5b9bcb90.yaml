@@ -110,12 +110,12 @@ fieldLayouts:
         userCondition: null
 handle: typeOf_Therapy
 hasTitleField: true
-icon: ''
+icon: null
 name: 'Type of therapy'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: ''
+titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
