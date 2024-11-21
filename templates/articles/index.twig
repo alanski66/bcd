@@ -47,12 +47,12 @@
                   <p>{{entry.intro}}</p>
                   <!-- Media content -->
                   <div class="row align-items-center g-0 mt-lg-7 mt-4">
-                    <div class="col-auto">
+                    <div class="col-auto">plplp
                       <!-- Img  -->
-                      <img src="../assets/images/avatar/avatar-6.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+                      <img src="{{ entry.author.photo.url ?? '' }}" alt="avatar" class="rounded-circle avatar-sm me-2">
                     </div>
                     <div class="col lh-1">
-                      <h5 class="mb-1">Dustin Warren</h5>
+                      <h5 class="mb-1">{{entry.author}}</h5>
                       <p class="fs-6 mb-0">{{ entry.postDate|datetime('F d, Y') }}</p>
                     </div>
                     <div class="col-auto">
@@ -95,7 +95,7 @@
           <div class="row p-4 align-items-center g-0 mt-auto">
             <div class="col-auto">
               
-              <img src="../assets/images/avatar/avatar-3.jpg" alt="avatar" class="rounded-circle avatar-sm me-2">
+              <img src="{{ entry.author.photo.url ?? '' }}" alt="avatar" class="rounded-circle avatar-sm me-2">
             </div>
             <div class="col lh-1">
               <h5 class="mb-1">{{ entry.author }}</h5>
