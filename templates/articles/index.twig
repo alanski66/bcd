@@ -35,8 +35,8 @@
             <div class="row g-0">
               <!-- Image -->
               {% if asset | length %}
-              <a href="{{entry.url }}" class="col-lg-8 col-md-12 col-12 bg-cover img-left-rounded" style="background-image: url({{asset.url}})">
-                <img src="{{asset.url }}" class="img-fluid d-lg-none invisible" alt="image for article {{entry.title }}">
+              <a href="{{entry.url }}" class="col-lg-8 col-md-12 col-12 bg-cover img-left-rounded" style="background-image: url({{asset.url('heroBG')}})">
+                <img src="{{asset.url('card')}}" class="img-fluid d-lg-none invisible" alt="image for article {{entry.title }}">
               </a>
               {% endif %}
               <div class="col-lg-4 col-md-12 col-12">
@@ -73,7 +73,15 @@
             <!-- Img  -->
             {% set asset = entry.featuredImage[0] ?? null %}
                 {% if asset | length %}
-            <img src="{{asset.url}}" class="card-img-top" alt="blogpost ">
+                {{ picture([
+                  [asset, 'card']
+                  ], {
+                  class:'card-img-top img-fluid'
+                ,
+                alt:'image for article:'~ entry.title
+                }) }}
+
+            {# <img src="{{asset.url}}" class="card-img-top" alt="blogpost "> #}
             {% endif %}
           </a>
           <!-- Card body -->

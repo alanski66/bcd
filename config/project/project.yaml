@@ -1,4 +1,4 @@
-dateModified: 1731969286
+dateModified: 1732208625
 elementSources:
   craft\elements\User:
     -
@@ -108,6 +108,7 @@ meta:
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
+    6f6ccde8-2ba1-4df9-910b-de32819d419d: 'Hero background' # Hero background
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
     9fe836ef-ed2f-4a2d-afae-4db9c920e3c6: 'Author Url' # Author Url
@@ -134,6 +135,7 @@ meta:
     13311efd-c22d-440c-9713-216f3cf5e4bd: Availability # Availability
     49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
     90155b7e-865d-4cb6-a76b-76906dedad56: 'Type of Issues' # Type of Issues
+    21885241-bdc2-44c8-8a94-cb9fa20fce7e: Card # Card
     99287739-b68e-4cec-b31c-9f8b612d8fa6: Articles # Articles
     a01fdd0f-90f7-4242-8e96-f7ea7db5e752: 'Verified membership' # Verified membership
     a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
@@ -156,6 +158,10 @@ meta:
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
     f738e4ee-a559-4e36-8c9a-a559088a75af: 'User insurance' # User insurance
 plugins:
+  blur-hash:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   ckeditor:
     edition: standard
     enabled: true
@@ -225,6 +231,10 @@ plugins:
       langLocale: en-US
       picsPerPage: '15'
       uploadLocation: 'volumeId:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
+  easy-image:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   element-api:
     edition: standard
     enabled: true
@@ -310,5 +320,5 @@ system:
   edition: pro
   live: true
   name: 'Brighton Counselling Directory'
-  schemaVersion: 5.3.0.2
+  schemaVersion: 5.5.0.0
   timeZone: America/Los_Angeles

@@ -47,21 +47,20 @@
         <!--therapist card list-->
         {% for user in therapists %}
         <div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-6 d-flex align-items-stretch">
+          
           <!--card-->
           <div class="card rounded-4 card-bordered card-lift">
             <div class="p-3 d-flex flex-column gap-3 flex-grow-1">
               <!--img-->
               {% set asset = user.photo %}
-              {% set blur = user.photo.url('blur') %}
+              
             
-              <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}" 
-              style="background-image:url({{blur}});background-repeat: no-repeat;background-size: cover;)"
-              >
-               
-                <img data-src="{{ user.photo.url('profileMedium') }}" alt="{{ user.fullName }}"
+              <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}">
+                {{ picture([user.photo, 'user-photo'], 'user img-fluid w-100 rounded-4') }}
+                {# <img data-src="{{ user.photo.url('profileMedium') }}" alt="{{ user.fullName }}"
                 width="{{ asset.getWidth('profileMedium') }}"
                 height="{{ asset.getHeight('profileMedium') }}"
-                  class="user img-fluid w-100 rounded-4  lazy" />
+                  class="user img-fluid w-100 rounded-4  lazy" /> #}
               </a>
               <!--content-->
               <div class="d-flex flex-column gap-4 flex-grow-1 ">

@@ -2,17 +2,18 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "convergine/craft-content-buddy": "1.1.9",
+    "acalvino4/craft-easy-image": "^2.0",
+    "convergine/craft-content-buddy": "1.1.11",
     "convergine/craft-pexels": "1.0.1",
-    "craftcms/ckeditor": "4.3.1",
-    "craftcms/cms": "5.4.9",
+    "craftcms/ckeditor": "4.4.0",
+    "craftcms/cms": "5.5.2",
     "craftcms/element-api": "4.1.0",
     "craftcms/feed-me": "6.5.0",
     "craftcms/guest-entries": "4.0.1",
     "craftcms/postmark": "3.1.0",
     "nystudio107/craft-code-field": "5.0.0",
     "nystudio107/craft-minify": "5.0.0",
-    "nystudio107/craft-seomatic": "5.1.5",
+    "nystudio107/craft-seomatic": "5.1.7",
     "shornuk/craft-plausible": "3.0.0",
     "studioespresso/craft-splashingimages": "5.0.3",
     "symfony/css-selector": "^7.1",
@@ -34,6 +35,7 @@
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
+      "treeware/plant": true,
       "yiisoft/yii2-composer": true
     },
     "sort-packages": true,
