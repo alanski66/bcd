@@ -4,12 +4,12 @@
 {% block content %}
 <!-- cat section -->
 <!-- category issues list-->
-<section class="py-xl-8 py-6">
+<section class="py-xl-8 py-6 bg-light">
   <div class="container">
     <div class="row">
       <div class="col-xl-10 col-md-10 col-12 mx-auto">
         <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
-          <h2 class="h1 mb-0">Explore by issues</h2>
+          <h2 class="h1 mb-0">Get help with</h2>
           <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
             help.</p>
         </div>
@@ -17,20 +17,7 @@
     </div>
     <div class="row gy-4">
  {% include('/components/issues/issues-list-card.twig') %}
-      <div class="col-12">
-        <div class="">
-          <a href="#!" class="btn btn-outline-primary">
-            <span>Show All Category</span>
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-right"
-              viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8">
-              </path>
-            </svg>
-          </a>
-        </div>
-      </div>
+      
     </div>
   </div>
 </section>

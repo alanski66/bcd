@@ -43,15 +43,7 @@
         </div>
       </div>
     </div>
-    <div>
-      {# Create a user query with the 'group' parameter #}
-      {% set myUserQuery = craft.users()
-      .hasPhoto()
-      .group('counsellors') %}
-      {# Fetch the users #}
-      {% set therapists = myUserQuery.all() %}
-      {# {% include '/users/user-marquee' with therapists %} #}
-    </div>
+    
   </section>
   <section>
     {# <div class="container">
@@ -81,7 +73,7 @@
       </div>
       <!--row-->
       <div class="row g-4">
-        <div class="col-12">
+        <div class="col-12 d-none ">
           <div class="d-flex flex-md-row gap-2 flex-column justify-content-between">
             <!--form-->
             <form>
@@ -95,6 +87,14 @@
           </div>
         </div>
         <!--therapist card list-->
+         {# add when ready .profileComplete('no') #}
+        {% set usersRand8 = craft.users()
+          .hasPhoto()
+          .group('counsellors')
+          .orderBy('RAND()')
+          .limit(8) %}
+          {# Fetch the users #}
+          {% set therapists = usersRand8.all() %}
         {% for user in therapists %}
         
           <!--card-->
@@ -113,7 +113,7 @@
       <div class="row">
         <div class="col-xl-10 col-md-10 col-12 mx-auto">
           <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
-            <h2 class="h1 mb-0">Explore by issues</h2>
+            <h2 class="h1 mb-0">Get help with</h2>
             <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
               help.</p>
           </div>
