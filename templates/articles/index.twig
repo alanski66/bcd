@@ -2,15 +2,17 @@
 
 
 {% block content %}
-       {% set posts = craft.entries()
+       {% set articles = craft.entries()
         .section('articles')
         .with(['featuredImage'])
         .orderBy('postDate DESC')
         .limit(10)
-        .all() %}
-  <!-- cat section -->
+         %}
+  
+        {% paginate articles as pageInfo, posts %}
+
   <!-- category issues list-->
-  <section class="pb-8 py-8">
+  <section class="pb-8 py-8 bg-light">
     <div class="container">
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
@@ -28,6 +30,9 @@
 
         {% for entry in posts %}
         {% set asset = entry.featuredImage[0] ?? null %}
+{% set issuetag = entry.typesOfIssuesYouCanHelp.orderBy('RAND()').one() %}
+
+
         {% if loop.first %}
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <!-- Card -->
@@ -42,12 +47,14 @@
               <div class="col-lg-4 col-md-12 col-12">
                 <!-- Card body -->
                 <div class="card-body">
-                  <a href="#" class="fs-5 mb-3 fw-semibold d-block">Courses</a>
+                  <a href="#" class="fs-5 mb-3 fw-semibold d-block">{% if issuetag | length %}
+                    {{ issuetag.title }}
+                    {% endif %}</a>
                   <h1 class="mb-2 mb-lg-4"><a href="{{entry.url }}" class="text-inherit">{{entry.title }}</a></h1>
                   <p>{{entry.intro}}</p>
                   <!-- Media content -->
                   <div class="row align-items-center g-0 mt-lg-7 mt-4">
-                    <div class="col-auto">plplp
+                    <div class="col-auto">
                       <!-- Img  -->
                       <img src="{{ entry.author.photo.url ?? '' }}" alt="avatar" class="rounded-circle avatar-sm me-2">
                     </div>
@@ -86,7 +93,9 @@
           </a>
           <!-- Card body -->
           <div class="card-body flex-column">
-            <a href="#" class="fs-5 mb-2 fw-semibold d-block text-success">Courses</a>
+            <a href="#" class="fs-5 mb-2 fw-semibold d-block text-success">{% if issuetag | length %}
+              {{ issuetag.title }}
+              {% endif %}</a>
             <h3><a href="{{entry.url}}" class="text-inherit">{{ entry.title }}</a></h3>
             <p>{{ entry.intro }}</p>
             <!-- Media content -->
@@ -112,14 +121,46 @@
       {% endfor %}
 
 
-        <!-- Buttom -->
+        <!-- Buttom pagination -->
         <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-4">
-          <a href="#" class="btn btn-primary">
+
+  <!-- default pagination -->
+  <nav role="navigation" class="d-flex" aria-label="Search result pagination">
+    <ul class="pagination mx-auto">
+      {# {% if pageInfo.getPrevUrl() %}
+        <li class="page-item">
+          <a class="page-link" href="{{ pageInfo.getPrevUrl() }}">Prev</a>
+        </li>
+      {% endif %} #}
+
+      {% for p, url in pageInfo.getDynamicRangeUrls(5) %}
+      
+        <li class="page-item {% if p == craft.app.request.pageNum  %}active{%endif%}">
+          {{ tag('a', {
+            class: 'page-link',
+            text: p,
+            href: url,
+            aria: {
+              label: "Go to page #{p} of #{pageInfo.totalPages}",
+            },
+          }) }}
+        </li>
+      {% endfor %}
+      {# {% if pageInfo.getNextUrl() %}
+      <li class="page-item">
+        <a class="page-link" href="{{ pageInfo.getNextUrl() }}">Next</a>
+      </li>
+        {% endif %} #}
+    </ul>
+  </nav>
+
+
+          {# <a href="#" class="btn btn-primary">
             <div class="spinner-border spinner-border-sm me-2" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
             Load More
-          </a>
+          </a> #}
         </div>
       </div><!-- row end -->
     </div>
