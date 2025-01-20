@@ -53,11 +53,11 @@ var aboutMeEditor = new FroalaEditor('#aboutMe');
         <div class="col-lg-9 col-md-8 col-12">
           <!-- Card -->
           <div class="card">
-            {% macro errorList(errors) %}
-  {% if errors %}
-    {{ ul(errors, {class: 'errors'}) }}
-  {% endif %}
-{% endmacro %}
+        {% macro errorList(errors) %}
+        {% if errors %}
+        {{ ul(errors, {class: 'errors'}) }}
+        {% endif %}
+        {% endmacro %}
 
 
 {% if user.hasErrors() %}

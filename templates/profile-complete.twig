@@ -72,7 +72,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
               <div class="card-header">
                 <h1 class="mb-0">Complete your profile</h1>
                 {% if user.hasErrors() %}
-               
+
                 <p class="errors">Unable to save your profile.</p>
                 {% endif %}
 
@@ -165,11 +165,12 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                     <div class="invalid-feedback">Please enter your professional title.</div>
                   </div>
                   <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="phoneNumber">Phone phtml</label>
+                    <label class="form-label" for="phoneNumber">Phone</label>
                     <input type="text" id="phoneNumber" name="fields[phoneNumber]" class="form-control"
                       value="{{user.phoneNumber}}" placeholder="" required="">
                     <div class="invalid-feedback">Please enter phone number.</div>
                   </div>
+
                   <!-- Short summary role -->
                   <div class="mb-3 col-12 col-md-12">
                     <label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
@@ -178,6 +179,113 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                     {{ _self.errorList(user.getErrors('shortSummary')) }}
                     <div class="invalid-feedback">Please enter your summary.</div>
                   </div>
+
+                  <hr class="my-5">
+                  <h3>Session info</h3>
+                  <!-- fee -->
+                  <div class="mb-3 col-12 col-md-6 h-100">
+                    {% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
+
+                    <label class="form-label" for="sessionRate">{{field.name}}</label>
+                    <h5>{{field.instructions}}</h5>
+                    <span class="">£</span><input type="text" id="sessionRate" name="fields[sessionRate]"
+                      class="w-50 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
+                    <div class="invalid-feedback">Please enter your session rate.</div>
+
+                  </div>
+                  <!-- concessions -->
+                  <div class="col-md-6 col-12">
+                    {% set field = craft.app.fields.getFieldByHandle('concessions') %}
+                    <h4>{{field.name}}</h4>
+                    <h5>{{field.instructions}}</h5>
+                    <ul style="list-style-type: none;">
+                      {% for option in field.options %}
+                      {% set selected = entry is defined
+                      ? user.concessions.value == option.value
+                      : option.default %}
+
+                      <li><label>
+                          <input type="radio" name="fields[concessions]" value="{{ option.value }}"
+                            class="form-check-input" {% if selected %} checked{% endif %}>
+                          {{ option.label }}
+                        </label></li>
+                      {% endfor %}
+                    </ul>
+
+                  </div>
+                  <hr class="my-5">
+
+                   <!-- availabilty -->
+                   <div class="col-12">
+                    {% set field = craft.app.fields.getFieldByHandle('availability') %}
+                    <h4>{{field.name}}</h4>
+                    <h5>{{field.instructions}}</h5>
+                    <ul style="list-style-type: none;">
+                      {% for option in field.options %}
+                      {% set selected = entry is defined
+                      ? user.availability.value == option.value
+                      : option.default %}
+
+                      <li><label>
+                          <input type="radio" name="fields[availability]" value="{{ option.value }}"
+                            class="form-check-input" {% if selected %} checked{% endif %}>
+                          {{ option.label }}
+                        </label></li>
+                      {% endfor %}
+                    </ul>
+
+                  </div>
+                  <!-- session clients types checkbox-->
+                  <hr class="my-5">
+
+                  <div class="mb-4 col-12">
+
+                    {% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
+                    <h4>{{field.name}}</h4>
+                    <h5>{{field.instructions}}</h5>
+                    {# Include a hidden input first so Craft knows to clear the
+                    existing value, if no checkboxes are checked. #}
+                    {{ hiddenInput('fields[typeOfClient]', '') }}
+
+                    <ul class="typeclient" style="list-style-type: none;">
+                      {# Display native options as checkboxes: #}
+                      {% for option in field.options %}
+                      {% set checked = entry is defined
+                      ? entry.typeOfClient.contains(option.value)
+                      : option.default %}
+
+                      <li>
+                        <label>
+                          <input type="checkbox" name="fields[typeOfClient][]" value="{{ option.value }}"
+                            class="form-check-input border" {% if checked %}checked{% endif %}>
+                          {{ option.label }}
+                        </label>
+                      </li>
+                      {% endfor %}
+
+                      {# Does this field allow custom options? #}
+                      {% if field.customOptions %}
+                      {# Loop over the *stored* values and output all the "invalid" ones as text fields: #}
+                      {% for option in entry.typeOfClient | filter(o => not o.valid) %}
+                      <li>
+                        <label>
+                          <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
+                          {{ option.label }}
+                        </label>
+                      </li>
+                      {% endfor %}
+
+                      {# Provide one more input for new values: #}
+                      <li>
+                        <label>
+                          Other:
+                          <input type="text" name="fields[typeOfClient][]">
+                        </label>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                  <!-- end checkbox -->
                   <hr class="my-5">
                   <div>
                     <!-- about me -->
@@ -209,16 +317,19 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                       <div class="invalid-feedback">Please enter your practice description.</div>
                     </div>
                     <hr class="my-5">
-                    <h3>Expertise</h3>
+                    <h3 class="mb-5">Expertise</h3>
                     <!-- categories -->
                     <div class="mb-4 col-12 col-md-12">
+                      <h4>Main issue areas</h4>
                       {% set myCategoryQuery = craft.categories()
                       .group('issues') %}
                       {% set categories = myCategoryQuery.orderBy('title asc').all() %}
 
-                      <label for="tags-input" class="form-label">Choose a maximum of 4 areas where you achieve good
+                      <label for="tags-input" class="form-label fw-light">Choose a maximum of 4 areas where you achieve
+                        good
                         outcomes</label>
-                      <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]" multiple data-max="0">
+                      <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]"
+                        multiple data-max="0">
                         <option disabled hidden value="">Choose a area...</option>
                         {% for cat in categories %}
                         <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
@@ -227,20 +338,59 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                       </select>
                       <div class="invalid-feedback">Please select a valid area.</div>
                     </div>
-
-                    <!-- expert exp issue -->
+                    <hr class="my-5">
+                    <!-- expert exp issues -->
                     <div class="mb-4 col-12 col-md-12">
+                      <h4>Expertise Issues</h4>
                       {% set issues = craft.entries.section('issues').limit(null).all() %}
 
-                      <label for="issue-input" class="form-label">Add a list of issues you commonly work with</label>
-                      <select data-allow-clear="1" class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple required>
+                      <label for="issue-input" class="form-label fw-light">Add a list of issues you commonly work
+                        with</label>
+                      <select data-allow-clear="1" class="form-select" id="issue-input"
+                        name="fields[typesOfIssuesYouCanHelp][]" multiple required>
                         <option disabled hidden value="">Choose an issue...</option>
                         {% for issue in issues %}
-                        <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{% endif %}>{{issue.title}}</option>
+                        <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{%
+                          endif %}>{{issue.title}}</option>
                         {% endfor %}
                       </select>
-                      <div class="invalid-feedback">Please select a valid issue.</div>
+                      <div class="invalid-feedback">Please select a valid expertise.</div>
                     </div>
+
+                    <!-- type of therapy oferred -->
+                    <div class="mb-4 col-12 col-md-12">
+                      <h4>Therapy oferred</h4>
+                      {% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
+
+                      <label for="therapy-type" class="form-label fw-light">Add a therapy modalities you use</label>
+                      <select data-allow-clear="1" class="form-select" id="therapy-type-input"
+                        name="fields[typesOfTherapyOfferred][]" multiple required>
+                        <option disabled hidden value="">Choose a therapy ...</option>
+                        {% for ttype in therapyTypes %}
+                        <option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids() %}selected{%
+                          endif %}>{{ttype.title}}</option>
+                        {% endfor %}
+                      </select>
+                      <div class="invalid-feedback">Please select a valid modality.</div>
+                    </div>
+
+                    <!-- type of client session -->
+                    <div class="mb-4 col-12 col-md-12">
+                      <h4>Therapy oferred</h4>
+                      {% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
+
+                      <label for="therapy-type" class="form-label fw-light">Add a therapy modalities you use</label>
+                      <select data-allow-clear="1" class="form-select" id="therapy-type-input"
+                        name="fields[typesOfTherapyOfferred][]" multiple required>
+                        <option disabled hidden value="">Choose a therapy ...</option>
+                        {% for ttype in therapyTypes %}
+                        <option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids() %}selected{%
+                          endif %}>{{ttype.title}}</option>
+                        {% endfor %}
+                      </select>
+                      <div class="invalid-feedback">Please select a valid modality.</div>
+                    </div>
+
                   </div>
                   <div class="col-12 text-center">
                     <!-- Button -->
