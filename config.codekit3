@@ -2958,6 +2958,14 @@
       "oAP" : "\/templates\/issues\/index.twig",
       "oF" : 0
     },
+    "\/templates\/login.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/login.twig",
+      "oF" : 0
+    },
     "\/templates\/profile-complete.twig" : {
       "cB" : 0,
       "ft" : 8192,
