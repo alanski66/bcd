@@ -200,7 +200,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                     <h5>{{field.instructions}}</h5>
                     <ul style="list-style-type: none;">
                       {% for option in field.options %}
-                      {% set selected = entry is defined
+                      {% set selected = user is defined
                       ? user.concessions.value == option.value
                       : option.default %}
 
@@ -222,7 +222,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                     <h5>{{field.instructions}}</h5>
                     <ul style="list-style-type: none;">
                       {% for option in field.options %}
-                      {% set selected = entry is defined
+                      {% set selected = user is defined
                       ? user.availability.value == option.value
                       : option.default %}
 
@@ -250,8 +250,8 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                     <ul class="typeclient" style="list-style-type: none;">
                       {# Display native options as checkboxes: #}
                       {% for option in field.options %}
-                      {% set checked = entry is defined
-                      ? entry.typeOfClient.contains(option.value)
+                      {% set checked = user is defined
+                      ? user.typeOfClient.contains(option.value)
                       : option.default %}
 
                       <li>
@@ -266,7 +266,7 @@ var practiceDescription = new FroalaEditor('#practiceDescription');
                       {# Does this field allow custom options? #}
                       {% if field.customOptions %}
                       {# Loop over the *stored* values and output all the "invalid" ones as text fields: #}
-                      {% for option in entry.typeOfClient | filter(o => not o.valid) %}
+                      {% for option in user.typeOfClient | filter(o => not o.valid) %}
                       <li>
                         <label>
                           <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
