@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "tinymce": "^7.6.0"
   }
 }

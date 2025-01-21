@@ -6,13 +6,19 @@
 {% set user = user ?? currentUser %}
 
 
-{% css "https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.3.0/css/froala_editor.min.css" %}
-{% js "https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.3.0/js/froala_editor.min.js" %}
+
+{# {% js "https://code.jquery.com/jquery-3.5.1.min.js" %}
+{% css "https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" %} #}
+{% js "/js/vendors/tinymce/tinymce.min.js" %} 
+
 
 {% js %}
-var aboutMeEditor = new FroalaEditor('#aboutMe');
-var trainingAndExperience = new FroalaEditor('#trainingAndExperience');
-var practiceDescription = new FroalaEditor('#practiceDescription');
+tinymce.init({
+  selector: 'textarea#aboutMe',
+  license_key: 'gpl',
+  promotion: false
+});
+
 {% endjs %}
 <main>
   <section class="pt-5 pb-5">
