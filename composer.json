@@ -5,8 +5,8 @@
     "acalvino4/craft-easy-image": "^2.0",
     "convergine/craft-content-buddy": "1.1.14",
     "convergine/craft-pexels": "1.0.1",
-    "craftcms/ckeditor": "4.4.0",
-    "craftcms/cms": "5.5.10",
+    "craftcms/ckeditor": "4.5.0",
+    "craftcms/cms": "5.6.1",
     "craftcms/element-api": "4.2.0",
     "craftcms/feed-me": "6.6.1",
     "craftcms/guest-entries": "4.0.1",
@@ -30,7 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "modules\\fetchprofile\\": "modules/fetch-profile/"
+      "modules\\fetchprofile\\": "modules/fetchprofile/src/"
     }
   },
   "config": {

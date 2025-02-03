@@ -7,23 +7,59 @@
 
 
 
-{# {% js "https://code.jquery.com/jquery-3.5.1.min.js" %}
-{% css "https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" %} #}
-{% js "/js/vendors/tinymce/tinymce.min.js" %} 
+
+{# {% do view.registerAssetBundle("fetchprofile\\SiteAsset") %} #}
+{% do view.registerAssetBundle('modules\\fetchprofile\\assets\\SiteAsset') %}
 
 
+{# // dropzone #}
+{# {% css "/js/vendors/dropzone/dist/min/dropzone.min.css" %}
+{% js "/js/vendors/dropzone/dist/min/dropzone.min.js" %}
 {% js %}
-tinymce.init({
-  selector: 'textarea#aboutMe',
-  license_key: 'gpl',
-  promotion: false
+// let insureDropzone = new Dropzone("#insureDropzone", { url: "/users/save-user"});
+Dropzone.autoDiscover = false;
+
+const myDropzone = new Dropzone("#insureDropzone", {
+paramName: "fields[insuranceProof]",
+url: "users/save-user",
+// maxFilesize: 5,
+acceptedFiles: "image/*",
+addRemoveLinks: true,
+autoProcessQueue: false,
+});
+// Add event listeners
+myDropzone.on("addedfile", function (file) {
+console.log("File added: " + file.name);
 });
 
+myDropzone.on("removedfile", function (file) {
+console.log("File removed: " + file.name);
+});
+
+myDropzone.on("success", function (file, response) {
+console.log("File uploaded successfully:", response);
+});
+{% endjs %} #}
+
+{# confetti #}
+{% js "/js/vendors/confetti.browser.js" %}
+{# //tinymce editor #}
+{% js "/js/vendors/tinymce/tinymce.min.js" %}
+{% js %}
+tinymce.init({
+selector: '.wysiwyg',
+license_key: 'gpl',
+promotion: false,
+branding: false,
+statusbar: false,
+menubar: false,
+toolbar: "undo redo | bold italic "
+});
 {% endjs %}
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
-
+      {{user.id}}
       <!-- User info -->
       <div class="row align-items-center">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
@@ -36,10 +72,10 @@ tinymce.init({
               <div class="d-flex align-items-center">
                 <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
                   {% if user.photo|length %}
-                  
+
                   <img src="{{user.photo.url('profileSmall')}}"
                     class="avatar-xl rounded-circle border border-4 border-white" alt="user photo">
-                    {% endif %}
+                  {% endif %}
                 </div>
                 <div class="lh-1">
                   <h2 class="mb-0">
@@ -67,12 +103,15 @@ tinymce.init({
       <!-- Content -->
       <div class="row mt-0 mt-md-4">
 
-        <div class="col-lg-9 col-md-8 col-12">
+        <div class="col-lg-9 col-12">
+
           <!-- Card -->
           <div class="card">
-            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8"
+
+            <!-- Form -->
+            <form class="needs-validation " novalidate="" method="post" accept-charset="UTF-8"
               enctype="multipart/form-data">
-              <!-- Form -->
+
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
               {{ hiddenInput('userId', user.id) }}
@@ -81,6 +120,12 @@ tinymce.init({
               <div class="card-header">
                 <h1 class="mb-0">Complete your profile</h1>
                 {% if user.hasErrors() %}
+                {% set errors = user._errors %}
+                {% macro errorList(errors) %}
+                {% if errors %}
+                {{ ul(errors, {class: 'errors'}) }}
+                {% endif %}
+                {% endmacro %}
 
                 <p class="errors">Unable to save your profile.</p>
                 {% endif %}
@@ -102,18 +147,25 @@ tinymce.init({
                 {{ ul(errors, {class: 'errors'}) }}
                 {% endif %}
                 {% endmacro %}
-                <div class="d-lg-flex align-items-center justify-content-between">
+                <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
                   <div class="d-flex align-items-center mb-4 mb-lg-0">
-                    {% if user.photo|length %}<img src="{{user.photo.url('profileSmall')}}" id="img-uploaded" class="avatar-xl rounded-circle"
-                      alt="avatar">{% endif %}
+                    {% if user.photo|length %}<img src="{{user.photo.url}}" id="img-uploaded"
+                      class="avatar-xxl rounded-circle" alt="avatar">{% endif %}
                     <div class="ms-3">
-                      <h4 class="mb-0">Your photo</h4>
-                      <p class="mb-0">PNG or JPG square format best,<br> no bigger than 800px wide and tall.</p>
+                      <h4 class="mb-0">Your profile photo</h4>
+                      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
+                      <label for="photo">Upload a new photo</label>
+                      {{ input('file', 'photo', null, {
+                      id: 'photo',
+                      type: 'file',
+                      accept: 'image/png,image/jpeg',
+                      class: 'form-control'
+                      }) }}
                     </div>
                   </div>
                   <div>
                     {% if user.photo %}
-                    <div class="mb-3 col-12 col-md-6">
+                    <div class="mb-3 col-12 col-md-6 d-none">
                       <label class="form-label" for="delete-photo">
                         {{ input('checkbox', 'deletePhoto', '1', {
                         id: 'delete-photo',
@@ -124,15 +176,45 @@ tinymce.init({
                     </div>
                     {% endif %}
                     <div class="mb-3 col-12 col-md-6 w-100">
-                      <label for="photo">Upload a new photo</label>
-                      {{ input('file', 'photo', null, {
+                     
+                    </div>
+                    
+                  </div>
+                </div>
+                <!-- insurance -->
+                <div class="col-12">
+                  <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+
+                    <div class="d-flex align-items-center mb-4 mb-lg-0">
+                      {% if user.insuranceProof|length %}<img src="{{user.insuranceProof.one().url('profileSmall')}}" id="insureance-uploaded"
+                      class="avatar-xxl rounded-circle" alt="insurance photo">{% endif %}
+                      <div class="ms-3">
+                      <label for="photo"><h4>Insurance proof</h4></label>
+                      <p>Please upload a photo of your current practice insurance</p>
+                      {{ input('file', 'fields[insuranceProof]', null, {
                       id: 'photo',
                       type: 'file',
                       accept: 'image/png,image/jpeg',
                       class: 'form-control'
                       }) }}
                     </div>
-
+                      
+                      {# <div id="insureDropzone" class="dropzone mt-4 border-dashed rounded-2 min-h-0"></div> #}
+                  
+                    </div>
+                  </div>
+                </div>
+                <!-- verify membership -->
+                <div class="col-12">
+                  <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+                    <h4>Membership verification</h4>
+                    <label for="verifyURL">Please add your public profile link from your memberships organisations directory and we will try and verify your membership</label>
+                      <input class="my-3 form-control" id="verifyLink" value=""  placeholder="add your profile URL">
+<a id="verifyURL" class="btn btn-primary"
+data-user-id="{{ currentUser.id }}"
+data-csrf-token-value="{{ craft.app.request.getCsrfToken() }}"
+data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}"
+><span class="vnow">Verify Now</span></a>
                   </div>
                 </div>
                 <!-- details -->
@@ -300,29 +382,32 @@ tinymce.init({
                     <!-- about me -->
                     <div class="mb-4 col-12 col-md-12">
                       <label class="form-label w-100" for="aboutMe">About me</label>
-                      <textarea rows="2" col="32" id="aboutMe" name="fields[aboutMe]" class="form-control"
+                      <textarea rows="2" col="32" id="aboutMe" name="fields[aboutMe]" class="form-control wysiwyg"
                         required>{{user.aboutMe}}</textarea>
-                      <div class="invalid-feedback">Please enter your about me info.</div>
+                      <div class="invalid-feedback">
+                        {{ user ? _self.errorList(user.getErrors('aboutMe')) }}
+                        Please enter your about me info.</div>
                     </div>
                     <!-- qualifications -->
                     <div class="mb-4 col-12 col-md-12">
                       <label class="form-label w-100" for="qualifications">Qualifications</label>
                       <textarea rows="2" col="32" id="qualifications" name="fields[qualifications]" class="form-control"
                         required>{{user.qualifications}}</textarea>
-                      <div class="invalid-feedback">Please enter qualifications.</div>
+                      <div class="invalid-feedback">
+                        Please enter qualifications.</div>
                     </div>
                     <!-- trainingAndExperience -->
                     <div class="mb-4 col-12 col-md-12">
                       <label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
                       <textarea rows="8" col="32" id="trainingAndExperience" name="fields[trainingAndExperience]"
-                        class="form-control" required>{{user.trainingAndExperience}}</textarea>
+                        class="form-control wysiwyg" required>{{user.trainingAndExperience}}</textarea>
                       <div class="invalid-feedback">Please enter your training and experience info.</div>
                     </div>
                     <!-- practiceDescription -->
                     <div class="mb-4 col-12 col-md-12">
                       <label class="form-label w-100" for="practiceDescription">Practice description</label>
                       <textarea rows="8" col="32" id="practiceDescription" name="fields[practiceDescription]"
-                        class="form-control" required>{{user.practiceDescription}}</textarea>
+                        class="form-control wysiwyg" required>{{user.practiceDescription}}</textarea>
                       <div class="invalid-feedback">Please enter your practice description.</div>
                     </div>
                     <hr class="my-5">
@@ -383,25 +468,14 @@ tinymce.init({
                       <div class="invalid-feedback">Please select a valid modality.</div>
                     </div>
 
-                    <!-- type of client session -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <h4>Therapy oferred</h4>
-                      {% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
-
-                      <label for="therapy-type" class="form-label fw-light">Add a therapy modalities you use</label>
-                      <select data-allow-clear="1" class="form-select" id="therapy-type-input"
-                        name="fields[typesOfTherapyOfferred][]" multiple required>
-                        <option disabled hidden value="">Choose a therapy ...</option>
-                        {% for ttype in therapyTypes %}
-                        <option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids() %}selected{%
-                          endif %}>{{ttype.title}}</option>
-                        {% endfor %}
-                      </select>
-                      <div class="invalid-feedback">Please select a valid modality.</div>
-                    </div>
 
                   </div>
                   <div class="col-12 text-center">
+                    {% if user.hasErrors() %}
+                    <p class="errors">Unable to save your profile.Please check the fileds above to ensure all are
+                      complete.</p>
+                    {% endif %}
+
                     <!-- Button -->
                     <button class="btn btn-primary" type="submit">Save Profile</button>
                   </div>

@@ -37,7 +37,9 @@ return [
             '@assetBaseUrl' => getenv('ASSET_BASE_URL'),
             '@assetBasePath' => getenv('ASSET_BASE_PATH'),
             '@baseUrl' => getenv('CRAFTENV_BASE_URL'),
-            '@basePath' => getenv('CRAFTENV_BASE_PATH')
+            '@basePath' => getenv('CRAFTENV_BASE_PATH'),
+            '@assetBasePathPrivate' => getenv('ASSET_BASE_PATH_PRIVATE')
+            
         ],
         'errorTemplatePrefix' => "/errors/",
         'postLoginRedirect' => "/profile",

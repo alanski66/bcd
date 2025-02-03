@@ -24,5 +24,9 @@ use craft\helpers\App;
 use modules\fetchprofile\FetchProfile;
 
 return [
-    'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 'modules' => ['fetch-profile' => FetchProfile::class], 'bootstrap' => ['fetch-profile'],
+    'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 
+    'modules' => [
+        'fetch-profile' => \modules\fetchprofile\FetchProfile::class,
+    ], 
+    'bootstrap' => ['fetch-profile'],
 ];

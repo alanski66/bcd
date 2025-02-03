@@ -1,5 +1,3 @@
-cardView:
-  - 'layoutElement:4ec15848-5fd4-4df7-8560-3205ebe142bb'
 tabs:
   -
     elementCondition: null
@@ -13,7 +11,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: de418f51-8368-4211-aced-cdefcfdfc487
@@ -29,7 +27,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: false
+        required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 3febf21e-1051-4960-9a20-80776e67e899
