@@ -2,6 +2,7 @@
 .idea
 .config.codekit3
 .env
+*.DS_Store
 .php-cs-fixer.cache
 Source/.idea/*
 *.log
