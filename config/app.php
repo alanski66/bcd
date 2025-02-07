@@ -19,7 +19,6 @@
  * Read more about application configuration:
  * https://craftcms.com/docs/4.x/config/app.html
  */
-
 use craft\helpers\App;
 use modules\fetchprofile\FetchProfile;
 
