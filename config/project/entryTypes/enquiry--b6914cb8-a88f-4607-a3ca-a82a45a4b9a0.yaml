@@ -52,7 +52,7 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2025-02-08T14:21:34+00:00'
+            dateAdded: '2025-02-08T14:28:09+00:00'
             elementCondition: null
             fieldUid: f11c0ca4-477e-4f64-b73d-97084f9d6a56 # Email
             handle: null
@@ -63,7 +63,23 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 6ab27e17-4569-46d2-b5e3-f7709a863d21
+            uid: 180a81d4-6fe3-48a2-9138-cf96562f2b88
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-02-08T14:28:09+00:00'
+            elementCondition: null
+            fieldUid: 5d532788-0cc7-48de-9b9b-627e7923b222 # Contact preference
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7b947584-25f4-4488-97b4-067a285ed3c6
             userCondition: null
             warning: null
             width: 100
@@ -93,9 +109,25 @@ fieldLayouts:
             label: 'Initial message'
             providesThumbs: false
             required: false
-            tip: null
+            tip: tip
             type: craft\fieldlayoutelements\CustomField
             uid: 982352e2-25f6-4a8f-809a-7ef8278e16c0
+            userCondition: null
+            warning: warning
+            width: 100
+          -
+            dateAdded: '2025-02-08T14:43:45+00:00'
+            elementCondition: null
+            fieldUid: e63d9cc6-ddc5-4c7e-91a3-2ebc12e2cb1d # Therapist ID
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c664468d-294d-40b5-a12b-95049eb83657
             userCondition: null
             warning: null
             width: 100
