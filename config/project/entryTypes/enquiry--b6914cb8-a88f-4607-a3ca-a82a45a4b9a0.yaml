@@ -1,0 +1,115 @@
+color: null
+fieldLayouts:
+  13d2e232-1d16-4231-a3d9-bd9830149e83:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2025-02-07T19:06:00+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: 'Please add your full name'
+            label: 'Full name'
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: e314660c-297b-409e-b6fb-c86790f3f8cd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-02-07T19:19:49+00:00'
+            elementCondition: null
+            fieldUid: 48e5cd5f-156a-4a9b-9323-1139b7dda01f # Phone number
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 22fa531a-8dae-4f2f-97f5-e8c497f82fec
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-02-08T14:21:34+00:00'
+            elementCondition: null
+            fieldUid: f11c0ca4-477e-4f64-b73d-97084f9d6a56 # Email
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6ab27e17-4569-46d2-b5e3-f7709a863d21
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-02-07T19:19:49+00:00'
+            elementCondition: null
+            fieldUid: 84d3be0c-c468-4664-914c-b80e544b5114 # Category
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ac2ba61f-15ec-41f7-840f-7ac16ca75cc6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-02-07T19:19:49+00:00'
+            elementCondition: null
+            fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
+            handle: null
+            includeInCards: false
+            instructions: 'Please add a message about what you are looking for'
+            label: 'Initial message'
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 982352e2-25f6-4a8f-809a-7ef8278e16c0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 38c7ff6d-7e49-4a6e-9769-c888dc660e64
+        userCondition: null
+handle: enquiry
+hasTitleField: true
+icon: null
+name: Enquiry
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

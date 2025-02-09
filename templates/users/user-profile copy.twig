@@ -20,8 +20,7 @@
               <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
                 <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span>
               </h2>
-              <p class="fs-3 pe-6 mb-3">{{user.shortSummary | default("Descriptive short summary of counsellors
-                orientation, or practice, or favourite cat")}}</p>
+              <p class="fs-3 pe-6 mb-3">{{user.shortSummary | default("Descriptive short summary of counsellors orientation, or practice, or favourite cat")}}</p>
 
               <h2 class="fs-3">Qualifications</h4>
                 <p class="strong">
@@ -35,48 +34,45 @@
                   {{user.qualifications}}
                 </p>
                 <hr class="my-5">
-                <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>About me</h3>
-                  {{user.aboutMe | raw}}
-                </div>
-                <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>Training and experience</h3>
-                  {{user.trainingAndExperience | raw}}
-                </div>
-                <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>How I work</h3>
-                  {{user.practiceDescription | raw}}
-                </div>
-      
-                <!-- types of therapy offerred -->
-                <div class="d-flex flex-column mb-5 fs-4">
-                  <h3>Types of therapy offerred</h3>
-                  {% set typesOfTherapy = user.typesOfTherapyOfferred.all() %}
-                  <ul class="list-group list-group-flush">
-                    {% for therapy in typesOfTherapy %}
-                    <!-- Flush list -->
-                    <li class="list-group-item"><a href="{{ therapy.url }}" class="">{{ therapy.title }}</a></li>
-                    {% endfor %}
-                  </ul>
-      
-                </div>
-                <!-- CTA card -->
-                <div class="py-5">
-                <div class="card mb-4 mt-5">
-                  <div class="card-body">
-                    <div class="d-flex  mt-auto justify-content-around">
-                      <a href="tel:{{user.phoneNumber}}" class="btn btn-lg px-5 btn-outline-white">Call now</a>
-                      
-                        <form class="needs-validation" action="{{baseUrl}}enquiry" novalidate="" method="post"
-                        accept-charset="UTF-8" enctype="multipart/form-data">
-                        <input type="hidden" name="therapistID" value="{{user.id}}">
-                        <button type="submit" class="btn  btn-lg px-5 btn-primary mt-auto">Contact</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                <!-- expertise -->
+                <div>
+                <h3 class="">Areas of expertise</h3>
+                {% set expertCats = user.category %}
                 
+                {% for cat in expertCats %}
+                <a href="{{ cat.url }}" class="fs-4 btn rounded me-3 mt-1 mb-1 btn-light">{{ cat.title }}</a>
+
+                {% endfor %}
+                <hr class="my-5">
+                <h3>Issues I can help with</h3>
+                {% set issues = user.typesOfIssuesYouCanHelp.all() %}
+
+                {% for issue in issues %}
+                <a href="{{ issue.url }}" class="btn btn-ta btn-sm ms-0 m-2 btn-outline-secondary">{{ issue.title }}</a>
+                {% endfor %}
+                </div>
+                <hr class="my-5">
+                
+                <!-- works with-->
+                <h3 class=" mb-3 ">I work with</h3>
+                {% set clients = user.typeOfClient %}
+                <ul class="list-unstyled list-inline">
+                  {% for item in clients %}
+                  <li class="list-inline-item ">
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+                        </path>
+                      </svg>
+                    </span>
+                    <span class="ps-1 me-2">{{item.label}}</span>
+                  </li>
+                  {% endfor %}
+
+                </ul>
+                <hr class="my-5">
 
             </div>
             <!-- end left inner column -->
@@ -84,24 +80,22 @@
 
             <!-- Img right col -->
             <div class=" col-lg-4 col-12 mb-6 mb-lg-0 order-lg-2 text-cente ">
-
               <img src="{{user.photo.url}}" alt="" class="rounded-circle img-fluid">
               <div class="mt-4 ">
                 <!-- card -->
                 <div class="card mb-4">
                   <!-- Card body -->
                   <div class="card-body">
-                    
                     <div class="text-center">
                       <h4 class="mb-0">Fees</h4>
 
                     </div>
                     <div class="d-flex justify-content-between border-bottom py-2 mt-4">
-                      <span class="fw-bold">Sessions from</span>
+                      <span>Sessions from</span>
                       <span class="text-dark">£{{user.sessionRate}}</span>
                     </div>
                     <div class="d-flex justify-content-between border-bottom py-2">
-                      <span  class="fw-bold">Availability</span>
+                      <span>Availability</span>
                       <span class="text-warning pt-1 lh-1">
                         {{user.availability | capitalize}}
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
@@ -112,76 +106,23 @@
                         </svg>
                       </span>
                     </div>
-                    <div class="d-flex justify-content-between pt-2 mb-5">
-                      <span class="fw-bold">Concessions</span>
+                    <div class="d-flex justify-content-between pt-2">
+                      <span>Concessions</span>
                       <span class="text-dark">{{user.concessions}}</span>
-                    </div>
-                    <div class="d-flex  mt-auto justify-content-around">
-                      <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white">Call now</a>
-                      <form class="needs-validation" action="{{baseUrl}}enquiry" novalidate="" method="post"
-                        accept-charset="UTF-8" enctype="multipart/form-data">
-                        <input type="hidden" name="therapistID" value="{{user.id}}">
-                        <button type="submit" class="btn btn-primary mt-auto">Contact</button>
-                      </form>
-                    </div>
-                  </div><!--end cardbody-->
-
-                </div>
-                <div class="card">
-                  <div class="card-body">
-                     <!-- works with-->
-                <div>
-                  <h3 class=" mb-3 ">I work with</h3>
-                  {% set clients = user.typeOfClient %}
-                  <ul class="list-unstyled list-inline">
-                    {% for item in clients %}
-                    <li class="list-inline-item ">
-                      <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
-                          <path
-                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
-                          </path>
-                        </svg>
-                      </span>
-                      <span class="ps-1 me-2">{{item.label}}</span>
-                    </li>
-                    {% endfor %}
-  
-                  </ul>
-                </div>
-                <hr class="my-5">
-                    <!-- expertise -->
-                    <div>
-                      <h3 class="">Areas of expertise</h3>
-                      {% set expertCats = user.category %}
-
-                      {% for cat in expertCats %}
-                      <a href="{{ cat.url }}" class=" btn btn-sm rounded me-3 mt-1 mb-1 btn-light">{{ cat.title }}</a>
-
-                      {% endfor %}
-                      <hr class="my-5">
-                      <h3>Issues I can help with</h3>
-                      {% set issues = user.typesOfIssuesYouCanHelp.all() %}
-
-                      {% for issue in issues %}
-                      <a href="{{ issue.url }}" class="btn btn-ta btn-sm ms-0 m-2 btn-outline-secondary">{{ issue.title
-                        }}</a>
-                      {% endfor %}
                     </div>
                   </div>
                 </div>
 
                 <!-- CTA card -->
-                <div class="card mb-4 d-none">
+                <div class="card mb-4">
                   <div class="card-body">
                     <div class="d-flex  mt-auto justify-content-around">
                       <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white">Call now</a>
-                      <form class="needs-validation" action="{{baseUrl}}enquiry" novalidate="" method="post"
-                        accept-charset="UTF-8" enctype="multipart/form-data">
-                        <input type="hidden" name="therapistID" value="{{user.id}}">
-                        <button type="submit" class="btn btn-primary mt-auto">Contact</button>
-                      </form>
+                      <form class="needs-validation" action="{{baseUrl}}enquiry" novalidate="" method="post" accept-charset="UTF-8"
+              enctype="multipart/form-data">
+              <input type="hidden" name="therapistID" value="{{user.id}}">
+              <button type="submit" class="btn btn-primary mt-auto">Contact</button>
+            </form>
                     </div>
                   </div>
                 </div>
@@ -204,10 +145,45 @@
       <!--row-->
       <div class="row gy-4">
         <div class="col-xl-7 offset-xl-1 col-12">
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>About me</h3>
+            {{user.aboutMe | raw}}
+          </div>
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>Training and experience</h3>
+            {{user.trainingAndExperience | raw}}
+          </div>
+          <div class="d-flex flex-column mb-5 py-1 fs-4">
+            <h3>How I work</h3>
+            {{user.practiceDescription | raw}}
+          </div>
+
+          <!-- types of therapy offerred -->
+          <div class="d-flex flex-column mb-4 fs-4">
+            <h3>Types of therapy offerred</h3>
+            {% set typesOfTherapy = user.typesOfTherapyOfferred.all() %}
+            <ul class="list-group list-group-flush">
+              {% for therapy in typesOfTherapy %}
+              <!-- Flush list -->
+              <li class="list-group-item"><a href="{{ therapy.url }}" class="">{{ therapy.title }}</a></li>
+              {% endfor %}
+            </ul>
+
+          </div>
+          <!-- CTA card -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="d-flex  mt-auto justify-content-around">
+                <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white w-25 ">Call now</a>
+                <a href="https://bcd.test/counsellors/alan-thebrightontherapist-co-uk/1142"
+                  class="btn btn-primary mt-auto w-25">Contact</a>
+              </div>
+            </div>
+          </div>
           {# <div class="card mb-4 bg-gray-200">
             <div class="card-body">
               <h2 class="display-5 text-center ">Get the help and support you need</h2>
-              <p class="lead  px-lg-8 mb-6 text-center">Call or email using the buttons below to start your journey.</p>
+                <p class="lead  px-lg-8 mb-6 text-center">Call or email using the buttons below to start your journey.</p>
               <div class="d-grid d-md-block text-center">
                 <a href="tel:{{user.phoneNumber}}" class="btn btn-lg btn-info me-2">Call now</a>
                 <a href="https://bcd.test/counsellors/alan-thebrightontherapist-co-uk/1142"

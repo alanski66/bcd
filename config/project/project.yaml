@@ -1,4 +1,4 @@
-dateModified: 1737638346
+dateModified: 1739024494
 elementSources:
   craft\elements\Entry:
     -
@@ -193,6 +193,7 @@ meta:
     ae114463-f12c-454b-99e4-8f356f97759e: Qualifications # Qualifications
     aea81fe7-465e-41aa-9b2c-04e6578b3c4b: Article # Article
     b49c197d-26ab-4194-bf60-959a99761cb0: Counsellors # Counsellors
+    b6914cb8-a88f-4607-a3ca-a82a45a4b9a0: Enquiry # Enquiry
     c0ed5fcd-bf5e-4d52-9094-794f737b4080: 'Brighton Counselling Directory' # Brighton Counselling Directory
     c8e19182-bf6c-49f8-9aa6-9c9fd87ea0d6: Issue # Issue
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
@@ -200,12 +201,15 @@ meta:
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
     df1fd57a-df99-4fc9-91c1-71b7f2afd04b: Wishlist # Wishlist
     e5d33c8a-f8ba-41cc-a093-889571ae2fa5: 'Profile complete' # Profile complete
+    e6ff9992-97aa-4cd6-b9ea-5743266547cb: Enquiries # Enquiries
     e9b55431-481c-480d-9cc8-ea4734a67d0e: 'Category description' # Category description
     e39ad651-432c-40e1-9140-c9cfeda98e60: Hide # Hide
+    e63d9cc6-ddc5-4c7e-91a3-2ebc12e2cb1d: 'Therapist ID' # Therapist ID
     e943d4ec-4cf4-4c3a-89e8-6308943df394: 'Types of issues you can help' # Types of issues you can help
     e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
     f4e6a838-c1ce-4c50-b340-6883d40eeec4: Blur # Blur
+    f11c0ca4-477e-4f64-b73d-97084f9d6a56: Email # Email
     f738e4ee-a559-4e36-8c9a-a559088a75af: 'User insurance' # User insurance
 plugins:
   blur-hash:
@@ -297,6 +301,30 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 2.1.0
+    settings:
+      enableCsrfProtection: '1'
+      entryVariable: entry
+      sections:
+        __assoc__:
+          -
+            - e6ff9992-97aa-4cd6-b9ea-5743266547cb # Enquiries
+            -
+              __assoc__:
+                -
+                  - sectionUid
+                  - e6ff9992-97aa-4cd6-b9ea-5743266547cb # Enquiries
+                -
+                  - allowGuestSubmissions
+                  - '1'
+                -
+                  - enabledByDefault
+                  - '1'
+                -
+                  - runValidation
+                  - ''
+                -
+                  - authorUid
+                  - bde7d644-9335-4a1c-9d8b-4cadbaf0696b
   minify:
     edition: standard
     enabled: true
