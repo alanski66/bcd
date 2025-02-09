@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1696826c4ab08287f55a35db506d4254",
+    "content-hash": "3bedeb50ec693fd8eb558440f903ec08",
     "packages": [
         {
             "name": "acalvino4/craft-easy-image",
@@ -740,16 +740,16 @@
         },
         {
             "name": "craftcms/feed-me",
-            "version": "6.6.1",
+            "version": "6.7.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/f0c9691fc256c8d7d38e40b6ae629ad728d390c5",
-                "reference": "f0c9691fc256c8d7d38e40b6ae629ad728d390c5",
+                "url": "https://api.github.com/repos/craftcms/feed-me/zipball/824a41692ed3692ae74837782cfb38a43e96cc3d",
+                "reference": "824a41692ed3692ae74837782cfb38a43e96cc3d",
                 "shasum": ""
             },
             "require": {
                 "cakephp/utility": "^5.0.0",
-                "craftcms/cms": "^5.0.0-beta.2",
+                "craftcms/cms": "^5.6.0",
                 "jakeasmith/http_build_url": "^1.0",
                 "league/csv": "^9.0",
                 "nesbot/carbon": "^2.10|^3.0.0",
@@ -794,7 +794,7 @@
                 "docs": "https://docs.craftcms.com/feed-me/v6/",
                 "rss": "https://github.com/craftcms/feed-me/commits/master.atom"
             },
-            "time": "2024-12-02T02:50:46+00:00"
+            "time": "2025-02-07T19:19:35+00:00"
         },
         {
             "name": "craftcms/guest-entries",
