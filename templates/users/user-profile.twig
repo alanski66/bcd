@@ -14,16 +14,16 @@
       <div class="row mb-6 align-items-center justify-content-center">
         <div class="col-md-10">
           <div class="row align-items-start ">
-            <div class=" col-lg-8 col-md-12 col-12 order-1 text-center text-lg-start ">
+            <div class=" col-lg-8 col-md-12 col-12 order-lg-1  text-lg-start ">
               <!-- caption -->
               <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR THERAPIST</span>
               <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
                 <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span>
               </h2>
-              <p class="fs-3 pe-6 mb-3">{{user.shortSummary | default("Descriptive short summary of counsellors
+              <p class="fs-3 pe-6 mb-5">{{user.shortSummary | default("Descriptive short summary of counsellors
                 orientation, or practice, or favourite cat")}}</p>
 
-              <h2 class="fs-3">Qualifications</h4>
+              <h2 class="">Qualifications</h4>
                 <p class="strong">
                   <span>
                     <svg width="24" height="25" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,21 +36,21 @@
                 </p>
                 <hr class="my-5">
                 <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>About me</h3>
+                  <h2>About me</h2>
                   {{user.aboutMe | raw}}
                 </div>
                 <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>Training and experience</h3>
+                  <h2>Training and experience</h2>
                   {{user.trainingAndExperience | raw}}
                 </div>
                 <div class="d-flex flex-column mb-5 py-1 fs-4">
-                  <h3>How I work</h3>
+                  <h2>How I work</h2>
                   {{user.practiceDescription | raw}}
                 </div>
       
                 <!-- types of therapy offerred -->
                 <div class="d-flex flex-column mb-5 fs-4">
-                  <h3>Types of therapy offerred</h3>
+                  <h2>Types of therapy offerred</h2>
                   {% set typesOfTherapy = user.typesOfTherapyOfferred.all() %}
                   <ul class="list-group list-group-flush">
                     {% for therapy in typesOfTherapy %}
@@ -85,7 +85,7 @@
             <!-- Img right col -->
             <div class=" col-lg-4 col-12 mb-6 mb-lg-0 order-lg-2 text-cente ">
 
-              <img src="{{user.photo.url}}" alt="" class="rounded-circle img-fluid">
+              <img src="{{user.photo.url('profileMedium')}}" alt="" class="rounded-circle img-fluid mx-auto d-flex">
               <div class="mt-4 ">
                 <!-- card -->
                 <div class="card mb-4">
@@ -165,7 +165,7 @@
                       {% set issues = user.typesOfIssuesYouCanHelp.all() %}
 
                       {% for issue in issues %}
-                      <a href="{{ issue.url }}" class="btn btn-ta btn-sm ms-0 m-2 btn-outline-secondary">{{ issue.title
+                      <a href="{{ issue.url }}" class="btn btn-ta btn-sm ms-0 m-2 btn-light">{{ issue.title
                         }}</a>
                       {% endfor %}
                     </div>

@@ -3,7 +3,7 @@
     .hasPhoto()
     .group('counsellors')
     .orderBy('RAND()')
-    .limit(10) %}
+    .limit(0) %}
   
 {# Fetch the users #}
 {% set therapists = myUserQuery.all() %}

@@ -19,7 +19,7 @@
                   <div class="p-2"><h1 class="mb-0 fw-bold">Send your enquiry</h1></div>
                   {% if userId | length %}
                   <div class="p-2">
-                      <img src="{{therapist.photo.url}}" alt="" class="avatar avatar-xxl rounded-circle img-fluid">
+                      <img src="{{therapist.photo.url('profileSmall')}}" alt="" class="avatar avatar-xxl rounded-circle img-fluid">
                   </div>
                   <div class="p-2">
                     You are submitting this form to <span class="text-primary">{{therapist.fullName}}</span>

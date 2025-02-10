@@ -1,5 +1,5 @@
-{# {% extends "_layouts/generic-page-layout.twig" %} #}
-{% extends "_layouts/chromeless-page-layout.twig" %}
+{% extends "_layouts/generic-page-layout.twig" %}
+{# {% extends "_layouts/chromeless-page-layout.twig" %} #}
 
 
 {% block content %}
@@ -207,7 +207,7 @@
   </section>
  
 </main>
-<!-- Libs JS -->
+{# <!-- Libs JS -->
 <script src="{{ alias('@baseUrl') }}/libs/@popperjs/core/dist/umd/popper.min.js"></script>
 <script src="{{ alias('@baseUrl') }}/libs/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="{{ alias('@baseUrl') }}/libs/simplebar/dist/simplebar.min.js"></script>
@@ -216,7 +216,7 @@
 
 <script src="{{ alias('@baseUrl') }}/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 <script src="{{ alias('@baseUrl') }}/js/vendors/tnsSlider.js"></script>
-<script src="{{ alias('@baseUrl') }}/js/vendors/awesomplete.js"></script>
+<script src="{{ alias('@baseUrl') }}/js/vendors/awesomplete.js"></script> #}
 
 
 {% endblock content %}
