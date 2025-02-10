@@ -1,4 +1,4 @@
-<div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-6 d-flex align-items-stretch">
+<div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-12 d-sm-flex align-items-stretch">
 
     <!--card-->
     <div class="card rounded-4 card-bordered card-lift">
@@ -6,7 +6,7 @@
         <!--img-->
         <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}">
           <img src="{{ user.photo.url('profileMedium') }}" alt="{{ user.fullName }}"
-            class="img-fluid w-100 rounded-4 class=" lazy" />
+            class="img-fluid w-100 rounded-4" loading="lazy" />
         </a>
         <!--content-->
         <div class="d-flex flex-column gap-4 flex-grow-1 ">
@@ -25,7 +25,7 @@
                   </svg>
                 </span>
               </div>
-              <span class="text-gray-800">{{ user.titleRole }}</span>
+              <span class="text-gray-800">{{ user.titleRole|default("Job title goes here")  }}</span>
             </div>
           </div>
           <div class="d-flex  mt-auto justify-content-around">

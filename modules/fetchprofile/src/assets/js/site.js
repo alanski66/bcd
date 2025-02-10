@@ -2,7 +2,9 @@ console.log('module js');
 
 
 
-const $button = document.getElementById('verifyURL');
+const $button = document.getElementById('verify');
+const memberOrg = document.getElementById('memberOrg');
+console.log(memberOrg)
 const isValidUrl = (urlString) => {
     var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
@@ -14,11 +16,18 @@ const isValidUrl = (urlString) => {
 }
 $button.addEventListener('click', function (e) {
     const params = new FormData();
-    console.log(isValidUrl(verifyLink.value));
-    params.append('verifyLink', verifyLink.value);
-    params.append('userId', $button.dataset.userId);
+    // console.log(isValidUrl(verifyLink.value));
+    console.log("jj" + memberOrg[0].value)
+    // params.append('verifyLink', verifyLink.value);
+    // params.append('userId', $button.dataset.userId);
     params.append($button.dataset.csrfTokenName, $button.dataset.csrfTokenValue);
     //params.append('fullName', prompt('New name:'));
+
+    if (memberOrg.value === "bacp") verifybacp() // format https://www.bacp.co.uk/therapists/386443
+    if (memberOrg.value === "ukcp") verifyukcp()
+    if (memberOrg.value === "ncps") verifyncps() //format https://www.search-ncps.com/search/FindaTherapist/NCS14-01401
+    return
+    //add radio detect and redirect based on
 
     fetch('/actions/fetch-profile/default/verify-bacp', {
         method: 'POST',
@@ -76,13 +85,23 @@ $button.addEventListener('click', function (e) {
 //     }
 //   });
 
+function verifybacp(data) {
+    console.log('verify bacp membership')
+}
+function verifyukcp(data) {
+    console.log('verify ukcp membership')
+}
+function verifyncps(data) {
+    console.log('verify ncps membership')
+}
 
 function modifyText() {
     console.log(el.value)
     console.log(el)
 }
 
-function verifybacp(data) {
+
+function vverifybacp(data) {
     fetch(baseUrl + "/actions/fetch-profile/default/verify-bacp", {
         method: 'post',
         body: data,

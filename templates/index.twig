@@ -29,12 +29,12 @@
               <form action="find-a-therapist">
                 <div class="input-group mb-3 justify-content-center">
                   <label for="issue" class="form-label visually-hidden">Find a counsellor</label>
-                  <input type="text" class="awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
+                  <input type="text" class="ps-3 awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
                         {{entry.title}}, 
                       {% endfor %}" id="issue" name="issue"
                     placeholder="Search by issue" aria-label="Search by issue" aria-describedby="basic-addon2" />
                  
-                  <button class="btn btn-primary btn-lg" id="basic-addon2">Find counsellor</button>
+                  <button class="btn btn-primary btn-lg px-3" id="basic-addon2">Search</button>
                 </div>
               </form>
             </div>
@@ -64,9 +64,9 @@
         <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
           <div class="text-center mb-6 d-flex flex-column gap-2">
             <!--heading-->
-            <h2 class="mb-0 mx-xl-8 h1">Brighton Counselling directory therapists</h2>
+            <h2 class="mb-0 mx-xl-8 h1">Meet some of our therapists</h2>
             <!--para-->
-            <p class="mb-0">Choose your therapist and book a session today</p>
+            <p class="mb-0">To see more therapists <a href="{{baseUrl}}find-a-therapist" class="">view all Brighton counsellors</a></p>
           </div>
         </div>
       </div>
@@ -103,6 +103,13 @@
         {% endfor %}
       </div>
     </div>
+
+<div class="row">
+<div class="col-12 text-center pt-5">
+<a href="{{baseUrl}}find-a-therapist" class="btn btn-lg btn-primary">View all counsellors</a>
+</div>
+</div>
+
   </section>
   <!-- end therapist list -->
   

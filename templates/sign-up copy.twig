@@ -3,27 +3,26 @@
 
 
 {% block content %}
-{% do view.registerAssetBundle('modules\\fetchprofile\\assets\\SiteAsset') %}
 
 <main>
-  <section class="container d-flex flex-column ">
+  <section class="container d-flex flex-column vh-100">
     <div class="row align-items-center justify-content-center g-0 h-lg-100 py-8">
       <div class="col-lg-5 col-md-8 py-8 py-xl-0">
         <!-- Card -->
         <div class="card shadow">
           <!-- Card body -->
           <div class="card-body p-6 d-flex flex-column gap-4">
-            <div class="text-center mb-5">
+            <div>
               <a href="{{baseUrl}}">
                 <img src="../assets/images/brand/logo/logo.svg" class="mb-4" alt="logo" width="200px"></a>
-
+              
               <div class="d-flex flex-column gap-1">
                 <h1 class="mb-0 fw-bold">Join us - Counsellors Sign up</h1>
                 <span>
                   Already have an account?
                   <a href="sign-in" class="ms-1">Sign in</a>
                 </span>
-                <div class="d-none alert alert-primary d-flex align-items-center" role="alert">
+                <div class="alert alert-primary d-flex align-items-center" role="alert">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
                     <path
@@ -45,8 +44,7 @@
 
             {# `user` is defined if the form returns validation errors. #}
             {% set user = user ?? null %}
-            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8"
-              enctype="multipart/form-data">
+            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
               {{ redirectInput('verify') }}
@@ -91,58 +89,82 @@
 
                 <div class="invalid-feedback">Please enter a password.</div>
               </div>
-
-              <!-- verification-->
-              <!-- Card -->
-              <div class="card mb-4 bg-light">
+              
+              <!-- expertise Card -->
+              <div class="card mb-4 ">
                 <!-- Card Header -->
-                <div class="card-header d-flex flex-column align-items-center justify-conte nt-between">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                  <h4 class="mb-0">Expertise</h4>
 
-                  <!-- verify membership -->
-                  <h3>Membership verification</h3>
-                  <div class="instructions card p-3 bg-light mb-3">
-                  <p class="text-center">In order to sign up you must be registered with a professional membership organisation.</p>
-                  <p>Choose your membership organisation below and then add your membership id and click 'verify'</p>
-                  <p>We will attempt to verify your membership in real-time. If you have an issue please contact us <a href="contact">here.</a></p>
-                </div>
-                  {% set field = craft.app.fields.getFieldByHandle('memberOrganisation') %}
-
-                  <!-- Select Option -->
-                  <div class="mb-3">
-                    <label class="form-label" for="memberOrg">Select your membership organisation</label>
-                 
-                  <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" required>
-                    {% for option in field.options %}
-                    <option value="{{ option.value }}">
-                      {{ option.label }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                  <label class="form-label" for="verifyMembership" >What is your membership id? <svg 
-                    data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?"
-                    xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle text-primary">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                  </svg></label>
-                   <!-- example -->
- <button type="button" class="btn  btn-primary" >Click to toggle popover</button>
-                  <input class=" form-control mb-3" id="verifyMembership" value="" required>
-                  <a id="verify" class="btn btn-primary" data-bs-toggle="tooltip" data-placement="top" title="Tooltip on top"
-                    data-csrf-token-value="{{ craft.app.request.getCsrfToken() }}"
-                    data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}">
-                    <span class="vnow">Verify Now</span></a>
-                  </div>
                 </div>
                 <!-- Card Body -->
-              
+                <div class="card-body">
+                  {% set myCategoryQuery = craft.categories()
+                  .group('issues') %}
+                  {% set categories = myCategoryQuery.orderBy('title asc').all() %}
+                  <label for="tags-input" class="form-label">Choose a maximum of 4 areas where you achieve good
+                    outcomes</label>
+                  <select class="form-select" id="tags-input" name="fields[category][]" multiple data-max="3">
+                    <option disabled hidden value="">Choose a area...</option>
+                    {% for cat in categories %}
+                    <option value="{{cat.id}}">{{cat.title}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">Please select a valid tag.</div>
+                </div>
+                <div class="card-body">
+                  {% set issues = craft.entries.section('issues').limit(null).all() %}
+
+                  <label for="issue-input" class="form-label">Add a list of issues you commonly work with</label>
+                  <select class="form-select" id="issue-input" name="fields[typesOfIssuesYouCanHelp][]" multiple >
+                    <option disabled hidden value="">Choose an issue...</option>
+                    {% for issue in issues %}
+                    <option value="{{issue.id}}">{{issue.title}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">Please select a valid issue.</div>
+                </div>
               </div>
 
+              <!-- issues Card -->
+              <div class="card mb-4 ">
+                <!-- Card Header -->
+                <div class="card-header d-flex align-items-center justify-content-between">
+                  <h4 class="mb-0">Expertise</h4>
+
+                </div>
+                <!-- Card Body -->
+                
+              </div>
+              <!-- verification-->
+              <!-- Card -->
+              <div class="card mb-4 ">
+                <!-- Card Header -->
+                <div class="card-header d-flex align-items-center justify-content-between">
+                  <h4 class="mb-0">Verification</h4>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+
+                  <div class="mb-3">
+                    <label for="googleage" class="form-label">Please upload a screenshot or PDF copy of your current
+                      insurance.
+                    </label>
+                    <div id="my-dropzone" class="dropzone mt-4 border-dashed rounded-2 min-h-0"></div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Update Settings
+                  </button>
+
+                </div>
+              </div>
+           
 
               <!-- Terms n conditions -->
               <div class="mb-3">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="agreeCheck" required="required">
+                  <input type="checkbox" class="form-check-input" id="agreeCheck" required="">
                   <label class="form-check-label" for="agreeCheck">
                     <span>
                       I agree to the
@@ -205,18 +227,37 @@
       </div>
     </div>
   </section>
- 
+  <div class="position-absolute bottom-0 m-4">
+    <div class="dropdown">
+      <button class="btn btn-light btn-icon rounded-circle d-flex align-items-center" type="button"
+        aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+        <i class="bi theme-icon-active"><i class="bi theme-icon bi-sun-fill"></i></i>
+        <span class="visually-hidden bs-theme-text">Toggle theme</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bs-theme-text">
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light"
+            aria-pressed="true">
+            <i class="bi theme-icon bi-sun-fill"></i>
+            <span class="ms-2">Light</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
+            aria-pressed="false">
+            <i class="bi theme-icon bi-moon-stars-fill"></i>
+            <span class="ms-2">Dark</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto"
+            aria-pressed="false">
+            <i class="bi theme-icon bi-circle-half"></i>
+            <span class="ms-2">Auto</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
 </main>
-<!-- Libs JS -->
-<script src="{{ alias('@baseUrl') }}/libs/@popperjs/core/dist/umd/popper.min.js"></script>
-<script src="{{ alias('@baseUrl') }}/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="{{ alias('@baseUrl') }}/libs/simplebar/dist/simplebar.min.js"></script>
-<!-- Theme JS -->
-<script src="{{ alias('@baseUrl') }}/js/theme-min.js"></script>
-
-<script src="{{ alias('@baseUrl') }}/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-<script src="{{ alias('@baseUrl') }}/js/vendors/tnsSlider.js"></script>
-<script src="{{ alias('@baseUrl') }}/js/vendors/awesomplete.js"></script>
-
-
 {% endblock content %}
