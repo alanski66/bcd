@@ -1,13 +1,27 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 
 {% set bodyClass = "" %}
+
 {% block content %}
 <!-- users/user-profile twig -->
+
+
+
 {% set userId = craft.app.request.getSegment('3') %}
 
 {% set user = craft.users()
 .group('counsellors')
 .id(userId).one() %}
+{# seo #}
+
+
+{% set seoMetaTitle = user.fullName ~ " - "~ user.titleRole|raw %}
+
+{% do seomatic.meta.seoTitle(seoMetaTitle) %}
+
+{% do seomatic.meta.seoDescription(
+  user.shortSummary | default("Helping you find support and healing in your counselling journey")
+) %}
 <main>
   <div class="pt-8">
     <div class="container">
@@ -15,10 +29,13 @@
         <div class="col-md-10">
           <div class="row align-items-start ">
             <div class=" col-lg-8 col-md-12 col-12 order-lg-1  text-lg-start ">
+
+             
               <!-- caption -->
               <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">YOUR THERAPIST</span>
-              <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
-                <br>I'm trained as a <span class="text-primary">{{user.titleRole}}</span>
+              <img src="{{user.photo.url('profileSmall')}}" alt="{{user.fullName}}" width="150px" height="150px" class="float-none float-sm-end d-lg-none mx-auto d-flex mb-3 rounded-circle">
+               <h2 class="mb-2 display-4 fw-bold mb-3">Hi, I’m <span class="text-primary">{{user.fullName}}</span>
+                <br class="d-none d-lg-block"> I'm trained as a <span class="text-primary">{{user.titleRole}}</span>
               </h2>
               <p class="fs-3 pe-6 mb-5">{{user.shortSummary | default("Descriptive short summary of counsellors
                 orientation, or practice, or favourite cat")}}</p>
@@ -61,7 +78,7 @@
       
                 </div>
                 <!-- CTA card -->
-                <div class="py-5">
+                <div class="py-5 d-none d-lg-block">
                 <div class="card mb-4 mt-5">
                   <div class="card-body">
                     <div class="d-flex  mt-auto justify-content-around">
@@ -85,7 +102,7 @@
             <!-- Img right col -->
             <div class=" col-lg-4 col-12 mb-6 mb-lg-0 order-lg-2 text-cente ">
 
-              <img src="{{user.photo.url('profileMedium')}}" alt="" class="rounded-circle img-fluid mx-auto d-flex">
+              <img src="{{user.photo.url('profileMedium')}}" alt="" class="d-none d-lg-flex img-fluid mx-auto d-flex">
               <div class="mt-4 ">
                 <!-- card -->
                 <div class="card mb-4">
