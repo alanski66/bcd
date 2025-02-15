@@ -125,12 +125,20 @@ class DefaultController extends Controller
     public function actionVerifyUkcp(): Response
     {
         
+        // format "https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5"; 
+        $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+
+        // $incomingparams = Craft::$app->request->getRawBody();
+        // $params = craft\helpers\Json::decode($incomingparams);
+            
+        // var_dump($verifyLink);die();
         $data = array();
         $jar = new \GuzzleHttp\Cookie\CookieJar();
         //set header information including cookies, referer, etc. 
         // new GuzzleHttp\Client
         $client = new \GuzzleHttp\Client([
             'cookies' => false,
+            'allow_redirects' => false,
             'headers' => [
             'Host'=> 'google.com',
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
@@ -138,27 +146,34 @@ class DefaultController extends Controller
             'Accept-Language'=> 'en-US,en;q=0.5',
             'Accept-Encoding'=> 'gzip, deflate, br',
             'Referer'=> 'https://www.google.com/',
-            'Connection'=> 'keep-alive'
+            'Connection'=> 'keep-alive',
+            'http_errors' => false
             ]
             ]
             );
-            // $URL = 'https://brightonandhovetherapyhub.co.uk/therapist/271/';
-            $URL = "https://www.bacp.co.uk/therapists/385539/irving-d'mello/";
-            $response = $client->get($URL);
-            $html = (string) $response->getBody()->getContents();
 
-            $crawler = new Crawler($html);
-            // $hubTitle =  $crawler->filter('.therapists-bio > h1')->innerText();
-            // $hubTelLink =  $crawler->filter('a.main-but')->attr('href');
+            try {
+                // $URL = $verifyLink;
+                $response = $client->get("https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5");
+                if ($response->getStatusCode() == "200"){
+                    $data["statuscode"]  = 'true';
+                }
+                return $this->asJson($data);
+                // Process response normally...
+            } catch (RequestException $e) {
+                // An exception was raised but there is an HTTP response body
+                // with the exception (in case of 404 and similar errors)
+                $data["statuscode"]  = 'false'; //$response->getStatusCode();
+                
+                return $this->asJson($data);
+                // $response = $e->getResponse();
+                // $responseBodyAsString = $response->getBody()->getContents();
+                // // echo $response->getStatusCode() . PHP_EOL;
+                // // echo $responseBodyAsString;
+                // return $this->asJson($responseBodyAsString);
+            }
+        }
+           
+     
 
-            $mnoLink = $crawler->filter('img.profile-summary__link')->attr('href');
-            // $subtopic_id = $_GET['subtopic_id'] ?? 3;
-
-            // $data["title"]  =   $html;
-            // $data["tellink"]  =   $mnoLink;
-            // echo $body;
-            // echo "<br /><br /><br />";
-
-        return $this->asJson($data);
-    }
 }
