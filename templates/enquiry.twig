@@ -40,17 +40,18 @@
 {% set entry = entry ?? null %}
 
 <form method="post" action="" class="needs-validation " novalidate="" accept-charset="UTF-8">
+  {{userId}}
     {# Hidden inputs required for the form to work: #}
     {{ csrfInput() }}
     {{ actionInput('guest-entries/save') }}
-
-    {# Custom redirect URI: #}
-    {{ redirectInput('enquiry-submitted') }}
-
+    {{ hiddenInput('fields[therapistID][]', userId) }}  
     {# Section for new entries: #}
     {{ hiddenInput('sectionUid', 'e6ff9992-97aa-4cd6-b9ea-5743266547cb') }}
 
-    {{ hiddenInput('fields[therapistID][]', userId) }}
+    {# Custom redirect URI: #}
+    {{ redirectInput('enquiry-submitted/{uid}') }}
+
+    
 
     {# Entry properties and custom fields: #}
     <!-- Input -->
@@ -72,6 +73,7 @@
         class:'form-control',
         required:'required',
         name: 'fields[email]',
+        type: 'email'
     }) }}
     {{ entry ? _self.errorList(entry.getErrors('email')) }}
 
@@ -86,7 +88,7 @@
         {% for option in field.options %}    
         
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="fields[contactPreference]" value="{{ option.value }}" id="contact{{option.value}}">
+            <input class="form-check-input" type="radio" name="fields[contactPreference]" required value="{{ option.value }}" id="contact{{option.value}}">
             <label for="contact{{option.value}}" class="form-check-label">{{ option.label }}</label>
           </div>
       {% endfor %}

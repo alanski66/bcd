@@ -28,7 +28,7 @@ class DefaultController extends Controller
     // Properties
     // =========================================================================
 
-    protected array|bool|int $allowAnonymous = ['get-data', 'verify-bacp','verify-ukcp'];
+    protected array|bool|int $allowAnonymous = ['get-data', 'verify-id','verify-ukcp','verify-bacp'];
 
 
     // Public Methods
@@ -70,10 +70,14 @@ class DefaultController extends Controller
         return $this->asJson($data);
     }
 
+    /*
+    * used for bacp and ncps
+    */
     public function actionVerifyBacp(): Response
     {
         $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
-
+        $org = Craft::$app->request->getBodyParam('org');
+        $profileId = Craft::$app->request->getBodyParam('profileId');
         // $incomingparams = Craft::$app->request->getRawBody();
         // $params = craft\helpers\Json::decode($incomingparams);
 
@@ -81,6 +85,7 @@ class DefaultController extends Controller
         $data = array();
         $jar = new \GuzzleHttp\Cookie\CookieJar();
         //set header information including cookies, referer, etc. 
+        
         // new GuzzleHttp\Client
         $client = new \GuzzleHttp\Client([
             'cookies' => false,
@@ -101,8 +106,11 @@ class DefaultController extends Controller
             try {
                 $URL = $verifyLink;
                 $response = $client->get($URL);
+                // var_dump($response); die();
                 if ($response->getStatusCode() == "200"){
                     $data["statuscode"]  = 'true';
+                }else{
+                    $data["statuscode"]  = $response->getStatusCode();
                 }
                 return $this->asJson($data);
                 // Process response normally...
@@ -127,10 +135,12 @@ class DefaultController extends Controller
         
         // format "https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5"; 
         $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+        // Craft::$app->setcookies(['verified' => 'false']);
+        setcookie("verified", $value="false", time()+3600);  /* expire in 1 hour */
 
         // $incomingparams = Craft::$app->request->getRawBody();
         // $params = craft\helpers\Json::decode($incomingparams);
-            
+        //     print_r($verifyLink); die();
         // var_dump($verifyLink);die();
         $data = array();
         $jar = new \GuzzleHttp\Cookie\CookieJar();
@@ -153,11 +163,24 @@ class DefaultController extends Controller
             );
 
             try {
-                // $URL = $verifyLink;
-                $response = $client->get("https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5");
+                $URL = $verifyLink;
+                // $response = $client->get("https://www.psychotherapy.org.uk/therapist/Roz-Read-iAhuAAAS");
+                 $response = $client->get($URL);
+                
+                //test
+                // $data["statuscode"] = $response->getStatusCode();
+                // return $this->asJson($data);
+                //end test
                 if ($response->getStatusCode() == "200"){
+                    setcookie("verified", $value="true", time()+3600);  /* expire in 1 hour */
                     $data["statuscode"]  = 'true';
+                    
                 }
+                if ($response->getStatusCode() !== "200"){
+                    $data["statuscode"]  = 'false'; 
+                    
+                }
+                
                 return $this->asJson($data);
                 // Process response normally...
             } catch (RequestException $e) {
@@ -177,3 +200,5 @@ class DefaultController extends Controller
      
 
 }
+
+// NCPS https://www.search-ncps.com/search/FindaTherapist/NCS23-03863

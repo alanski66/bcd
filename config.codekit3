@@ -7,7 +7,7 @@
       "uuidString" : "48676E10-8A8D-45C5-8D3F-2E8E2554C063"
     }
   ],
-  "creatorBuild" : "34678",
+  "creatorBuild" : "34680",
   "files" : {
     "\/.env" : {
       "cB" : 0,
@@ -2940,12 +2940,12 @@
       "oAP" : "\/templates\/dash.twig",
       "oF" : 0
     },
-    "\/templates\/enquiry-submitted.twig" : {
+    "\/templates\/enquiries\/enquiry-submitted.twig" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/templates\/enquiry-submitted.twig",
+      "oAP" : "\/templates\/enquiries\/enquiry-submitted.twig",
       "oF" : 0
     },
     "\/templates\/enquiry.twig" : {

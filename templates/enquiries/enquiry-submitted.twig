@@ -1,0 +1,90 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+{% set entry = craft.entries()
+.uid(entryUid)
+.one() %}
+{% set userId = entry.therapistID.one().id %}
+{% set therapist = craft.users()
+.group('counsellors')
+.id(userId).one() %}
+<main>
+  <section class="container d-flex flex-column">
+    <div class="row align-items-center justify-content-center ">
+      <div class="col-lg-6 col-md-8  py-xl-0">
+        <!-- Card -->
+        <div class="crd sha dow">
+          <!-- Card body -->
+          <div class="card-body p-6 d-flex flex-column justify-content-center">
+            <div class="flex-column justify-content-center">
+              <div class="d-flex flex-column align-items-center mb-3">
+                <div class="p-2">
+                  <h1 class="mb-0 fw-bold">Enquiry sent</h1>
+                </div>
+
+
+                {% if userId | length %}
+                {% set asset = therapist.photo %}
+                {% do asset.setTransform('profileMedium') %}
+
+                <div class="p-2">
+                  Your enquiry has been sent to <span class="text-primary">{{therapist.fullName}}</span>
+                  <p>They will be in touch usually in the next 24hrs.</p>
+                </div>
+                <div class="p-2">
+                  <img src="{{ asset.url }}" alt="{{therapist.fullName}}"
+                    class="avatar avatar-xxl rounded-circle img-fluid">
+                </div>
+                <div class="p-2">
+                  Here is what you sent.
+                                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Details</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Name</th>
+                        <td>{{entry.title}}</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Tel</th>
+                        <td>{{entry.phoneNumber}}</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Email</th>
+                        <td>{{entry.email}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Preferred contact method</th>
+                        <td>{{entry.contactPreference}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Enquiry message</th>
+                        <td>{{entry.body}}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                {% endif %}
+              </div>
+            </div>
+          
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock content %}

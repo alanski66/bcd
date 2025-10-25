@@ -1,0 +1,66 @@
+columnSuffix: null
+handle: memberOrganisation
+instructions: 'Please select a member organisation so we can attempt to verify your membership'
+name: 'Member organisation'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Please select'
+        -
+          - value
+          - '0'
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - BACP
+        -
+          - value
+          - bacp
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - NCPS
+        -
+          - value
+          - ncps
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - UKCP
+        -
+          - value
+          - ukcp
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Other
+        -
+          - value
+          - other
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

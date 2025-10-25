@@ -1,3 +1,5 @@
+cardView:
+  - 'layoutElement:4ec15848-5fd4-4df7-8560-3205ebe142bb'
 tabs:
   -
     elementCondition: null
@@ -34,6 +36,38 @@ tabs:
         userCondition: null
         warning: null
         width: 50
+      -
+        dateAdded: '2025-02-09T16:08:16+00:00'
+        elementCondition: null
+        fieldUid: ae52dbda-1496-43d4-a8e1-c9d0c45c41f0 # Membership org id
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: d801412b-4c70-4f27-8763-27eac9fd320d
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2025-02-09T16:08:16+00:00'
+        elementCondition: null
+        fieldUid: 36dc80ef-c566-4b45-a3fa-53319d7ab7ba # Member organisation
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 66156faa-b91c-4fbf-99f1-621702c76a98
+        userCondition: null
+        warning: null
+        width: 100
       -
         autocapitalize: true
         autocomplete: false

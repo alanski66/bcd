@@ -3,10 +3,15 @@ console.log('module js');
 
 
 const $verifyButton = document.getElementById('verify');
+const $btnTxt = document.getElementById('btnText');
+
 const memberOrg = document.getElementById('memberOrg');
 const idRouteContainer = document.getElementById('id-route-container');
 const urlRouteContainerUKCP = document.getElementById('url-route-container-ukcp');
 const urlRouteContainerOther = document.getElementById('url-route-container-other');
+const vBtnContainer = document.getElementById('v-btn-container')
+const vSuccessContainer = document.getElementById('verified-success')
+const vWarningContainer = document.getElementById('verified-warning')
 
 const isValidUrl = (urlString) => {
     var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
@@ -31,58 +36,15 @@ memberOrg.addEventListener('change', function (e) {
 });
 $verifyButton.addEventListener('click', function (e) {
     const params = new FormData();
-    // console.log(isValidUrl(verifyLink.value));
-    console.log("jj" + memberOrg[0].value)
-    // params.append('verifyLink', verifyLink.value);
-    // params.append('userId', $button.dataset.userId);
     params.append($verifyButton.dataset.csrfTokenName, $verifyButton.dataset.csrfTokenValue);
-    //params.append('fullName', prompt('New name:'));
-
-    if (memberOrg.value === "bacp") verifybacp() // format https://www.bacp.co.uk/therapists/386443
-    if (memberOrg.value === "ukcp") verifyukcp(params) // https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5
-    if (memberOrg.value === "ncps") verifyncps() //format https://www.search-ncps.com/search/FindaTherapist/NCS14-01401
+  
+    if (memberOrg.value === "other") verifyother(params)
+    if (memberOrg.value === "bacp") verifybacp(params) // format https://www.bacp.co.uk/therapists/386443
+    if (memberOrg.value === "ukcp") verifyukcp(params) // eg https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5
+    if (memberOrg.value === "ncps") verifyother(params) //format https://www.search-ncps.com/search/FindaTherapist/NCS14-01401
+    vWarningContainer.classList.add("d-none")
     return
-    //add radio detect and redirect based on
 
-    fetch('/actions/fetch-profile/default/verify-bacp', {
-        method: 'POST',
-        body: params,
-        headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-        },
-    })
-        .then(response => {
-            // Check if the request was successful
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            // Parse the response as JSON
-            return response.json();
-        })
-        .then(data => {
-            // Handle the JSON data
-            console.log('dd' + data.statuscode);
-            if(data.statuscode == "true"){
-                // do button verify message
-                $button.className = "btn btn-success";
-                $button.innerText = "You're verified";
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { x: 0.2, y: 0.6 }
-                });
-                setTimeout(() => {
-                    confetti.reset();
-                  }, 3000);
-            } else{
-                //do error msg
-            }
-        })
-        .catch(error => {
-            // Handle any errors that occurred during the fetch
-            console.error('Fetch error:', error);
-        });
 });
 
 // el.addEventListener("click", function (e) {
@@ -100,46 +62,49 @@ $verifyButton.addEventListener('click', function (e) {
 //     }
 //   });
 
-function verifybacp(data) {
-    console.log('verify bacp membership')
+function verifyother(params) {
 }
-function verifyukcp(params) {
-    // "https://www.psychotherapy.org.uk/therapist/john-doe"
-    const ukcpProfileUrl = document.getElementById('v-url-route-ukcp')
-    let ukcpProfileLink = ukcpProfileUrl.value
-    let errmsg = document.getElementById('err-ukcp')
+function verifybacp(params) {
+    console.log('verify id membership')
+    console.log(memberOrg.value)
+    const profileIdEl = document.getElementById('v-url-route-id')
+    let profileId = profileIdEl.value
+    let errmsg = document.getElementById('err-routeid')
     let spinner = document.getElementById('spinner')
 
+    
     spinner.classList.remove("d-none")
     errmsg.className = "fade-out-err"
     errmsg.innerText = "";
     setTimeout(() => {
-  
         //handle invalid url errors
-        if(!isValidUrl(ukcpProfileLink)) {
+        if(profileId == null || profileId == "") {
             spinner.className = "d-none spinner-border spinner-border-sm"
             errmsg.className = "fade-in-err"
-            errmsg.innerText = "Unable to verify - please add the url link to your UKCP profile. (If this keeps happening please contact us)";
+            errmsg.innerText = "Unable to verify - please add your membership ID. (If this keeps happening please contact us)";
             $verifyButton.className = "btn btn-warning"; 
-        //     $verifyButton.innerText = "uh-oh!";
-        //     setTimeout(() => {
-        //         $verifyButton.className = "btn btn-primary"; 
-        //         $verifyButton.innerText = "Verify";
-        //         spinner.className = "d-none ski"
-        //       }, 3000);
         return
         }
-    }, 2000);
+    }, 3000);
 
-
-    let ukcpUrlObj = new URL(ukcpProfileLink);
     
-    if (ukcpUrlObj.href.includes("https://www.psychotherapy.org.uk/therapist/")) {
-        console.log("Match go verify");
-        params.append('verifyLink', ukcpProfileLink);
-        // params.append(ukcpProfileUrl)
-        console.log(params)
-        fetch('/actions/fetch-profile/default/verify-ukcp', {
+    if (profileId.length > 0) {
+        var preFixUrl = ""
+        console.log("Match go verify ID");
+        // bacp url https://www.bacp.co.uk/therapists/386443
+        if (memberOrg.value == "bacp") {
+            var preFixUrl = "https://www.bacp.co.uk/therapists/"  
+        }
+
+        let idLink = preFixUrl + profileId;
+        console.log(idLink)
+        params.append('verifyLink', preFixUrl + profileId);
+        params.append('org', memberOrg.value);
+        params.append('profileId', profileId);
+        
+        // console.log([...params]);
+        
+        fetch('/actions/fetch-profile/default/verify-bacp', {
             method: 'POST',
             body: params,
             headers: {
@@ -168,6 +133,93 @@ function verifyukcp(params) {
                         spread: 70
                     });
                     // do button verify message
+                    vSuccessContainer.classList.remove("d-none")
+                    vBtnContainer.classList.add("d-none")
+                    $verifyButton.className = "btn btn-success";
+                    $verifyButton.innerText = "Verified!";
+                    // $verifyButton.ariaDisabled;
+                    // $verifyButton.disabled = true;
+                      }, 3000);
+                } else{
+                    //do error msg
+                    setTimeout(() => {
+                    vWarningContainer.classList.remove("d-none")
+                    spinner.classList.add("d-none");
+                    console.log('status:' + data.statuscode);
+                    $btnTxt.textContent = "Try again";
+                    },2500);
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error('Fetch error:', error);
+            });
+    
+    }else{
+        console.log("Not verified")
+    }
+}
+function verifyukcp(params) {
+    // "https://www.psychotherapy.org.uk/therapist/john-doe"
+    const ukcpProfileUrl = document.getElementById('v-url-route-ukcp')
+    let ukcpProfileLink = ukcpProfileUrl.value
+    let errmsg = document.getElementById('err-ukcp')
+    let spinner = document.getElementById('spinner')
+
+    spinner.classList.remove("d-none")
+    errmsg.className = "fade-out-err"
+    errmsg.innerText = "";
+    setTimeout(() => {
+        //handle invalid url errors NB this will not capture false www mistakes eg wwmw
+        if(!isValidUrl(ukcpProfileLink)) {
+            console.log('invalid url');
+            spinner.className = "d-none spinner-border spinner-border-sm"
+            errmsg.className = "fade-in-err"
+            errmsg.innerText = "Unable to verify - please add the url link to your UKCP profile. (If this keeps happening please contact us)";
+            $verifyButton.className = "btn btn-warning"; 
+        return
+        }
+    }, 2000);
+
+
+    let ukcpUrlObj = new URL(ukcpProfileLink);
+    
+    if (ukcpUrlObj.href.includes("https://www.psychotherapy.org.uk/therapist/")) {
+        console.log("Match go verify");
+        params.append('verifyLink', ukcpProfileLink);
+        // return true;
+        // params.append(ukcpProfileUrl)
+        console.log(params)
+        fetch('/actions/fetch-profile/default/verify-ukcp', {
+            method: 'POST',
+            body: params,
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+            .then(response => {
+                // Check if the request was successful
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Parse the response as JSON
+                console.log(response.json);
+                return response.json();
+            })
+            .then(data => {
+                // Handle the JSON data
+                console.log('datastatus:' + data);
+                if(data.statuscode == "true"){
+                    
+                    setTimeout(() => {
+                        confetti.reset();
+                           // confetti
+                    confetti({
+                        particleCount: 100,
+                        spread: 70
+                    });
+                    // do button verify message
                     $verifyButton.className = "btn btn-success";
                     $verifyButton.innerText = "Verified!";
                     $verifyButton.ariaDisabled;
@@ -175,8 +227,13 @@ function verifyukcp(params) {
                       }, 3000);
                 } else{
                     //do error msg
-                    console.log('status:' + data.statuscode);
-                    $verifyButton.innerText = "Unable to verify";
+                    setTimeout(() => {
+                        vWarningContainer.classList.remove("d-none")
+                        spinner.classList.add("d-none");
+                        console.log('status:' + data.statuscode);
+                        $btnTxt.textContent = "Try again";
+                        },2500);
+                    
                 }
             })
             .catch(error => {
@@ -192,7 +249,7 @@ function verifyukcp(params) {
 }
 function verifyncps(data) {
     
-    
+    //https://www.search-ncps.com/search/FindaTherapist/NCS23-03863
     let regEx = /\b(https?:\/\/.*?\.[a-z]{2,4}\/[^\s]*\b)/g;
     let str ='https://www.search-ncps.com/search/FindaTherapist/'
     console.log('verify ncps membership')
@@ -235,3 +292,8 @@ const getSessionInfo = function () {
     })
         .then(response => response.json());
 };
+
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : null;
+}
