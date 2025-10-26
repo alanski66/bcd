@@ -1,0 +1,1 @@
+if("loading"in HTMLImageElement.prototype){document.querySelectorAll('img[loading="lazy"]').forEach((e=>{e.src=e.dataset.src}));document.querySelectorAll("source[data-srcset]").forEach((e=>{e.srcset=e.dataset.srcset}))}

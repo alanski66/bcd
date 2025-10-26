@@ -1,0 +1,19 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+{# 
+    - Use matches variable from dynamic route
+    - matches.number will give you the expected id if you only have 
+      one number segment in your dynamic route
+#}
+{% set userId = craft.app.request.getSegment('3') %}
+{% block content %}
+{{userId}}
+
+{# Find user #}
+{% if userId is defined %}
+    {% set profile = craft.users.id(userId).one() %}
+        {{ profile.name }}<br/>
+        {{ profile.username }}<br/>
+        {{ profile.email }}<br/>
+        {{ profile.id }}<br/>
+{% endif %}
+{% endblock content %}

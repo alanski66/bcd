@@ -1,0 +1,102 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+<!-- tmpl/users/user-list.twig-->
+<main>
+  {# Create a user query with the 'group' parameter #}
+  {% set myUserQuery = craft.users()
+  .hasPhoto()
+  .group('counsellors') %}
+
+  {# Fetch the users #}
+  {% set therapists = myUserQuery.all() %}
+
+  {# Display the list #}
+
+
+  <!--Session away-->
+  <section class="py-6 py-lg-8 bg-light">
+    <div class="container py-lg-6">
+      <!--row-->
+      <div class="row">
+        <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+          <div class="text-center mb-6 d-flex flex-column gap-2">
+            <!--heading-->
+            <h2 class="mb-0 mx-xl-8 h1">Brighton Counselling directory therapists</h2>
+            <!--para-->
+            <p class="mb-0">Choose your therapist and book a session today</p>
+          </div>
+        </div>
+      </div>
+      <!--row-->
+      <div class="row g-4">
+        <div class="col-12">
+          <div class="d-flex flex-md-row gap-2 flex-column justify-content-between">
+            <!--form-->
+            <form>
+              <label for="InputSearch" class="form-label visually-hidden">Search</label>
+              <input type="search" class="form-control" id="InputSearch"
+                placeholder="Search by word to filter" />
+            </form>
+            <div class="d-grid d-md-flex">
+              <a href="find-a-therapist" class="btn btn-primary">Explore all therapists</a>
+            </div>
+          </div>
+        </div>
+        <!--therapist card user-list-->
+        {% for user in therapists %}
+        <div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-6 d-flex align-items-stretch">
+          
+          <!--card-->
+          <div class="card rounded-4 card-bordered card-lift">
+            <div class="p-3 d-flex flex-column gap-3 flex-grow-1">
+              <!--img-->
+              {% set asset = user.photo %}
+              
+            
+              <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}">
+                {{ picture([user.photo, 'user-photo'], 'user img-fluid w-100 rounded-4') }}
+                {# <img data-src="{{ user.photo.url('profileMedium') }}" alt="{{ user.fullName }}"
+                width="{{ asset.getWidth('profileMedium') }}"
+                height="{{ asset.getHeight('profileMedium') }}"
+                  class="user img-fluid w-100 rounded-4  lazy" /> #}
+              </a>
+              <!--content-->
+              <div class="d-flex flex-column gap-4 flex-grow-1 ">
+                <div class="d-flex flex-column gap-2">
+                  <div>
+                    <div class="d-flex align-items-center gap-2">
+                      <h3 class="mb-0">
+                        <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}"
+                          class="text-reset">{{ user.fullName }}</a>
+                      </h3>
+                      <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-patch-check-fill text-success" viewBox="0 0 16 16">
+                          <path
+                            d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708" />
+                        </svg>
+                      </span>
+                    </div>
+                    <span class="text-gray-800">{{ user.titleRole }}</span>
+                  </div>
+                </div>
+                <div class="d-flex  mt-auto justify-content-around">
+                  <a href="#!" class="d-none btn btn-outline-white"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill me-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"></path></svg></span>
+                              Save
+                            </a>
+                  <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}" class="btn btn-outline-primary mt-auto" 
+                    >View profile</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,45 @@
+
+{% set excludeDates = siteInfo.closedDates | raw %}
+{# soft business rule - cut off date for todays orders is 12.00pm #}
+{# if the time today has gone 12pm then add todays dates to the exlcuded list this stops the date being passed
+from delivery date to the cart #}
+
+{% set nowHour =  "now" | date('G') %}
+{% set nowDay =  "now" | date('D')  %}
+{% set nowDate ="now" | date ('Y-m d') %}
+    
+{% set deliverToday = '0' %}
+{% set cutOff = '12' %}
+{% set deliverToday = '' %}
+{% if nowHour > cutOff %}
+
+    {% set excludeDates = excludeDates ~ " '" ~ "now" | date ('Y-m d') ~ "'" | raw %}
+  {% elseif nowHour < cutOff %}
+    {% set deliverToday = '1' %}
+{% endif %}
+
+{# cut off saturday #}
+{% if nowHour > cutOff and nowDay == 'Sat' %}
+    {# sunday == #}
+    {% set sunday = 'now'|date_modify("+1 day") | date ('Y-m d') %}
+    {% set excludeDates = excludeDates ~ ", '" ~ sunday ~ "'" | raw %}
+{% endif %}
+
+    
+    {% set env = getenv('ENVIRONMENT') %}
+{% if env == "dev" %}
+<p>{% set tomorrow = 'now'|date_modify("+1 day") | date ('Y-m d') %} {{ tomorrow }}</p>
+<p>Excluded dates: {{ excludeDates }}</p>
+<p>Deliver today: {{ deliverToday }}</p>
+{% endif %}
+<script type="text/javascript">
+
+    //var currency;
+    {# set cut off date #}
+    const deliverToday = "{{ deliverToday }}"
+    const excludeTheseDates = [function(date) {return ( date.getDay() === 0)},
+                                {{ excludeDates| raw }}];
+    
+
+</script>
+

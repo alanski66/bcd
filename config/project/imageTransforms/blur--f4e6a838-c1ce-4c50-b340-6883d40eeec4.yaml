@@ -1,0 +1,11 @@
+fill: null
+format: avif
+handle: blur
+height: 30
+interlace: none
+mode: crop
+name: Blur
+position: center-center
+quality: null
+upscale: true
+width: 30

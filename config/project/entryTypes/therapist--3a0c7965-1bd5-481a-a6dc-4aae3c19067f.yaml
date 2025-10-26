@@ -1,0 +1,51 @@
+color: null
+fieldLayouts:
+  2e9c2f13-64bb-4f4e-9b0d-e2273f08eed9:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2024-09-20T19:00:28+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 73354247-86b3-4c89-bc72-34887a894227
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 10f76177-04ca-4722-9f98-c43db74034a5
+        userCondition: null
+handle: therapist
+hasTitleField: true
+icon: null
+name: therapist
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

@@ -1,0 +1,28 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: b6914cb8-a88f-4607-a3ca-a82a45a4b9a0 # Enquiry
+handle: enquiries
+maxAuthors: 1
+name: Enquiries
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
+propagationMethod: all
+siteSettings:
+  c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
+    enabledByDefault: true
+    hasUrls: true
+    template: enquiries/_entry.twig
+    uriFormat: 'my-enquiries/{slug}'
+type: channel

@@ -1,0 +1,52 @@
+{# Create a user query with the 'group' parameter #}
+{% set myUserQuery = craft.users()
+    .hasPhoto()
+    .group('counsellors')
+    .limit(10) %}
+  
+{# Fetch the users #}
+{% set therapists = myUserQuery.all() %}
+<div class="position-relative">
+    <ul class="controls" id="sliderFirstControls">
+        <li class="prev">
+            <i class="fe fe-chevron-left"></i>
+        </li>
+        <li class="next">
+            <i class="fe fe-chevron-right"></i>
+        </li>
+    </ul>
+
+    <div class="sliderFirst">
+        {% for user in therapists %}
+        {% set userUrl = alias('@baseUrl') ~ '/counsellors/' ~ user.username|kebab ~ '/' ~ user.id %}
+        <div class="item">
+            <!-- Card -->
+            <div class="card mb-4 card-hover">
+                <a href="{{userUrl}}">
+                    <img src="{{ user.photo.url('profileSmall') }}" alt="{{ user.fullName }}"
+                        class="card-img-top"></a>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <h4 class="mb-2 text-truncate-line-2">
+                        <a href="pages/course-single.html" class="text-inherit">{{ user.fullName }}</a>
+                    </h4>
+                    <div class="d-none">{{ user.titleRole }}</div>
+                    <div class="d-none">{{ user.qualifications }}</div>
+                   
+                    
+                    
+                </div>
+                <!-- Card Footer -->
+                <div class="card-footer">
+                    <div class="row align-items-center g-0">
+                     
+                        <div class="col-auto">
+                            <a href="{{userUrl}}" class="btn btn-secondary" >View profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+    </div>
+</div>

@@ -1,0 +1,210 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+{# {% extends "_layouts/chromeless-page-layout.twig" %} #}
+
+
+{% block content %}
+{% do view.registerAssetBundle('modules\\fetchprofile\\assets\\SiteAsset') %}
+{# confetti #}
+{% js baseUrl~"js/vendors/confetti.browser.js" %}
+<main>
+  <section class="container d-flex flex-column ">
+    <div class="row align-items-center justify-content-center g-0 h-lg-100 py-8">
+      <div class="col-sm-12 col-md-8 col-lg-6 py-8 py-xl-0">
+        <!-- Card -->
+        <div class="nocardshadow">
+          <!-- Card body -->
+          <div class="card-body p-6 d-flex flex-column gap-4">
+            <div class="text-center mb-5">
+              <a class="d-none" href="{{baseUrl}}">
+                <img src="../assets/images/brand/logo/logo.svg" class="mb-4" alt="logo" width="200px"></a>
+
+              <div class="d-flex flex-column gap-1">
+                <h1 class="mb-0 fw-bold">Join us - Counsellors Sign up</h1>
+                <span>
+                  Already have an account?
+                  <a href="sign-in" class="ms-1">Sign in</a>
+                </span>
+                <div class="d-none alert alert-primary d-flex align-items-center" role="alert">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                    <path
+                      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                  </svg>
+                  <div>
+                    You must be a member of a counselling or psychotherapy membership organisation to join.<br>
+                    You will need your proof of insurance to complete this process.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Form -->
+            {% macro errorList(errors) %}
+            {% if errors %}
+            {{ ul(errors, {class: 'errors'}) }}
+            {% endif %}
+            {% endmacro %}
+
+            {# `user` is defined if the form returns validation errors. #}
+            {% set user = user ?? null %}
+            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
+              {{ csrfInput() }}
+              {{ actionInput('users/save-user') }}
+              {{ redirectInput('verify') }}
+
+              <!-- Username -->
+              <div class="mb-3">
+                <label for="full-name" class="form-label">Full Name</label>
+                {{ input('text', 'fullName', user.fullName ?? null, {
+                id: 'full-name',
+                autocomplete: 'name',
+                class: 'form-control',
+                required: '',
+                placeholder: 'full name'
+                }) }}
+                {{ user ? _self.errorList(user.getErrors('fullName')) }}
+                <div class="invalid-feedback">Please enter your full name.</div>
+              </div>
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ input('email', 'email', user.email ?? null, {
+                id: 'email',
+                autocomplete: 'email',
+                class: 'form-control',
+                required: '',
+                placeholder: 'email'
+                }) }}
+                {{ user ? _self.errorList(user.getErrors('email')) }}
+
+                <div class="invalid-feedback">Please enter a valid Email.</div>
+              </div>
+              <!-- Password -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                {{ input('password', 'password', null, {
+                id: 'password',
+                class: 'form-control',
+                required: '',
+                placeholder: '********'
+                }) }}
+                {{ user ? _self.errorList(user.getErrors('password')) }}
+
+                <div class="invalid-feedback">Please enter a password.</div>
+              </div>
+
+              <!-- verification-->
+              <!-- Card -->
+              <div class="card mb-4 bg-light">
+                <!-- Card Header -->
+                <div class="card-header d-flex flex-column align-items-center justify-conte nt-between">
+
+                  <!-- verify membership -->
+                  <h3>Membership verification</h3>
+                  <div class="instructions card p-3 bg-light mb-3">
+                    <p class="text-center">In order to sign up you must be registered with a professional membership
+                      organisation.</p>
+                    <p>Choose your membership organisation below and then add your membership id and click 'verify'</p>
+                    <p>We will attempt to verify your membership in real-time. If you have an issue please contact us <a
+                        href="contact">here.</a></p>
+                  </div>
+                  {% set field = craft.app.fields.getFieldByHandle('memberOrganisation') %}
+
+                  <!-- Select Option -->
+                  <div class="mb-3">
+                    <label class="form-label" for="memberOrg">Select your membership organisation</label>
+
+                    <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" required>
+                      {% for option in field.options %}
+                      <option value="{{ option.value }}">
+                        {{ option.label }}
+                      </option>
+                      {% endfor %}
+                    </select>
+
+                    <div class="verify-input-container ">
+                      <!-- id route -->
+                      <div id="id-route-container" class="d-none">
+                        <label class="form-label" for="v-url-route-id">What is your membership id?</label>
+                        <div id="err-routeid" class="d-none err-msg btn btn-warning">We couldnt verify that ID.</div>
+                        <input class=" form-control mb-3" id="v-url-route-id" value="">
+                      </div>
+                      <!-- url ukcp route -->
+                      <div id="url-route-container-ukcp" class="d-none">
+                        <label class="form-label" for="v-url-route-ukcp">Please add your UKCP profile url</label>
+                        <div id="err-ukcp" class="d-none err-msg btn btn-warning">We couldnt verify that url.</div>
+                        <input class=" form-control mb-3" id="v-url-route-ukcp" value="" required>
+
+                      </div>
+                      <!-- url other route -->
+                      <div id="url-route-container-other" class="d-none">
+                        <label class="form-label" for="v-url-route-other">Please add the name of your membership
+                          organisation</label>
+                        <input class=" form-control mb-3" id="v-url-route-other" value="" required>
+                      </div>
+                    </div>
+
+                    <div id="v-btn-container" class="my-3 text-center">
+                      <a id="verify" class="btn btn-primary"
+                        data-csrf-token-value="{{ craft.app.request.getCsrfToken() }}"
+                        data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}">
+                        <span id="spinner" class="d-none spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
+                        <span id="btnText" class="vnow">Verify Now</span></a>
+                    </div>
+                    <div id="verified-success" class="d-none my-3 text-center">
+                      <!-- Success alert -->
+                      <div class="alert alert-success bg-light-success d-flex align-items-center" role="alert">
+                        <i class="fs-2 bi bi-check-circle-fill me-2"></i>
+                        <div>
+                          You have been verified.
+                        </div>
+                      </div>
+                    </div>
+                    <div id="verified-warning" class="d-none my-3 text-center">
+                       <!-- Success alert -->
+                       <div class="alert alert-danger d-flex align-items-center alert-dismissible " role="alert">
+                        <i class="fs-2 bi bi-exclamation-triangle-fill me-2"></i>
+                        We could not verify your membership of the organisation. Please try again.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    </div>
+                      
+                    <!-- Card Body -->
+                  </div>
+                </div>
+              </div>
+              <!-- Terms n conditions -->
+              <div class="mb-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="agreeCheck" required="required">
+                  <label class="form-check-label" for="agreeCheck">
+                    <span>
+                      I agree to the
+                      <a href="terms-condition-page.html">Terms of Service</a>
+                      and
+                      <a href="terms-condition-page.html">Privacy Policy.</a>
+                    </span>
+                  </label>
+                  <div class="invalid-feedback">You must agree before submitting.</div>
+                </div>
+              </div>
+              <div>
+                <!-- Button -->
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Create Free Account</button>
+                </div>
+              </div>
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% endblock content %}

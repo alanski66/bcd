@@ -1,0 +1,27 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  - 3a0c7965-1bd5-481a-a6dc-4aae3c19067f # therapist
+handle: therapists
+maxAuthors: 1
+name: Therapists
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - refresh
+        - '1'
+      -
+        - urlFormat
+        - '{url}'
+propagationMethod: all
+siteSettings:
+  c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
+    enabledByDefault: true
+    hasUrls: true
+    template: users/user-list.twig
+    uriFormat: find-a-therapist
+type: single

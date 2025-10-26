@@ -1,0 +1,33 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+<!-- cat section -->
+<!-- category issues list-->
+  <!--Hero section-->
+  <section class="py-md-8 py-3"
+    style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: contain">
+    <div class="container py-lg-3">
+      <!--row-->
+      <div class="row">
+        <div class="col-xl-10 col-md-10 col-12 mx-auto">
+          <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+            <h2 class="h1 mb-0">Types of therapy</h2>
+            <p class="mb-0 px-xl-5">Discover different types of therapy
+              practices which might suit your needs or simnply find out more about the differnt forms of therapy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+<section class="py-xl-8 py-6 bg-light">
+  <div class="container">
+   
+    <div class="row gy-4">
+ {% include('/components/typesoftherapy/typesoftherapy-list-card.twig') %}
+ 
+    </div>
+  </div>
+</section>
+{% endblock %}

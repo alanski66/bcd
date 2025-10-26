@@ -1,0 +1,11 @@
+fill: null
+format: avif
+handle: card
+height: 272
+interlace: none
+mode: crop
+name: Card
+position: center-center
+quality: 80
+upscale: true
+width: 408

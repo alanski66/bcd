@@ -1,0 +1,11 @@
+fill: null
+format: avif
+handle: heroBG
+height: 383
+interlace: line
+mode: crop
+name: 'Hero background'
+position: center-center
+quality: 80
+upscale: true
+width: 900

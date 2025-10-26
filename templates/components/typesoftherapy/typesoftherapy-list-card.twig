@@ -1,0 +1,19 @@
+
+{% set entries = craft.entries.section('typesOfTherapy').limit('null') %}
+{% for entry in entries %}
+<div class="col-xl-3 col-lg-4 col-md-6 col-12  align-items-stretch">
+    
+        
+    <a href="{{entry.url}}">
+        <div class="card-hover-svg card h-100">
+            <div class="card-body d-flex flex-column gap-4 flex-grow-1">
+            <div class=" d-flex flex-column gap-4 flex-grow-1 flex-grow-1">
+                <h3 class="mb-0 text-center">{{ entry.title }}</h3>
+                
+            </div>
+        </div>
+        </div>
+    </a>
+
+</div>
+{% endfor %}

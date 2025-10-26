@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container px-0">
+      <a class="navbar-brand" href="{{ alias('@baseUrl') }}">
+        <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo.svg" alt="" height="110px" class="mg-fluid"/>
+      </a>
+      <!-- Mobile view nav wrap -->
+      {# <div class="ms-auto d-flex align-items-center order-lg-3">
+        <div class="d-flex gap-2 align-items-center">
+          
+          <a href="sign-in" class="btn btn-outline-dark">Sign in</a>
+          <a href="sign-up" class="btn btn-primary d-none d-md-block">For professionals</a>
+        </div>
+      </div> #}
+      <div>
+        <!-- Button -->
+        <button
+          class="navbar-toggler collapsed ms-2 border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbar-default"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="icon-bar top-bar mt-0"></span>
+          <span class="icon-bar middle-bar"></span>
+          <span class="icon-bar bottom-bar"></span>
+        </button>
+      </div>
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse justify-content-evenly" id="navbar-default">
+        <ul class="navbar-nav mt-3 mt-lg-0  justify-content-between w-75">
+          <li class="nav-item">
+            <a class="nav-link" href="{{alias('@web')}}/find-a-therapist">Find a therapist</a>
+         
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{{alias('@web')}}/issues" id="navbarLanding" >Get help with</a>
+        
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{{alias('@web')}}/types-of-therapy" id="navbarPages">Types of therapy</a>
+           
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{alias('@web')}}/articles" >Articles</a>
+           
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>

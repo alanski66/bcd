@@ -1,0 +1,10 @@
+<!-- category issues list-->
+{% set myCategoryQuery = craft.categories()
+.group('issues') %}
+{# Fetch the categories #}
+{% set categories = myCategoryQuery.all() %}
+<div class="gap-2 d-flex flex-wrap justify-content-center">
+    {% for category in categories %}
+    <a href="{{ category.url }}" class="btn btn-tag btn-sm">{{ category.title }}</a>
+    {% endfor %}
+</div>

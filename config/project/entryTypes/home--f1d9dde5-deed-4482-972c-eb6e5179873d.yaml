@@ -1,0 +1,73 @@
+color: null
+fieldLayouts:
+  20c32416-a58d-44e8-847a-81ddb61163bd:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2024-09-20T06:44:30+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 1685aa46-6507-4c02-9ad1-558511e3a808
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 676d0cb4-c21a-41f5-9ba0-b6128a49ac33
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2024-10-24T20:12:59+00:00'
+            elementCondition: null
+            fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1af2677a-9c0f-4030-8d79-03d5d8278feb
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 60fdece5-19b8-49f5-8221-bcc9875ebb7a
+        userCondition: null
+handle: home
+hasTitleField: true
+icon: null
+name: Home
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

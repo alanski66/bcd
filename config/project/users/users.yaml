@@ -1,0 +1,8 @@
+allowPublicRegistration: true
+deactivateByDefault: false
+defaultGroup: b49c197d-26ab-4194-bf60-959a99761cb0 # Counsellors
+photoSubpath: null
+photoVolumeUid: 6229b346-6ed9-4ba1-b01e-d4aa42b7fd07 # User photos
+require2fa: false
+requireEmailVerification: true
+validateOnPublicRegistration: false

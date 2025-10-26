@@ -1,0 +1,402 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+
+<!-- Page Content -->
+<main>
+  <!--Hero section-->
+  <section class="py-md-8 py-3"
+    style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: contain">
+    <div class="container py-lg-3">
+      <!--row-->
+      <div class="row align-items-center gy-3 justify-content-center">
+        <div class="col-xxl-5 col-xl-6 col-md-10">
+          <div class="d-flex flex-column gap-5 text-center">
+            <div class="d-flex flex-column gap-2">
+              <span class="text-dark fs-5">Connecting you for help with your mental health.</span>
+              <!--heading-->
+              <h1 class="mb-0 display-2 fw-bold">
+                <span>Find a counsellor</span>
+                <span class="headingTyped text-primary"></span>
+                <div>to help with..</div>
+              </h1>
+            </div>
+            <div class="d-flex flex-column gap-5">
+              <!--form-->
+              <!-- form autocomplete of issues list-->
+              {% set issues = craft.entries.section('issues').limit(null).all() %}
+              <form action="find-a-therapist">
+                <div class="input-group mb-3 justify-content-center">
+                  <label for="issue" class="form-label visually-hidden">Find a counsellor</label>
+                  <input type="text" class="ps-3 awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
+                        {{entry.title}}, 
+                      {% endfor %}" id="issue" name="issue"
+                    placeholder="Search by issue" aria-label="Search by issue" aria-describedby="basic-addon2" />
+                 
+                  <button class="btn btn-primary btn-lg px-3" id="basic-addon2">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+  <section>
+    {# <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <hr>
+        </div>
+      </div>
+    </div> #}
+  </section>
+
+
+
+  <!-- Therapist list -->
+  <section class="py-6 py-lg-8 bg-light">
+    <div class="container py-lg-6">
+      <!--row-->
+      <div class="row">
+        <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+          <div class="text-center mb-6 d-flex flex-column gap-2">
+            <!--heading-->
+            <h2 class="mb-0 mx-xl-8 h1">Meet some of our therapists</h2>
+            <!--para-->
+            <p class="mb-0">To see more therapists <a href="{{baseUrl}}find-a-therapist" class="">view all Brighton counsellors</a></p>
+          </div>
+        </div>
+      </div>
+      <!--row-->
+      <div class="row g-4">
+        <div class="col-12 d-none ">
+          <div class="d-flex flex-md-row gap-2 flex-column justify-content-between">
+            <!--form-->
+            <form>
+              <label for="mentorInputSearch" class="form-label visually-hidden">Search</label>
+              <input type="search" class="form-control" id="mentorInputSearch"
+                placeholder="Search by name" />
+            </form>
+            <div class="d-grid d-md-flex">
+              <a href="" class="btn btn-primary">Explore all therapists</a>
+            </div>
+          </div>
+        </div>
+        <!--therapist card list-->
+         {# add when ready .profileComplete('no') #}
+        {% set usersRand8 = craft.users()
+          .hasPhoto()
+          .group('counsellors')
+          .orderBy('RAND()')
+          .limit(8) %}
+          {# Fetch the users #}
+          {% set therapists = usersRand8.all() %}
+        {% for user in therapists %}
+        
+          <!--card-->
+               {% include '/components/users/user-card1' %}
+
+        
+        {% endfor %}
+      </div>
+    </div>
+
+<div class="row">
+<div class="col-12 text-center pt-5">
+<a href="{{baseUrl}}find-a-therapist" class="btn btn-lg btn-primary">View all counsellors</a>
+</div>
+</div>
+
+  </section>
+  <!-- end therapist list -->
+  
+    <!-- category issues list-->
+  <section class="py-xl-8 py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-10 col-md-10 col-12 mx-auto">
+          <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+            <h2 class="h1 mb-0">Get help with</h2>
+            <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
+              help.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row gy-4">
+        {% include('/components/issues/issues-list-card.twig') %}
+      </div>
+    </div>
+  </section>
+
+  <!--Easy steps-->
+  <section class="py-lg-8 py-6">
+    <div class="container py-lg-6">
+      <!--row-->
+      <div class="row mb-8">
+        <div class="col-12">
+          <div class="text-center d-flex flex-column gap-2">
+            <!--heading-->
+            <h2 class="mb-0 h1">Get Started with therapy in Brighton in 3 Easy Steps</h2>
+            <!--para-->
+            <p class="mb-0">Follow these three simple steps to get started with a local Brighton counsellor</p>
+          </div>
+        </div>
+      </div>
+      <!--row-->
+      <div class="row">
+        <div class="col-12">
+          <div class="row mb-8 align-items-center gy-4">
+            <div class="col-md-6 offset-xxl-2 col-xxl-4 col-xl-5 offset-xl-1 mb-xxl-6">
+              <div class="d-flex flex-column gap-4">
+                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">1</div>
+                <div class="d-flex flex-column gap-2">
+                  <!--heading-->
+                  <h3 class="mb-0 h2">Find Your Therapist</h3>
+                  <!--para-->
+                  <p class="mb-0 fs-3">Browse from our qualified and registered therapists according to your
+                    preferences</p>
+                </div>
+                <div>
+                  <a href="{{baseUrl}}find-a-therapist" class="btn btn-outline-secondary">Find a therapist</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xxl-5 col-xl-6 mb-xxl-6">
+              <!--img-->
+              <div>
+                <img src="../assets/images/mentor/mento-step-one.jpg" alt="stpes 1" class="img-fluid rounded-4 w-100" />
+              </div>
+            </div>
+          </div>
+          <div class="row mb-8 align-items-center gy-4">
+            <div class="col-md-6 col-xxl-5 offset-xxl-1 col-xl-5 offset-xl-1 order-md-1 order-2 mb-xxl-6">
+              <!--img-->
+              <div>
+                <img src="../assets/images/mentor/mento-step-two.jpg" alt="stpes 2" class="img-fluid rounded-4 w-100" />
+              </div>
+            </div>
+            <div class="col-md-6 col-xxl-4 offset-xxl-1 col-xl-5 offset-xl-1 order-xl-2 order-1 mb-xxl-6">
+              <div class="d-flex flex-column gap-4">
+                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">2</div>
+                <div class="d-flex flex-column gap-2">
+                  <!--heading-->
+                  <h3 class="mb-0 h2">Contact them to book a session</h3>
+                  <!--para-->
+                  <p class="mb-0 fs-3">Connect with a therapist and discuss how mentor they can support and help you achieve your goals and get the support you need.</p>
+                </div>
+                <div>
+                  <a href="{{baseUrl}}find-a-therapist" class="btn btn-outline-secondary">Contact a therapist</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center gy-4">
+            <div class="col-md-6 offset-xxl-2 col-xxl-4 col-xl-5 offset-xl-1 mb-xxl-6">
+              <div class="d-flex flex-column gap-4">
+                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">3</div>
+                <div class="d-flex flex-column gap-2">
+                  <!--heading-->
+                  <h3 class="mb-0 h2">Learn and explore</h3>
+                  <!--para-->
+                  <p class="mb-0 fs-3">Find out about different types of counselling and therapy available or read specific articles about the issues you are intertested in.</p>
+                </div>
+                <div>
+                  <a href="{{baseUrl}}articles" class="btn btn-outline-secondary">Start learning</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xxl-5 col-xl-6 mb-xxl-6">
+              <!--img-->
+              <div>
+                <img src="../assets/images/mentor/mento-step-three.jpg" alt="stpes 3"
+                  class="img-fluid rounded-4 w-100" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Easy steps-->
+
+  <!--Call to action-->
+  <section class="py-lg-8 py-6 bg-gray-100">
+    <div class="container py-lg-8">
+      <!--row-->
+      <div class="row align-items-center">
+        <div class="offset-xl-1 col-xl-4 col-lg-6 d-none d-lg-block">
+          <!--img-->
+          <div class="position-relative">
+            <img src="../assets/images/mentor/become-mentor.jpg" alt="mentor img" class="img-fluid w-100 rounded-4" />
+
+            <img src="../assets/images/mentor/schedule.svg" alt="schedule"
+              class="position-absolute top-50 start-100 translate-middle mt-n8 d-xl-block d-none" />
+            <img src="../assets/images/mentor/verify.svg" alt="verify"
+              class="position-absolute top-50 start-0 translate-middle mt-n2 d-xl-block d-none" />
+
+            <img src="../assets/images/mentor/card.svg" alt="card"
+              class="position-absolute top-50 start-0 translate-middle mt-8 d-xl-block d-none" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-5 offset-lg-1 offset-xl-1">
+          <div class="d-flex flex-column gap-6">
+            <div class="d-flex flex-column gap-2">
+              <!--heading-->
+              <h2 class="mb-0 h1">For therapists: Sign up to join the directory</h2>
+              <!--para-->
+              <p class="mb-0 fs-5">Follow these three simple steps to get started.</p>
+            </div>
+            <div class="d-flex flex-column gap-8">
+              <div class="d-flex flex-column gap-5">
+                <div class="row gap-xxl-3 gap-0">
+                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
+                    <!--svg-->
+                    <div class="icon-shape icon-lg bg-danger-subtle rounded-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-bullseye text-danger" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8" />
+                        <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                      </svg>
+                    </div>
+                  </div>
+                  <!--text-->
+                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
+                    <h4 class="mb-0">You've invested a lot of time to learn your skill, craft, or expertise</h4>
+                  </div>
+                </div>
+                <div class="row gap-xxl-3">
+                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
+                    <!--svg-->
+                    <div class="icon-shape icon-lg bg-warning-subtle rounded-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-cash-stack text-warning" viewBox="0 0 16 16">
+                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                        <path
+                          d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <!--text-->
+                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
+                    <h4 class="mb-0">Add and edit your profile to sahre your expertise.</h4>
+                  </div>
+                </div>
+                <div class="row gap-xxl-3">
+                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
+                    <!--svg-->
+                    <div class="icon-shape icon-lg bg-success-subtle rounded-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-calendar-check text-success" viewBox="0 0 16 16">
+                        <path
+                          d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                        <path
+                          d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <!--text-->
+                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
+                    <h4 class="mb-0">Monitor your enquiries - we will handle directory promotion - all for free.</h4>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <a href="{{baseUrl}}join" class="btn btn-primary">Join Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Call to action-->
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="fw-bold mb-0">Sign up</h3>
+          <div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <!-- Form -->
+        <form class="needs-validation" novalidate="">
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="mentorsUserName" class="form-label">User Name</label>
+            <input type="text" id="mentorsUserName" class="form-control" name="mentorsUserName" placeholder="User Name"
+              required="" />
+            <div class="invalid-feedback">Please enter valid username.</div>
+          </div>
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="mentorUserEmail" class="form-label">Email</label>
+            <input type="email" id="mentorUserEmail" class="form-control" name="mentorUserEmail"
+              placeholder="Email address here" required="" />
+            <div class="invalid-feedback">Please enter valid Email.</div>
+          </div>
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" class="form-control" name="password" placeholder="**************"
+              required="" />
+            <div class="invalid-feedback">Please enter valid password.</div>
+          </div>
+          <!-- Checkbox -->
+
+          <div>
+            <!-- Button -->
+            <div>
+              <button type="submit" class="btn btn-primary">Create Free Account</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex flex-row gap-3 align-items-center">
+          <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar" class="avatar avatar-md rounded-circle" />
+          <h5 class="mb-0">John Deo</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-4">
+          <p class="mb-0 fst-italic fs-4 pe-xxl-5">
+            “The generated lorem Ipsum is therefore always free from repetition,
+            <span class="text-primary">injected humour, or words etc generate</span>
+            lorem Ipsum which looks racteristic reasonable...”
+          </p>
+        </div>
+        <div class="d-flex flex-xl-row gap-2 align-items-center bg-light rounded-pill px-3 py-2">
+          <img src="../assets/images/avatar/avatar-10.jpg" alt="avatar"
+            class="avatar avatar-md rounded-circle d-none d-xl-block" />
+          <div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+              <h4 class="mb-0">Akshay sharma</h4>
+              <span
+                class="rounded-pill fs-6 px-2 text-success-emphasis bg-success-subtle border border-success">Mentor</span>
+            </div>
+            <span class="fs-6">Software Engineer at Palantir</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

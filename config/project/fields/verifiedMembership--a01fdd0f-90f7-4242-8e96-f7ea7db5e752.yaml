@@ -1,0 +1,32 @@
+columnSuffix: null
+handle: verifiedMembership
+instructions: 'Admin use only field to help confirm that a user is  a membership of a body'
+name: 'Verified membership'
+searchable: false
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Yes'
+        -
+          - value
+          - 'yes'
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'No'
+        -
+          - value
+          - 'no'
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\RadioButtons

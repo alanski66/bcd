@@ -1,0 +1,21 @@
+columnSuffix: null
+handle: practiceDescription
+instructions: 'Use this field to describe your practice and orientation to potential clients'
+name: 'Practice description'
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes: ''
+  ckeConfig: 39db330b-457a-4938-8ab1-b93536a6aa9b # Simple
+  createButtonLabel: null
+  defaultTransform: null
+  enableSourceEditingForNonAdmins: false
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

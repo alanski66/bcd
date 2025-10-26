@@ -1,0 +1,25 @@
+{% set myCategoryQuery = craft.categories()
+.group('issues') %}
+{# Fetch the categories #}
+{% set categories = myCategoryQuery.all() %}
+{% for category in categories %}
+{% set numofEntries = craft.entries.section('issues').limit(null).relatedTo(category).count() %}
+<div class="col-xl-3 col-lg-4 col-md-6 col-12  align-items-stretch">
+    
+        
+    <a href="{{category.url}}">
+        <div class="card-hover-svg card h-100">
+            <div class="card-body d-flex flex-column gap-4 flex-grow-1">
+            <div class=" d-flex flex-column gap-4 flex-grow-1 flex-grow-1">
+                <h3 class="fw-normal mb-0 text-center"><i class="bi bi-bookmark-heart"></i> {{ category.title }}</h3>
+                <span class="text-gray-500 d-none">
+                    <span class="fw-bold">{{numofEntries}}</span>
+                    Issues
+                </span>
+            </div>
+        </div>
+        </div>
+    </a>
+
+</div>
+{% endfor %}

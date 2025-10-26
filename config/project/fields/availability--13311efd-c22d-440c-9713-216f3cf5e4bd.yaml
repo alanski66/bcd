@@ -1,0 +1,43 @@
+columnSuffix: null
+handle: availability
+instructions: 'Please select you r current availability and check back to keep this up to date. '
+name: Availability
+searchable: true
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Available
+        -
+          - value
+          - available
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Limited availability'
+        -
+          - value
+          - limited
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'No availability '
+        -
+          - value
+          - none
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\RadioButtons

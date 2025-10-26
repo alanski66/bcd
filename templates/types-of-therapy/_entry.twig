@@ -1,0 +1,78 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+<section class="pt-8 bg-light">
+  <div class="container my-lg-8">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-12">
+        <div class="mb-8">
+          <h1 class="display-4 fw-semibold mb-8">{{entry.title}}</h1>
+
+          {{entry.body}}
+        </div>
+        
+        
+      </div>
+
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <hr>
+      </div>
+      <div class="col-xl-10 col-md-10 col-12 mx-auto">
+        <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+          <h2 class="h1 mb-0">Counsellors who offer this type of therapy</h2>
+          <p class="mb-0 px-xl-5">  </p>
+        </div>
+        {% include 'components/users/user-slider-who-offer' %}
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- category other issues -->
+<!-- category issues list-->
+<section class="py-xl-8 py-6">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-10 col-md-10 col-12 mx-auto">
+        <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+          <h2 class="h1 mb-0">Get help with</h2>
+          <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
+            help.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4">
+      {% set myCategoryQuery = craft.categories()
+      .group('issues') %}
+      {# Fetch the categories #}
+      {% set categories = myCategoryQuery.all() %}
+      {% for category in categories %}
+      {% set numofEntries = craft.entries.section('issues').limit(null).relatedTo(category).count() %}
+      <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+        <a href="{{category.url}}">
+          <div class="card-hover-svg card card-body d-flex flex-column gap-4">
+
+            <div>
+              <h3 class="mb-0">{{ category.title }}</h3>
+              <span class="text-gray-500">
+                
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      {% endfor %}
+
+      
+    </div>
+  </div>
+</section>
+{% endblock %}

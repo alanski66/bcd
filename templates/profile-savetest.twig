@@ -1,0 +1,149 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+{% requireLogin %}
+{% block content %}
+{% set user = user ?? currentUser %}
+
+
+
+
+<main>
+  <section class="pt-5 pb-5">
+    <div class="container">
+      
+      <!-- User info -->
+      <div class="row align-items-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <!-- Bg -->
+          <div class="rounded-top" style="background: url(../assets/images/background/profile-bg.jpg) no-repeat; background-size: cover; height: 100px"></div>
+          <div class="card px-4 pt-2 pb-4 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2">
+            <div class="d-flex align-items-end justify-content-between">
+              <div class="d-flex align-items-center">
+                <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                  <img src="{{user.photo.url('profileSmall')}}" class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
+                </div>
+                <div class="lh-1">
+                  <h2 class="mb-0">
+                    {{user.fullName}}
+                    <a href="#" data-bs-toggle="tooltip" data-placement="top" aria-label="Beginner" data-bs-original-title="Beginner">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
+                        <rect x="7" y="5" width="2" height="9" rx="1" fill="#DBD8E9"></rect>
+                        <rect x="11" y="2" width="2" height="12" rx="1" fill="#DBD8E9"></rect>
+                      </svg>
+                    </a>
+                  </h2>
+                  <p class="mb-0 d-block"></p>
+                </div>
+              </div>
+              <div>
+                <a href="profile-edit.html" class="btn btn-primary btn-sm d-none d-md-block">Complete your profile settings</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="row mt-0 mt-md-4">
+   
+        <div class="col-lg-9 col-md-8 col-12">
+          <!-- Card -->
+          <div class="card">
+        {% macro errorList(errors) %}
+        {% if errors %}
+        {{ ul(errors, {class: 'errors'}) }}
+        {% endif %}
+        {% endmacro %}
+
+
+{% if user.hasErrors() %}
+  <p>Unable to save your profile.</p>
+{% endif %}
+
+<form method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+  {{ csrfInput() }}
+  {{ actionInput('users/save-user') }}
+  {{ hiddenInput('userId', user.id) }}
+  {# {{ redirectInput('users/{username}') }} #}
+
+  {# In Craft 4, `firstName` and `lastName` were combined into a single property: #}
+  <label for="full-name">Full Name</label>
+  {{ input('text', 'fullName', user.fullName, {
+    id: 'full-name',
+    class: user.hasErrors('fullName') ? 'error',
+    autocomplete: 'name',
+  }) }}
+  {{ _self.errorList(user.getErrors('fullName')) }}
+
+  {% if user.photo %}
+    <label>Photo</label>
+    {{ user.photo.getImg({width: 150, height: 150})|attr({
+      id: 'user-photo',
+      alt: user.friendlyName,
+    }) }}
+
+    <label for="delete-photo">
+      {{ input('checkbox', 'deletePhoto', '1', {
+        id: 'delete-photo',
+      }) }}
+      Delete photo
+    </label>
+  {% endif %}
+
+  <label for="photo">Upload a new photo</label>
+  {{ input('file', 'photo', null, {
+    id: 'photo',
+    accept: 'image/png,image/jpeg',
+  }) }}
+
+  {% if not craft.app.config.general.useEmailAsUsername %}
+    <label for="username">Username</label>
+    {{ input('text', 'username', user.username, {
+      id: 'username',
+      class: user.hasErrors('username') ? 'error',
+      autocomplete: 'username',
+    }) }}
+    {{ _self.errorList(user.getErrors('username')) }}
+  {% endif %}
+
+  <label for="email">Email</label>
+  {{ input('text', 'email', user.unverifiedEmail ?? user.email, {
+    id: 'email',
+    class: user.hasErrors('email') ? 'error',
+    autocomplete: 'email',
+  }) }}
+  {{ _self.errorList(user.getErrors('username')) }}
+
+  {% if craft.app.projectConfig.get('users.requireEmailVerification') %}
+    <p>New email addresses need to be verified.</p>
+  {% endif %}
+
+  <div class="mb-3 col-12 col-md-6">
+    <label class="form-label" for="phoneNumber">Phone phtml</label>
+    <input type="text" id="phoneNumber" name="fields[phoneNumber]" class="form-control" value="{{user.phoneNumber}}" placeholder="{{user.phoneNumber}}" required="">
+    <div class="invalid-feedback">Please enter phone number.</div>
+  </div>
+                
+
+
+  {# Custom “Bio” field #}
+  <label class="form-label w-100" for="shortSummary">About me</label>
+  {{ tag('textarea', {
+  text: user.aboutMe,
+  class: 'form-control',
+  id: 'aboutMe',
+  cols: '32',
+  rows: '6',
+  name: 'fields[aboutMe]',
+
+  }) }}
+  {{ _self.errorList(user.getErrors('aboutMe')) }}
+  <button>Save Profile</button>
+</form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock content %}

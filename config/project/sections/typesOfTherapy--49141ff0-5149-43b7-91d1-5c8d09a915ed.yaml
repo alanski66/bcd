@@ -1,0 +1,30 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  - cba221ca-cce1-410c-a060-923d5b9bcb90 # Type of therapy
+handle: typesOfTherapy
+maxAuthors: 1
+name: 'Types of Therapy'
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - refresh
+        - '1'
+      -
+        - urlFormat
+        - '{url}'
+propagationMethod: all
+siteSettings:
+  c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
+    enabledByDefault: true
+    hasUrls: true
+    template: types-of-therapy/_entry.twig
+    uriFormat: 'types-of-therapy/{slug}'
+structure:
+  maxLevels: null
+  uid: afbb34d5-0497-419e-8e7a-2286f478172b
+type: structure

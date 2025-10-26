@@ -1,0 +1,11 @@
+fill: null
+format: webp
+handle: profileMedium
+height: 274
+interlace: none
+mode: crop
+name: 'Profile medium'
+position: center-center
+quality: 100
+upscale: true
+width: 274

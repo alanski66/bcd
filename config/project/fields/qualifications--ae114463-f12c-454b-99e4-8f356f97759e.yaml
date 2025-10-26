@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: qualifications
+instructions: 'Write your main formal qualifications here and use the training and experience field below to add more and further info'
+name: Qualifications
+searchable: true
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: false
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

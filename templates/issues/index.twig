@@ -1,0 +1,24 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+<!-- cat section -->
+<!-- category issues list-->
+<section class="py-xl-8 py-6 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-10 col-md-10 col-12 mx-auto">
+        <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+          <h2 class="h1 mb-0">Get help with</h2>
+          <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
+            help.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4">
+ {% include('/components/issues/issues-list-card.twig') %}
+      
+    </div>
+  </div>
+</section>
+{% endblock %}
