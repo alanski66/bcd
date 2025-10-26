@@ -7,7 +7,7 @@
 <main>
   <!--Hero section-->
   <section class="py-md-8 py-3"
-    style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: contain">
+    style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: cover">
     <div class="container py-lg-3">
       <!--row-->
       <div class="row align-items-center gy-3 justify-content-center">
@@ -17,16 +17,15 @@
               <span class="text-dark fs-5">Connecting you for help with your mental health.</span>
               <!--heading-->
               <h1 class="mb-0 display-2 fw-bold">
-                <span>Find a counsellor</span>
+                <span>Launching soon</span>
                 <span class="headingTyped text-primary"></span>
-                <div>to help with..</div>
               </h1>
             </div>
             <div class="d-flex flex-column gap-5">
               <!--form-->
               <!-- form autocomplete of issues list-->
               {% set issues = craft.entries.section('issues').limit(null).all() %}
-              <form action="find-a-therapist">
+              <form class="d-none" action="find-a-therapist">
                 <div class="input-group mb-3 justify-content-center">
                   <label for="issue" class="form-label visually-hidden">Find a counsellor</label>
                   <input type="text" class="ps-3 awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
@@ -56,65 +55,9 @@
 
 
 
-  <!-- Therapist list -->
-  <section class="py-6 py-lg-8 bg-light">
-    <div class="container py-lg-6">
-      <!--row-->
-      <div class="row">
-        <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-          <div class="text-center mb-6 d-flex flex-column gap-2">
-            <!--heading-->
-            <h2 class="mb-0 mx-xl-8 h1">Meet some of our therapists</h2>
-            <!--para-->
-            <p class="mb-0">To see more therapists <a href="{{baseUrl}}find-a-therapist" class="">view all Brighton counsellors</a></p>
-          </div>
-        </div>
-      </div>
-      <!--row-->
-      <div class="row g-4">
-        <div class="col-12 d-none ">
-          <div class="d-flex flex-md-row gap-2 flex-column justify-content-between">
-            <!--form-->
-            <form>
-              <label for="mentorInputSearch" class="form-label visually-hidden">Search</label>
-              <input type="search" class="form-control" id="mentorInputSearch"
-                placeholder="Search by name" />
-            </form>
-            <div class="d-grid d-md-flex">
-              <a href="" class="btn btn-primary">Explore all therapists</a>
-            </div>
-          </div>
-        </div>
-        <!--therapist card list-->
-         {# add when ready .profileComplete('no') #}
-        {% set usersRand8 = craft.users()
-          .hasPhoto()
-          .group('counsellors')
-          .orderBy('RAND()')
-          .limit(8) %}
-          {# Fetch the users #}
-          {% set therapists = usersRand8.all() %}
-        {% for user in therapists %}
-        
-          <!--card-->
-               {% include '/components/users/user-card1' %}
 
-        
-        {% endfor %}
-      </div>
-    </div>
-
-<div class="row">
-<div class="col-12 text-center pt-5">
-<a href="{{baseUrl}}find-a-therapist" class="btn btn-lg btn-primary">View all counsellors</a>
-</div>
-</div>
-
-  </section>
-  <!-- end therapist list -->
-  
     <!-- category issues list-->
-  <section class="py-xl-8 py-6">
+  <section class="py-xl-8 py-6 bg-gray-100">
     <div class="container">
       <div class="row">
         <div class="col-xl-10 col-md-10 col-12 mx-auto">
