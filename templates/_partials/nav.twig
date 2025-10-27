@@ -29,25 +29,24 @@
       <!-- Collapse -->
       <div class="collapse navbar-collapse justify-content-evenly" id="navbar-default">
         <ul class="navbar-nav mt-3 mt-lg-0  justify-content-between w-75">
-          <li class="nav-item">
-            <a class="nav-link" href="{{alias('@web')}}/find-a-therapist">Find a therapist</a>
-         
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{alias('@web')}}/issues" id="navbarLanding" >Get help with</a>
-        
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="{{alias('@web')}}/types-of-therapy" id="navbarPages">Types of therapy</a>
-           
-          </li>
 
+          {% set menu = craft.entries.section('navigation') %}
+{% set url = "" %}
+          {% for entry in menu.all() %}
+          {% if entry.customUrl | length %}
+          {% set url = entry.customUrl %}
+          {% else %}
+          {% if entry.entryLink | length %}
+          {% set url = entry.entryLink.one().url %}
+          {% endif %}
+          {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{{alias('@web')}}/articles" >Articles</a>
-           
-          </li>
+            <a class="nav-link" href="{{ url }}">{{ entry.title }}</a>
+            </li>
+            {% endfor %}
           
         </ul>
       </div>
+   
     </div>
   </nav>
