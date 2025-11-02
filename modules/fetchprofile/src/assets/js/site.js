@@ -6,8 +6,9 @@ const $verifyButton = document.getElementById('verify');
 const $btnTxt = document.getElementById('btnText');
 
 const memberOrg = document.getElementById('memberOrg');
-const idRouteContainer = document.getElementById('id-route-container');
+const urlRouteContainerBACP = document.getElementById('url-id-route-container-bacp');
 const urlRouteContainerUKCP = document.getElementById('url-route-container-ukcp');
+const urlRouteContainerNCPS = document.getElementById('url-route-container-ncps');
 const urlRouteContainerOther = document.getElementById('url-route-container-other');
 const vBtnContainer = document.getElementById('v-btn-container')
 const vSuccessContainer = document.getElementById('verified-success')
@@ -25,15 +26,18 @@ const isValidUrl = (urlString) => {
 
 memberOrg.addEventListener('change', function (e) {
     //reset
-    idRouteContainer.classList.add("d-none")
+    urlRouteContainerBACP.classList.add("d-none")
     urlRouteContainerUKCP.classList.add("d-none")
+    urlRouteContainerNCPS.classList.add("d-none")
     urlRouteContainerOther.classList.add("d-none")
 
-    if ((memberOrg.value === "bacp") || (memberOrg.value === "ncps")) idRouteContainer.classList.remove("d-none")
+    if (memberOrg.value === "bacp") urlRouteContainerBACP.classList.remove("d-none")
     if (memberOrg.value === "ukcp")  urlRouteContainerUKCP.classList.remove("d-none")
+    if (memberOrg.value === "ncps")  urlRouteContainerNCPS.classList.remove("d-none")
     if (memberOrg.value === "other")  urlRouteContainerOther.classList.remove("d-none")
 
 });
+
 $verifyButton.addEventListener('click', function (e) {
     const params = new FormData();
     params.append($verifyButton.dataset.csrfTokenName, $verifyButton.dataset.csrfTokenValue);
@@ -41,7 +45,7 @@ $verifyButton.addEventListener('click', function (e) {
     if (memberOrg.value === "other") verifyother(params)
     if (memberOrg.value === "bacp") verifybacp(params) // format https://www.bacp.co.uk/therapists/386443
     if (memberOrg.value === "ukcp") verifyukcp(params) // eg https://www.psychotherapy.org.uk/therapist/Maja-Andersen-JJYWLQA5
-    if (memberOrg.value === "ncps") verifyother(params) //format https://www.search-ncps.com/search/FindaTherapist/NCS14-01401
+    if (memberOrg.value === "ncps") verifyncps(params) //format https://www.search-ncps.com/search/FindaTherapist/NCS14-01401
     vWarningContainer.classList.add("d-none")
     return
 
@@ -65,7 +69,7 @@ $verifyButton.addEventListener('click', function (e) {
 function verifyother(params) {
 }
 function verifybacp(params) {
-    console.log('verify id membership')
+    console.log('verify bacp id membership')
     console.log(memberOrg.value)
     const profileIdEl = document.getElementById('v-url-route-id')
     let profileId = profileIdEl.value
@@ -247,14 +251,111 @@ function verifyukcp(params) {
 
     console.log('verify ukcp membership')
 }
-function verifyncps(data) {
+function verifyncps(params) {
     
     //https://www.search-ncps.com/search/FindaTherapist/NCS23-03863
-    let regEx = /\b(https?:\/\/.*?\.[a-z]{2,4}\/[^\s]*\b)/g;
-    let str ='https://www.search-ncps.com/search/FindaTherapist/'
-    console.log('verify ncps membership')
-    console.log(str.match(regEx));
+    // let regEx = /\b(https?:\/\/.*?\.[a-z]{2,4}\/[^\s]*\b)/g;
+    // let str ='https://www.search-ncps.com/search/FindaTherapist/'
+    // console.log('verify ncps membership')
+    // console.log(str.match(regEx));
 
+    console.log('verify ncps id membership')
+    console.log(memberOrg.value)
+    const profileIdEl = document.getElementById('v-url-route-ncps')
+    let profileId = profileIdEl.value
+    let errmsg = document.getElementById('err-ncps')
+    let spinner = document.getElementById('spinner')
+
+    
+    spinner.classList.remove("d-none")
+    errmsg.className = "fade-out-err"
+    errmsg.innerText = "";
+    setTimeout(() => {
+        //handle invalid url errors
+        if(profileId == null || profileId == "") {
+            spinner.className = "d-none spinner-border spinner-border-sm"
+            errmsg.className = "fade-in-err"
+            errmsg.innerText = "Unable to verify - please add your membership ID. (If this keeps happening please contact us)";
+            $verifyButton.className = "btn btn-warning"; 
+        return
+        }
+    }, 3000);
+
+    
+    if (profileId.length > 0) {
+        var preFixUrl = ""
+        console.log("Match go verify ID");
+        // bacp url https://www.bacp.co.uk/therapists/386443
+        // ncps https://www.search-ncps.com/search/FindaTherapist/NCS23-03863
+        if (memberOrg.value == "ncps") {
+            // https://www.search-ncps.com/search/FindaTherapist/
+            var preFixUrl = "https://www.search-ncps.com/search/FindaTherapist/"  
+        }
+
+        let idLink = preFixUrl + profileId;
+        console.log(idLink)
+        params.append('verifyLink', preFixUrl + profileId);
+        params.append('org', memberOrg.value);
+        params.append('profileId', profileId);
+        
+        // console.log([...params]);
+        
+        fetch('/actions/fetch-profile/default/verify-bacp', {
+            method: 'POST',
+            body: params,
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+            .then(response => {
+                // Check if the request was successful
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Parse the response as JSON
+                return response.json();
+            })
+            .then(data => {
+                // Handle the JSON data
+                console.log('status:' + data.statuscode);
+                if(data.statuscode == "true"){
+                    
+                    setTimeout(() => {
+                        confetti.reset();
+                           // confetti
+                    confetti({
+                        particleCount: 100,
+                        spread: 70
+                    });
+                    // do button verify message
+                    vSuccessContainer.classList.remove("d-none")
+                    vBtnContainer.classList.add("d-none")
+                    $verifyButton.className = "btn btn-success";
+                    $verifyButton.innerText = "Verified!";
+                    // $verifyButton.ariaDisabled;
+                    // $verifyButton.disabled = true;
+                      }, 3000);
+                } else{
+                    //do error msg
+                    setTimeout(() => {
+                    vWarningContainer.classList.remove("d-none")
+                    spinner.classList.add("d-none");
+                    console.log('status:' + data.statuscode);
+                    $btnTxt.textContent = "Try again";
+                    },2500);
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error('Fetch error:', error);
+            });
+    
+    }else{
+        console.log("Not verified")
+    }
+    
+ 
 }
 
 function modifyText() {

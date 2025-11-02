@@ -2916,6 +2916,14 @@
       "oAP" : "\/templates\/components\/users\/user-slider.twig",
       "oF" : 0
     },
+    "\/templates\/contact.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/contact.twig",
+      "oF" : 0
+    },
     "\/templates\/content\/category-entry.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -2938,6 +2946,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/dash.twig",
+      "oF" : 0
+    },
+    "\/templates\/enquiries\/contact-form-submitted.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/enquiries\/contact-form-submitted.twig",
       "oF" : 0
     },
     "\/templates\/enquiries\/enquiry-submitted.twig" : {
