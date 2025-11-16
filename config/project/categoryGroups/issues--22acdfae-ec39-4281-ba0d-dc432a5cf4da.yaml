@@ -1,6 +1,7 @@
 defaultPlacement: end
 fieldLayouts:
   eec9dff1-5e86-4606-9a6c-3eb76ea122bf:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -37,6 +38,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-06T13:48:57+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 12f0e524-edea-401a-a140-70061e2a4795 # Icon
             handle: null
@@ -53,6 +55,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-06T13:49:03+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: e9b55431-481c-480d-9cc8-ea4734a67d0e # Category description
             handle: null

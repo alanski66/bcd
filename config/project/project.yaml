@@ -1,4 +1,4 @@
-dateModified: 1757340868
+dateModified: 1763294918
 elementSources:
   craft\elements\Entry:
     -
@@ -17,6 +17,7 @@ elementSources:
       type: native
     -
       heading: Channels
+      key: 'heading:494c5483-4bb9-4b3b-8feb-8873625fa4ea'
       type: heading
     -
       defaultSort:
@@ -34,6 +35,7 @@ elementSources:
       type: native
     -
       heading: Structures
+      key: 'heading:605eca95-60fb-43a4-a3f4-fc03f9d7132a'
       type: heading
     -
       key: 'section:90155b7e-865d-4cb6-a76b-76906dedad56' # Type of Issues
@@ -43,9 +45,33 @@ elementSources:
       type: native
     -
       heading: 'Other content'
+      key: 'heading:167294aa-081c-4803-ae71-6fba1671ad1a'
       type: heading
     -
       key: 'section:17f66194-2bba-4d08-a705-9823e9054f86' # Pages
+      type: native
+    -
+      heading: ''
+      key: 'heading:5f7c934c-eb4b-4069-8f89-c6fe0acb2e75'
+      type: heading
+    -
+      key: 'section:e6ff9992-97aa-4cd6-b9ea-5743266547cb' # Enquiries
+      type: native
+    -
+      defaultSort:
+        - structure
+        - asc
+      defaultViewMode: ''
+      disabled: false
+      key: 'section:e3c603a3-1162-4679-98d0-64e6fafc0c51' # Navigation
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - authors
+        - link
+        - 'field:5942cd7b-ea0c-4234-b261-1175ac7e41ad' # Custom Url
+        - uri
       type: native
   craft\elements\User:
     -
@@ -94,6 +120,10 @@ elementSources:
 email:
   fromEmail: alan@craftcode.co.uk
   fromName: 'Brighton Counselling Directory'
+  replyToEmail: null
+  template: ''
+  transportSettings:
+    command: '/usr/sbin/sendmail -bs'
   transportType: craft\mail\transportadapters\Sendmail
 fs:
   generalImages:
@@ -152,6 +182,7 @@ graphql:
 meta:
   __names__:
     0d2c9898-3ec4-4a84-a6c2-012d385c7fa3: 'Practice description' # Practice description
+    2a807641-d923-4a22-8412-0e6fe9cde8e6: mainnav # mainnav
     2e0f8be2-a26a-4d3b-833e-b9edc93188aa: Pages # Pages
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
@@ -180,6 +211,8 @@ meta:
     520a0e55-accd-41b4-addc-97ed1155aa67: Card # Card
     659d92e0-6da5-49f3-a37b-4897b5a7272c: 'Main Menu' # Main Menu
     835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
+    4925fc69-c87a-4cf0-8d77-8830d8053b62: 'Entry link' # Entry link
+    5942cd7b-ea0c-4234-b261-1175ac7e41ad: 'Custom Url' # Custom Url
     6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
     8742d0e0-5abb-4774-b8a6-05a5668e9098: 'Short summary' # Short summary
     8799e074-514f-4b7a-af19-f42b60826eb9: 'Featured image' # Featured image
@@ -203,6 +236,7 @@ meta:
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
     df1fd57a-df99-4fc9-91c1-71b7f2afd04b: Wishlist # Wishlist
+    e3c603a3-1162-4679-98d0-64e6fafc0c51: Navigation # Navigation
     e5d33c8a-f8ba-41cc-a093-889571ae2fa5: 'Profile complete' # Profile complete
     e6ff9992-97aa-4cd6-b9ea-5743266547cb: Enquiries # Enquiries
     e9b55431-481c-480d-9cc8-ea4734a67d0e: 'Category description' # Category description
@@ -229,7 +263,7 @@ plugins:
     schemaVersion: 1.0.0
   convergine-contentbuddy:
     edition: standard
-    enabled: true
+    enabled: false
     licenseKey: EHVKNAU2HJPARGVNA0ZGE81I
     schemaVersion: 1.2.9
     settings:

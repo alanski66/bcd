@@ -1,6 +1,8 @@
 color: null
+description: null
 fieldLayouts:
   13d2e232-1d16-4231-a3d9-bd9830149e83:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -37,6 +39,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-07T19:19:49+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 48e5cd5f-156a-4a9b-9323-1139b7dda01f # Phone number
             handle: null
@@ -53,6 +56,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-08T14:28:09+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: f11c0ca4-477e-4f64-b73d-97084f9d6a56 # Email
             handle: null
@@ -69,6 +73,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-08T14:28:09+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 5d532788-0cc7-48de-9b9b-627e7923b222 # Contact preference
             handle: null
@@ -85,6 +90,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-07T19:19:49+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 84d3be0c-c468-4664-914c-b80e544b5114 # Category
             handle: null
@@ -101,6 +107,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-07T19:19:49+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
@@ -117,6 +124,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-02-08T14:43:45+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: e63d9cc6-ddc5-4c7e-91a3-2ebc12e2cb1d # Therapist ID
             handle: null

@@ -4,6 +4,7 @@ instructions: 'Please select you r current availability and check back to keep t
 name: Availability
 searchable: true
 settings:
+  customOptions: false
   options:
     -
       __assoc__:

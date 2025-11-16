@@ -4,6 +4,7 @@ instructions: 'Do you offer concessionary rates?'
 name: Concessions
 searchable: false
 settings:
+  customOptions: false
   options:
     -
       __assoc__:

@@ -2,6 +2,7 @@ altTranslationKeyFormat: null
 altTranslationMethod: none
 fieldLayouts:
   10bb0d2f-832e-448c-ada7-e3fadda2f726:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -38,6 +39,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-22T21:59:40+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 9fe836ef-ed2f-4a2d-afae-4db9c920e3c6 # Author Url
             handle: null
@@ -80,6 +82,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-22T21:49:53+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 319c85fe-482c-4f11-aa21-cb3849b718d3 # Credit
             handle: null

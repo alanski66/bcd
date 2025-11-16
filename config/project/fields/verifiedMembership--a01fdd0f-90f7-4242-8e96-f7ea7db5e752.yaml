@@ -4,6 +4,7 @@ instructions: 'Admin use only field to help confirm that a user is  a membership
 name: 'Verified membership'
 searchable: false
 settings:
+  customOptions: false
   options:
     -
       __assoc__:

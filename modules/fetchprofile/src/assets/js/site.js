@@ -14,6 +14,9 @@ const vBtnContainer = document.getElementById('v-btn-container')
 const vSuccessContainer = document.getElementById('verified-success')
 const vWarningContainer = document.getElementById('verified-warning')
 
+const createAccountBtn = document.getElementById('createAccountBtn');
+const formSignUp = document.getElementById('signUpForm');
+
 const isValidUrl = (urlString) => {
     var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
@@ -34,7 +37,7 @@ memberOrg.addEventListener('change', function (e) {
     if (memberOrg.value === "bacp") urlRouteContainerBACP.classList.remove("d-none")
     if (memberOrg.value === "ukcp")  urlRouteContainerUKCP.classList.remove("d-none")
     if (memberOrg.value === "ncps")  urlRouteContainerNCPS.classList.remove("d-none")
-    if (memberOrg.value === "other")  urlRouteContainerOther.classList.remove("d-none")
+    if (memberOrg.value === "other")  verifyother();
 
 });
 
@@ -66,7 +69,11 @@ $verifyButton.addEventListener('click', function (e) {
 //     }
 //   });
 
-function verifyother(params) {
+function verifyother() {
+    urlRouteContainerOther.classList.remove("d-none")
+    vBtnContainer.classList.add("d-none")
+    createAccountBtn.classList.remove("disabled");
+    console.log('other org selected - manual verification')
 }
 function verifybacp(params) {
     console.log('verify bacp id membership')
@@ -128,30 +135,9 @@ function verifybacp(params) {
                 // Handle the JSON data
                 console.log('status:' + data.statuscode);
                 if(data.statuscode == "true"){
-                    
-                    setTimeout(() => {
-                        confetti.reset();
-                           // confetti
-                    confetti({
-                        particleCount: 100,
-                        spread: 70
-                    });
-                    // do button verify message
-                    vSuccessContainer.classList.remove("d-none")
-                    vBtnContainer.classList.add("d-none")
-                    $verifyButton.className = "btn btn-success";
-                    $verifyButton.innerText = "Verified!";
-                    // $verifyButton.ariaDisabled;
-                    // $verifyButton.disabled = true;
-                      }, 3000);
+                    verifySuccessEvent(data);
                 } else{
-                    //do error msg
-                    setTimeout(() => {
-                    vWarningContainer.classList.remove("d-none")
-                    spinner.classList.add("d-none");
-                    console.log('status:' + data.statuscode);
-                    $btnTxt.textContent = "Try again";
-                    },2500);
+                    verifyFailEvent(data);
                 }
             })
             .catch(error => {
@@ -176,11 +162,12 @@ function verifyukcp(params) {
     setTimeout(() => {
         //handle invalid url errors NB this will not capture false www mistakes eg wwmw
         if(!isValidUrl(ukcpProfileLink)) {
-            console.log('invalid url');
-            spinner.className = "d-none spinner-border spinner-border-sm"
-            errmsg.className = "fade-in-err"
-            errmsg.innerText = "Unable to verify - please add the url link to your UKCP profile. (If this keeps happening please contact us)";
-            $verifyButton.className = "btn btn-warning"; 
+            verifyFailEvent(ukcpProfileLink)
+            // console.log('invalid url');
+            // spinner.className = "d-none spinner-border spinner-border-sm"
+            // errmsg.className = "fade-in-err"
+            // errmsg.innerText = "Unable to verify - please add the url link to your UKCP profile. (If this keeps happening please contact us)";
+            // $verifyButton.className = "btn btn-warning"; 
         return
         }
     }, 2000);
@@ -214,30 +201,10 @@ function verifyukcp(params) {
             .then(data => {
                 // Handle the JSON data
                 console.log('datastatus:' + data);
-                if(data.statuscode == "true"){
-                    
-                    setTimeout(() => {
-                        confetti.reset();
-                           // confetti
-                    confetti({
-                        particleCount: 100,
-                        spread: 70
-                    });
-                    // do button verify message
-                    $verifyButton.className = "btn btn-success";
-                    $verifyButton.innerText = "Verified!";
-                    $verifyButton.ariaDisabled;
-                    $verifyButton.disabled = true;
-                      }, 3000);
+                if(data.statuscode == "200"){
+                    verifySuccessEvent(data);
                 } else{
-                    //do error msg
-                    setTimeout(() => {
-                        vWarningContainer.classList.remove("d-none")
-                        spinner.classList.add("d-none");
-                        console.log('status:' + data.statuscode);
-                        $btnTxt.textContent = "Try again";
-                        },2500);
-                    
+                    verifyFailEvent(data);
                 }
             })
             .catch(error => {
@@ -246,7 +213,7 @@ function verifyukcp(params) {
             });
     
     }else{
-        console.log("Not verified")
+        verifyFailEvent(ukcpProfileLink)
     }
 
     console.log('verify ukcp membership')
@@ -320,30 +287,9 @@ function verifyncps(params) {
                 // Handle the JSON data
                 console.log('status:' + data.statuscode);
                 if(data.statuscode == "true"){
-                    
-                    setTimeout(() => {
-                        confetti.reset();
-                           // confetti
-                    confetti({
-                        particleCount: 100,
-                        spread: 70
-                    });
-                    // do button verify message
-                    vSuccessContainer.classList.remove("d-none")
-                    vBtnContainer.classList.add("d-none")
-                    $verifyButton.className = "btn btn-success";
-                    $verifyButton.innerText = "Verified!";
-                    // $verifyButton.ariaDisabled;
-                    // $verifyButton.disabled = true;
-                      }, 3000);
+                    verifySuccessEvent(data);
                 } else{
-                    //do error msg
-                    setTimeout(() => {
-                    vWarningContainer.classList.remove("d-none")
-                    spinner.classList.add("d-none");
-                    console.log('status:' + data.statuscode);
-                    $btnTxt.textContent = "Try again";
-                    },2500);
+                    verifyFailEvent(data);
                 }
             })
             .catch(error => {
@@ -363,7 +309,35 @@ function modifyText() {
     console.log(el)
 }
 
-
+function verifySuccessEvent(data) {
+    console.log('success event fired')
+    setTimeout(() => {
+        confetti.reset();
+        // confetti
+        confetti({
+            particleCount: 100,
+            spread: 70
+        });
+        // do button verify message
+        vSuccessContainer.classList.remove("d-none")
+        vBtnContainer.classList.add("d-none")
+        $verifyButton.className = "btn btn-success";
+        $verifyButton.innerText = "Verified!";
+        createAccountBtn.classList.remove("disabled");
+        // $verifyButton.ariaDisabled;
+        // $verifyButton.disabled = true;
+    }, 3000);
+}
+function verifyFailEvent(data) {
+    console.log('fail event fired')
+    setTimeout(() => {
+        vWarningContainer.classList.remove("d-none")
+        spinner.classList.add("d-none");
+        createAccountBtn.classList.add("disabled");
+        console.log('status:' + data.statuscode);
+        $btnTxt.textContent = "Try again";
+    },2500);
+}
 function vverifybacp(data) {
     fetch(baseUrl + "/actions/fetch-profile/default/verify-bacp", {
         method: 'post',

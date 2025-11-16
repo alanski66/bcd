@@ -7,7 +7,7 @@
       "uuidString" : "48676E10-8A8D-45C5-8D3F-2E8E2554C063"
     }
   ],
-  "creatorBuild" : "34680",
+  "creatorBuild" : "34892",
   "files" : {
     "\/.env" : {
       "cB" : 0,
@@ -167,7 +167,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -178,7 +178,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -189,7 +189,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -200,7 +200,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -211,7 +211,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -222,7 +222,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -233,7 +233,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -244,7 +244,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -255,7 +255,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -266,7 +266,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -277,7 +277,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -288,7 +288,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -299,7 +299,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -310,7 +310,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -321,7 +321,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -332,7 +332,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -343,7 +343,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -354,7 +354,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -365,7 +365,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -376,7 +376,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -387,7 +387,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -398,7 +398,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -409,7 +409,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -420,7 +420,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -431,7 +431,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -442,7 +442,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -453,7 +453,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -464,7 +464,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -2745,7 +2745,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -2756,7 +2756,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -2767,7 +2767,7 @@
       "ma" : 1,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/public_html\/js\/theme-min.js",
+      "oAP" : "\/public_html\/js\/gtheme-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -3052,12 +3052,12 @@
       "oAP" : "\/templates\/sign-in.twig",
       "oF" : 0
     },
-    "\/templates\/sign-up copy.twig" : {
+    "\/templates\/sign-up-complete.twig" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/templates\/sign-up copy.twig",
+      "oAP" : "\/templates\/sign-up-complete.twig",
       "oF" : 0
     },
     "\/templates\/sign-up.twig" : {
@@ -3464,8 +3464,6 @@
     "buildFolderActive" : 0,
     "buildFolderName" : "build",
     "cleanBuild" : 1,
-    "cssoForceMediaMerge" : 0,
-    "cssoRestructure" : 1,
     "environmentVariableEntries" : [
       "NODE_ENV:::production"
     ],
@@ -4102,6 +4100,9 @@
         "active" : 0,
         "optionString" : "{'skipBlankLines': false, 'ignoreComments': false}"
       },
+      "no-unassigned-vars" : {
+        "active" : 0
+      },
       "no-undef" : {
         "active" : 1,
         "optionString" : "{'typeof': false}"
@@ -4182,7 +4183,8 @@
         "active" : 0
       },
       "no-useless-escape" : {
-        "active" : 1
+        "active" : 1,
+        "optionString" : "{'allowRegexCharacters': []}"
       },
       "no-useless-rename" : {
         "active" : 0,
@@ -4493,7 +4495,7 @@
     },
     "languageDefaultsJS" : {
       "autoOutputAction" : 0,
-      "autoOutputPathFilenamePattern" : "theme-min.js",
+      "autoOutputPathFilenamePattern" : "gtheme-min.js",
       "autoOutputPathRelativePath" : "\/public_html\/js\/",
       "autoOutputPathReplace1" : "",
       "autoOutputPathReplace2" : "",

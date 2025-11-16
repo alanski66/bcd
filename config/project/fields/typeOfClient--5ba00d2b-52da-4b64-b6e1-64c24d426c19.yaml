@@ -4,6 +4,7 @@ instructions: 'These are the types of clients you work with'
 name: 'Type of client'
 searchable: false
 settings:
+  customOptions: false
   options:
     -
       __assoc__:

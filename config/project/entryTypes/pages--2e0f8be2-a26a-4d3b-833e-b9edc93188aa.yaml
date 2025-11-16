@@ -1,6 +1,8 @@
 color: null
+description: null
 fieldLayouts:
   2d8b1848-672f-4627-bf63-83213690e209:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -37,6 +39,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-01-14T17:46:09+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: e39ad651-432c-40e1-9140-c9cfeda98e60 # Hide
             handle: null
@@ -53,6 +56,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-01-14T17:44:18+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
             handle: null
@@ -69,6 +73,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-01-14T17:44:18+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
@@ -91,6 +96,7 @@ fieldLayouts:
         elements:
           -
             dateAdded: '2025-01-14T17:44:18+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null
@@ -110,12 +116,12 @@ fieldLayouts:
         userCondition: null
 handle: pages
 hasTitleField: true
-icon: ''
+icon: null
 name: Pages
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: ''
+titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site

@@ -1,6 +1,8 @@
 color: null
+description: null
 fieldLayouts:
   2e9c2f13-64bb-4f4e-9b0d-e2273f08eed9:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -25,7 +27,7 @@ fieldLayouts:
             placeholder: null
             providesThumbs: false
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null

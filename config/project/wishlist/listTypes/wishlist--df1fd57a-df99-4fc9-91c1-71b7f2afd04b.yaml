@@ -2,6 +2,7 @@ default: true
 handle: wishlist
 itemFieldLayouts:
   ce394c81-1ba7-420f-bb7d-c00c2ee04381:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -10,6 +11,7 @@ itemFieldLayouts:
         userCondition: null
 listFieldLayouts:
   44ed5322-4f5f-4d6c-8059-acdb3e65b916:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null

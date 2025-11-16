@@ -81,6 +81,7 @@ class DefaultController extends Controller
         // $incomingparams = Craft::$app->request->getRawBody();
         // $params = craft\helpers\Json::decode($incomingparams);
 
+        
         //var_dump($verifyLink);die();
         $data = array();
         $jar = new \GuzzleHttp\Cookie\CookieJar();
@@ -168,20 +169,20 @@ class DefaultController extends Controller
                  $response = $client->get($URL);
                 
                 //test
-                // $data["statuscode"] = $response->getStatusCode();
-                // return $this->asJson($data);
-                //end test
-                if ($response->getStatusCode() == "200"){
-                    setcookie("verified", $value="true", time()+3600);  /* expire in 1 hour */
-                    $data["statuscode"]  = 'true';
-                    
-                }
-                if ($response->getStatusCode() !== "200"){
-                    $data["statuscode"]  = 'false'; 
-                    
-                }
-                
+                $data["statuscode"] = $response->getStatusCode();
                 return $this->asJson($data);
+                //end test
+                // if ($response->getStatusCode() == "200"){
+                //     setcookie("verified", $value="true", time()+3600);  /* expire in 1 hour */
+                //     $data["statuscode"]  = 'true';
+                    
+                // }
+                // if ($response->getStatusCode() !== "200"){
+                //     $data["statuscode"]  = 'false'; 
+                    
+                // }
+                
+                // return $this->asJson($data);
                 // Process response normally...
             } catch (RequestException $e) {
                 // An exception was raised but there is an HTTP response body
@@ -197,8 +198,72 @@ class DefaultController extends Controller
             }
         }
            
-     
+     public function actionVerifyHCPC(): Response
+    {
+        
+        // format //HCPC https://www.hcpc-uk.org/check-the-register/professional-registration-detail/?query=PYL041225&profession=PYL
+
+        $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+        // Craft::$app->setcookies(['verified' => 'false']);
+        setcookie("verified", $value="false", time()+3600);  /* expire in 1 hour */
+
+        // $incomingparams = Craft::$app->request->getRawBody();
+        // $params = craft\helpers\Json::decode($incomingparams);
+        //     print_r($verifyLink); die();
+        // var_dump($verifyLink);die();
+        $data = array();
+        $jar = new \GuzzleHttp\Cookie\CookieJar();
+        //set header information including cookies, referer, etc. 
+        // new GuzzleHttp\Client
+        $client = new \GuzzleHttp\Client([
+            'cookies' => false,
+            'allow_redirects' => false,
+            'headers' => [
+            'Host'=> 'google.com',
+            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
+            'Accept'=> '*/*',
+            'Accept-Language'=> 'en-US,en;q=0.5',
+            'Accept-Encoding'=> 'gzip, deflate, br',
+            'Referer'=> 'https://www.google.com/',
+            'Connection'=> 'keep-alive',
+            'http_errors' => false
+            ]
+            ]
+            );
+
+            try {
+                $URL = $verifyLink;
+                // $response = $client->get("https://www.psychotherapy.org.uk/therapist/Roz-Read-iAhuAAAS");
+                 $response = $client->get($URL);
+                
+                //test
+                $data["statuscode"] = $response->getStatusCode();
+                return $this->asJson($data);
+                //end test
+                // if ($response->getStatusCode() == "200"){
+                //     setcookie("verified", $value="true", time()+3600);  /* expire in 1 hour */
+                //     $data["statuscode"]  = 'true';
+                    
+                // }
+                // if ($response->getStatusCode() !== "200"){
+                //     $data["statuscode"]  = 'false'; 
+                    
+                // }
+                
+                // return $this->asJson($data);
+                // Process response normally...
+            } catch (RequestException $e) {
+                // An exception was raised but there is an HTTP response body
+                // with the exception (in case of 404 and similar errors)
+                $data["statuscode"]  = 'false'; //$response->getStatusCode();
+                
+                return $this->asJson($data);
+                // $response = $e->getResponse();
+                // $responseBodyAsString = $response->getBody()->getContents();
+                // // echo $response->getStatusCode() . PHP_EOL;
+                // // echo $responseBodyAsString;
+                // return $this->asJson($responseBodyAsString);
+            }
+        }
 
 }
-
-// NCPS https://www.search-ncps.com/search/FindaTherapist/NCS23-03863

@@ -2,10 +2,10 @@ defaultPlacement: end
 enableVersioning: true
 entryTypes:
   -
-    uid: aea81fe7-465e-41aa-9b2c-04e6578b3c4b # Article
-handle: articles
+    uid: 2a807641-d923-4a22-8412-0e6fe9cde8e6 # mainnav
+handle: navigation
 maxAuthors: 1
-name: Articles
+name: Navigation
 previewTargets:
   -
     label: 'Primary entry page'
@@ -15,7 +15,10 @@ propagationMethod: all
 siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     enabledByDefault: true
-    hasUrls: true
-    template: articles/_entry.twig
-    uriFormat: 'articles/{slug}'
-type: channel
+    hasUrls: false
+    template: null
+    uriFormat: null
+structure:
+  maxLevels: null
+  uid: 0eb78fba-1977-4755-947b-2ab84874ed72
+type: structure

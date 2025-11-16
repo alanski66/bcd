@@ -1,6 +1,8 @@
 color: fuchsia
+description: null
 fieldLayouts:
   e68a4ed3-dce7-4e69-bd9f-0ed641ef318b:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -25,7 +27,7 @@ fieldLayouts:
             placeholder: null
             providesThumbs: false
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -37,6 +39,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-21T20:57:03+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 8799e074-514f-4b7a-af19-f42b60826eb9 # Featured image
             handle: null
@@ -53,6 +56,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-21T20:41:21+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
             handle: null
@@ -69,6 +73,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2024-10-21T20:41:21+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
@@ -91,6 +96,7 @@ fieldLayouts:
         elements:
           -
             dateAdded: '2024-10-21T20:41:21+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null

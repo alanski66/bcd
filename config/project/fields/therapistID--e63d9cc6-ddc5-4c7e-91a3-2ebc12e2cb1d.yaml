@@ -6,11 +6,13 @@ searchable: false
 settings:
   allowSelfRelations: false
   branchLimit: null
+  defaultPlacement: end
   maintainHierarchy: false
   maxRelations: 1
   minRelations: 1
   selectionLabel: null
   showCardsInGrid: false
+  showSearchInput: true
   showSiteMenu: false
   sources:
     - 'group:b49c197d-26ab-4194-bf60-959a99761cb0' # Counsellors

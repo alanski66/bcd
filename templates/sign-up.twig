@@ -46,10 +46,10 @@
 
             {# `user` is defined if the form returns validation errors. #}
             {% set user = user ?? null %}
-            <form class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
+            <form id="signUpForm" class="needs-validation" novalidate="" method="post" accept-charset="UTF-8">
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
-              {{ redirectInput('verify') }}
+              {{ redirectInput('sign-up-complete') }}
 
               <!-- Username -->
               <div class="mb-3">
@@ -101,7 +101,7 @@
                   <!-- verify membership -->
                   <h3>Membership verification</h3>
                   <div class="instructions card p-3 bg-light mb-3">
-                    <p class="text-center">In order to sign up you must be registered with a professional membership
+                    <p class="text-cener">In order to sign up you must be registered with a professional membership
                       organisation.</p>
                     <p>Choose your membership organisation below and then add your membership id and click 'verify'</p>
                     <p>We will attempt to verify your membership in real-time. If you have an issue please contact us <a
@@ -113,7 +113,7 @@
                   <div class="mb-3">
                     <label class="form-label" for="memberOrg">Select your membership organisation</label>
 
-                    <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" required>
+                    <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" >
                       {% for option in field.options %}
                       <option value="{{ option.value }}">
                         {{ option.label }}
@@ -122,7 +122,7 @@
                     </select>
 
                     <div class="verify-input-container ">
-                      <!-- id route -->
+                      <!-- id bacp route -->
                       <div id="url-id-route-container-bacp" class="d-none">
                         <label class="form-label" for="v-url-route-id">What is your membership id?</label>
                         <div id="err-routeid" class="d-none err-msg btn btn-warning">We couldnt verify that ID.</div>
@@ -132,21 +132,22 @@
                       <div id="url-route-container-ukcp" class="d-none">
                         <label class="form-label" for="v-url-route-ukcp">Please add your UKCP profile url</label>
                         <div id="err-ukcp" class="d-none err-msg btn btn-warning">We couldnt verify that url.</div>
-                        <input class=" form-control mb-3" id="v-url-route-ukcp" value="" required>
+                        <input class=" form-control mb-3" id="v-url-route-ukcp" value="" >
 
                       </div>
                        <!-- url ncps route -->
                       <div id="url-route-container-ncps" class="d-none">
                         <label class="form-label" for="v-url-route-ncps">Please add your NCPS membership id number</label>
                         <div id="err-ncps" class="d-none err-msg btn btn-warning">We couldnt verify that url.</div>
-                        <input class=" form-control mb-3" id="v-url-route-ncps" value="" required>
+                        <input class=" form-control mb-3" id="v-url-route-ncps" value="" >
 
                       </div>
                       <!-- url other route -->
                       <div id="url-route-container-other" class="d-none">
                         <label class="form-label" for="v-url-route-other">Please add the name of your membership
                           organisation</label>
-                        <input class=" form-control mb-3" id="v-url-route-other" value="" required>
+                        <input class=" form-control mb-3" id="v-url-route-other" value="" >
+                        <small>Please note: we will manually try to verify your membership and you may sign up but your account will be unpublished until verified</small>
                       </div>
                     </div>
 
@@ -171,7 +172,7 @@
                        <!-- Success alert -->
                        <div class="alert alert-danger d-flex align-items-center alert-dismissible " role="alert">
                         <i class="fs-2 bi bi-exclamation-triangle-fill me-2"></i>
-                        We could not verify your membership of the organisation. Please try again.
+                        We could not verify your membership of the organisation. Please try again or contact us for help.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -189,9 +190,9 @@
                   <label class="form-check-label" for="agreeCheck">
                     <span>
                       I agree to the
-                      <a href="terms-condition-page.html">Terms of Service</a>
+                      <a href="{{baseUrl}}terms">Terms of Service</a>
                       and
-                      <a href="terms-condition-page.html">Privacy Policy.</a>
+                      <a href="{{baseUrl}}privacy-policy">Privacy Policy.</a>
                     </span>
                   </label>
                   <div class="invalid-feedback">You must agree before submitting.</div>
@@ -200,7 +201,7 @@
               <div>
                 <!-- Button -->
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">Create Free Account</button>
+                  <button type="submit" id="createAccountBtn" class="btn btn-primary ">Create Free Account</button>
                 </div>
               </div>
 

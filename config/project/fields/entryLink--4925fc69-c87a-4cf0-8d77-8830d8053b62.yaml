@@ -1,23 +1,25 @@
 columnSuffix: null
-handle: category
+handle: entryLink
 instructions: null
-name: Category
+name: 'Entry link'
 searchable: false
 settings:
   allowSelfRelations: false
   branchLimit: null
   defaultPlacement: end
   maintainHierarchy: false
-  maxRelations: 4
+  maxRelations: null
   minRelations: null
   selectionLabel: null
   showCardsInGrid: false
   showSearchInput: true
-  showSiteMenu: true
-  source: 'group:22acdfae-ec39-4281-ba0d-dc432a5cf4da' # Issues
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources: '*'
   targetSiteId: null
   validateRelatedElements: false
   viewMode: list
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\Categories
+type: craft\fields\Entries
