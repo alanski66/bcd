@@ -46,6 +46,8 @@
             {% endfor %}
           
         </ul>
+          {% set user = user ?? currentUser %}
+          {% if user %} 
           <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
                                                                
                                                                  <li class="dropdown ms-2 d-inline-block position-static">
@@ -58,7 +60,7 @@
                                                                        <div class="dropdown-item">
                                                                           <div class="d-flex">
                                                                              <div class="avatar avatar-md avatar-indicators avatar-online">
-                                                                              {% set user = user ?? currentUser %}
+                                                                            
                                                                               {% if user.photo|length %}
                                                                               <img src="{{user.photo.url}}" class="rounded-circle" />
                                                                               {% else %}
@@ -98,7 +100,8 @@
                                                                        </ul>
                                                                     </div>
                                                                  </li>
-                                                              </ul>
+          </ul>
+          {% endif %}
       </div>
    
     </div>
