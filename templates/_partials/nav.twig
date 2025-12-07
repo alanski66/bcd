@@ -53,8 +53,11 @@
                                                                  <li class="dropdown ms-2 d-inline-block position-static">
                                                                     <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                                                                        <div class="avatar avatar-md avatar-indicators avatar-online">
-                                                                          <img alt="avatar" src="../assets/images/avatar/avatar.jpg" class="rounded-circle" />
-                                                                       </div>
+  {% if user.photo|length %}
+                                                                              <img src="{{user.photo.url}}" class="rounded-circle" />
+                                                                              {% else %}
+                                                                                <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
+                                                                              {% endif %}                                                                        </div>
                                                                     </a>
                                                                     <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
                                                                        <div class="dropdown-item">

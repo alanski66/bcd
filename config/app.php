@@ -21,11 +21,12 @@
  */
 use craft\helpers\App;
 use modules\fetchprofile\FetchProfile;
+use modules\notifysave\NotifySave;
 
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 
     'modules' => [
-        'fetch-profile' => \modules\fetchprofile\FetchProfile::class,
+        'fetch-profile' => \modules\fetchprofile\FetchProfile::class, 'notify-save' => NotifySave::class,
     ], 
-    'bootstrap' => ['fetch-profile'],
+    'bootstrap' => ['fetch-profile', 'notify-save'],
 ];
