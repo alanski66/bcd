@@ -31,7 +31,8 @@
   "autoload": {
     "psr-4": {
       "modules\\fetchprofile\\": "modules/fetchprofile/src/",
-      "modules\\notifysave\\": "modules/notify-save/"
+      "modules\\notifysave\\": "modules/notify-save/",
+       "modules\\": "modules/"
     }
   },
   "config": {

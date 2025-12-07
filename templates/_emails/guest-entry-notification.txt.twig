@@ -1,0 +1,23 @@
+New Enquiry
+=========================
+
+Name: {{ entryTitle }}
+
+Email: {{ authorEmail }}
+
+Entry Details:
+--------------
+
+{% for field in entry.getFieldLayout().getCustomFields() %}
+{% if field.name in ['Category', 'Therapist ID'] %}
+{% else %}
+{{ field.name }}: {{ attribute(entry, field.handle) ?? 'Not provided' }}
+{% endif %}
+{% endfor %}
+
+{% if entryUrl %}
+View entry: {{ entryUrl }}
+{% endif %}
+
+---
+This is an automated notification from {{ siteName }}

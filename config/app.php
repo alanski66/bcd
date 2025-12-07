@@ -27,6 +27,7 @@ return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 
     'modules' => [
         'fetch-profile' => \modules\fetchprofile\FetchProfile::class, 'notify-save' => NotifySave::class,
+        'guestentrynotify' => \modules\guestentrynotify\Module::class,
     ], 
-    'bootstrap' => ['fetch-profile', 'notify-save'],
+    'bootstrap' => ['fetch-profile', 'notify-save', 'guestentrynotify'],
 ];

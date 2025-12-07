@@ -2727,6 +2727,22 @@
       "oAP" : "\/templates\/_base\/global-variables.twig",
       "oF" : 0
     },
+    "\/templates\/_emails\/guest-entry-notification.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/_emails\/guest-entry-notification.twig",
+      "oF" : 0
+    },
+    "\/templates\/_emails\/guest-entry-notification.txt.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/_emails\/guest-entry-notification.txt.twig",
+      "oF" : 0
+    },
     "\/templates\/_inline-css\/site-fonts.css" : {
       "aP" : 1,
       "bl" : 0,
@@ -2946,6 +2962,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/dash.twig",
+      "oF" : 0
+    },
+    "\/templates\/enquiries\/_entry.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 1,
+      "oAP" : "\/templates\/enquiries\/_entry.twig",
       "oF" : 0
     },
     "\/templates\/enquiries\/contact-form-submitted.twig" : {
