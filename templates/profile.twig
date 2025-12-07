@@ -9,7 +9,8 @@
 
 {% set forceVerify = null %}
 
-{% if user.profileComplete == "no" or user.verifiedMembership == "no" %}
+{% if 
+  user.profileComplete|length < 1 or user.profileComplete == "no" or user.verifiedMembership == "no" or user.verifiedMembership|length < 1 %}
 {% set forceVerify = true %}
 {% endif %}
 
@@ -30,7 +31,7 @@
 <main>
     <section class="pt-5 pb-5">
       <div class="container">
-        test: {{forceVerify}}
+
         <!-- User info -->
         <div class="row align-items-center">
           <div class="col-xl-12 col-lg-12 col-md-12 col-12">
@@ -40,7 +41,9 @@
               <div class="d-flex align-items-end justify-content-between">
                 <div class="d-flex align-items-center">
                   <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                    {% if user.photo is not empty %}
                     <img src="{{user.photo.url('profileSmall')}}" class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
+                    {% endif %}
                   </div>
                   <div class="lh-1">
                     <h2 class="mb-0">
@@ -157,7 +160,9 @@
               <div class="card-body">
                 <div class="d-lg-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center mb-4 mb-lg-0">
+                    {% if user.photo is not empty %}
                     <img src="{{user.photo.url('profileSmall')}}" id="img-uploaded" class="avatar-xl rounded-circle" alt="avatar">
+                    {% endif %}
                     <div class="ms-3">
                       <h4 class="mb-0">Your photo</h4>
                       <p class="mb-0">PNG or JPG square format best, no bigger than 800px wide and tall.</p>

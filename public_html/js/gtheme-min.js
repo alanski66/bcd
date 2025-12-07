@@ -1,2 +1,2 @@
-(()=>{"use strict";const e=document.querySelectorAll(".needs-validation");Array.from(e).forEach((e=>{e.addEventListener("submit",(o=>{e.checkValidity()||(console.log("invalid form"),o.preventDefault(),o.stopPropagation()),console.log("valid form"),e.classList.add("was-validated"),e.submit()}),!1)}))})();
+(()=>{"use strict";const e=document.querySelectorAll(".needs-validation");Array.from(e).forEach((e=>{e.addEventListener("submit",(t=>{if(t.preventDefault(),t.stopPropagation(),e.classList.add("was-validated"),e.checkValidity())console.log("valid form - submitting"),e.submit();else{const t=e.querySelector(":invalid");t&&(t.scrollIntoView({behavior:"smooth",block:"center"}),setTimeout((()=>t.focus()),300))}}),!1)}))})();
 //# sourceMappingURL=gtheme-min.js.map

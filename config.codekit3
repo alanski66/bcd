@@ -3012,6 +3012,14 @@
       "oAP" : "\/templates\/login.twig",
       "oF" : 0
     },
+    "\/templates\/password-reset.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/password-reset.twig",
+      "oF" : 0
+    },
     "\/templates\/profile-complete.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3036,12 +3044,28 @@
       "oAP" : "\/templates\/profile.twig",
       "oF" : 0
     },
+    "\/templates\/reset-password-sent.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/reset-password-sent.twig",
+      "oF" : 0
+    },
     "\/templates\/reset-password.twig" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/reset-password.twig",
+      "oF" : 0
+    },
+    "\/templates\/set-password.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/set-password.twig",
       "oF" : 0
     },
     "\/templates\/sign-in.twig" : {
@@ -3140,12 +3164,20 @@
       "oAP" : "\/templates\/users\/user-profile.twig",
       "oF" : 0
     },
-    "\/templates\/verify.twig" : {
+    "\/templates\/verify-email-complete.twig" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/templates\/verify.twig",
+      "oAP" : "\/templates\/verify-email-complete.twig",
+      "oF" : 0
+    },
+    "\/templates\/verify-email.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/verify-email.twig",
       "oF" : 0
     },
     "\/vendor" : {

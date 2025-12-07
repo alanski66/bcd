@@ -16,19 +16,17 @@
               <a href="{{baseUrl}}">
                 <img src="../assets/images/brand/logo/logo.svg" class="mb-4" alt="logo" width="200px"></a>
               <div class="d-flex flex-column gap-1">
-                <h1 class="mb-0 fw-bold">Sign in</h1>
-                <span>
-                  Already have an account?
-                  <a href="sign-up" class="ms-1">Sign up</a>
-                </span>
+                <h2 class="mb-0 fw-bold">You have been verified and now may now sign in</h2>
+                <p>If this is your first time signing in you will be taken to the 'complete your profile page'</p>
               </div>
             
             <!-- Form -->
             <form method="post" accept-charset="UTF-8" class="needs-validation" novalidate="">
               {{ csrfInput() }}
               {{ actionInput('users/login') }}
-              {{ redirectInput('profile') }}
+              {{ redirectInput('profile?ref=vec') }}
               <!-- Username -->
+              <h2 class="text-primary">Sign in</h2>
               <div class="mb-3">
 
                 <label for="loginName" class="form-label">Username or email</label>

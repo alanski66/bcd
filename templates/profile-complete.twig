@@ -9,7 +9,7 @@
 
 
 {# {% do view.registerAssetBundle("fetchprofile\\SiteAsset") %} #}
-{% do view.registerAssetBundle('modules\\fetchprofile\\assets\\SiteAsset') %}
+{# {% do view.registerAssetBundle('modules\\fetchprofile\\assets\\SiteAsset') %} #}
 
 
 {# // dropzone #}
@@ -59,8 +59,8 @@ toolbar: "undo redo | bold italic "
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
-      {{user.id}}
-      <!-- User info -->
+
+      <!-- User info {{user.id}} -->
       <div class="row align-items-center">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <!-- Bg -->
@@ -72,7 +72,6 @@ toolbar: "undo redo | bold italic "
               <div class="d-flex align-items-center">
                 <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
                   {% if user.photo|length %}
-
                   <img src="{{user.photo.url('profileSmall')}}"
                     class="avatar-xl rounded-circle border border-4 border-white" alt="user photo">
                   {% endif %}
@@ -93,7 +92,7 @@ toolbar: "undo redo | bold italic "
                 </div>
               </div>
               <div>
-                <a href="profile-edit.html" class="btn btn-primary btn-sm d-none d-md-block">Complete your profile
+                <a href="" class="btn btn-primary btn-sm d-none d-md-block">Complete your profile
                   settings</a>
               </div>
             </div>
@@ -105,39 +104,63 @@ toolbar: "undo redo | bold italic "
 
         <div class="col-lg-9 col-12">
 
+          {% set successMessage = craft.app.session.getFlash('notice') %}
+          {% set errorMessage = craft.app.session.getFlash('error') %}
+
+
+          {# Display error message #}
+          {% if errorMessage %}
+          <div class="alert alert-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+              <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            {{ errorMessage }}
+          </div>
+          {% endif %}
+          {# Display success message #}
+          {% set success = craft.app.request.getParam('status') %}
+          {% if success %}
+          <div class="alert alert-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            </svg>Profile looks complete and has been saved successfully!
+          </div>
+          {% endif %}
           <!-- Card -->
           <div class="card">
 
             <!-- Form -->
+            {% set userErrors = user.getErrorSummary(true) %}
             <form class="needs-validation " novalidate="" method="post" accept-charset="UTF-8"
               enctype="multipart/form-data">
 
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
               {{ hiddenInput('userId', user.id) }}
+              {% set errstatus = 1 %}
+              {% if success %}
+              {% set errstatus = 1 %}
+              {% endif %}
+              {{ redirectInput('profile-complete?status='~errstatus) }}
 
               <!-- Card header -->
               <div class="card-header">
-                <h1 class="mb-0">Complete your profile</h1>
-                {% if user.hasErrors() %}
-                {% set errors = user._errors %}
-                {% macro errorList(errors) %}
-                {% if errors %}
-                {{ ul(errors, {class: 'errors'}) }}
-                {% endif %}
-                {% endmacro %}
+                <h1 class="mb-0">My profile</h1>
 
-                <p class="errors">Unable to save your profile.</p>
-                {% endif %}
-
-                <div class="alert alert-danger" role="alert">
+              {% if success  != '1' %}
+                <div class="alert alert-info" role="alert">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
                     <path
                       d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                   </svg>
-                  You must complete your profile in order for your listing to appear on the site.
+                  Please complete your profile. You must complete your profile in order for your listing to appear on the site. Once complete we will review and publish as quickly as possible
                 </div>
+                {% endif %}
                 <p class="mb-0"></p>
               </div>
               <!-- Card body -->
@@ -176,9 +199,9 @@ toolbar: "undo redo | bold italic "
                     </div>
                     {% endif %}
                     <div class="mb-3 col-12 col-md-6 w-100">
-                     
+
                     </div>
-                    
+
                   </div>
                 </div>
                 <!-- insurance -->
@@ -186,45 +209,36 @@ toolbar: "undo redo | bold italic "
                   <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
 
                     <div class="d-flex align-items-center mb-4 mb-lg-0">
-                      {% if user.insuranceProof|length %}<img src="{{user.insuranceProof.one().url('profileSmall')}}" id="insureance-uploaded"
-                      class="avatar-xxl rounded-circle" alt="insurance photo">{% endif %}
+                      {% if user.insuranceProof|length %}<img src="{{user.insuranceProof.one().url('profileSmall')}}"
+                        id="insureance-uploaded" class="avatar-xxl rounded-circle" alt="insurance photo">{% endif %}
                       <div class="ms-3">
-                      <label for="photo"><h4>Insurance proof</h4></label>
-                      <p>Please upload a photo of your current practice insurance</p>
-                      {{ input('file', 'fields[insuranceProof]', null, {
-                      id: 'photo',
-                      type: 'file',
-                      accept: 'image/png,image/jpeg',
-                      class: 'form-control'
-                      }) }}
-                    </div>
-                      
+                        <label for="photo">
+                          <h4>Insurance proof</h4>
+                        </label>
+                        <p>Please upload a photo of your current practice insurance</p>
+                        {{ input('file', 'fields[insuranceProof]', null, {
+                        id: 'photo',
+                        type: 'file',
+                        accept: 'image/png,image/jpeg',
+                        class: 'form-control'
+                        }) }}
+                      </div>
+
                       {# <div id="insureDropzone" class="dropzone mt-4 border-dashed rounded-2 min-h-0"></div> #}
-                  
+
                     </div>
                   </div>
                 </div>
-                <!-- verify membership -->
-                <div class="col-12">
-                  <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
-                    <h4>Membership verification</h4>
-                    <label for="verifyURL">Please add your public profile link from your memberships organisations directory and we will try and verify your membership</label>
-                      <input class="my-3 form-control" id="verifyLink" value=""  placeholder="add your profile URL">
-<a id="verifyURL" class="btn btn-primary"
-data-user-id="{{ currentUser.id }}"
-data-csrf-token-value="{{ craft.app.request.getCsrfToken() }}"
-data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}"
-><span class="vnow">Verify Now</span></a>
-                  </div>
-                </div>
+
                 <!-- details -->
                 <hr class="my-5">
                 <div class="row">
                   <h4 class="mb-0">Personal Details</h4>
                   <p class="mb-4">Edit your personal information and address.</p>
-
+                </div>
+                <div class="row">
                   <!-- Full name -->
-                  <div class="mb-3 col-12 col-md-6">
+                  <div class="mb-3 col-12 col-sm-6">
                     <label for="full-name" class="form-label">Full Name</label>
                     {{ input('text', 'fullName', user.fullName ?? null, {
                     id: 'full-name',
@@ -236,257 +250,255 @@ data-csrf-token-name="{{ craft.app.config.general.csrfTokenName }}"
                     {{ user ? _self.errorList(user.getErrors('fullName')) }}
                     <div class="invalid-feedback">Please enter your full name.</div>
                   </div>
-                  <!-- Last name -->
-                  <div class="mb-3 col-12 col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    {{ input('text', 'email', user.unverifiedEmail ?? user.email, {
-                    id: 'email',
-                    class: 'form-control',
-                    autocomplete: 'email',
-                    }) }}
-                    {{ _self.errorList(user.getErrors('username')) }}
-
-                  </div>
-                  <!-- Title role -->
-                  <div class="mb-3 col-12 col-md-6">
-                    <label class="form-label" for="titleRole">Title</label>
-                    <input type="text" id="titleRole" name="fields[titleRole]" class="form-control"
-                      value="{{user.titleRole}}" placeholder="" required="">
-
-                    <div class="invalid-feedback">Please enter your professional title.</div>
-                  </div>
-                  <div class="mb-3 col-12 col-md-6">
+                  <!-- Phone number -->
+                  <div class="mb-3 col-12 col-sm-6">
                     <label class="form-label" for="phoneNumber">Phone</label>
                     <input type="text" id="phoneNumber" name="fields[phoneNumber]" class="form-control"
                       value="{{user.phoneNumber}}" placeholder="" required="">
                     <div class="invalid-feedback">Please enter phone number.</div>
                   </div>
+                </div>
+                <!-- Prof Title role -->
+                <div class="mb-3 col-12">
+                  <label class="form-label" for="titleRole">Professional Title</label>
+                  <input type="text" id="titleRole" name="fields[titleRole]" class="form-control"
+                    value="{{user.titleRole}}" placeholder="" required="">
 
-                  <!-- Short summary role -->
-                  <div class="mb-3 col-12 col-md-12">
-                    <label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
-                    <textarea rows="2" id="shortSummary" name="fields[shortSummary]" class="form-control"
-                      required>{{user.shortSummary}}</textarea>
-                    {{ _self.errorList(user.getErrors('shortSummary')) }}
-                    <div class="invalid-feedback">Please enter your summary.</div>
-                  </div>
-
-                  <hr class="my-5">
-                  <h3>Session info</h3>
-                  <!-- fee -->
-                  <div class="mb-3 col-12 col-md-6 h-100">
-                    {% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
-
-                    <label class="form-label" for="sessionRate">{{field.name}}</label>
-                    <h5>{{field.instructions}}</h5>
-                    <span class="">£</span><input type="text" id="sessionRate" name="fields[sessionRate]"
-                      class="w-50 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
-                    <div class="invalid-feedback">Please enter your session rate.</div>
-
-                  </div>
-                  <!-- concessions -->
-                  <div class="col-md-6 col-12">
-                    {% set field = craft.app.fields.getFieldByHandle('concessions') %}
-                    <h4>{{field.name}}</h4>
-                    <h5>{{field.instructions}}</h5>
-                    <ul style="list-style-type: none;">
-                      {% for option in field.options %}
-                      {% set selected = user is defined
-                      ? user.concessions.value == option.value
-                      : option.default %}
-
-                      <li><label>
-                          <input type="radio" name="fields[concessions]" value="{{ option.value }}"
-                            class="form-check-input" {% if selected %} checked{% endif %}>
-                          {{ option.label }}
-                        </label></li>
-                      {% endfor %}
-                    </ul>
-
-                  </div>
-                  <hr class="my-5">
-
-                  <!-- availabilty -->
-                  <div class="col-12">
-                    {% set field = craft.app.fields.getFieldByHandle('availability') %}
-                    <h4>{{field.name}}</h4>
-                    <h5>{{field.instructions}}</h5>
-                    <ul style="list-style-type: none;">
-                      {% for option in field.options %}
-                      {% set selected = user is defined
-                      ? user.availability.value == option.value
-                      : option.default %}
-
-                      <li><label>
-                          <input type="radio" name="fields[availability]" value="{{ option.value }}"
-                            class="form-check-input" {% if selected %} checked{% endif %}>
-                          {{ option.label }}
-                        </label></li>
-                      {% endfor %}
-                    </ul>
-
-                  </div>
-                  <!-- session clients types checkbox-->
-                  <hr class="my-5">
-
-                  <div class="mb-4 col-12">
-
-                    {% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
-                    <h4>{{field.name}}</h4>
-                    <h5>{{field.instructions}}</h5>
-                    {# Include a hidden input first so Craft knows to clear the
-                    existing value, if no checkboxes are checked. #}
-                    {{ hiddenInput('fields[typeOfClient]', '') }}
-
-                    <ul class="typeclient" style="list-style-type: none;">
-                      {# Display native options as checkboxes: #}
-                      {% for option in field.options %}
-                      {% set checked = user is defined
-                      ? user.typeOfClient.contains(option.value)
-                      : option.default %}
-
-                      <li>
-                        <label>
-                          <input type="checkbox" name="fields[typeOfClient][]" value="{{ option.value }}"
-                            class="form-check-input border" {% if checked %}checked{% endif %}>
-                          {{ option.label }}
-                        </label>
-                      </li>
-                      {% endfor %}
-
-                      {# Does this field allow custom options? #}
-                      {% if field.customOptions %}
-                      {# Loop over the *stored* values and output all the "invalid" ones as text fields: #}
-                      {% for option in user.typeOfClient | filter(o => not o.valid) %}
-                      <li>
-                        <label>
-                          <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
-                          {{ option.label }}
-                        </label>
-                      </li>
-                      {% endfor %}
-
-                      {# Provide one more input for new values: #}
-                      <li>
-                        <label>
-                          Other:
-                          <input type="text" name="fields[typeOfClient][]">
-                        </label>
-                      </li>
-                      {% endif %}
-                    </ul>
-                  </div>
-                  <!-- end checkbox -->
-                  <hr class="my-5">
-                  <div>
-                    <!-- about me -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <label class="form-label w-100" for="aboutMe">About me</label>
-                      <textarea rows="2" col="32" id="aboutMe" name="fields[aboutMe]" class="form-control wysiwyg"
-                        required>{{user.aboutMe}}</textarea>
-                      <div class="invalid-feedback">
-                        {{ user ? _self.errorList(user.getErrors('aboutMe')) }}
-                        Please enter your about me info.</div>
-                    </div>
-                    <!-- qualifications -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <label class="form-label w-100" for="qualifications">Qualifications</label>
-                      <textarea rows="2" col="32" id="qualifications" name="fields[qualifications]" class="form-control"
-                        required>{{user.qualifications}}</textarea>
-                      <div class="invalid-feedback">
-                        Please enter qualifications.</div>
-                    </div>
-                    <!-- trainingAndExperience -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
-                      <textarea rows="8" col="32" id="trainingAndExperience" name="fields[trainingAndExperience]"
-                        class="form-control wysiwyg" required>{{user.trainingAndExperience}}</textarea>
-                      <div class="invalid-feedback">Please enter your training and experience info.</div>
-                    </div>
-                    <!-- practiceDescription -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <label class="form-label w-100" for="practiceDescription">Practice description</label>
-                      <textarea rows="8" col="32" id="practiceDescription" name="fields[practiceDescription]"
-                        class="form-control wysiwyg" required>{{user.practiceDescription}}</textarea>
-                      <div class="invalid-feedback">Please enter your practice description.</div>
-                    </div>
-                    <hr class="my-5">
-                    <h3 class="mb-5">Expertise</h3>
-                    <!-- categories -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <h4>Main issue areas</h4>
-                      {% set myCategoryQuery = craft.categories()
-                      .group('issues') %}
-                      {% set categories = myCategoryQuery.orderBy('title asc').all() %}
-
-                      <label for="tags-input" class="form-label fw-light">Choose a maximum of 4 areas where you achieve
-                        good
-                        outcomes</label>
-                      <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]"
-                        multiple data-max="0">
-                        <option disabled hidden value="">Choose a area...</option>
-                        {% for cat in categories %}
-                        <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
-                          {{cat.title}}</option>
-                        {% endfor %}
-                      </select>
-                      <div class="invalid-feedback">Please select a valid area.</div>
-                    </div>
-                    <hr class="my-5">
-                    <!-- expert exp issues -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <h4>Expertise Issues</h4>
-                      {% set issues = craft.entries.section('issues').limit(null).all() %}
-
-                      <label for="issue-input" class="form-label fw-light">Add a list of issues you commonly work
-                        with</label>
-                      <select data-allow-clear="1" class="form-select" id="issue-input"
-                        name="fields[typesOfIssuesYouCanHelp][]" multiple required>
-                        <option disabled hidden value="">Choose an issue...</option>
-                        {% for issue in issues %}
-                        <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{%
-                          endif %}>{{issue.title}}</option>
-                        {% endfor %}
-                      </select>
-                      <div class="invalid-feedback">Please select a valid expertise.</div>
-                    </div>
-
-                    <!-- type of therapy oferred -->
-                    <div class="mb-4 col-12 col-md-12">
-                      <h4>Therapy oferred</h4>
-                      {% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
-
-                      <label for="therapy-type" class="form-label fw-light">Add a therapy modalities you use</label>
-                      <select data-allow-clear="1" class="form-select" id="therapy-type-input"
-                        name="fields[typesOfTherapyOfferred][]" multiple required>
-                        <option disabled hidden value="">Choose a therapy ...</option>
-                        {% for ttype in therapyTypes %}
-                        <option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids() %}selected{%
-                          endif %}>{{ttype.title}}</option>
-                        {% endfor %}
-                      </select>
-                      <div class="invalid-feedback">Please select a valid modality.</div>
-                    </div>
+                  <div class="invalid-feedback">Please enter your professional title.</div>
+                </div>
 
 
-                  </div>
-                  <div class="col-12 text-center">
-                    {% if user.hasErrors() %}
-                    <p class="errors">Unable to save your profile.Please check the fileds above to ensure all are
-                      complete.</p>
-                    {% endif %}
+                <!-- Short summary role -->
+                <div class="mb-3 col-12 col-md-12">
+                  <label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
+                  <textarea rows="2" id="shortSummary" name="fields[shortSummary]" class="form-control"
+                    required>{{user.shortSummary}}</textarea>
+                  {{ _self.errorList(user.getErrors('shortSummary')) }}
+                  <div class="invalid-feedback">Please enter your summary.</div>
+                </div>
 
-                    <!-- Button -->
-                    <button class="btn btn-primary" type="submit">Save Profile</button>
-                  </div>
+                <hr class="my-5">
+                <h3>Session info</h3>
+                <!-- fee -->
+                <div class="mb-3 col-12 col-md-6 h-100">
+                  {% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
+
+                  <label class="form-label" for="sessionRate">{{field.name}}</label>
+                  <h5>{{field.instructions}}</h5>
+                  <span class="">£</span><input type="text" id="sessionRate" name="fields[sessionRate]"
+                    class="w-50 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
+                  <div class="invalid-feedback">Please enter your session rate.</div>
 
                 </div>
+                <!-- concessions -->
+                <div class="col-md-6 col-12">
+                  {% set field = craft.app.fields.getFieldByHandle('concessions') %}
+                  <h4>{{field.name}}</h4>
+                  <h5>{{field.instructions}}</h5>
+                  <ul style="list-style-type: none;">
+                    {% for option in field.options %}
+                    {% set selected = user is defined
+                    ? user.concessions.value == option.value
+                    : option.default %}
+
+                    <li><label>
+                        <input type="radio" name="fields[concessions]" value="{{ option.value }}"
+                          class="form-check-input" {% if selected %} checked{% endif %}>
+                        {{ option.label }}
+                      </label></li>
+                    {% endfor %}
+                  </ul>
+
+                </div>
+                <hr class="my-5">
+
+                <!-- availabilty -->
+                <div class="col-12">
+                  {% set field = craft.app.fields.getFieldByHandle('availability') %}
+                  <h4>{{field.name}}</h4>
+                  <h5>{{field.instructions}}</h5>
+                  <ul style="list-style-type: none;">
+                    {% for option in field.options %}
+                    {% set selected = user is defined
+                    ? user.availability.value == option.value
+                    : option.default %}
+
+                    <li><label>
+                        <input type="radio" name="fields[availability]" value="{{ option.value }}"
+                          class="form-check-input" {% if selected %} checked{% endif %}>
+                        {{ option.label }}
+                      </label></li>
+                    {% endfor %}
+                  </ul>
+
+                </div>
+                <!-- session clients types checkbox-->
+                <hr class="my-5">
+
+                <div class="mb-4 col-12">
+
+                  {% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
+                  <h4>{{field.name}}</h4>
+                  <h5>{{field.instructions}}</h5>
+                  {# Include a hidden input first so Craft knows to clear the
+                  existing value, if no checkboxes are checked. #}
+                  {{ hiddenInput('fields[typeOfClient]', '') }}
+
+                  <ul class="typeclient" style="list-style-type: none;">
+                    {# Display native options as checkboxes: #}
+                    {% for option in field.options %}
+                    {% set checked = user is defined
+                    ? user.typeOfClient.contains(option.value)
+                    : option.default %}
+
+                    <li>
+                      <label>
+                        <input type="checkbox" name="fields[typeOfClient][]" value="{{ option.value }}"
+                          class="form-check-input border" {% if checked %}checked{% endif %}>
+                        {{ option.label }}
+                      </label>
+                    </li>
+                    {% endfor %}
+
+                    {# Does this field allow custom options? #}
+                    {% if field.customOptions %}
+                    {# Loop over the *stored* values and output all the "invalid" ones as text fields: #}
+                    {% for option in user.typeOfClient | filter(o => not o.valid) %}
+                    <li>
+                      <label>
+                        <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
+                        {{ option.label }}
+                      </label>
+                    </li>
+                    {% endfor %}
+
+                    {# Provide one more input for new values: #}
+                    <li>
+                      <label>
+                        Other:
+                        <input type="text" name="fields[typeOfClient][]">
+                      </label>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </div>
+                <!-- end checkbox -->
+                <hr class="my-5">
+                <div>
+                  <!-- about me -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <label class="form-label w-100" for="aboutMe">About me</label>
+                    <textarea rows="2" col="32" id="aboutMe" name="fields[aboutMe]" class="form-control wysiwyg"
+                      required>{{user.aboutMe}}</textarea>
+                    <div class="invalid-feedback">
+                      {{ user ? _self.errorList(user.getErrors('aboutMe')) }}
+                      Please enter your about me info.</div>
+                  </div>
+                  <!-- qualifications -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <label class="form-label w-100" for="qualifications">Qualifications</label>
+                    <textarea rows="2" col="32" id="qualifications" name="fields[qualifications]" class="form-control"
+                      required>{{user.qualifications}}</textarea>
+                    <div class="invalid-feedback">
+                      Please enter qualifications.</div>
+                  </div>
+                  <!-- trainingAndExperience -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
+                    <textarea rows="8" col="32" id="trainingAndExperience" name="fields[trainingAndExperience]"
+                      class="form-control wysiwyg" required>{{user.trainingAndExperience}}</textarea>
+                    <div class="invalid-feedback">Please enter your training and experience info.</div>
+                  </div>
+                  <!-- practiceDescription -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <label class="form-label w-100" for="practiceDescription">Practice description</label>
+                    <textarea rows="8" col="32" id="practiceDescription" name="fields[practiceDescription]"
+                      class="form-control wysiwyg" required>{{user.practiceDescription}}</textarea>
+                    <div class="invalid-feedback">Please enter your practice description.</div>
+                  </div>
+                  <hr class="my-5">
+                  <h3 class="mb-5">Expertise</h3>
+                  <!-- categories -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <h4>Main issue areas</h4>
+                    {% set myCategoryQuery = craft.categories()
+                    .group('issues') %}
+                    {% set categories = myCategoryQuery.orderBy('title asc').all() %}
+
+                    <label for="tags-input" class="form-label fw-light">Choose a maximum of 4 areas where you achieve
+                      good
+                      outcomes</label>
+                    <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]" multiple
+                      data-max="0">
+                      <option disabled hidden value="">Choose a area...</option>
+                      {% for cat in categories %}
+                      <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
+                        {{cat.title}}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">Please select a valid area.</div>
+                  </div>
+                  <hr class="my-5">
+                  <!-- expert exp issues -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <h4>Expertise Issues</h4>
+                    {% set issues = craft.entries.section('issues').limit(null).all() %}
+
+                    <label for="issue-input" class="form-label fw-light">Add a list of issues you commonly work
+                      with</label>
+                    <select data-allow-clear="1" class="form-select" id="issue-input"
+                      name="fields[typesOfIssuesYouCanHelp][]" multiple required>
+                      <option disabled hidden value="">Choose an issue...</option>
+                      {% for issue in issues %}
+                      <option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids() %}selected{%
+                        endif %}>{{issue.title}}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">Please select a valid expertise.</div>
+                  </div>
+
+                  <!-- type of therapy oferred -->
+                  <div class="mb-4 col-12 col-md-12">
+                    <h4>Therapy oferred</h4>
+                    {% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
+
+                    <label for="therapy-type-input" class="form-label fw-light">Add a therapy modalities you use</label>
+                    <select data-allow-clear="1" class="form-select" id="therapy-type-input"
+                      name="fields[typesOfTherapyOfferred][]" multiple required>
+                      <option disabled hidden value="">Choose a therapy ...</option>
+                      {% for ttype in therapyTypes %}
+                      <option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids() %}selected{%
+                        endif %}>{{ttype.title}}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">Please select a valid modality.</div>
+                  </div>
+
+
+                </div>
+                <div class="col-12 text-center">
+
+                  {% if errorMessage %}
+                  <div class="alert alert-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                      class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                      <path
+                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                    {{ errorMessage }}
+                  </div>
+                  {% endif %}
+                  <!-- Button -->
+                  <button class="btn btn-primary" type="submit">Save Profile</button>
+                </div>
+
               </div>
-              <!-- end form -->
-            </form>
           </div>
+          <!-- end form -->
+          </form>
         </div>
       </div>
+    </div>
     </div>
   </section>
 </main>

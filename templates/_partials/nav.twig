@@ -46,7 +46,62 @@
             {% endfor %}
           
         </ul>
+          <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
+                                                               
+                                                                 <li class="dropdown ms-2 d-inline-block position-static">
+                                                                    <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                                                       <div class="avatar avatar-md avatar-indicators avatar-online">
+                                                                          <img alt="avatar" src="../assets/images/avatar/avatar.jpg" class="rounded-circle" />
+                                                                       </div>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
+                                                                       <div class="dropdown-item">
+                                                                          <div class="d-flex">
+                                                                             <div class="avatar avatar-md avatar-indicators avatar-online">
+                                                                              {% set user = user ?? currentUser %}
+                                                                              {% if user.photo|length %}
+                                                                              <img src="{{user.photo.url}}" class="rounded-circle" />
+                                                                              {% else %}
+                                                                                <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
+                                                                              {% endif %} 
+                                                                             </div>
+                                                                             <div class="ms-3 lh-1">
+                                                                                <h5 class="mb-1">{{user.fullName ?? null}}</h5>
+                                                                                <p class="mb-0">{{user.email ?? null}}</p>
+                                                                             </div>
+                                                                          </div>
+                                                                       </div>
+                                                                       <div class="dropdown-divider"></div>
+                                                                       <ul class="list-unstyled">
+                                                                        
+                                                                          <li>
+                                                                             <a class="dropdown-item" href="{{baseUrl}}profile-complete">
+                                                                             <i class="fe fe-user me-2"></i>
+                                                                             Profile
+                                                                             </a>
+                                                                          </li>
+                                                                          <li class="d-none">
+                                                                             <a class="dropdown-item" href="#">
+                                                                             <i class="fe fe-settings me-2"></i>
+                                                                             Settings
+                                                                             </a>
+                                                                          </li>
+                                                                       </ul>
+                                                                       <div class="dropdown-divider"></div>
+                                                                       <ul class="list-unstyled">
+                                                                          <li>
+                                                                             <a class="dropdown-item" href="{{baseUrl}}logout">
+                                                                             <i class="fe fe-power me-2"></i>
+                                                                             Sign Out
+                                                                             </a>
+                                                                          </li>
+                                                                       </ul>
+                                                                    </div>
+                                                                 </li>
+                                                              </ul>
       </div>
    
     </div>
   </nav>
+  <!-- /.navbar -->
+  

@@ -13,7 +13,13 @@ settings:
           - 'Please select'
         -
           - value
-          - '0'
+          - ''
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
         -
           - default
           - '1'
@@ -26,6 +32,12 @@ settings:
           - value
           - bacp
         -
+          - icon
+          - ''
+        -
+          - color
+          - ''
+        -
           - default
           - ''
     -
@@ -36,6 +48,12 @@ settings:
         -
           - value
           - ncps
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
         -
           - default
           - ''
@@ -48,6 +66,12 @@ settings:
           - value
           - ukcp
         -
+          - icon
+          - ''
+        -
+          - color
+          - ''
+        -
           - default
           - ''
     -
@@ -58,6 +82,12 @@ settings:
         -
           - value
           - other
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
         -
           - default
           - ''

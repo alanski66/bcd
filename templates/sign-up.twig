@@ -113,7 +113,7 @@
                   <div class="mb-3">
                     <label class="form-label" for="memberOrg">Select your membership organisation</label>
 
-                    <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" >
+                    <select class="form-select mb-5" id="memberOrg" name="fields[memberOrganisation]" required>
                       {% for option in field.options %}
                       <option value="{{ option.value }}">
                         {{ option.label }}
@@ -201,7 +201,7 @@
               <div>
                 <!-- Button -->
                 <div class="d-grid">
-                  <button type="submit" id="createAccountBtn" class="btn btn-primary ">Create Free Account</button>
+                  <button type="submit" id="createAccountBtn" class="disabled btn btn-primary ">Create Free Account</button>
                 </div>
               </div>
 

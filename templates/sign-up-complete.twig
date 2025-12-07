@@ -5,6 +5,7 @@
 {% block content %}
 
 <main>
+  <!--sign-up-complete-->
   <section class="container d-flex flex-column vh-100">
     <div class="row align-items-center justify-content-center g-0 h-lg-100 py-8">
       <div class="col-lg-5 col-md-8 py-8 py-xl-0">
@@ -18,11 +19,9 @@
               
               <div class="d-flex flex-column gap-1">
                 <h1 class="mb-0 fw-bold">Sign up complete</h1>
-                <span>
-                  Already have an account?
-                  <a href="sign-in" class="ms-1">Sign in</a>
-                </span>
-                
+               
+                <p>You will receive an email in the next few minutes to verify and activate your account. Click on the link in the email to complete the activation process.</p> 
+                <p>If you do not receive the email within 10 minutes please check your spam/junk folder. If it is not there please <a href="{{ siteUrl('contact') }}">contact us</a> for assistance.</p>
               </div>
             </div>
             <!-- Form -->
