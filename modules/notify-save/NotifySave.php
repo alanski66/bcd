@@ -7,7 +7,7 @@ use yii\base\Event;
 use yii\base\Module as BaseModule;
 use craft\elements\User;
 use craft\events\ModelEvent;
-use craft\utilities\SystemMessages;
+
 
 /**
  * NotifySave module
@@ -29,7 +29,7 @@ class NotifySave extends BaseModule
 
         parent::init();
 
-// Register the event listener
+        // Register the event listener
         Event::on(
             User::class,
             User::EVENT_AFTER_SAVE,
@@ -37,33 +37,11 @@ class NotifySave extends BaseModule
                 /** @var User $user */
                 $user = $event->sender;
                 $this->sendNotificationUserSaved($user);
-                // // Only send email for new users or when you want
-                // if ($event->isNew) {
-                //     $this->sendNotificationEmail($user);
-                // }
-                   // In a service method or event handler:
+            
         
             }
         );
-        // Event::on(
-        //     SystemMessages::class,
-        //     SystemMessages::EVENT_AFTER_VALIDATE,
-        //     User::class,
-        //     User::EVENT_AFTER_VALIDATE,
-        //     function(ModelEvent $event) {
-        //         /** @var User $user */
-        //         $user = $event->sender;
-        //         $this->sendNotificationUserVerified($user);
-        //         // // Only send email for new users or when you want
-        //         // if ($event->isNew) {
-        //         //     $this->sendNotificationEmail($user);
-        //         // }
-        //            // In a service method or event handler:
-        
-        //     }
-        // );
-
-
+    
         $this->attachEventHandlers();
 
         // Any code that creates an element query or loads Twig should be deferred until
@@ -84,16 +62,7 @@ class NotifySave extends BaseModule
             ->setTextBody('A user was saved: ' . $user->email)
             ->send();
     }
-         private function sendNotificationUserVerified(User $user)
-    {
-        // Send your email here
-        $systemEmail = Craft::$app->getProjectConfig()->get('email.fromEmail');
-        Craft::$app->mailer->compose()
-            ->setTo($systemEmail)
-            ->setSubject('User Verified: ' . $user->email)
-            ->setTextBody('A user was verified: ' . $user->email)
-            ->send();
-    }
+    
     private function attachEventHandlers(): void
     {
         // Register event handlers here ...
