@@ -1,8 +1,20 @@
-dateModified: 1765037765
+dateModified: 1765196977
 elementSources:
   craft\elements\Entry:
     -
+      defaultSort:
+        - postDate
+        - desc
+      defaultViewMode: ''
+      disabled: false
       key: '*'
+      tableAttributes:
+        - status
+        - section
+        - postDate
+        - expiryDate
+        - authors
+        - link
       type: native
     -
       defaultSort:
@@ -41,7 +53,18 @@ elementSources:
       key: 'section:90155b7e-865d-4cb6-a76b-76906dedad56' # Type of Issues
       type: native
     -
+      defaultSort:
+        - structure
+        - asc
+      defaultViewMode: ''
+      disabled: false
       key: 'section:49141ff0-5149-43b7-91d1-5c8d09a915ed' # Types of Therapy
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - authors
+        - link
       type: native
     -
       heading: 'Other content'
@@ -50,10 +73,6 @@ elementSources:
     -
       key: 'section:17f66194-2bba-4d08-a705-9823e9054f86' # Pages
       type: native
-    -
-      heading: ''
-      key: 'heading:5f7c934c-eb4b-4069-8f89-c6fe0acb2e75'
-      type: heading
     -
       key: 'section:e6ff9992-97aa-4cd6-b9ea-5743266547cb' # Enquiries
       type: native
@@ -118,12 +137,12 @@ elementSources:
         - id
       type: native
 email:
-  fromEmail: alan@craftcode.co.uk
+  fromEmail: info@brightoncounsellingdirectory.co.uk
   fromName: 'Brighton Counselling Directory'
   replyToEmail: null
   template: ''
   transportSettings:
-    command: '/usr/sbin/sendmail -bs'
+    command: '/usr/sbin/sendmail -t -i'
   transportType: craft\mail\transportadapters\Sendmail
 fs:
   generalImages:
@@ -188,6 +207,7 @@ meta:
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
     5d532788-0cc7-48de-9b9b-627e7923b222: 'Contact preference' # Contact preference
+    06a9642c-32d8-43fb-8f3a-478a4d84ab5a: 'Couples rate' # Couples rate
     6aff28e4-a015-4972-b136-5efb6d158b90: 'Hero background' # Hero background
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
@@ -209,7 +229,6 @@ meta:
     319c85fe-482c-4f11-aa21-cb3849b718d3: Credit # Credit
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
     520a0e55-accd-41b4-addc-97ed1155aa67: Card # Card
-    659d92e0-6da5-49f3-a37b-4897b5a7272c: 'Main Menu' # Main Menu
     835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
     4925fc69-c87a-4cf0-8d77-8830d8053b62: 'Entry link' # Entry link
     5942cd7b-ea0c-4234-b261-1175ac7e41ad: 'Custom Url' # Custom Url
@@ -366,11 +385,6 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  navigation:
-    edition: standard
-    enabled: true
-    licenseKey: XL45BW10BCJLY592GWQ2QH6O
-    schemaVersion: 2.1.1
   plausible:
     edition: standard
     enabled: true
@@ -435,5 +449,6 @@ system:
   edition: pro
   live: true
   name: 'Brighton Counselling Directory'
+  retryDuration: null
   schemaVersion: 5.8.0.3
-  timeZone: America/Los_Angeles
+  timeZone: UTC

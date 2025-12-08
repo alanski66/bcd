@@ -2972,6 +2972,14 @@
       "oAP" : "\/templates\/enquiries\/_entry.twig",
       "oF" : 0
     },
+    "\/templates\/enquiries\/_list.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 1,
+      "oAP" : "\/templates\/enquiries\/_list.twig",
+      "oF" : 0
+    },
     "\/templates\/enquiries\/contact-form-submitted.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3148,6 +3156,14 @@
       "oAP" : "\/templates\/types-of-therapy\/index.twig",
       "oF" : 0
     },
+    "\/templates\/users\/partials\/user-sidenav.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/partials\/user-sidenav.twig",
+      "oF" : 0
+    },
     "\/templates\/users\/user-bounce.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3186,6 +3202,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/users\/user-profile-edit.twig",
+      "oF" : 0
+    },
+    "\/templates\/users\/user-profile-indash.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-profile-indash.twig",
       "oF" : 0
     },
     "\/templates\/users\/user-profile.twig" : {

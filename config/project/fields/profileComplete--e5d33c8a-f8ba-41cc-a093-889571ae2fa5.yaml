@@ -15,12 +15,6 @@ settings:
           - value
           - 'yes'
         -
-          - icon
-          - ''
-        -
-          - color
-          - ''
-        -
           - default
           - ''
     -
@@ -32,14 +26,8 @@ settings:
           - value
           - 'no'
         -
-          - icon
-          - ''
-        -
-          - color
-          - ''
-        -
           - default
-          - '1'
+          - ''
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\RadioButtons

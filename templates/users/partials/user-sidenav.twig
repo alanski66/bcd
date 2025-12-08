@@ -1,0 +1,59 @@
+<div class="col-lg-3 col-md-4 col-12">
+
+    <!-- Side navbar -->
+    <nav class="navbar navbar-expand-md shadow-sm mb-4 mb-lg-0 user-sidenav">
+        <!-- Menu -->
+        <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+        <!-- Button -->
+        <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+            data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="fe fe-menu"></span>
+        </button>
+        <!-- Collapse navbar -->
+        <div class="collapse navbar-collapse" id="sidenav">
+            <div class="navbar-nav flex-column">
+                <span class="d-none navbar-header">Subscription</span>
+
+                <span class="navbar-header">Account Settings</span>
+                <!-- List -->
+                <ul class="list-unstyled ms-n2 mb-0">
+                    <!-- Nav item -->
+                    <li class="nav-item ">
+                        <a class="nav-link" target="_blank"
+                            href="{{ alias('@baseUrl') }}/counsellors/{{user.fullname|kebab}}/{{user.id}}">
+
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            View profile
+
+                        </a>
+                    </li>
+ <!-- Nav item -->
+                    <li class="nav-item ">
+                        <a class="nav-link"
+                            href="{{ alias('@baseUrl') }}/my-enquiries">
+
+                            <i class="bi bi-bell"></i>
+                            My enquiries
+
+                        </a>
+                    </li>                    
+                    <!-- Nav item -->
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-profile-edit">
+                            <i class="fe fe-settings nav-icon"></i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <!-- Nav item -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/logout">
+                            <i class="fe fe-power nav-icon"></i>
+                            Sign Out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

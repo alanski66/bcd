@@ -17,5 +17,5 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: enquiries/_entry.twig
-    uriFormat: 'my-enquiries/{slug}'
+    uriFormat: 'my-enquiries/{uid}'
 type: channel

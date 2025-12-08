@@ -40,13 +40,11 @@
 
 	<main>
 		<section class="pt-5 pb-5">
-			<div
-				class="container">
+			<div class="container">
 
 				<!-- User info -->
 				<div class="row align-items-center">
-					<div
-						class="col-xl-12 col-lg-12 col-md-12 col-12">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-12">
 						<!-- Bg -->
 						<div class="rounded-top" style="background: url(../assets/images/background/profile-bg.jpg) no-repeat; background-size: cover; height: 100px"></div>
 						<div class="card px-4 pt-2 pb-4 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2">
@@ -80,54 +78,8 @@
 				</div>
 				<!-- Content -->
 				<div class="row mt-0 mt-md-4">
-					<div
-						class="col-lg-3 col-md-4 col-12">
-						<!-- Side navbar -->
-						<nav
-							class="navbar navbar-expand-md shadow-sm mb-4 mb-lg-0 user-sidenav">
-							<!-- Menu -->
-							<a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
-							<!-- Button -->
-							<button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false" aria-label="Toggle navigation">
-								<span class="fe fe-menu"></span>
-							</button>
-							<!-- Collapse navbar -->
-							<div class="collapse navbar-collapse" id="sidenav">
-								<div class="navbar-nav flex-column">
-									<span class="d-none navbar-header">Subscription</span>
-
-									<span class="navbar-header">Account Settings</span>
-									<!-- List -->
-									<ul
-										class="list-unstyled ms-n2 mb-0">
-										<!-- Nav item -->
-                    <li class="nav-item ">
-                      <a class="nav-link" href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}">
-                    
-                        <i class="fe fe-user nav-icon"></i>
-                        View profile
-                    
-                      </a>
-                    </li>
-										<!-- Nav item -->
-										<li class="nav-item ">
-											<a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-profile-edit">
-												<i class="fe fe-settings nav-icon"></i>
-												Edit Profile
-											</a>
-										</li>
-										<!-- Nav item -->
-										<li class="nav-item">
-											<a class="nav-link" href="{{ alias('@baseUrl') }}/logout">
-												<i class="fe fe-power nav-icon"></i>
-												Sign Out
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</nav>
-					</div>
+					{% include "users/partials/user-sidenav.twig" %}
+				 
 					<div class="col-lg-9 col-md-8 col-12">
 						<!-- Card -->
 						<div
@@ -148,7 +100,7 @@
           {% endif %}
 		    </div>
 						<!-- Card From body --> 
-						<div class="card-body">
+			<div class="card-body">
            <!-- Form -->
             {% set userErrors = user.getErrorSummary(true) %}
             

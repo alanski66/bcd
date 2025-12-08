@@ -1,0 +1,6 @@
+siteUid: null
+sortOrder: 3
+template: enquiries/_list.twig
+uriParts:
+  - my-enquiries/
+uriPattern: my-enquiries/

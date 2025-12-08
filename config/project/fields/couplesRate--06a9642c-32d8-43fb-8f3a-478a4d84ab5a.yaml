@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: couplesRate
+instructions: 'Leave blank if you do not work with couples'
+name: 'Couples rate'
+searchable: false
+settings:
+  decimals: 0
+  defaultValue: null
+  max: null
+  min: 0
+  prefix: £
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: Couples
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number
