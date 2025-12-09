@@ -1,4 +1,4 @@
-dateModified: 1765196977
+dateModified: 1765303134
 elementSources:
   craft\elements\Entry:
     -
@@ -341,6 +341,14 @@ plugins:
       langLocale: en-US
       picsPerPage: '15'
       uploadLocation: 'volumeId:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
+  craft-antispam:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+    settings:
+      ctApiKey: 8uje7e8e7azu7yj
+      errorMsg: ''
+      keyIsOk: 1
   easy-image:
     edition: standard
     enabled: true
