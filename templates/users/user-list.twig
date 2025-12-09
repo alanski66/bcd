@@ -55,7 +55,7 @@
               {% set asset = user.photo %}
               
             
-              <a href="{{ alias('@baseUrl') }}/counsellors/{{user.username|kebab}}/{{user.id}}">
+              <a href="{{ alias('@baseUrl') }}/counsellors/{{user.fullname|kebab}}/{{user.id}}">
                 {{ picture([user.photo, 'user-photo'], 'user img-fluid w-100 rounded-4') }}
                 {# <img data-src="{{ user.photo.url('profileMedium') }}" alt="{{ user.fullName }}"
                 width="{{ asset.getWidth('profileMedium') }}"

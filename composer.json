@@ -3,6 +3,7 @@
   "prefer-stable": true,
   "require": {
     "acalvino4/craft-easy-image": "^2.0",
+    "cleantalk/craft-antispam": "^1.0",
     "convergine/craft-content-buddy": "1.2.11",
     "convergine/craft-pexels": "1.0.1",
     "craftcms/ckeditor": "4.11.0",

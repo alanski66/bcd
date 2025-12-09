@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99e28ea4a460a299fec4af6aeb30468e",
+    "content-hash": "9d7b60ea2a50ebb545564efc622c2910",
     "packages": [
         {
             "name": "acalvino4/craft-easy-image",
@@ -363,6 +363,69 @@
                 "markdown-extra"
             ],
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "cleantalk/craft-antispam",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CleanTalk/craft-antispam.git",
+                "reference": "eb037db10d75c520e11724f00b40ea287d07d8a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CleanTalk/craft-antispam/zipball/eb037db10d75c520e11724f00b40ea287d07d8a0",
+                "reference": "eb037db10d75c520e11724f00b40ea287d07d8a0",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3|^4|^5"
+            },
+            "require-dev": {
+                "cleantalk/antispam": "*"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Anti-Spam by CleanTalk, no captcha/recaptcha",
+                "class": "Cleantalk\\CraftAntispam\\CraftAntispam",
+                "handle": "craft-antispam",
+                "components": {
+                    "CleantalkAntispamService": "Cleantalk\\CraftAntispam\\services\\CleantalkAntispamService"
+                },
+                "changelogUrl": "https://github.com/CleanTalk/craft-antispam/CHANGELOG.md",
+                "hasCpSection": false,
+                "hasCpSettings": true
+            },
+            "autoload": {
+                "files": [
+                    "lib/autoload.php"
+                ],
+                "psr-4": {
+                    "Cleantalk\\CraftAntispam\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CleanTalk",
+                    "homepage": "https://cleantalk.org"
+                }
+            ],
+            "description": "Anti-Spam protection by CleanTalk",
+            "keywords": [
+                "anti-spam",
+                "antispam",
+                "spam"
+            ],
+            "support": {
+                "docs": "https://github.com/CleanTalk/craft-antispam/blob/master/README.md",
+                "issues": "https://cleantalk.org/my/support",
+                "source": "https://github.com/CleanTalk/craft-antispam/tree/1.0.4"
+            },
+            "time": "2024-05-06T09:15:17+00:00"
         },
         {
             "name": "commerceguys/addressing",
@@ -10696,11 +10759,11 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
