@@ -118,9 +118,15 @@
 
                     </div>
                     <div class="d-flex justify-content-between border-bottom py-2 mt-4">
-                      <span class="fw-bold">Sessions from</span>
+                      <span class="fw-bold">Individuals</span>
                       <span class="text-dark">£{{user.sessionRate}}</span>
                     </div>
+                    {% if user.couplesRate is not empty %}
+                    <div class="d-flex justify-content-between border-bottom py-2 ">
+                      <span class="fw-bold">Couples</span>
+                      <span class="text-dark">£{{user.couplesRate}}</span>
+                    </div>
+                    {% endif %}
                     <div class="d-flex justify-content-between border-bottom py-2">
                       <span  class="fw-bold">Availability</span>
                       <span class="text-warning pt-1 lh-1">
@@ -137,7 +143,7 @@
                       <span class="fw-bold">Concessions</span>
                       <span class="text-dark">{{user.concessions}}</span>
                     </div>
-                    <div class="d-flex  mt-auto justify-content-around">
+                    <div class="d-flex  mt-auto justify-content-around d-none d-lg-flex">
                       <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white">Call now</a>
                       <form class="needs-validation" action="{{baseUrl}}enquiry" novalidate="" method="post"
                         accept-charset="UTF-8" enctype="multipart/form-data">
@@ -193,8 +199,8 @@
                   </div>
                 </div>
 
-                <!-- CTA card -->
-                <div class="card mb-4 d-none">
+                <!-- CTA card footer mobile-->
+                <div class="card mt-4 mb-4 d-lg-none">
                   <div class="card-body">
                     <div class="d-flex  mt-auto justify-content-around">
                       <a href="tel:{{user.phoneNumber}}" class="btn btn-outline-white">Call now</a>
