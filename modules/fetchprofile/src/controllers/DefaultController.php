@@ -73,46 +73,71 @@ class DefaultController extends Controller
     /*
     * used for bacp and ncps
     */
-    public function actionVerifyBacp(): Response
+public function actionVerifyBacp(): Response
 {
     $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
-    $org = Craft::$app->request->getBodyParam('org');
-    $profileId = Craft::$app->request->getBodyParam('profileId');
-    
     $data = array();
     
     $client = new \GuzzleHttp\Client([
         'cookies' => false,
-        'allow_redirects' => true,  // CHANGED: Allow redirects
-        'http_errors' => false,      // MOVED: Out of headers
-        'verify' => true,            // ADDED: Verify SSL certificates
-        'timeout' => 10,             // ADDED: Reasonable timeout
+        'allow_redirects' => true,
+        'http_errors' => false,
+        'timeout' => 15,
+        'verify' => false,
+        'debug' => false, // Set to true temporarily to see full request/response
         'headers' => [
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language' => 'en-US,en;q=0.5',
-            'Accept-Encoding' => 'gzip, deflate, br',
             'Connection' => 'keep-alive',
-            // REMOVED: Host header (let Guzzle set it automatically)
-            // REMOVED: Referer (not needed for verification)
         ]
     ]);
     
     try {
         $response = $client->get($verifyLink);
         
-        // CHANGED: Integer comparison instead of string
-        if ($response->getStatusCode() == 200) {
+        $statusCode = $response->getStatusCode();
+        
+        // Log detailed response for debugging
+        Craft::info([
+            'url' => $verifyLink,
+            'status_code' => $statusCode,
+            'headers' => $response->getHeaders(),
+            'body_preview' => substr($response->getBody()->getContents(), 0, 500)
+        ], 'bacp-verify');
+        
+        if ($statusCode == 200) {
             $data["statuscode"] = 'true';
         } else {
-            $data["statuscode"] = $response->getStatusCode();
+            $data["statuscode"] = $statusCode;
         }
         
         return $this->asJson($data);
         
-    } catch (\GuzzleHttp\Exception\RequestException $e) {
+    } catch (\GuzzleHttp\Exception\ConnectException $e) {
+        // Connection timeouts, DNS failures, etc.
+        Craft::error('Connection error: ' . $e->getMessage(), 'bacp-verify');
         $data["statuscode"] = 'false';
-        $data["error"] = $e->getMessage(); // ADDED: Helpful error message
+        $data["error"] = 'Connection failed: ' . $e->getMessage();
+        return $this->asJson($data);
+        
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+        // HTTP errors
+        Craft::error('Request error: ' . $e->getMessage(), 'bacp-verify');
+        $data["statuscode"] = 'false';
+        $data["error"] = 'Request failed: ' . $e->getMessage();
+        
+        if ($e->hasResponse()) {
+            $data["error_code"] = $e->getResponse()->getStatusCode();
+        }
+        
+        return $this->asJson($data);
+        
+    } catch (\Exception $e) {
+        // Any other errors
+        Craft::error('Unexpected error: ' . $e->getMessage(), 'bacp-verify');
+        $data["statuscode"] = 'false';
+        $data["error"] = 'Unexpected error: ' . $e->getMessage();
         return $this->asJson($data);
     }
 }
