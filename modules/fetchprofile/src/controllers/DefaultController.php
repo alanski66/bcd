@@ -74,6 +74,49 @@ class DefaultController extends Controller
     * used for bacp and ncps
     */
     public function actionVerifyBacp(): Response
+{
+    $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+    $org = Craft::$app->request->getBodyParam('org');
+    $profileId = Craft::$app->request->getBodyParam('profileId');
+    
+    $data = array();
+    
+    $client = new \GuzzleHttp\Client([
+        'cookies' => false,
+        'allow_redirects' => true,  // CHANGED: Allow redirects
+        'http_errors' => false,      // MOVED: Out of headers
+        'verify' => true,            // ADDED: Verify SSL certificates
+        'timeout' => 10,             // ADDED: Reasonable timeout
+        'headers' => [
+            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language' => 'en-US,en;q=0.5',
+            'Accept-Encoding' => 'gzip, deflate, br',
+            'Connection' => 'keep-alive',
+            // REMOVED: Host header (let Guzzle set it automatically)
+            // REMOVED: Referer (not needed for verification)
+        ]
+    ]);
+    
+    try {
+        $response = $client->get($verifyLink);
+        
+        // CHANGED: Integer comparison instead of string
+        if ($response->getStatusCode() == 200) {
+            $data["statuscode"] = 'true';
+        } else {
+            $data["statuscode"] = $response->getStatusCode();
+        }
+        
+        return $this->asJson($data);
+        
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+        $data["statuscode"] = 'false';
+        $data["error"] = $e->getMessage(); // ADDED: Helpful error message
+        return $this->asJson($data);
+    }
+}
+    public function OLDactionVerifyBacp(): Response
     {
         $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
         $org = Craft::$app->request->getBodyParam('org');
