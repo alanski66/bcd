@@ -36,7 +36,7 @@ class DefaultController extends Controller
 
     public function actionGetData(): Response
     {
-        
+    
         $data = array();
         $jar = new \GuzzleHttp\Cookie\CookieJar();
         //set header information including cookies, referer, etc. 

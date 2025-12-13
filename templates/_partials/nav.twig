@@ -1,114 +1,109 @@
 <nav class="navbar navbar-expand-lg">
-    <div class="container px-0">
-      <a class="navbar-brand" href="{{ alias('@baseUrl') }}">
-        <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo.svg" alt="" height="110px" class="mg-fluid"/>
-      </a>
-      <!-- Mobile view nav wrap -->
-      {# <div class="ms-auto d-flex align-items-center order-lg-3">
-        <div class="d-flex gap-2 align-items-center">
-          
-          <a href="sign-in" class="btn btn-outline-dark">Sign in</a>
-          <a href="sign-up" class="btn btn-primary d-none d-md-block">For professionals</a>
-        </div>
-      </div> #}
-      <div>
-        <!-- Button -->
-        <button
-          class="navbar-toggler collapsed ms-2 border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbar-default"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="icon-bar top-bar mt-0"></span>
-          <span class="icon-bar middle-bar"></span>
-          <span class="icon-bar bottom-bar"></span>
-        </button>
-      </div>
-      <!-- Collapse -->
-      <div class="collapse navbar-collapse justify-content-evenly" id="navbar-default">
-        <ul class="navbar-nav mt-3 mt-lg-0  justify-content-between w-75">
+  <div class="container px-0">
+    <a class="navbar-brand" href="{{ alias('@baseUrl') }}">
+      <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo.svg" alt="" height="110px" class="mg-fluid" />
+    </a>
+    <!-- Mobile view nav wrap -->
+    {# <div class="ms-auto d-flex align-items-center order-lg-3">
+      <div class="d-flex gap-2 align-items-center">
 
-          {% set menu = craft.entries.section('navigation') %}
-{% set url = "" %}
-          {% for entry in menu.all() %}
-          {% if entry.customUrl | length %}
-          {% set url = entry.customUrl %}
-          {% else %}
-          {% if entry.entryLink | length %}
-          {% set url = entry.entryLink.one().url %}
-          {% endif %}
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{baseUrl}}{{ url }}">{{ entry.title }}</a>
-            </li>
-            {% endfor %}
-          
-        </ul>
-          {% set user = user ?? currentUser %}
-          {% if user %} 
-          <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
-                                                               
-                                                                 <li class="dropdown ms-2 d-inline-block position-static">
-                                                                    <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                                                                       <div class="avatar avatar-md avatar-indicators avatar-online">
-  {% if user.photo|length %}
-                                                                              <img src="{{user.photo.url}}" class="rounded-circle" />
-                                                                              {% else %}
-                                                                                <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
-                                                                              {% endif %}                                                                        </div>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
-                                                                       <div class="dropdown-item">
-                                                                          <div class="d-flex">
-                                                                             <div class="avatar avatar-md avatar-indicators avatar-online">
-                                                                            
-                                                                              {% if user.photo|length %}
-                                                                              <img src="{{user.photo.url}}" class="rounded-circle" />
-                                                                              {% else %}
-                                                                                <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
-                                                                              {% endif %} 
-                                                                             </div>
-                                                                             <div class="ms-3 lh-1">
-                                                                                <h5 class="mb-1">{{user.fullName ?? null}}</h5>
-                                                                                <p class="mb-0">{{user.email ?? null}}</p>
-                                                                             </div>
-                                                                          </div>
-                                                                       </div>
-                                                                       <div class="dropdown-divider"></div>
-                                                                       <ul class="list-unstyled">
-                                                                        
-                                                                          <li>
-                                                                             <a class="dropdown-item" href="{{baseUrl}}profile">
-                                                                             <i class="fe fe-user me-2"></i>
-                                                                             Profile
-                                                                             </a>
-                                                                          </li>
-                                                                          <li class="d-none">
-                                                                             <a class="dropdown-item" href="#">
-                                                                             <i class="fe fe-settings me-2"></i>
-                                                                             Settings
-                                                                             </a>
-                                                                          </li>
-                                                                       </ul>
-                                                                       <div class="dropdown-divider"></div>
-                                                                       <ul class="list-unstyled">
-                                                                          <li>
-                                                                             <a class="dropdown-item" href="{{baseUrl}}logout">
-                                                                             <i class="fe fe-power me-2"></i>
-                                                                             Sign Out
-                                                                             </a>
-                                                                          </li>
-                                                                       </ul>
-                                                                    </div>
-                                                                 </li>
-          </ul>
-          {% else %}
-          {% endif %}
+        <a href="sign-in" class="btn btn-outline-dark">Sign in</a>
+        <a href="sign-up" class="btn btn-primary d-none d-md-block">For professionals</a>
       </div>
-   
+    </div> #}
+    <div>
+      <!-- Button -->
+      <button class="navbar-toggler collapsed ms-2 border-0" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="icon-bar top-bar mt-0"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
     </div>
-  </nav>
-  <!-- /.navbar -->
-  
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse justify-content-evenly" id="navbar-default">
+      <ul class="navbar-nav mt-3 mt-lg-0  justify-content-between w-75">
+
+        {% set menu = craft.entries.section('navigation') %}
+        {% set url = "" %}
+        {% for entry in menu.all() %}
+        {% if entry.customUrl | length %}
+        {% set url = entry.customUrl %}
+        {% else %}
+        {% if entry.entryLink | length %}
+        {% set url = entry.entryLink.one().url %}
+        {% endif %}
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{baseUrl}}{{ url }}">{{ entry.title }}</a>
+        </li>
+        {% endfor %}
+
+      </ul>
+      {% set user = user ?? currentUser %}
+      {% if user %}
+      <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
+
+        <li class="dropdown ms-2 d-inline-block position-static">
+          <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+            <div class="avatar avatar-md avatar-indicators avatar-online">
+              {% if user.photo|length %}
+              <img src="{{user.photo.url}}" class="rounded-circle" />
+              {% else %}
+              <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
+              {% endif %}
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
+            <div class="dropdown-item">
+              <div class="d-flex">
+                <div class="avatar avatar-md avatar-indicators avatar-online">
+
+                  {% if user.photo|length %}
+                  <img src="{{user.photo.url}}" class="rounded-circle" />
+                  {% else %}
+                  <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
+                  {% endif %}
+                </div>
+                <div class="ms-3 lh-1">
+                  <h5 class="mb-1">{{user.fullName ?? null}}</h5>
+                  <p class="mb-0">{{user.email ?? null}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <ul class="list-unstyled">
+
+              <li>
+                <a class="dropdown-item" href="{{baseUrl}}profile">
+                  <i class="fe fe-user me-2"></i>
+                  Profile
+                </a>
+              </li>
+              <li class="d-none">
+                <a class="dropdown-item" href="#">
+                  <i class="fe fe-settings me-2"></i>
+                  Settings
+                </a>
+              </li>
+            </ul>
+            <div class="dropdown-divider"></div>
+            <ul class="list-unstyled">
+              <li>
+                <a class="dropdown-item" href="{{baseUrl}}logout">
+                  <i class="fe fe-power me-2"></i>
+                  Sign Out
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      {% endif %}
+    </div>
+
+  </div>
+</nav>
+<!-- /.navbar -->

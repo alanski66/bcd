@@ -248,7 +248,7 @@ function verifyncps(params) {
         }
     }, 3000);
 
-    
+
     if (profileId.length > 0) {
         var preFixUrl = ""
         console.log("Match go verify ID");
