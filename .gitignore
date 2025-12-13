@@ -18,6 +18,7 @@ Build/*
 backups
 geek
 node_modules/
+private/*
 public_html/assets/*
 scripts
 storage

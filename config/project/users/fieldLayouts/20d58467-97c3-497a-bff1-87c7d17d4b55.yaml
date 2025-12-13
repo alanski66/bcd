@@ -190,7 +190,7 @@ tabs:
         instructions: null
         label: null
         providesThumbs: false
-        required: true
+        required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 130473c2-5775-4c72-9f19-38039f831b32

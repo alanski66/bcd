@@ -121,38 +121,87 @@
 										{{ ul(errors, {class: 'errors'}) }}
 									{% endif %}
 								{% endmacro %}
-								<div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
-									<div class="d-flex align-items-center mb-4 mb-lg-0">
-										{% if user.photo|length %}<img src="{{user.photo.url}}" id="img-uploaded" class="avatar-xxl rounded-circle" alt="avatar">
-										{% endif %}
-										<div class="ms-3">
-											<h4 class="mb-0">Your profile photo</h4>
-											<p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
-											<label for="photo">Upload a new photo</label>
-											{{ input('file', 'photo', null, {
-                    id: 'photo',
-                    type: 'file',
-                    accept: 'image/png,image/jpeg',
-                    class: 'form-control'
-                    }) }}
-										</div>
-									</div>
-									<div>
-										{% if user.photo %}
-											<div class="mb-3 col-12 col-md-6 d-none">
-												<label class="form-label" for="delete-photo">
-													{{ input('checkbox', 'deletePhoto', '1', {
-                      id: 'delete-photo',
-                      class: 'form-check-input border'
-                      }) }}
-													Delete photo
-												</label>
-											</div>
-										{% endif %}
-										<div class="mb-3 col-12 col-md-6 w-100"></div>
+								                <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+  <div class="d-flex align-items-center mb-4 mb-lg-0">
+    <img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}" 
+         id="img-uploaded" 
+         class="avatar-xxl rounded-circle" 
+         alt="avatar">
+    <div class="ms-3">
+      <h4 class="mb-0">Your profile photo</h4>
+      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
+      
+      {{ input('file', 'photo', null, {
+        id: 'photo',
+        type: 'file',
+        accept: 'image/png,image/jpeg',
+        class: 'form-control d-none',
+        required: user.photo is empty ? true : false
+      }) }}
+      
+      <button type="button" class="btn btn-primary" id="photo-button" onclick="document.getElementById('photo').click()">
+        {% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
+      </button>
+      <span id="photo-filename" class="ms-2 text-muted"></span>
+      <div id="photo-error" class="invalid-feedback " style="display: none;">
+        Please select a photo to upload.
+      </div>
+    </div>
+  </div>
+</div>
 
-									</div>
-								</div>
+<script>
+(function() {
+  const photoInput = document.getElementById('photo');
+  const photoButton = document.getElementById('photo-button');
+  const filenameDisplay = document.getElementById('photo-filename');
+  const errorDisplay = document.getElementById('photo-error');
+  const imgPreview = document.getElementById('img-uploaded');
+  const form = photoInput.closest('form');
+
+  // Update filename and preview when file is selected
+  photoInput.addEventListener('change', function() {
+    const file = this.files[0];
+    
+    if (file) {
+      // Update filename
+      filenameDisplay.textContent = file.name;
+      
+      // Hide error
+      errorDisplay.style.display = 'none';
+      photoButton.classList.remove('btn-danger');
+      photoButton.classList.add('btn-primary');
+      
+      // Preview the image
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imgPreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Validate on form submit
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (photoInput.hasAttribute('required') && photoInput.files.length === 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show error
+        errorDisplay.style.display = 'block';
+        photoButton.classList.remove('btn-primary');
+        photoButton.classList.add('btn-danger');
+        
+        // Scroll to error
+        photoButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        return false;
+      }
+    }, false);
+  }
+})();
+</script>
 
 								<!-- details -->
 								<hr class="my-5">

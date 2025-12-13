@@ -44,7 +44,7 @@ fs: userInsurance
 handle: userInsurance
 name: 'User insurance'
 sortOrder: 6
-subpath: 'insurance/{user.id}'
+subpath: insurance
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
 transformFs: ''

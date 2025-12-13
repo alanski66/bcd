@@ -45,7 +45,7 @@ console.log("File uploaded successfully:", response);
 {% js "/js/vendors/confetti.browser.js" %}
 {# //tinymce editor #}
 {% js "/js/vendors/tinymce/tinymce.min.js" %}
-{% js %}
+{# {% js %}
 tinymce.init({
 selector: '.wysiwyg',
 license_key: 'gpl',
@@ -55,7 +55,7 @@ statusbar: false,
 menubar: false,
 toolbar: "undo redo | bold italic "
 });
-{% endjs %}
+{% endjs %} #}
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
@@ -102,7 +102,7 @@ toolbar: "undo redo | bold italic "
       <!-- Content -->
       <div class="row mt-0 mt-md-4">
 
-        <div class="col-lg-9 col-12">
+        <div class=" col-12">
 
           {% set successMessage = craft.app.session.getFlash('notice') %}
           {% set errorMessage = craft.app.session.getFlash('error') %}
@@ -145,7 +145,7 @@ toolbar: "undo redo | bold italic "
               {% if success %}
               {% set errstatus = 1 %}
               {% endif %}
-              {{ redirectInput('profile-complete?status='~errstatus) }}
+              {{ redirectInput('users/user-profile-edit?status='~errstatus) }}
 
               <!-- Card header -->
               <div class="card-header">
@@ -170,7 +170,90 @@ toolbar: "undo redo | bold italic "
                 {{ ul(errors, {class: 'errors'}) }}
                 {% endif %}
                 {% endmacro %}
+                <hr>
                 <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+  <div class="d-flex align-items-center mb-4 mb-lg-0">
+    <img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}" 
+         id="img-uploaded" 
+         class="avatar-xxl rounded-circle" 
+         alt="avatar">
+    <div class="ms-3">
+      <h4 class="mb-0">Your profile photo</h4>
+      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
+      
+      {{ input('file', 'photo', null, {
+        id: 'photo',
+        type: 'file',
+        accept: 'image/png,image/jpeg',
+        class: 'form-control d-none',
+        required: user.photo is empty ? true : false
+      }) }}
+      
+      <button type="button" class="btn btn-primary" id="photo-button" onclick="document.getElementById('photo').click()">
+        {% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
+      </button>
+      <span id="photo-filename" class="ms-2 text-muted"></span>
+      <div id="photo-error" class="invalid-feedback " style="display: none;">
+        Please select a photo to upload.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const photoInput = document.getElementById('photo');
+  const photoButton = document.getElementById('photo-button');
+  const filenameDisplay = document.getElementById('photo-filename');
+  const errorDisplay = document.getElementById('photo-error');
+  const imgPreview = document.getElementById('img-uploaded');
+  const form = photoInput.closest('form');
+
+  // Update filename and preview when file is selected
+  photoInput.addEventListener('change', function() {
+    const file = this.files[0];
+    
+    if (file) {
+      // Update filename
+      filenameDisplay.textContent = file.name;
+      
+      // Hide error
+      errorDisplay.style.display = 'none';
+      photoButton.classList.remove('btn-danger');
+      photoButton.classList.add('btn-primary');
+      
+      // Preview the image
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imgPreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Validate on form submit
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (photoInput.hasAttribute('required') && photoInput.files.length === 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show error
+        errorDisplay.style.display = 'block';
+        photoButton.classList.remove('btn-primary');
+        photoButton.classList.add('btn-danger');
+        
+        // Scroll to error
+        photoButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        return false;
+      }
+    }, false);
+  }
+})();
+</script>
+                <hr>
+                {# <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
                   <div class="d-flex align-items-center mb-4 mb-lg-0">
                     {% if user.photo|length %}<img src="{{user.photo.url}}" id="img-uploaded"
                       class="avatar-xxl rounded-circle" alt="avatar">{% endif %}
@@ -181,52 +264,103 @@ toolbar: "undo redo | bold italic "
                       {{ input('file', 'photo', null, {
                       id: 'photo',
                       type: 'file',
-                      accept: 'image/png,image/jpeg',
-                      class: 'form-control'
+                      accept: 'image/png,image/jpeg,application/pdf',
+                      class: 'form-control',
+                      placeholder: user.photo is empty ? "true" : "false",
+                      required: user.photo is empty ? true : false
                       }) }}
                     </div>
                   </div>
-                  <div>
-                    {% if user.photo %}
-                    <div class="mb-3 col-12 col-md-6 d-none">
-                      <label class="form-label" for="delete-photo">
-                        {{ input('checkbox', 'deletePhoto', '1', {
-                        id: 'delete-photo',
-                        class: 'form-check-input border'
-                        }) }}
-                        Delete photo
-                      </label>
-                    </div>
-                    {% endif %}
-                    <div class="mb-3 col-12 col-md-6 w-100">
-
-                    </div>
-
-                  </div>
-                </div>
+                </div> #}
                 <!-- insurance -->
                 <div class="col-12">
                   <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+<div class="d-flex align-items-center mb-4 mb-lg-0">
+  
+  <img src="{% if user.insuranceProof|length %}{{user.insuranceProof.one().url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23dee2e6'/%3E%3C/svg%3E{% endif %}" 
+       id="insurance-uploaded" 
+       class="avatar-xxl rounded-circle" 
+       alt="insurance photo">
+  <div class="ms-3">
+    <h4 class="mb-0">Insurance proof</h4>
+    <p class="mb-4">Please upload a photo of your current practice insurance</p>
+    
+    {{ input('file', 'fields[insuranceProof]', null, {
+      id: 'insphoto',
+      type: 'file',
+      accept: 'image/png,image/jpeg,application/pdf',
+      class: 'form-control d-none',
+      required: user.insuranceProof is empty ? true : false
+    }) }}
+    
+    <button type="button" class="btn btn-primary" id="insurance-button" onclick="document.getElementById('insphoto').click()">
+      {% if user.insuranceProof|length %}Choose New Document{% else %}Choose Document{% endif %}
+    </button>
+    <span id="insurance-filename" class="ms-2 text-muted"></span>
+    <div id="insurance-error" class="invalid-feedback" style="display: none;">
+      Please upload your insurance proof.
+    </div>
+  </div>
+</div>
 
-                    <div class="d-flex align-items-center mb-4 mb-lg-0">
-                      {% if user.insuranceProof|length %}<img src="{{user.insuranceProof.one().url('profileSmall')}}"
-                        id="insureance-uploaded" class="avatar-xxl rounded-circle" alt="insurance photo">{% endif %}
-                      <div class="ms-3">
-                        <label for="photo">
-                          <h4>Insurance proof</h4>
-                        </label>
-                        <p>Please upload a photo of your current practice insurance</p>
-                        {{ input('file', 'fields[insuranceProof]', null, {
-                        id: 'photo',
-                        type: 'file',
-                        accept: 'image/png,image/jpeg',
-                        class: 'form-control'
-                        }) }}
-                      </div>
+<script>
+(function() {
+  const insuranceInput = document.getElementById('insphoto');
+  const insuranceButton = document.getElementById('insurance-button');
+  const filenameDisplay = document.getElementById('insurance-filename');
+  const errorDisplay = document.getElementById('insurance-error');
+  const imgPreview = document.getElementById('insurance-uploaded');
+  const form = insuranceInput.closest('form');
 
-                      {# <div id="insureDropzone" class="dropzone mt-4 border-dashed rounded-2 min-h-0"></div> #}
+  // Update filename and preview when file is selected
+  insuranceInput.addEventListener('change', function() {
+    const file = this.files[0];
+    
+    if (file) {
+      // Update filename
+      filenameDisplay.textContent = file.name;
+      
+      // Hide error
+      errorDisplay.style.display = 'none';
+      insuranceButton.classList.remove('btn-danger');
+      insuranceButton.classList.add('btn-primary');
+      
+      // Preview the image (only for image files, not PDFs)
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imgPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // For PDFs, show a document icon or placeholder
+        imgPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23dc3545' width='200' height='200'/%3E%3Ctext fill='white' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EPDF%3C/text%3E%3C/svg%3E";
+      }
+    }
+  });
 
-                    </div>
+  // Validate on form submit
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (insuranceInput.hasAttribute('required') && insuranceInput.files.length === 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show error
+        errorDisplay.style.display = 'block';
+        insuranceButton.classList.remove('btn-primary');
+        insuranceButton.classList.add('btn-danger');
+        
+        // Scroll to error
+        insuranceButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        return false;
+      }
+    }, false);
+  }
+})();
+</script>
+                    
                   </div>
                 </div>
 
@@ -495,6 +629,105 @@ toolbar: "undo redo | bold italic "
               </div>
           </div>
           <!-- end form -->
+          {# tinymce #}
+          {% js %}
+tinymce.init({
+  selector: '.wysiwyg',
+  license_key: 'gpl',
+  promotion: false,
+  branding: false,
+  statusbar: false,
+  menubar: false,
+  toolbar: "undo redo | bold italic ",
+  setup: function(editor) {
+    // Clear errors when user types
+    editor.on('input change', function() {
+      const textarea = document.getElementById(editor.id);
+      if (!textarea) return;
+      
+      const errorDiv = textarea.parentNode.querySelector('.invalid-feedback');
+      const content = editor.getContent({format: 'text'}).trim();
+      
+      if (content !== '') {
+        if (errorDiv) {
+          errorDiv.style.display = 'none';
+        }
+        const container = editor.getContainer();
+        if (container) {
+          container.style.border = '';
+        }
+      }
+    });
+  }
+});
+
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+  // Only proceed if TinyMCE is loaded AND has editors
+  if (typeof tinymce === 'undefined' || !tinymce.editors || tinymce.editors.length === 0) {
+    return; // Let form submit normally
+  }
+  
+  let hasErrors = false;
+  let firstError = null;
+  
+  // Validate each TinyMCE editor
+  for (let i = 0; i < tinymce.editors.length; i++) {
+    const editor = tinymce.editors[i];
+    
+    // Save content to textarea
+    editor.save();
+    
+    const textarea = document.getElementById(editor.id);
+    if (!textarea) continue;
+    
+    const content = editor.getContent({format: 'text'}).trim();
+    const errorDiv = textarea.parentNode.querySelector('.invalid-feedback');
+    const container = editor.getContainer();
+    
+    // Check if required and empty
+    if (textarea.hasAttribute('required') && content === '') {
+      hasErrors = true;
+      
+      // Show error
+      if (errorDiv) {
+        errorDiv.style.display = 'block';
+      }
+      
+      // Add border
+      if (container) {
+        container.style.border = '2px solid #dc3545';
+      }
+      
+      // Track first error for scrolling
+      if (!firstError) {
+        firstError = container;
+      }
+    } else {
+      // Hide error if valid
+      if (errorDiv) {
+        errorDiv.style.display = 'none';
+      }
+      if (container) {
+        container.style.border = '';
+      }
+    }
+  }
+  
+  // Prevent submit if errors
+  if (hasErrors) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Scroll to first error
+    if (firstError) {
+      firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    return false;
+  }
+});
+       {% endjs %}
           </form>
         </div>
       </div>
