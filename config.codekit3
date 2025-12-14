@@ -3196,6 +3196,14 @@
       "oAP" : "\/templates\/users\/user-profile copy.twig",
       "oF" : 0
     },
+    "\/templates\/users\/user-profile-edid-tinymce.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-profile-edid-tinymce.twig",
+      "oF" : 0
+    },
     "\/templates\/users\/user-profile-edit.twig" : {
       "cB" : 0,
       "ft" : 8192,

@@ -40,7 +40,7 @@
 {% set entry = entry ?? null %}
 
 <form method="post" action="" class="needs-validation " novalidate="" accept-charset="UTF-8">
-  {{userId}}
+ 
     {# Hidden inputs required for the form to work: #}
     {{ csrfInput() }}
     {{ actionInput('guest-entries/save') }}
