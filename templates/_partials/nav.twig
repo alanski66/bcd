@@ -42,8 +42,10 @@
 
       </ul>
       {% set user = user ?? currentUser %}
-      {% if user %}
+   
       <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
+  
+      {% if user %}
 
         <li class="dropdown ms-2 d-inline-block position-static">
           <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
@@ -99,9 +101,35 @@
             </ul>
           </div>
         </li>
-      </ul>
+      
       {% else %}
+       <li class="dropdown ms-2 d-inline-block position-relative">
+          <a class="btn btn-outline-primary d-block" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+        For professionals</a>
+      <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
+            
+            <div class="dropdown-divider"></div>
+            <ul class="list-unstyled">
+
+              <li>
+                <a class="dropdown-item" href="{{baseUrl}}sign-in">
+                  <i class="fe fe-user me-2"></i>
+                  Login
+                </a>
+              </li>
+              <li class=" ">
+                <a class="dropdown-item" href="{{baseUrl}}sign-up">
+                  <i class="fe fe-settings me-2"></i>
+                  Sign-up
+                </a>
+              </li>
+            </ul>
+            
+          </div>  
+      </li>
+
       {% endif %}
+      </ul>
     </div>
 
   </div>
