@@ -23,6 +23,54 @@ who specialize in your specific needs
  {% include('/components/issues/issues-list-card.twig') %}
       
     </div>
+    <!-- faq -->
+    
   </div>
 </section>
+<section class="py-8">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 col-md-8 col-12 mx-auto">
+        <div class="d-flex flex-column gap-2 text-center mb-5">
+          <h2 class="h1 mb-0">Frequently asked questions</h2>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-8 col-md-8 col-12 mx-auto">
+
+        
+ {% set faqsArray = [] %}
+        {% set faqs = entry.faq.all() %}
+        {% for faq in faqs %}
+
+        <div class="d-flex flex-column gap-2 ">
+          <h3 class="mb-0">{{ faq.title }}</h3>
+          <p class="mb-5">{{ faq.faqAnswer | striptags ('<p')}}</p>
+        </div>
+        {# json ld faq #}
+       
+        {% set faqsArray = faqsArray | merge([seomatic.jsonLd.create({
+        'type': 'Question',
+        'name': faq.title,
+        'acceptedAnswer': {
+            'type': 'Answer',
+            'text': (faq.faqAnswer),
+        },
+    }, false)]) %}
+        {% endfor %}
+{# Merge in the additional properties to the FAQpage mainEntityOfPage #}
+{% set mainEntity = seomatic.jsonLd.get('mainEntityOfPage') %}
+{% do mainEntity.setAttributes({
+    'mainEntity': faqsArray,
+}) %}
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set crumbs = seomatic.jsonLd.get('breadcrumbList') %}
 {% endblock %}
