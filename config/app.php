@@ -23,7 +23,6 @@ use craft\helpers\App;
 use modules\fetchprofile\FetchProfile;
 use modules\notifysave\NotifySave;
 
-
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 
     'modules' => [

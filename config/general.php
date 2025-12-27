@@ -46,7 +46,9 @@ return [
         'logoutPath'    => "logout",
         'verifyEmailPath' =>    "verify-email",
         'verifyEmailSuccessPath' =>    "verified-email",
-        'useEmailAsUsername'    => true
+        'useEmailAsUsername'    => true,
+        'userSessionDuration' => 'P1D', // 1 day
+        'rememberUsernameDuration' => 'P1Y' // 1 year
     ],
 
     // Dev environment settings

@@ -29,14 +29,14 @@
         {% set url = "" %}
         {% for entry in menu.all() %}
         {% if entry.customUrl | length %}
-        {% set url = entry.customUrl %}
+        {% set url = baseUrl~"/"~entry.customUrl %}
         {% else %}
         {% if entry.entryLink | length %}
         {% set url = entry.entryLink.one().url %}
         {% endif %}
         {% endif %}
         <li class="nav-item">
-          <a class="nav-link" href="{{baseUrl}}{{ url }}">{{ entry.title }}</a>
+          <a class="nav-link" href="{{ url }}">{{ entry.title }}</a>
         </li>
         {% endfor %}
 

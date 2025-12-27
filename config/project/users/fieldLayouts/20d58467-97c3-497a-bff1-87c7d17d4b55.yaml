@@ -422,12 +422,29 @@ tabs:
         handle: null
         includeInCards: false
         instructions: null
-        label: null
+        label: 'Individual rate'
         providesThumbs: false
         required: true
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 115d7d22-0c68-41bf-8f5e-b2d86226b5e6
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2025-12-07T18:26:10+00:00'
+        editCondition: null
+        elementCondition: null
+        fieldUid: 06a9642c-32d8-43fb-8f3a-478a4d84ab5a # Couples rate
+        handle: null
+        includeInCards: false
+        instructions: null
+        label: null
+        providesThumbs: false
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 5b774f19-2229-41b3-80ce-8d5f6166f239
         userCondition: null
         warning: null
         width: 100
@@ -462,23 +479,6 @@ tabs:
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: f8aa5976-55a5-4713-a6db-ff17c70dd6fb
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2025-12-07T18:26:10+00:00'
-        editCondition: null
-        elementCondition: null
-        fieldUid: 06a9642c-32d8-43fb-8f3a-478a4d84ab5a # Couples rate
-        handle: null
-        includeInCards: false
-        instructions: null
-        label: null
-        providesThumbs: false
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: 5b774f19-2229-41b3-80ce-8d5f6166f239
         userCondition: null
         warning: null
         width: 100

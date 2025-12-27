@@ -114,7 +114,29 @@
               <path
                 d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
             </svg>
-            {{ errorMessage }}
+          cc  {{ errorMessage }}
+{% macro errorList(errors) %}
+                {% if errors %}
+                {{ ul(errors, {class: 'errors'}) }}
+                {% endif %}
+                {% endmacro %}
+                {# Get the user object that failed to save #}
+{% set user = user ?? craft.app.session.getFlash('user') %}
+
+{% if user %}
+    {# Import your macro #}
+    <pre>{{ dump(user.getErrors()) }}</pre>
+    
+    {# {% if user and user.hasErrors() %}
+        <div class="errors">
+            {{ ul(user.getErrors(), {class: 'errors'}) }}
+        </div>
+    {% endif %}
+     #}
+   
+{% endif %}
+          
+{# {{ errorList(errors) }} #}
           </div>
           {% endif %}
           {# Display success message #}
@@ -141,6 +163,7 @@
               {{ hiddenInput('userId', user.id) }}
               {{ redirectInput('users/user-profile-edit') }}
 
+
               <!-- Card header -->
               <div class="card-header">
                 <h1 class="mb-0">My profile</h1>
@@ -159,11 +182,7 @@
               </div>
               <!-- Card body -->
               <div class="card-body">
-                {% macro errorList(errors) %}
-                {% if errors %}
-                {{ ul(errors, {class: 'errors'}) }}
-                {% endif %}
-                {% endmacro %}
+                
                 <hr>
                 <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
   <div class="d-flex align-items-center mb-4 mb-lg-0">
@@ -230,7 +249,7 @@
                 <div class="col-12">
                   <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
 <div class="d-flex align-items-center mb-4 mb-lg-0">
-  
+  <img src=""data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23dc3545' width='200' height='200'/%3E%3Ctext fill='white' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EPDF%3C/text%3E%3C/svg%3E
   <img src="{% if user.insuranceProof|length %}{{user.insuranceProof.one().url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23dee2e6'/%3E%3C/svg%3E{% endif %}" 
        id="insurance-uploaded" 
        class="avatar-xxl rounded-circle" 
@@ -556,6 +575,30 @@
                     {{ errorMessage }}
                   </div>
                   {% endif %}
+                  <!-- special fields-->
+{# Fetch the global field definition: #}
+{% set field = craft.app.fields.getFieldByHandle('profileComplete') %}
+{% set currentValue = entry.profileComplete.value ?? null %}
+{% set hasCustomValue = currentValue and currentValue not in (field.options|map(o => o.value)) %}
+
+<ul>
+  {# Iterate over the defined options: #}
+  {% for option in field.options %}
+    {% set selected = currentValue == option.value or not currentValue and option.default %}
+
+    <li>
+      <label>
+        {{ input('radio', 'fields[profileComplete]', option.value, {
+          checked: selected,
+        }) }}
+        {{ option.label }}
+      </label>
+    </li>
+  {% endfor %}
+
+  
+</ul>
+                  <!--  end -->
                   <!-- Button -->
                   <button class="btn btn-primary" type="submit">Save Profile</button>
                 </div>

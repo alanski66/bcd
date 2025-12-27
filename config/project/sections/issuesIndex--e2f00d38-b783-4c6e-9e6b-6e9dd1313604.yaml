@@ -2,10 +2,10 @@ defaultPlacement: end
 enableVersioning: true
 entryTypes:
   -
-    uid: b6914cb8-a88f-4607-a3ca-a82a45a4b9a0 # Enquiry
-handle: enquiries
+    uid: de726837-6d2f-494c-921c-8dfbd363fbf4 # Issues index
+handle: issuesIndex
 maxAuthors: 1
-name: Enquiries
+name: 'Issues index'
 previewTargets:
   -
     label: 'Primary entry page'
@@ -16,6 +16,6 @@ siteSettings:
   c0ed5fcd-bf5e-4d52-9094-794f737b4080: # Brighton Counselling Directory
     enabledByDefault: true
     hasUrls: true
-    template: enquiries/_entry.twig
-    uriFormat: 'my-enquiries/{slug}'
-type: channel
+    template: issues/index.twig
+    uriFormat: issues-therapy-helps
+type: single

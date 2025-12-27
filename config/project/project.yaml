@@ -1,4 +1,4 @@
-dateModified: 1765486230
+dateModified: 1766838844
 elementSources:
   craft\elements\Entry:
     -
@@ -220,6 +220,7 @@ meta:
     39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
     45f99bef-ed2c-476b-a382-35d04507ba5e: Icons # Icons
+    48d70559-0861-4360-9c66-df0a47415a8d: FAQ # FAQ
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
     49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
     84d3be0c-c468-4664-914c-b80e544b5114: Category # Category
@@ -238,6 +239,7 @@ meta:
     13311efd-c22d-440c-9713-216f3cf5e4bd: Availability # Availability
     49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
     90155b7e-865d-4cb6-a76b-76906dedad56: 'Type of Issues' # Type of Issues
+    19806719-974d-4751-a309-d4795d39918f: 'Faq answer' # Faq answer
     99287739-b68e-4cec-b31c-9f8b612d8fa6: Articles # Articles
     a01fdd0f-90f7-4242-8e96-f7ea7db5e752: 'Verified membership' # Verified membership
     a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
@@ -254,7 +256,9 @@ meta:
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    de726837-6d2f-494c-921c-8dfbd363fbf4: 'Issues index' # Issues index
     df1fd57a-df99-4fc9-91c1-71b7f2afd04b: Wishlist # Wishlist
+    e2f00d38-b783-4c6e-9e6b-6e9dd1313604: 'Issues index' # Issues index
     e3c603a3-1162-4679-98d0-64e6fafc0c51: Navigation # Navigation
     e5d33c8a-f8ba-41cc-a093-889571ae2fa5: 'Profile complete' # Profile complete
     e6ff9992-97aa-4cd6-b9ea-5743266547cb: Enquiries # Enquiries
@@ -265,6 +269,7 @@ meta:
     e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
     f4e6a838-c1ce-4c50-b340-6883d40eeec4: Blur # Blur
+    f8f1c236-13c5-475c-9fd6-c8e3fdefa353: _FAQ # _FAQ
     f11c0ca4-477e-4f64-b73d-97084f9d6a56: Email # Email
     f738e4ee-a559-4e36-8c9a-a559088a75af: 'User insurance' # User insurance
 plugins:
