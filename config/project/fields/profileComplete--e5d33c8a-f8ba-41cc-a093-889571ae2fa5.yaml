@@ -4,9 +4,30 @@ instructions: null
 name: 'Profile complete'
 searchable: false
 settings:
-  default: false
-  offLabel: null
-  onLabel: null
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Yes'
+        -
+          - value
+          - 'yes'
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'No'
+        -
+          - value
+          - 'no'
+        -
+          - default
+          - ''
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\Lightswitch
+type: craft\fields\RadioButtons
