@@ -75,36 +75,13 @@ set, we'll default to the current user. #}
 				<div class="col-lg-9 col-md-8 col-12">
 					<!-- Card -->
 					<div class="card">
-						<!-- Card header -->
-						<div class="card-header d-flex">
-							<div class="ms-">
-								<h4 class="mb-0">Status</h4>
-								<p class="mb-0">When you are happy with your profile select the status switch to make it
-									live</p>
-							</div>
-							<div class="ms-auto">
-								
-								<label class="ml-auto" for="profile-complete-switch">Set profile:</label>
-								<div class="ml-auto form-check form-switch mb-2">
-<div class="switch-status ms-2 text-muted" style="display:none;">
-										<small>Saving...</small>
-</div>
-									<input class="form-check-input" type="checkbox" role="switch"
-										id="profile-complete-switch" data-user-id="{{ user.id }}"
-										data-csrf-token="{{ craft.app.request.csrfToken }}"
-										data-csrf-name="{{ craft.app.request.csrfParam }}" {{ user.profileComplete ??
-										false ? 'checked' : '' }}>
-									
-									
-								</div>
-							</div>
-						</div>
-						<div class="card-header">
-
+						<!-- Card headers -->
+							<div class="card-header">
+					
 							<h3 class="mb-0">Edit profile details</h3>
 							<p class="mb-0">You have full control to manage your own account setting.</p>
 							{% if success %}
-							<div class="alert alert-success my-2">
+							<div class="alert alert-success my-2" data-timeout="4000" role="alert">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
 									class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
 									<path
@@ -112,83 +89,216 @@ set, we'll default to the current user. #}
 								</svg>
 								Your profile has been saved successfully!
 							</div>
+{% js %}
+								// Auto-hide success alert after timeout
+								document.addEventListener('DOMContentLoaded', function () {
+									const alert = document.querySelector('.alert[data-timeout]');
+									if (alert) {
+										const timeout = parseInt(alert.getAttribute('data-timeout'), 10);
+										setTimeout(() => {
+											alert.classList.add('fade-out');
+											setTimeout(() => alert.remove(), 500);
+										}, timeout);
+									}
+								});
+							{% endjs %}
 							{% endif %}
 						</div>
-						<script>
-							document.addEventListener('DOMContentLoaded', function () {
-								const switchElement = document.getElementById('profile-complete-switch');
-								const statusElement = document.querySelector('.switch-status');
+						<div class="card-header">
+  <div class="row align-items-center">
+    <div class="col-md-8">
+      <h4 class="mb-0">Status</h4>
+      <p class="mb-0">When you are happy with your profile select the status switch to make it live</p>
+    </div>
+    <div class="col-md-4">
+      <div class="d-flex align-items-center justify-content-end">
+        
+        
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input" type="checkbox" role="switch" id="profile-complete-switch"
+            data-user-id="{{ user.id }}" 
+            data-csrf-token="{{ craft.app.request.csrfToken }}"
+            data-csrf-name="{{ craft.app.request.csrfParam }}" 
+            {{ user.profileComplete ?? false ? 'checked' : '' }}>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="switch-status ms-2">
+          {% if user.profileComplete %}
+            <span class="badge bg-success">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+              Live
+            </span>
+          {% else %}
+            <span class="badge bg-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-dash-circle-fill me-1" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+              </svg>
+              Not Live
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-								if (switchElement) {
-									switchElement.addEventListener('change', async function () {
-										const isChecked = this.checked;
-										const userId = this.dataset.userId;
+<style>
+.switch-status {
+  transition: opacity 0.3s ease-in-out;
+  min-width: 80px;
+  text-align: center;
+}
 
-										// Show loading state
-										if (statusElement) {
-											statusElement.style.display = 'inline';
-											statusElement.innerHTML = '<small>Saving...</small>';
-										}
+.switch-status .badge {
+  font-size: 0.875rem;
+  padding: 0.5em 0.75em;
+  display: inline-flex;
+  align-items: center;
+}
 
-										try {
+.switch-status .badge svg {
+  margin-top: -1px; /* Fine-tune icon alignment */
+}
 
-											const csrfToken = switchElement.dataset.csrfToken;
-											const csrfName = switchElement.dataset.csrfName;
+.fade-out {
+  opacity: 0;
+}
 
-											const response = await fetch('/actions/updateprofilestatus/user/update', {
-												method: 'POST',
-												headers: {
-													'Content-Type': 'application/json',
-													'Accept': 'application/json'
-												},
-												body: JSON.stringify({
-													[csrfName]: csrfToken,
-													userId: userId,
-													fields: {
-														profileComplete: isChecked
-													}
-												})
-											});
+.fade-in {
+  opacity: 1;
+}
 
-											const data = await response.json();
+/* Ensure form-switch aligns properly */
+.form-check-input {
+  margin-top: 0 !important;
+}
+</style>
 
-											if (data.success) {
-												// Show success
-												if (statusElement) {
-													statusElement.innerHTML = '<small class="text-success">✓ Saved</small>';
-													setTimeout(() => {
-														statusElement.style.display = 'none';
-													}, 2000);
-												}
-											} else {
-												throw new Error(data.message || 'Save failed');
-											}
-
-										} catch (error) {
-											console.error('Error saving profile setting:', error);
-
-											// Revert the switch
-											switchElement.checked = !isChecked;
-
-											// Show error
-											if (statusElement) {
-												statusElement.innerHTML = '<small class="text-danger">✗ Error saving</small>';
-												setTimeout(() => {
-													statusElement.style.display = 'none';
-												}, 3000);
-											}
-										}
-									});
-								}
-							});</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const switchElement = document.getElementById('profile-complete-switch');
+  const statusElement = document.querySelector('.switch-status');
+  
+  if (switchElement && statusElement) {
+    switchElement.addEventListener('change', async function () {
+      const isChecked = this.checked;
+      const userId = this.dataset.userId;
+      
+      // Show loading state
+      statusElement.style.opacity = '1';
+      statusElement.innerHTML = '<span class="badge bg-info"><span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>Saving...</span>';
+      
+      try {
+        const csrfToken = switchElement.dataset.csrfToken;
+        const csrfName = switchElement.dataset.csrfName;
+        
+        const response = await fetch('/actions/updateprofilestatus/user/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            [csrfName]: csrfToken,
+            userId: userId,
+            fields: {
+              profileComplete: isChecked
+            }
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // Show success message
+          statusElement.innerHTML = '<span class="badge bg-success">✓ Saved</span>';
+          
+          // Wait 2 seconds, then fade out
+          setTimeout(() => {
+            statusElement.classList.add('fade-out');
+            
+            // After fade out completes, change content and fade back in
+            setTimeout(() => {
+              // Update to show Live/Not Live status
+              if (isChecked) {
+                statusElement.innerHTML = `
+                  <span class="badge bg-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    Live
+                  </span>
+                `;
+              } else {
+                statusElement.innerHTML = `
+                  <span class="badge bg-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-dash-circle-fill me-1" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                    </svg>
+                    Not Live
+                  </span>
+                `;
+              }
+              
+              // Fade back in
+              statusElement.classList.remove('fade-out');
+              statusElement.classList.add('fade-in');
+              
+            }, 300); // Wait for fade-out transition to complete
+            
+          }, 2000); // Show "Saved" for 2 seconds
+          
+        } else {
+          throw new Error(data.message || 'Save failed');
+        }
+        
+      } catch (error) {
+        console.error('Error saving profile setting:', error);
+        
+        // Revert the switch
+        switchElement.checked = !isChecked;
+        
+        // Show error
+        statusElement.innerHTML = '<span class="badge bg-danger">✗ Error saving</span>';
+        
+        setTimeout(() => {
+          // Restore original status after error
+          if (!isChecked) {
+            statusElement.innerHTML = `
+              <span class="badge bg-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+                Live
+              </span>
+            `;
+          } else {
+            statusElement.innerHTML = `
+              <span class="badge bg-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-dash-circle-fill me-1" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                </svg>
+                Not Live
+              </span>
+            `;
+          }
+        }, 3000);
+      }
+    });
+  }
+});
+</script>
 						<!-- Card From body -->
 						<div class="card-body">
 							<!-- Form -->
 							{% set userErrors = user.getErrorSummary(true) %}
-
-							<form id="profile-form" class="needs-validation" novalidate="" method="post"
-								accept-charset="UTF-8" enctype="multipart/form-data">
-
+					
+							<form id="profile-form" class="needs-validation" novalidate="" method="post" accept-charset="UTF-8"
+								enctype="multipart/form-data">
+					
 								{{ csrfInput() }}
 								{{ actionInput('users/save-user') }}
 								{{ hiddenInput('userId', user.id) }}
@@ -197,602 +307,792 @@ set, we'll default to the current user. #}
 								{% set errstatus = 1 %}
 								{% endif %}
 								{{ redirectInput('/users/user-profile-edit?status='~errstatus) }}
-
-								<!-- Photo Upload -->
-								<div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
-									<div class="d-flex align-items-center mb-4 mb-lg-0">
-										<img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}"
-											id="img-uploaded" class="avatar-xxl rounded-circle" alt="avatar">
-										<div class="ms-3">
-											<h4 class="mb-0">Your profile photo</h4>
-											<p class="mb-4">PNG or JPG square format best and no bigger than 800px wide
-												and tall.</p>
-
-											{{ input('file', 'photo', null, {
-											id: 'photo',
-											type: 'file',
-											accept: 'image/png,image/jpeg',
-											class: 'form-control d-none',
-											required: user.photo is empty ? true : false
-											}) }}
-
-											<button type="button" class="btn btn-primary" id="photo-button"
-												onclick="document.getElementById('photo').click()">
-												{% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif
-												%}
-											</button>
-											<span id="photo-filename" class="ms-2 text-muted"></span>
-											<div id="photo-error" class="invalid-feedback" style="display: none;">
-												Please select a photo to upload.
+					
+								<!-- Card header -->
+							
+								<!-- Card body -->
+								<div class="card-body">
+					
+									
+									<div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
+										<div class="d-flex align-items-center mb-4 mb-lg-0">
+											<img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}"
+												id="img-uploaded" class="avatar-xxl rounded-circle" alt="avatar">
+											<div class="ms-3">
+												<h4 class="mb-0">Your profile photo</h4>
+												<p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
+					
+												{{ input('file', 'photo', null, {
+												id: 'photo',
+												type: 'file',
+												accept: 'image/png,image/jpeg',
+												class: 'form-control d-none',
+												required: user.photo is empty ? true : false
+												}) }}
+					
+												<button type="button" class="btn btn-primary" id="photo-button"
+													onclick="document.getElementById('photo').click()">
+													{% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
+												</button>
+												<span id="photo-filename" class="ms-2 text-muted"></span>
+												<div id="photo-error" class="invalid-feedback " style="display: none;">
+													Please select a photo to upload.
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+					
+									<script>
+										// Photo preview and error clearing
+										(function () {
+											const photoInput = document.getElementById('photo');
+											const photoButton = document.getElementById('photo-button');
+											const filenameDisplay = document.getElementById('photo-filename');
+											const photoError = document.getElementById('photo-error');
+											const imgPreview = document.getElementById('img-uploaded');
 
-								<script>
-									// Photo preview and error clearing
-									(function () {
-										const photoInput = document.getElementById('photo');
-										const photoButton = document.getElementById('photo-button');
-										const filenameDisplay = document.getElementById('photo-filename');
-										const photoError = document.getElementById('photo-error');
-										const imgPreview = document.getElementById('img-uploaded');
+											photoInput.addEventListener('change', function () {
+												const file = this.files[0];
 
-										photoInput.addEventListener('change', function () {
-											const file = this.files[0];
+												if (file) {
+													filenameDisplay.textContent = file.name;
 
-											if (file) {
-												filenameDisplay.textContent = file.name;
+													// Clear error when file is selected
+													if (photoError) photoError.style.display = 'none';
+													if (photoButton) {
+														photoButton.classList.remove('btn-danger');
+														photoButton.classList.add('btn-primary');
+													}
 
-												// Clear error when file is selected
-												if (photoError) photoError.style.display = 'none';
-												if (photoButton) {
-													photoButton.classList.remove('btn-danger');
-													photoButton.classList.add('btn-primary');
+													const reader = new FileReader();
+													reader.onload = function (e) {
+														imgPreview.src = e.target.result;
+													};
+													reader.readAsDataURL(file);
 												}
-
-												const reader = new FileReader();
-												reader.onload = function (e) {
-													imgPreview.src = e.target.result;
-												};
-												reader.readAsDataURL(file);
-											}
-										});
-									})();
-								</script>
-
-								<!-- details -->
-								<hr class="my-5">
-								<div class="row">
-									<h4 class="mb-0">Personal Details</h4>
-									<p class="mb-4">Edit your personal information and address.</p>
-								</div>
-								<div class="row">
-									<!-- Full name -->
-									<div class="mb-3 col-12 col-sm-6">
-										<label for="full-name" class="form-label">Full Name</label>
-										{{ input('text', 'fullName', user.fullName ?? null, {
-										id: 'full-name',
-										autocomplete: 'name',
-										class: 'form-control',
-										required: '',
-										placeholder: 'full name'
-										}) }}
-										{{ user ? _self.errorList(user.getErrors('fullName')) }}
-										<div class="invalid-feedback">Please enter your full name.</div>
+											});
+										})();
+									</script>
+									
+								
+					
+									<!-- details -->
+									<hr class="my-5">
+									<div class="row">
+										<h4 class="mb-0">Personal Details</h4>
+										<p class="mb-4">Edit your personal information and address.</p>
 									</div>
-									<!-- Phone number -->
-									<div class="mb-3 col-12 col-sm-6">
-										<label class="form-label" for="phoneNumber">Phone</label>
-										<input type="text" id="phoneNumber" name="fields[phoneNumber]"
-											class="form-control" value="{{user.phoneNumber}}" placeholder=""
-											required="">
-										<div class="invalid-feedback">Please enter phone number.</div>
+									<div class="row">
+										<!-- Full name -->
+										<div class="mb-3 col-12 col-sm-6">
+											<label for="full-name" class="form-label">Full Name</label>
+											{{ input('text', 'fullName', user.fullName ?? null, {
+											id: 'full-name',
+											autocomplete: 'name',
+											class: 'form-control',
+											required: '',
+											placeholder: 'full name'
+											}) }}
+											{{ user ? _self.errorList(user.getErrors('fullName')) }}
+											<div class="invalid-feedback">Please enter your full name.</div>
+										</div>
+										<!-- Phone number -->
+										<div class="mb-3 col-12 col-sm-6">
+											<label class="form-label" for="phoneNumber">Phone</label>
+											<input type="text" id="phoneNumber" name="fields[phoneNumber]" class="form-control"
+												value="{{user.phoneNumber}}" placeholder="" required="">
+											<div class="invalid-feedback">Please enter phone number.</div>
+										</div>
 									</div>
-								</div>
-								<!-- Prof Title role -->
-								<div class="mb-3 col-12">
-									<label class="form-label" for="titleRole">Professional Title</label>
-									<input type="text" id="titleRole" name="fields[titleRole]" class="form-control"
-										value="{{user.titleRole}}" placeholder="" required="">
-									<div class="invalid-feedback">Please enter your professional title.</div>
-								</div>
-
-								<!-- Short summary role -->
-								<div class="mb-3 col-12 col-md-12">
-									<label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
-									<textarea rows="2" id="shortSummary" name="fields[shortSummary]"
-										class="form-control" required>{{user.shortSummary}}</textarea>
-									{{ _self.errorList(user.getErrors('shortSummary')) }}
-									<div class="invalid-feedback">Please enter your summary.</div>
-								</div>
-
-								<hr class="my-5">
-								<h3>Session info</h3>
-								<!-- fee -->
-								<div class="mb-3 col-12 col-md-6 h-100">
-									{% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
-									<label class="form-label" for="sessionRate">{{field.name}}</label>
-									<h5>{{field.instructions}}</h5>
-									<span class="">£</span><input type="text" id="sessionRate"
-										name="fields[sessionRate]" class="w-50 form-control d-inline"
-										value="{{user.sessionRate}}" placeholder="" required="">
-									<div class="invalid-feedback">Please enter your session rate.</div>
-								</div>
-
-								<!-- concessions -->
-								<div class="col-md-6 col-12">
-									{% set field = craft.app.fields.getFieldByHandle('concessions') %}
-									<h4>{{field.name}}</h4>
-									<h5>{{field.instructions}}</h5>
-									<ul style="list-style-type: none;">
-										{% for option in field.options %}
-										{% set selected = user is defined ? user.concessions.value == option.value :
-										option.default %}
-										<li>
-											<label>
-												<input type="radio" name="fields[concessions]"
-													value="{{ option.value }}" class="form-check-input" {% if selected
-													%} checked {% endif %}>
-												{{ option.label }}
-											</label>
-										</li>
-										{% endfor %}
-									</ul>
-								</div>
-								<hr class="my-5">
-
-								<!-- availability -->
-								<div class="col-12">
-									{% set field = craft.app.fields.getFieldByHandle('availability') %}
-									<h4>{{field.name}}</h4>
-									<h5>{{field.instructions}}</h5>
-									<ul style="list-style-type: none;">
-										{% for option in field.options %}
-										{% set selected = user is defined ? user.availability.value == option.value :
-										option.default %}
-										<li>
-											<label>
-												<input type="radio" name="fields[availability]"
-													value="{{ option.value }}" class="form-check-input" {% if selected
-													%} checked {% endif %}>
-												{{ option.label }}
-											</label>
-										</li>
-										{% endfor %}
-									</ul>
-								</div>
-
-								<!-- session clients types checkbox-->
-								<hr class="my-5">
-								<div class="mb-4 col-12">
-									{% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
-									<h4>{{field.name}}</h4>
-									<h5>{{field.instructions}}</h5>
-									{{ hiddenInput('fields[typeOfClient]', '') }}
-
-									<ul class="typeclient" style="list-style-type: none;">
-										{% for option in field.options %}
-										{% set checked = user is defined ? user.typeOfClient.contains(option.value) :
-										option.default %}
-										<li>
-											<label>
-												<input type="checkbox" name="fields[typeOfClient][]"
-													value="{{ option.value }}" class="form-check-input border" {% if
-													checked %} checked {% endif %}>
-												{{ option.label }}
-											</label>
-										</li>
-										{% endfor %}
-
-										{% if field.customOptions %}
-										{% for option in user.typeOfClient | filter(o => not o.valid) %}
-										<li>
-											<label>
-												<input type="text" name="fields[typeOfClient][]"
-													value="{{ option.value }}">
-												{{ option.label }}
-											</label>
-										</li>
-										{% endfor %}
-										<li>
-											<label>
-												Other:
-												<input type="text" name="fields[typeOfClient][]">
-											</label>
-										</li>
+									<!-- Prof Title role -->
+									<div class="mb-3 col-12">
+										<label class="form-label" for="titleRole">Professional Title</label>
+										<input type="text" id="titleRole" name="fields[titleRole]" class="form-control"
+											value="{{user.titleRole}}" placeholder="" required="">
+					
+										<div class="invalid-feedback">Please enter your professional title.</div>
+									</div>
+					
+					
+									<!-- Short summary role -->
+									<div class="mb-3 col-12 col-md-12">
+										<label class="form-label w-100" for="shortSummary">Short summary / tag line</label>
+										<textarea rows="2" id="shortSummary" name="fields[shortSummary]" class="form-control"
+											required>{{user.shortSummary}}</textarea>
+										{{ _self.errorList(user.getErrors('shortSummary')) }}
+										<div class="invalid-feedback">Please enter your summary.</div>
+									</div>
+					
+									<hr class="my-5">
+									<div class="row">
+										<h3>Session rates</h3>
+										<!-- fee -->
+										<div class="mb-3 col-12 col-sm-6 h-100">
+											{% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
+					
+											<label class="form-label" for="sessionRate">Individual</label>
+											<h5>{{field.instructions}}</h5>
+											<span class="">£</span><input type="text" id="sessionRate" name="fields[sessionRate]"
+												class="w-75 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
+											<div class="invalid-feedback">Please enter your indivudal rate.</div>
+					
+										</div>
+										<!-- couple rates-->
+										<div class="mb-3 col-12 col-sm-6 h-100">
+											{% set cfield = craft.app.fields.getFieldByHandle('couplesRate') %}
+					
+											<label class="form-label" for="couplesRate">{{cfield.name}}</label>
+											<h5>{{cfield.instructions}}</h5>
+											<span class="">£</span><input type="text" id="couplesRate" name="fields[couplesRate]"
+												class="w-75 form-control d-inline" value="{{user.couplesRate}}" placeholder="" required>
+											<div class="invalid-feedback">Please enter your couples rate.</div>
+					
+										</div>
+									</div>
+									<hr class="my-5">
+									<!-- concessions - RADIO BUTTONS -->
+									<div class="col-md-6 col-12">
+										{% set field = craft.app.fields.getFieldByHandle('concessions') %}
+										<h4>{{field.name}}</h4>
+										<h5>{{field.instructions}}</h5>
+					
+					
+										<div id="concessions-group" class="rounded">
+											<ul style="list-style-type: none;">
+												{% for option in field.options %}
+												{% set selected = user is defined
+												? user.concessions.value == option.value
+												: option.default %}
+					
+												<li><label>
+														<input type="radio" name="fields[concessions]" value="{{ option.value }}"
+															class="form-check-input" required {% if selected %} checked{% endif %}>
+														{{ option.label }}
+													</label></li>
+												{% endfor %}
+											</ul>
+										</div>
+										<!-- Concessions error -->
+										<div id="concessions-error" class="invalid-feedback">
+											Please select an option for concessions.
+										</div>
+									</div>
+									<hr class="my-5">
+					
+									<!-- availability - RADIO BUTTONS -->
+									<div class="col-12">
+										{% set field = craft.app.fields.getFieldByHandle('availability') %}
+										<h4>{{field.name}}</h4>
+										<h5>{{field.instructions}}</h5>
+					
+										<div id="availability-group" class="rounded">
+											<ul style="list-style-type: none;">
+												{% for option in field.options %}
+												{% set selected = user is defined
+												? user.availability.value == option.value
+												: option.default %}
+					
+												<li><label>
+														<input type="radio" name="fields[availability]" value="{{ option.value }}"
+															class="form-check-input" required {% if selected %} checked{% endif %}>
+														{{ option.label }}
+													</label></li>
+												{% endfor %}
+											</ul>
+										</div>
+										<div id="availability-error" class="invalid-feedback">
+											Please select your availability.
+										</div>
+					
+									</div>
+					
+									<hr class="my-5">
+									<!-- session clients types - CHECKBOXES -->
+									<div class="mb-4 col-12">
+										{% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
+										<h4>{{field.name}}</h4>
+										<h5>{{field.instructions}}</h5>
+										{{ hiddenInput('fields[typeOfClient]', '') }}
+					
+										<div id="typeOfClient-group" class="rounded p-2">
+											<ul class="typeclient" style="list-style-type: none;">
+												{% for option in field.options %}
+												{% set checked = user is defined
+												? user.typeOfClient.contains(option.value)
+												: option.default %}
+					
+												<li>
+													<label>
+														<input type="checkbox" name="fields[typeOfClient][]" value="{{ option.value }}"
+															class="form-check-input border type-of-client-checkbox" {% if checked
+															%}checked{% endif %}>
+														{{ option.label }}
+													</label>
+												</li>
+												{% endfor %}
+					
+												{% if field.customOptions %}
+												{% for option in user.typeOfClient | filter(o => not o.valid) %}
+												<li>
+													<label>
+														<input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
+														{{ option.label }}
+													</label>
+												</li>
+												{% endfor %}
+					
+												<li>
+													<label>
+														Other:
+														<input type="text" name="fields[typeOfClient][]">
+													</label>
+												</li>
+												{% endif %}
+											</ul>
+										</div>
+										<!-- Type of Client error -->
+										<div id="typeOfClient-error" class="invalid-feedback">
+											Please select at least one type of client.
+										</div>
+									</div>
+									<hr class="my-5">
+									<div>
+										<!-- about me with Quill -->
+										<div class="mb-4 col-12 col-md-12">
+											<label class="form-label w-100" for="aboutMe">About me</label>
+											<div id="aboutMe-editor" style="min-height: 150px; background: white;"></div>
+											<textarea id="aboutMe" name="fields[aboutMe]" class="d-none"
+												required>{{user.aboutMe}}</textarea>
+											<div id="aboutMe-error" class="invalid-feedback" style="display: none;">
+												Please enter your about me info.
+											</div>
+										</div>
+					
+										<!-- qualifications -->
+										<div class="mb-4 col-12 col-md-12">
+											<label class="form-label w-100" for="qualifications">Qualifications</label>
+											<textarea rows="2" col="32" id="qualifications" name="fields[qualifications]"
+												class="form-control" required>{{user.qualifications}}</textarea>
+											<div class="invalid-feedback">
+												Please enter qualifications.</div>
+										</div>
+					
+										<!-- trainingAndExperience with Quill -->
+										<div class="mb-4 col-12 col-md-12">
+											<label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
+											<div id="trainingAndExperience-editor" style="min-height: 200px; background: white;"></div>
+											<textarea id="trainingAndExperience" name="fields[trainingAndExperience]" class="d-none"
+												required>{{user.trainingAndExperience}}</textarea>
+											<div id="trainingAndExperience-error" class="invalid-feedback" style="display: none;">
+												Please enter your training and experience info.
+											</div>
+										</div>
+					
+										<!-- practiceDescription with Quill -->
+										<div class="mb-4 col-12 col-md-12">
+											<label class="form-label w-100" for="practiceDescription">Practice description</label>
+											<div id="practiceDescription-editor" style="min-height: 200px; background: white;"></div>
+											<textarea id="practiceDescription" name="fields[practiceDescription]" class="d-none"
+												required>{{user.practiceDescription}}</textarea>
+											<div id="practiceDescription-error" class="invalid-feedback" style="display: none;">
+												Please enter your practice description.
+											</div>
+										</div>
+					
+										<hr class="my-5">
+										<h3 class="mb-5">Expertise</h3>
+										<!-- categories -->
+										<div class="mb-4 col-12 col-md-12">
+											<h4>Main issue areas</h4>
+											{% set myCategoryQuery = craft.categories()
+											.group('issues') %}
+											{% set categories = myCategoryQuery.orderBy('title asc').all() %}
+					
+											<label for="tags-input" class="form-label fw-light">Choose a maximum of 4 areas where you
+												achieve
+												good
+												outcomes</label>
+											<select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]"
+												multiple data-max="0" required>
+												<option disabled hidden value="">Choose a area...</option>
+												{% for cat in categories %}
+												<option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
+													{{cat.title}}</option>
+												{% endfor %}
+											</select>
+											<div class="invalid-feedback">Please select a valid area.</div>
+										</div>
+										<hr class="my-5">
+										<!-- expert exp issues -->
+										<div class="mb-4 col-12 col-md-12">
+											<h4>Expertise Issues</h4>
+											{% set issues = craft.entries.section('issues').limit(null).all() %}
+					
+											<label for="issue-input" class="form-label fw-light">Add a list of issues you commonly work
+												with</label>
+											<select data-allow-clear="1" class="form-select" id="issue-input"
+												name="fields[typesOfIssuesYouCanHelp][]" multiple required>
+												<option disabled hidden value="">Choose an issue...</option>
+												{% for issue in issues %}
+												<option value="{{issue.id}}" {% if issue.id in user.typesOfIssuesYouCanHelp.ids()
+													%}selected{% endif %}>{{issue.title}}</option>
+												{% endfor %}
+											</select>
+											<div class="invalid-feedback">Please select a valid expertise.</div>
+										</div>
+					
+										<!-- type of therapy oferred -->
+										<div class="mb-4 col-12 col-md-12">
+											<h4>Therapy oferred</h4>
+											{% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all() %}
+					
+											<label for="therapy-type-input" class="form-label fw-light">Add a therapy modalities you
+												use</label>
+											<select data-allow-clear="1" class="form-select" id="therapy-type-input"
+												name="fields[typesOfTherapyOfferred][]" multiple required>
+												<option disabled hidden value="">Choose a therapy ...</option>
+												{% for ttype in therapyTypes %}
+												<option value="{{ttype.id}}" {% if ttype.id in user.typesOfTherapyOfferred.ids()
+													%}selected{% endif %}>{{ttype.title}}</option>
+												{% endfor %}
+											</select>
+											<div class="invalid-feedback">Please select a valid modality.</div>
+										</div>
+					
+					
+									</div>
+									<div class="col-12 text-center">
+					
+										{% if errorMessage %}
+										<div class="alert alert-danger">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+												class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+												<path
+													d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+											</svg>
+											{{ errorMessage }}
+										</div>
 										{% endif %}
-									</ul>
+										<!-- special fields-->
+										{# Fetch the global field definition: #}
+					
+										<!--  end -->
+										<!-- Button -->
+										<button class="btn btn-primary" type="submit">Save Profile</button>
+									</div>
+					
 								</div>
-
-								<!-- end checkbox -->
-								<hr class="my-5">
-								<div>
-									<!-- about me with Quill -->
-									<div class="mb-4 col-12 col-md-12">
-										<label class="form-label w-100" for="aboutMe">About me</label>
-										<div id="aboutMe-editor" style="min-height: 150px; background: white;"></div>
-										<textarea id="aboutMe" name="fields[aboutMe]" class="d-none"
-											required>{{user.aboutMe}}</textarea>
-										<div id="aboutMe-error" class="invalid-feedback" style="display: none;">
-											Please enter your about me info.
-										</div>
-									</div>
-
-									<!-- qualifications -->
-									<div class="mb-4 col-12 col-md-12">
-										<label class="form-label w-100" for="qualifications">Qualifications</label>
-										<textarea rows="2" col="32" id="qualifications" name="fields[qualifications]"
-											class="form-control" required>{{user.qualifications}}</textarea>
-										<div class="invalid-feedback">Please enter qualifications.</div>
-									</div>
-
-									<!-- trainingAndExperience with Quill -->
-									<div class="mb-4 col-12 col-md-12">
-										<label class="form-label w-100" for="trainingAndExperience">Training &
-											Experience</label>
-										<div id="trainingAndExperience-editor"
-											style="min-height: 200px; background: white;"></div>
-										<textarea id="trainingAndExperience" name="fields[trainingAndExperience]"
-											class="d-none" required>{{user.trainingAndExperience}}</textarea>
-										<div id="trainingAndExperience-error" class="invalid-feedback"
-											style="display: none;">
-											Please enter your training and experience info.
-										</div>
-									</div>
-
-									<!-- practiceDescription with Quill -->
-									<div class="mb-4 col-12 col-md-12">
-										<label class="form-label w-100" for="practiceDescription">Practice
-											description</label>
-										<div id="practiceDescription-editor"
-											style="min-height: 200px; background: white;"></div>
-										<textarea id="practiceDescription" name="fields[practiceDescription]"
-											class="d-none" required>{{user.practiceDescription}}</textarea>
-										<div id="practiceDescription-error" class="invalid-feedback"
-											style="display: none;">
-											Please enter your practice description.
-										</div>
-									</div>
-
-									<hr class="my-5">
-									<h3 class="mb-5">Expertise</h3>
-									<!-- categories -->
-									<div class="mb-4 col-12 col-md-12">
-										<h4>Main issue areas</h4>
-										{% set myCategoryQuery = craft.categories().group('issues') %}
-										{% set categories = myCategoryQuery.orderBy('title asc').all() %}
-
-										<label for="tags-input" class="form-label fw-light">Choose a maximum of 4 areas
-											where you achieve good outcomes</label>
-										<select data-allow-clear="1" class="form-select" id="tags-input"
-											name="fields[category][]" multiple data-max="0">
-											<option disabled hidden value="">Choose a area...</option>
-											{% for cat in categories %}
-											<option value="{{cat.id}}" {% if cat.id in user.category.ids() %} selected
-												{% endif %}>{{cat.title}}</option>
-											{% endfor %}
-										</select>
-										<div class="invalid-feedback">Please select a valid area.</div>
-									</div>
-									<hr class="my-5">
-
-									<!-- expert exp issues -->
-									<div class="mb-4 col-12 col-md-12">
-										<h4>Expertise Issues</h4>
-										{% set issues = craft.entries.section('issues').limit(null).all() %}
-
-										<label for="issue-input" class="form-label fw-light">Add a list of issues you
-											commonly work with</label>
-										<select data-allow-clear="1" class="form-select" id="issue-input"
-											name="fields[typesOfIssuesYouCanHelp][]" multiple required>
-											<option disabled hidden value="">Choose an issue...</option>
-											{% for issue in issues %}
-											<option value="{{issue.id}}" {% if issue.id in
-												user.typesOfIssuesYouCanHelp.ids() %} selected {% endif %}>
-												{{issue.title}}</option>
-											{% endfor %}
-										</select>
-										<div class="invalid-feedback">Please select a valid expertise.</div>
-									</div>
-
-									<!-- type of therapy offered -->
-									<div class="mb-4 col-12 col-md-12">
-										<h4>Therapy offered</h4>
-										{% set therapyTypes = craft.entries.section('typesOfTherapy').limit(null).all()
-										%}
-
-										<label for="therapy-type-input" class="form-label fw-light">Add a therapy
-											modalities you use</label>
-										<select data-allow-clear="1" class="form-select" id="therapy-type-input"
-											name="fields[typesOfTherapyOfferred][]" multiple required>
-											<option disabled hidden value="">Choose a therapy ...</option>
-											{% for ttype in therapyTypes %}
-											<option value="{{ttype.id}}" {% if ttype.id in
-												user.typesOfTherapyOfferred.ids() %} selected {% endif %}>
-												{{ttype.title}}</option>
-											{% endfor %}
-										</select>
-										<div class="invalid-feedback">Please select a valid modality.</div>
-									</div>
-								</div>
-
-								<div class="col-12 text-center">
-									{% if errorMessage %}
-									<div class="alert alert-danger">
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-											fill="currentColor" class="bi bi-exclamation-triangle-fill me-2"
-											viewbox="0 0 16 16">
-											<path
-												d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-										</svg>
-										{{ errorMessage }}
-									</div>
-									{% endif %}
-									<!-- Button -->
-									<button class="btn btn-primary" type="submit">Save Profile</button>
-								</div>
-							</form>
-							<!-- end form -->
-
-							{# Quill Editor Initialization and Validation #}
-							{% js %}
-							// Quill editors configuration
-							const quillEditors = {};
-
-							// Helper function to check if TinyMCE editor is truly empty
-							function isQuillEmpty(quill) {
-							const text = quill.getText().trim();
-							return text.length === 0;
-							}
-
-							// Initialize Quill editors
-							function initQuillEditors() {
-							const editorConfigs = [
-							{ id: 'aboutMe', minHeight: '150px' },
-							{ id: 'trainingAndExperience', minHeight: '200px' },
-							{ id: 'practiceDescription', minHeight: '200px' }
-							];
-
-							editorConfigs.forEach(config => {
-							const editorDiv = document.getElementById(config.id + '-editor');
-							const textarea = document.getElementById(config.id);
-
-							if (!editorDiv || !textarea) return;
-
-							// Initialize Quill
-							const quill = new Quill('#' + config.id + '-editor', {
-							theme: 'snow',
-							modules: {
-							toolbar: [
-							['bold', 'italic'],
-							['clean']
-							]
-							},
-							formats: ['bold', 'italic'], // Only allow bold and italic formatting
-							placeholder: 'Enter text here...'
-							});
-
-							// Custom key bindings to control Enter behavior
-							quill.keyboard.addBinding({
-							key: 'Enter',
-							shiftKey: true
-							}, function(range, context) {
-							// Shift+Enter creates a line break
-							this.quill.insertText(range.index, '\n');
-							this.quill.setSelection(range.index + 1);
-							return false;
-							});
-
-							// Load existing content
-							const existingContent = textarea.value.trim();
-							if (existingContent) {
-							quill.root.innerHTML = existingContent;
-							}
-
-							// Store reference
-							quillEditors[config.id] = quill;
-
-							// Clear errors on input
-							quill.on('text-change', function() {
-							const errorDiv = document.getElementById(config.id + '-error');
-							const text = quill.getText().trim();
-
-							if (text.length > 0) {
-							if (errorDiv) errorDiv.style.display = 'none';
-							editorDiv.style.border = '';
-							}
-							});
-							});
-							}
-
-							// Validate Quill editors
-							function validateQuillEditors() {
-							let isValid = true;
-							let firstError = null;
-
-							Object.keys(quillEditors).forEach(editorId => {
-							const quill = quillEditors[editorId];
-							const textarea = document.getElementById(editorId);
-							const errorDiv = document.getElementById(editorId + '-error');
-							const editorDiv = document.getElementById(editorId + '-editor');
-
-							if (!textarea || !textarea.hasAttribute('required')) return;
-
-							// Get text content (strips HTML)
-							const text = quill.getText().trim();
-
-							// Check if empty
-							if (text.length === 0) {
-							isValid = false;
-
-							if (errorDiv) {
-							errorDiv.style.display = 'block';
-							}
-
-							if (editorDiv) {
-							editorDiv.style.border = '2px solid #dc3545';
-							}
-
-							if (!firstError) {
-							firstError = editorDiv;
-							}
-							} else {
-							// Valid - save content to textarea
-							textarea.value = quill.root.innerHTML;
-
-							if (errorDiv) {
-							errorDiv.style.display = 'none';
-							}
-
-							if (editorDiv) {
-							editorDiv.style.border = '';
-							}
-							}
-							});
-
-							// Scroll to first error
-							if (!isValid && firstError) {
-							firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-							}
-
-							return isValid;
-							}
-
-							// Validate file uploads (photo)
-							function validateFileUploads() {
-							let isValid = true;
-							let firstError = null;
-
-							// Validate photo
-							const photoInput = document.getElementById('photo');
-							const photoButton = document.getElementById('photo-button');
-							const photoError = document.getElementById('photo-error');
-
-							if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
-							isValid = false;
-
-							if (photoError) photoError.style.display = 'block';
-							if (photoButton) {
-							photoButton.classList.remove('btn-primary');
-							photoButton.classList.add('btn-danger');
-							}
-
-							if (!firstError) firstError = photoButton;
-							} else {
-							if (photoError) photoError.style.display = 'none';
-							if (photoButton) {
-							photoButton.classList.remove('btn-danger');
-							photoButton.classList.add('btn-primary');
-							}
-							}
-
-							// Scroll to first error
-							if (!isValid && firstError) {
-							firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-							}
-
-							return isValid;
-							}
-
-							// Initialize everything when page loads
-							document.addEventListener('DOMContentLoaded', function() {
-							console.log('DOM loaded, initializing Quill editors and form validation');
-
-							// Initialize Quill editors
-							initQuillEditors();
-
-							// Get form element
-							const form = document.getElementById('profile-form');
-
-							if (!form) {
-							console.error('Form #profile-form not found!');
-							return;
-							}
-
-							console.log('Form found, attaching submit handler');
-
-							// SINGLE CONSOLIDATED FORM VALIDATION HANDLER
-							form.addEventListener('submit', function(e) {
-							console.log('═══════════════════════════════════════');
-							console.log('Submit event triggered - starting validation');
-
-							// Step 1: Validate file uploads
-							const filesValid = validateFileUploads();
-							console.log('1. File validation:', filesValid ? '✓ passed' : '✗ FAILED');
-
-							if (!filesValid) {
-							console.log('❌ BLOCKING: File validation failed');
-							e.preventDefault();
-							e.stopPropagation();
-							e.stopImmediatePropagation();
-							return false;
-							}
-
-							// Step 2: Validate Quill editors
-							const quillValid = validateQuillEditors();
-							console.log('2. Quill validation:', quillValid ? '✓ passed' : '✗ FAILED');
-
-							if (!quillValid) {
-							console.log('❌ BLOCKING: Quill validation failed');
-							e.preventDefault();
-							e.stopPropagation();
-							e.stopImmediatePropagation();
-							return false;
-							}
-
-							// Save all Quill content to textareas
-							console.log('3. Saving Quill content to textareas...');
-							Object.keys(quillEditors).forEach(editorId => {
-							const quill = quillEditors[editorId];
-							const textarea = document.getElementById(editorId);
-							if (textarea) {
-							textarea.value = quill.root.innerHTML;
-							console.log(' - Saved', editorId);
-							}
-							});
-
-							// Step 3: Check HTML5 validation for remaining fields
-							this.classList.add('was-validated');
-
-							const html5Valid = this.checkValidity();
-							console.log('4. HTML5 validation:', html5Valid ? '✓ passed' : '✗ FAILED');
-
-							if (!html5Valid) {
-							console.log('❌ BLOCKING: HTML5 validation failed');
-							e.preventDefault();
-							e.stopPropagation();
-							e.stopImmediatePropagation();
-							return false;
-							}
-
-							// All validation passed - allow natural form submission
-							console.log('✓✓✓ ALL VALIDATION PASSED ✓✓✓');
-							console.log('Allowing form to submit naturally...');
-							console.log('═══════════════════════════════════════');
-							// DON'T prevent default - let the form submit naturally
-							return true;
-							}, false);
-
-							// Prevent Enter key from submitting form (except on submit button)
-							form.addEventListener('keypress', function(e) {
-							// Allow Enter if user is focused on the submit button
-							if (e.target.tagName === 'BUTTON' && e.target.type === 'submit') {
-							return true;
-							}
-
-							// Prevent Enter everywhere else
-							if (e.key === 'Enter' || e.keyCode === 13) {
-							console.log('Enter key blocked - use Submit button or Tab to move between fields');
-							e.preventDefault();
-							return false;
-							}
-							});
-
-							console.log('Form validation setup complete');
-							});
-							{% endjs %}
 						</div>
+						<!-- end form -->
+					
+						{% js %}
+						// Quill editors configuration
+						const quillEditors = {};
+					
+						// Initialize Quill editors
+						function initQuillEditors() {
+						const editorConfigs = [
+						{ id: 'aboutMe', minHeight: '150px' },
+						{ id: 'trainingAndExperience', minHeight: '200px' },
+						{ id: 'practiceDescription', minHeight: '200px' }
+						];
+					
+						editorConfigs.forEach(config => {
+						const editorDiv = document.getElementById(config.id + '-editor');
+						const textarea = document.getElementById(config.id);
+					
+						if (!editorDiv || !textarea) return;
+					
+						// Initialize Quill
+						const quill = new Quill('#' + config.id + '-editor', {
+						theme: 'snow',
+						modules: {
+						toolbar: [
+						['bold', 'italic'],
+						['clean']
+						]
+						},
+						formats: ['bold', 'italic'],
+						placeholder: 'Enter text here...'
+						});
+					
+						// Custom key bindings to control Enter behavior
+						quill.keyboard.addBinding({
+						key: 'Enter',
+						shiftKey: true
+						}, function(range, context) {
+						this.quill.insertText(range.index, '\n');
+						this.quill.setSelection(range.index + 1);
+						return false;
+						});
+					
+						// Load existing content
+						const existingContent = textarea.value.trim();
+						if (existingContent) {
+						quill.root.innerHTML = existingContent;
+						}
+					
+						// Store reference
+						quillEditors[config.id] = quill;
+					
+						// Clear errors on input
+						quill.on('text-change', function() {
+						const errorDiv = document.getElementById(config.id + '-error');
+						const text = quill.getText().trim();
+					
+						if (text.length > 0) {
+						if (errorDiv) errorDiv.style.display = 'none';
+						editorDiv.style.border = '';
+						}
+						});
+						});
+						}
+					
+						// Validate Quill editors - returns error elements
+						function validateQuillEditors() {
+						let isValid = true;
+						const errorElements = [];
+					
+						Object.keys(quillEditors).forEach(editorId => {
+						const quill = quillEditors[editorId];
+						const textarea = document.getElementById(editorId);
+						const errorDiv = document.getElementById(editorId + '-error');
+						const editorDiv = document.getElementById(editorId + '-editor');
+					
+						if (!textarea || !textarea.hasAttribute('required')) return;
+					
+						const text = quill.getText().trim();
+					
+						if (text.length === 0) {
+						isValid = false;
+					
+						if (errorDiv) errorDiv.style.display = 'block';
+						if (editorDiv) {
+						editorDiv.style.border = '2px solid #dc3545';
+						errorElements.push(editorDiv);
+						}
+						} else {
+						// Valid - save content to textarea
+						textarea.value = quill.root.innerHTML;
+						if (errorDiv) errorDiv.style.display = 'none';
+						if (editorDiv) editorDiv.style.border = '';
+						}
+						});
+					
+						return { isValid, errorElements };
+						}
+					
+						// Validate file uploads - returns error elements
+						function validateFileUploads() {
+						let isValid = true;
+						const errorElements = [];
+					
+						// Validate photo
+						const photoInput = document.getElementById('photo');
+						const photoButton = document.getElementById('photo-button');
+						const photoError = document.getElementById('photo-error');
+					
+						if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
+						isValid = false;
+						if (photoError) photoError.style.display = 'block';
+						if (photoButton) {
+						photoButton.classList.remove('btn-primary');
+						photoButton.classList.add('btn-danger');
+						errorElements.push(photoButton);
+						}
+						} else {
+						if (photoError) photoError.style.display = 'none';
+						if (photoButton) {
+						photoButton.classList.remove('btn-danger');
+						photoButton.classList.add('btn-primary');
+						}
+						}
+					
+						// Validate insurance
+						const insuranceInput = document.getElementById('insphoto');
+						const insuranceButton = document.getElementById('insurance-button');
+						const insuranceError = document.getElementById('insurance-error');
+					
+						if (insuranceInput && insuranceInput.hasAttribute('required') && insuranceInput.files.length === 0) {
+						isValid = false;
+						if (insuranceError) insuranceError.style.display = 'block';
+						if (insuranceButton) {
+						insuranceButton.classList.remove('btn-primary');
+						insuranceButton.classList.add('btn-danger');
+						errorElements.push(insuranceButton);
+						}
+						} else {
+						if (insuranceError) insuranceError.style.display = 'none';
+						if (insuranceButton) {
+						insuranceButton.classList.remove('btn-danger');
+						insuranceButton.classList.add('btn-primary');
+						}
+						}
+					
+						return { isValid, errorElements };
+						}
+					
+						// Validate radio buttons and checkboxes
+						function validateRadioAndCheckboxes() {
+						let isValid = true;
+						const errorElements = [];
+					
+						// Validate radio button groups
+						const radioGroups = [
+						{ name: 'fields[concessions]', errorId: 'concessions-error', groupId: 'concessions-group' },
+						{ name: 'fields[availability]', errorId: 'availability-error', groupId: 'availability-group' }
+						];
+					
+						radioGroups.forEach(group => {
+						const radios = document.querySelectorAll(`input[name="${group.name}"]`);
+						const checked = Array.from(radios).some(radio => radio.checked);
+						const errorDiv = document.getElementById(group.errorId);
+						const groupDiv = document.getElementById(group.groupId);
+					
+						if (!checked) {
+						isValid = false;
+						if (errorDiv) {
+						errorDiv.classList.add('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.add('error-highlight');
+						errorElements.push(groupDiv);
+						}
+						} else {
+						if (errorDiv) {
+						errorDiv.classList.remove('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.remove('error-highlight');
+						}
+						}
+						});
+					
+						// Validate checkbox groups (at least one required)
+						const checkboxGroups = [
+						{
+						selector: '.type-of-client-checkbox',
+						errorId: 'typeOfClient-error',
+						groupId: 'typeOfClient-group'
+						}
+						];
+					
+						checkboxGroups.forEach(group => {
+						const checkboxes = document.querySelectorAll(group.selector);
+						const checked = Array.from(checkboxes).some(cb => cb.checked);
+						const errorDiv = document.getElementById(group.errorId);
+						const groupDiv = document.getElementById(group.groupId);
+					
+						if (!checked) {
+						isValid = false;
+						if (errorDiv) {
+						errorDiv.classList.add('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.add('error-highlight');
+						errorElements.push(groupDiv);
+						}
+						} else {
+						if (errorDiv) {
+						errorDiv.classList.remove('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.remove('error-highlight');
+						}
+						}
+						});
+					
+						return { isValid, errorElements };
+						}
+					
+						// Validate HTML5 fields and collect invalid elements
+						function validateHTML5Fields(form) {
+						// Trigger HTML5 validation
+						form.classList.add('was-validated');
+						const isValid = form.checkValidity();
+					
+						const errorElements = [];
+					
+						if (!isValid) {
+						// Find all invalid fields
+						const invalidFields = form.querySelectorAll(':invalid');
+						invalidFields.forEach(field => {
+						// Skip Quill textareas (we handle those separately)
+						if (field.id && quillEditors[field.id]) {
+						return;
+						}
+						// Skip radio buttons (we handle those separately)
+						if (field.type === 'radio') {
+						return;
+						}
+						errorElements.push(field);
+						});
+						}
+					
+						return { isValid, errorElements };
+						}
+					
+						// Find the first (topmost) error element on the page
+						function scrollToFirstError(errorElements) {
+						if (errorElements.length === 0) return;
+					
+						// Sort error elements by their position on the page (top to bottom)
+						const sortedErrors = errorElements.sort((a, b) => {
+						const rectA = a.getBoundingClientRect();
+						const rectB = b.getBoundingClientRect();
+						return (rectA.top + window.scrollY) - (rectB.top + window.scrollY);
+						});
+					
+						console.log('Scrolling to first error:', sortedErrors[0]);
+					
+						// Scroll to the first error
+						sortedErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+						}
+					
+						// Initialize everything when page loads
+						document.addEventListener('DOMContentLoaded', function() {
+						console.log('DOM loaded, initializing Quill editors and form validation');
+					
+						// Initialize Quill editors
+						initQuillEditors();
+					
+						// Get form element
+						const form = document.getElementById('profile-form');
+					
+						if (!form) {
+						console.error('Form #profile-form not found!');
+						return;
+						}
+					
+						console.log('Form found, attaching submit handler');
+					
+						// FORM VALIDATION HANDLER - checks ALL fields before scrolling
+						form.addEventListener('submit', function(e) {
+						console.log('═══════════════════════════════════════');
+						console.log('Submit event triggered - starting validation');
+					
+						// First, save all Quill content to textareas so HTML5 validation can check them
+						console.log('1. Saving Quill content to textareas...');
+						Object.keys(quillEditors).forEach(editorId => {
+						const quill = quillEditors[editorId];
+						const textarea = document.getElementById(editorId);
+						if (textarea) {
+						textarea.value = quill.root.innerHTML;
+						}
+						});
+					
+						// Collect all error elements from ALL validations
+						const allErrorElements = [];
+					
+						// Step 2: Validate regular HTML5 form fields
+						const html5Validation = validateHTML5Fields(this);
+						console.log('2. HTML5 validation:', html5Validation.isValid ? '✓ passed' : '✗ FAILED');
+						if (!html5Validation.isValid) {
+						allErrorElements.push(...html5Validation.errorElements);
+						}
+					
+						// Step 3: Validate file uploads
+						const fileValidation = validateFileUploads();
+						console.log('3. File validation:', fileValidation.isValid ? '✓ passed' : '✗ FAILED');
+						if (!fileValidation.isValid) {
+						allErrorElements.push(...fileValidation.errorElements);
+						}
+					
+						// Step 4: Validate Quill editors (custom validation beyond HTML5)
+						const quillValidation = validateQuillEditors();
+						console.log('4. Quill validation:', quillValidation.isValid ? '✓ passed' : '✗ FAILED');
+						if (!quillValidation.isValid) {
+						allErrorElements.push(...quillValidation.errorElements);
+						}
+					
+						// Step 5: Validate radio buttons and checkboxes
+						const radioCheckValidation = validateRadioAndCheckboxes();
+						console.log('5. Radio/Checkbox validation:', radioCheckValidation.isValid ? '✓ passed' : '✗ FAILED');
+						if (!radioCheckValidation.isValid) {
+						allErrorElements.push(...radioCheckValidation.errorElements);
+						}
+					
+						// If we have any validation errors, prevent submit and scroll to first error
+						if (allErrorElements.length > 0) {
+						console.log('❌ BLOCKING: Found', allErrorElements.length, 'validation errors');
+						e.preventDefault();
+						e.stopPropagation();
+						e.stopImmediatePropagation();
+					
+						// Scroll to the first error on the page (topmost)
+						scrollToFirstError(allErrorElements);
+						return false;
+						}
+					
+						// All validation passed
+						console.log('✓✓✓ ALL VALIDATION PASSED ✓✓✓');
+						console.log('Allowing form to submit naturally...');
+						console.log('═══════════════════════════════════════');
+						return true;
+						}, false);
+					
+						// Add change listeners to clear errors when user makes a selection
+						// Radio buttons - clear error on change
+						const concessionsRadios = document.querySelectorAll('input[name="fields[concessions]"]');
+						concessionsRadios.forEach(radio => {
+						radio.addEventListener('change', function() {
+						const errorDiv = document.getElementById('concessions-error');
+						const groupDiv = document.getElementById('concessions-group');
+						if (errorDiv) {
+						errorDiv.classList.remove('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.remove('error-highlight');
+						}
+						});
+						});
+					
+						const availabilityRadios = document.querySelectorAll('input[name="fields[availability]"]');
+						availabilityRadios.forEach(radio => {
+						radio.addEventListener('change', function() {
+						const errorDiv = document.getElementById('availability-error');
+						const groupDiv = document.getElementById('availability-group');
+						if (errorDiv) {
+						errorDiv.classList.remove('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.remove('error-highlight');
+						}
+						});
+						});
+					
+						// Checkboxes - clear error when at least one is checked
+						const typeOfClientCheckboxes = document.querySelectorAll('.type-of-client-checkbox');
+						typeOfClientCheckboxes.forEach(checkbox => {
+						checkbox.addEventListener('change', function() {
+						const anyChecked = Array.from(typeOfClientCheckboxes).some(cb => cb.checked);
+					
+						if (anyChecked) {
+						const errorDiv = document.getElementById('typeOfClient-error');
+						const groupDiv = document.getElementById('typeOfClient-group');
+						if (errorDiv) {
+						errorDiv.classList.remove('d-block');
+						}
+						if (groupDiv) {
+						groupDiv.classList.remove('error-highlight');
+						}
+						}
+						});
+						});
+					
+						// Prevent Enter key from submitting form
+						form.addEventListener('keypress', function(e) {
+						if (e.key === 'Enter' || e.keyCode === 13) {
+						console.log('Enter key blocked');
+						e.preventDefault();
+						return false;
+						}
+						});
+					
+						console.log('Form validation setup complete');
+						});
+						{% endjs %}
+					</div>
 					</div>
 				</div>
 			</div>

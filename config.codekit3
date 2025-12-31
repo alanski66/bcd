@@ -3188,12 +3188,12 @@
       "oAP" : "\/templates\/users\/user-marquee.twig",
       "oF" : 0
     },
-    "\/templates\/users\/user-profile-edid-tinymce.twig" : {
+    "\/templates\/users\/user-profile-edit copy.twig" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/templates\/users\/user-profile-edid-tinymce.twig",
+      "oAP" : "\/templates\/users\/user-profile-edit copy.twig",
       "oF" : 0
     },
     "\/templates\/users\/user-profile-edit.twig" : {
