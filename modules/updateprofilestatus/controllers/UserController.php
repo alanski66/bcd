@@ -5,6 +5,7 @@ use Craft;
 use craft\web\Controller;
 use yii\web\Response;
 
+
 class UserController extends Controller
 {
     protected array|int|bool $allowAnonymous = false;
