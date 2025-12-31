@@ -17,7 +17,7 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: content/category-entry.twig
-    uriFormat: '{% if object.level == 1 %}issues/{category.inReverse().one().uri}/{slug}{% else %}issues/{parent.uri}/{slug}{% endif %}'
+    uriFormat: '{% if object.level == 1 %}{category.inReverse().one().uri}/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
 structure:
   maxLevels: null
   uid: b4ca42ef-a5be-4381-953e-1c59be63082d

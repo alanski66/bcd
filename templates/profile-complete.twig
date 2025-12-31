@@ -16,41 +16,41 @@
 {% css %}
 /* Quill editor content styling */
 .ql-editor {
-  font-family: inherit; /* Use your site's font */
-  font-size: 1rem; /* Match Bootstrap's base font size */
-  line-height: 1.5; /* Tighter line spacing */
+font-family: inherit; /* Use your site's font */
+font-size: 1rem; /* Match Bootstrap's base font size */
+line-height: 1.5; /* Tighter line spacing */
 }
 
 /* Paragraph spacing */
 .ql-editor p {
-  margin-bottom: 0.5rem; /* Less space between paragraphs */
+margin-bottom: 0.5rem; /* Less space between paragraphs */
 }
 
 /* Remove extra spacing on first/last paragraph */
 .ql-editor p:first-child {
-  margin-top: 0;
+margin-top: 0;
 }
 
 .ql-editor p:last-child {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
 
 /* Toolbar styling to match Bootstrap */
 .ql-toolbar.ql-snow {
-  border: 1px solid #dee2e6;
-  border-bottom: none;
-  background-color: #f8f9fa;
+border: 1px solid #dee2e6;
+border-bottom: none;
+background-color: #f8f9fa;
 }
 
 /* Editor container styling */
 .ql-container.ql-snow {
-  border: 1px solid #dee2e6;
-  font-size: 1rem;
+border: 1px solid #dee2e6;
+font-size: 1rem;
 }
 
 /* When there's an error, match Bootstrap's red border */
 .ql-container.ql-snow.has-error {
-  border-color: #dc3545;
+border-color: #dc3545;
 }
 {% endcss %}
 
@@ -114,29 +114,30 @@
               <path
                 d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
             </svg>
-          cc  {{ errorMessage }}
-{% macro errorList(errors) %}
-                {% if errors %}
-                {{ ul(errors, {class: 'errors'}) }}
-                {% endif %}
-                {% endmacro %}
-                {# Get the user object that failed to save #}
-{% set user = user ?? craft.app.session.getFlash('user') %}
+            cc {{ errorMessage }}
+            {% macro errorList(errors) %}
+            {% if errors %}
+            {{ ul(errors, {class: 'errors'}) }}
+            {% endif %}
+            {% endmacro %}
+            {# Get the user object that failed to save #}
+            {% set user = user ?? craft.app.session.getFlash('user') %}
 
-{% if user %}
-    {# Import your macro #}
-    <pre>{{ dump(user.getErrors()) }}</pre>
-    
-    {# {% if user and user.hasErrors() %}
-        <div class="errors">
-            {{ ul(user.getErrors(), {class: 'errors'}) }}
-        </div>
-    {% endif %}
-     #}
-   
-{% endif %}
-          
-{# {{ errorList(errors) }} #}
+            {% if user %}
+            {# Import your macro #}
+            
+            <pre>{{ dump(user.getErrors()) }}</pre> 
+
+            {# {% if user and user.hasErrors() %}
+            <div class="errors">
+              {{ ul(user.getErrors(), {class: 'errors'}) }}
+            </div>
+            {% endif %}
+            #}
+
+            {% endif %}
+
+            {# {{ errorList(errors) }} #}
           </div>
           {% endif %}
           {# Display success message #}
@@ -152,166 +153,183 @@
           {% endif %}
           <!-- Card -->
           <div class="card">
+            {% if user is defined and user.hasErrors() %}
+            <ul>
+              {% for error in user.getAllErrors() %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+            {% if craft.app.session.getFlash('notice') == 'User saved.'|t %}
+            <p>Success message!</p>
+            {% endif %}
 
             <!-- Form -->
             {% set userErrors = user.getErrorSummary(true) %}
-            <form id="profile-form" class="needs-validation " novalidate="" method="post" accept-charset="UTF-8"
-              enctype="multipart/form-data">
+            <form id="profile-form" action="" class="needs-validation " novalidate="" method="post"
+              accept-charset="UTF-8" enctype="multipart/form-data">
 
               {{ csrfInput() }}
               {{ actionInput('users/save-user') }}
               {{ hiddenInput('userId', user.id) }}
-              {{ redirectInput('users/user-profile-edit') }}
+
+              {{ redirectInput(siteUrl('users/user-profile-edit')) }}
+
+
 
 
               <!-- Card header -->
               <div class="card-header">
                 <h1 class="mb-0">My profile</h1>
 
-              {% if success  != '1' %}
+                {% if success != '1' %}
                 <div class="alert alert-info" role="alert">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
                     <path
                       d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                   </svg>
-                  Please complete your profile. You must complete your profile in order for your listing to appear on the site. Once complete we will review and publish as quickly as possible
+                  Please complete your profile. You must complete your profile in order for your listing to appear on
+                  the site. Once complete we will review and publish as quickly as possible
                 </div>
                 {% endif %}
                 <p class="mb-0"></p>
               </div>
               <!-- Card body -->
               <div class="card-body">
-                
+
                 <hr>
                 <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
-  <div class="d-flex align-items-center mb-4 mb-lg-0">
-    <img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}" 
-         id="img-uploaded" 
-         class="avatar-xxl rounded-circle" 
-         alt="avatar">
-    <div class="ms-3">
-      <h4 class="mb-0">Your profile photo</h4>
-      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
-      
-      {{ input('file', 'photo', null, {
-        id: 'photo',
-        type: 'file',
-        accept: 'image/png,image/jpeg',
-        class: 'form-control d-none',
-        required: user.photo is empty ? true : false
-      }) }}
-      
-      <button type="button" class="btn btn-primary" id="photo-button" onclick="document.getElementById('photo').click()">
-        {% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
-      </button>
-      <span id="photo-filename" class="ms-2 text-muted"></span>
-      <div id="photo-error" class="invalid-feedback " style="display: none;">
-        Please select a photo to upload.
-      </div>
-    </div>
-  </div>
-</div>
+                  <div class="d-flex align-items-center mb-4 mb-lg-0">
+                    <img
+                      src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}"
+                      id="img-uploaded" class="avatar-xxl rounded-circle" alt="avatar">
+                    <div class="ms-3">
+                      <h4 class="mb-0">Your profile photo</h4>
+                      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
 
-<script>
-// Photo preview and error clearing
-(function() {
-  const photoInput = document.getElementById('photo');
-  const photoButton = document.getElementById('photo-button');
-  const filenameDisplay = document.getElementById('photo-filename');
-  const photoError = document.getElementById('photo-error');
-  const imgPreview = document.getElementById('img-uploaded');
+                      {{ input('file', 'photo', null, {
+                      id: 'photo',
+                      type: 'file',
+                      accept: 'image/png,image/jpeg',
+                      class: 'form-control d-none',
+                      required: user.photo is empty ? true : false
+                      }) }}
 
-  photoInput.addEventListener('change', function() {
-    const file = this.files[0];
-    
-    if (file) {
-      filenameDisplay.textContent = file.name;
-      
-      // Clear error when file is selected
-      if (photoError) photoError.style.display = 'none';
-      if (photoButton) {
-        photoButton.classList.remove('btn-danger');
-        photoButton.classList.add('btn-primary');
-      }
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        imgPreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-})();
-</script>
+                      <button type="button" class="btn btn-primary" id="photo-button"
+                        onclick="document.getElementById('photo').click()">
+                        {% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
+                      </button>
+                      <span id="photo-filename" class="ms-2 text-muted"></span>
+                      <div id="photo-error" class="invalid-feedback " style="display: none;">
+                        Please select a photo to upload.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <script>
+                  // Photo preview and error clearing
+                  (function () {
+                    const photoInput = document.getElementById('photo');
+                    const photoButton = document.getElementById('photo-button');
+                    const filenameDisplay = document.getElementById('photo-filename');
+                    const photoError = document.getElementById('photo-error');
+                    const imgPreview = document.getElementById('img-uploaded');
+
+                    photoInput.addEventListener('change', function () {
+                      const file = this.files[0];
+
+                      if (file) {
+                        filenameDisplay.textContent = file.name;
+
+                        // Clear error when file is selected
+                        if (photoError) photoError.style.display = 'none';
+                        if (photoButton) {
+                          photoButton.classList.remove('btn-danger');
+                          photoButton.classList.add('btn-primary');
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                          imgPreview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    });
+                  })();
+                </script>
                 <hr>
                 <!-- insurance -->
                 <div class="col-12">
                   <div class="card mb-5 p-3 d-lg-flex align-items-start justify-content-between">
-<div class="d-flex align-items-center mb-4 mb-lg-0">
-  <img src=""data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23dc3545' width='200' height='200'/%3E%3Ctext fill='white' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EPDF%3C/text%3E%3C/svg%3E
-  <img src="{% if user.insuranceProof|length %}{{user.insuranceProof.one().url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23dee2e6'/%3E%3C/svg%3E{% endif %}" 
-       id="insurance-uploaded" 
-       class="avatar-xxl rounded-circle" 
-       alt="insurance photo">
-  <div class="ms-3">
-    <h4 class="mb-0">Insurance proof</h4>
-    <p class="mb-4">Please upload a photo of your current practice insurance</p>
-    
-    {{ input('file', 'fields[insuranceProof]', null, {
-      id: 'insphoto',
-      type: 'file',
-      accept: 'image/png,image/jpeg,application/pdf',
-      class: 'form-control d-none',
-      required: user.insuranceProof is empty ? true : false
-    }) }}
-    
-    <button type="button" class="btn btn-primary" id="insurance-button" onclick="document.getElementById('insphoto').click()">
-      {% if user.insuranceProof|length %}Choose New Document{% else %}Choose Document{% endif %}
-    </button>
-    <span id="insurance-filename" class="ms-2 text-muted"></span>
-    <div id="insurance-error" class="invalid-feedback" style="display: none;">
-      Please upload your insurance proof.
-    </div>
-  </div>
-</div>
+                    <div class="d-flex align-items-center mb-4 mb-lg-0">
+                      
+                      <img src="" data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'
+                        %3E%3Crect fill='%23dc3545' width='200' height='200' /%3E%3Ctext fill='white'
+                        font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'
+                        %3EPDF%3C/text%3E%3C/svg%3E <img
+                        src="{% if user.insuranceProof|length %}{{user.insuranceProof.one().url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23dee2e6'/%3E%3C/svg%3E{% endif %}"
+                        id="insurance-uploaded" class="avatar-xxl rounded-circle" alt="insurance photo">
+                      <div class="ms-3">
+                        <h4 class="mb-0">Insurance proof</h4>
+                        <p class="mb-4">Please upload a photo of your current practice insurance</p>
 
-<script>
-// Insurance preview and error clearing
-(function() {
-  const insuranceInput = document.getElementById('insphoto');
-  const insuranceButton = document.getElementById('insurance-button');
-  const filenameDisplay = document.getElementById('insurance-filename');
-  const insuranceError = document.getElementById('insurance-error');
-  const imgPreview = document.getElementById('insurance-uploaded');
+                        {{ input('file', 'fields[insuranceProof]', null, {
+                        id: 'insphoto',
+                        type: 'file',
+                        accept: 'image/png,image/jpeg,application/pdf',
+                        class: 'form-control d-none',
+                        required: user.insuranceProof is empty ? true : false
+                        }) }}
 
-  insuranceInput.addEventListener('change', function() {
-    const file = this.files[0];
-    
-    if (file) {
-      filenameDisplay.textContent = file.name;
-      
-      // Clear error when file is selected
-      if (insuranceError) insuranceError.style.display = 'none';
-      if (insuranceButton) {
-        insuranceButton.classList.remove('btn-danger');
-        insuranceButton.classList.add('btn-primary');
-      }
-      
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          imgPreview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        imgPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23dc3545' width='200' height='200'/%3E%3Ctext fill='white' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EPDF%3C/text%3E%3C/svg%3E";
-      }
-    }
-  });
-})();
-</script>
-                    
+                        <button type="button" class="btn btn-primary" id="insurance-button"
+                          onclick="document.getElementById('insphoto').click()">
+                          {% if user.insuranceProof|length %}Choose New Document{% else %}Choose Document{% endif %}
+                        </button>
+                        <span id="insurance-filename" class="ms-2 text-muted"></span>
+                        <div id="insurance-error" class="invalid-feedback" style="display: none;">
+                          Please upload your insurance proof.
+                        </div>
+                      </div>
+                    </div>
+
+                    <script>
+                      // Insurance preview and error clearing
+                      (function () {
+                        const insuranceInput = document.getElementById('insphoto');
+                        const insuranceButton = document.getElementById('insurance-button');
+                        const filenameDisplay = document.getElementById('insurance-filename');
+                        const insuranceError = document.getElementById('insurance-error');
+                        const imgPreview = document.getElementById('insurance-uploaded');
+
+                        insuranceInput.addEventListener('change', function () {
+                          const file = this.files[0];
+
+                          if (file) {
+                            filenameDisplay.textContent = file.name;
+
+                            // Clear error when file is selected
+                            if (insuranceError) insuranceError.style.display = 'none';
+                            if (insuranceButton) {
+                              insuranceButton.classList.remove('btn-danger');
+                              insuranceButton.classList.add('btn-primary');
+                            }
+
+                            if (file.type.startsWith('image/')) {
+                              const reader = new FileReader();
+                              reader.onload = function (e) {
+                                imgPreview.src = e.target.result;
+                              };
+                              reader.readAsDataURL(file);
+                            } else {
+                              imgPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23dc3545' width='200' height='200'/%3E%3Ctext fill='white' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EPDF%3C/text%3E%3C/svg%3E";
+                            }
+                          }
+                        });
+                      })();
+                    </script>
+
                   </div>
                 </div>
 
@@ -375,93 +393,121 @@
                   <div class="invalid-feedback">Please enter your session rate.</div>
 
                 </div>
-                <!-- concessions -->
-                <div class="col-md-6 col-12">
-                  {% set field = craft.app.fields.getFieldByHandle('concessions') %}
-                  <h4>{{field.name}}</h4>
-                  <h5>{{field.instructions}}</h5>
-                  <ul style="list-style-type: none;">
-                    {% for option in field.options %}
-                    {% set selected = user is defined
-                    ? user.concessions.value == option.value
-                    : option.default %}
+                <!-- concessions - RADIO BUTTONS -->
+<div class="col-md-6 col-12">
+  {% set field = craft.app.fields.getFieldByHandle('concessions') %}
+  <h4>{{field.name}}</h4>
+  <h5>{{field.instructions}}</h5>
+  
+  
+   <div id="concessions-group" class="rounded">
+    <ul style="list-style-type: none;">
+      {% for option in field.options %}
+      {% set selected = user is defined
+        ? user.concessions.value == option.value
+        : option.default %}
 
-                    <li><label>
-                        <input type="radio" name="fields[concessions]" value="{{ option.value }}"
-                          class="form-check-input" {% if selected %} checked{% endif %}>
-                        {{ option.label }}
-                      </label></li>
-                    {% endfor %}
-                  </ul>
-
-                </div>
+      <li><label>
+          <input type="radio" 
+                 name="fields[concessions]" 
+                 value="{{ option.value }}"
+                 class="form-check-input" 
+                 required
+                 {% if selected %} checked{% endif %}>
+          {{ option.label }}
+        </label></li>
+      {% endfor %}
+    </ul>
+  </div>
+<!-- Concessions error -->
+<div id="concessions-error" class="invalid-feedback">
+  Please select an option for concessions.
+</div>
+</div>
                 <hr class="my-5">
 
-                <!-- availabilty -->
-                <div class="col-12">
-                  {% set field = craft.app.fields.getFieldByHandle('availability') %}
-                  <h4>{{field.name}}</h4>
-                  <h5>{{field.instructions}}</h5>
-                  <ul style="list-style-type: none;">
-                    {% for option in field.options %}
-                    {% set selected = user is defined
-                    ? user.availability.value == option.value
-                    : option.default %}
+             <!-- availability - RADIO BUTTONS -->
+<div class="col-12">
+  {% set field = craft.app.fields.getFieldByHandle('availability') %}
+  <h4>{{field.name}}</h4>
+  <h5>{{field.instructions}}</h5>
+  
+    <div id="availability-group" class="rounded">
+    <ul style="list-style-type: none;">
+      {% for option in field.options %}
+      {% set selected = user is defined
+        ? user.availability.value == option.value
+        : option.default %}
 
-                    <li><label>
-                        <input type="radio" name="fields[availability]" value="{{ option.value }}"
-                          class="form-check-input" {% if selected %} checked{% endif %}>
-                        {{ option.label }}
-                      </label></li>
-                    {% endfor %}
-                  </ul>
+      <li><label>
+          <input type="radio" 
+                 name="fields[availability]" 
+                 value="{{ option.value }}"
+                 class="form-check-input" 
+                 required
+                 {% if selected %} checked{% endif %}>
+          {{ option.label }}
+        </label></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div id="availability-error" class="invalid-feedback">
+    Please select your availability.
+</div>
 
-                </div>
-                <!-- session clients types checkbox-->
+</div>
+
                 <hr class="my-5">
+               <!-- session clients types - CHECKBOXES -->
+<div class="mb-4 col-12">
+  {% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
+  <h4>{{field.name}}</h4>
+  <h5>{{field.instructions}}</h5>
+  {{ hiddenInput('fields[typeOfClient]', '') }}
 
-                <div class="mb-4 col-12">
+    <div id="typeOfClient-group" class="rounded p-2">
+    <ul class="typeclient" style="list-style-type: none;">
+      {% for option in field.options %}
+      {% set checked = user is defined
+        ? user.typeOfClient.contains(option.value)
+        : option.default %}
 
-                  {% set field = craft.app.fields.getFieldByHandle('typeOfClient') %}
-                  <h4>{{field.name}}</h4>
-                  <h5>{{field.instructions}}</h5>
-                  {{ hiddenInput('fields[typeOfClient]', '') }}
+      <li>
+        <label>
+          <input type="checkbox" 
+                 name="fields[typeOfClient][]" 
+                 value="{{ option.value }}"
+                 class="form-check-input border type-of-client-checkbox"
+                 {% if checked %}checked{% endif %}>
+          {{ option.label }}
+        </label>
+      </li>
+      {% endfor %}
 
-                  <ul class="typeclient" style="list-style-type: none;">
-                    {% for option in field.options %}
-                    {% set checked = user is defined
-                    ? user.typeOfClient.contains(option.value)
-                    : option.default %}
+      {% if field.customOptions %}
+      {% for option in user.typeOfClient | filter(o => not o.valid) %}
+      <li>
+        <label>
+          <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
+          {{ option.label }}
+        </label>
+      </li>
+      {% endfor %}
 
-                    <li>
-                      <label>
-                        <input type="checkbox" name="fields[typeOfClient][]" value="{{ option.value }}"
-                          class="form-check-input border" {% if checked %}checked{% endif %}>
-                        {{ option.label }}
-                      </label>
-                    </li>
-                    {% endfor %}
-
-                    {% if field.customOptions %}
-                    {% for option in user.typeOfClient | filter(o => not o.valid) %}
-                    <li>
-                      <label>
-                        <input type="text" name="fields[typeOfClient][]" value="{{ option.value }}">
-                        {{ option.label }}
-                      </label>
-                    </li>
-                    {% endfor %}
-
-                    <li>
-                      <label>
-                        Other:
-                        <input type="text" name="fields[typeOfClient][]">
-                      </label>
-                    </li>
-                    {% endif %}
-                  </ul>
-                </div>
-                <!-- end checkbox -->
+      <li>
+        <label>
+          Other:
+          <input type="text" name="fields[typeOfClient][]">
+        </label>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+<!-- Type of Client error -->
+<div id="typeOfClient-error" class="invalid-feedback">
+  Please select at least one type of client.
+</div>
+</div>
                 <hr class="my-5">
                 <div>
                   <!-- about me with Quill -->
@@ -473,7 +519,7 @@
                       Please enter your about me info.
                     </div>
                   </div>
-                  
+
                   <!-- qualifications -->
                   <div class="mb-4 col-12 col-md-12">
                     <label class="form-label w-100" for="qualifications">Qualifications</label>
@@ -482,27 +528,29 @@
                     <div class="invalid-feedback">
                       Please enter qualifications.</div>
                   </div>
-                  
+
                   <!-- trainingAndExperience with Quill -->
                   <div class="mb-4 col-12 col-md-12">
                     <label class="form-label w-100" for="trainingAndExperience">Training & Experience</label>
                     <div id="trainingAndExperience-editor" style="min-height: 200px; background: white;"></div>
-                    <textarea id="trainingAndExperience" name="fields[trainingAndExperience]" class="d-none" required>{{user.trainingAndExperience}}</textarea>
+                    <textarea id="trainingAndExperience" name="fields[trainingAndExperience]" class="d-none"
+                      required>{{user.trainingAndExperience}}</textarea>
                     <div id="trainingAndExperience-error" class="invalid-feedback" style="display: none;">
                       Please enter your training and experience info.
                     </div>
                   </div>
-                  
+
                   <!-- practiceDescription with Quill -->
                   <div class="mb-4 col-12 col-md-12">
                     <label class="form-label w-100" for="practiceDescription">Practice description</label>
                     <div id="practiceDescription-editor" style="min-height: 200px; background: white;"></div>
-                    <textarea id="practiceDescription" name="fields[practiceDescription]" class="d-none" required>{{user.practiceDescription}}</textarea>
+                    <textarea id="practiceDescription" name="fields[practiceDescription]" class="d-none"
+                      required>{{user.practiceDescription}}</textarea>
                     <div id="practiceDescription-error" class="invalid-feedback" style="display: none;">
                       Please enter your practice description.
                     </div>
                   </div>
-                  
+
                   <hr class="my-5">
                   <h3 class="mb-5">Expertise</h3>
                   <!-- categories -->
@@ -516,7 +564,7 @@
                       good
                       outcomes</label>
                     <select data-allow-clear="1" class="form-select" id="tags-input" name="fields[category][]" multiple
-                      data-max="0">
+                      data-max="0" required>
                       <option disabled hidden value="">Choose a area...</option>
                       {% for cat in categories %}
                       <option value="{{cat.id}}" {% if cat.id in user.category.ids() %}selected{% endif %}>
@@ -576,28 +624,8 @@
                   </div>
                   {% endif %}
                   <!-- special fields-->
-{# Fetch the global field definition: #}
-{% set field = craft.app.fields.getFieldByHandle('profileComplete') %}
-{% set currentValue = entry.profileComplete.value ?? null %}
-{% set hasCustomValue = currentValue and currentValue not in (field.options|map(o => o.value)) %}
+                  {# Fetch the global field definition: #}
 
-<ul>
-  {# Iterate over the defined options: #}
-  {% for option in field.options %}
-    {% set selected = currentValue == option.value or not currentValue and option.default %}
-
-    <li>
-      <label>
-        {{ input('radio', 'fields[profileComplete]', option.value, {
-          checked: selected,
-        }) }}
-        {{ option.label }}
-      </label>
-    </li>
-  {% endfor %}
-
-  
-</ul>
                   <!--  end -->
                   <!-- Button -->
                   <button class="btn btn-primary" type="submit">Save Profile</button>
@@ -606,8 +634,7 @@
               </div>
           </div>
           <!-- end form -->
-          
-          {# Quill Editor Initialization and Validation #}
+
           {% js %}
 // Quill editors configuration
 const quillEditors = {};
@@ -619,13 +646,13 @@ function initQuillEditors() {
     { id: 'trainingAndExperience', minHeight: '200px' },
     { id: 'practiceDescription', minHeight: '200px' }
   ];
-  
+
   editorConfigs.forEach(config => {
     const editorDiv = document.getElementById(config.id + '-editor');
     const textarea = document.getElementById(config.id);
-    
+
     if (!editorDiv || !textarea) return;
-    
+
     // Initialize Quill
     const quill = new Quill('#' + config.id + '-editor', {
       theme: 'snow',
@@ -635,35 +662,34 @@ function initQuillEditors() {
           ['clean']
         ]
       },
-      formats: ['bold', 'italic'], // Only allow bold and italic formatting
+      formats: ['bold', 'italic'],
       placeholder: 'Enter text here...'
     });
-    
+
     // Custom key bindings to control Enter behavior
     quill.keyboard.addBinding({
       key: 'Enter',
       shiftKey: true
     }, function(range, context) {
-      // Shift+Enter creates a line break
       this.quill.insertText(range.index, '\n');
       this.quill.setSelection(range.index + 1);
       return false;
     });
-    
+
     // Load existing content
     const existingContent = textarea.value.trim();
     if (existingContent) {
       quill.root.innerHTML = existingContent;
     }
-    
+
     // Store reference
     quillEditors[config.id] = quill;
-    
+
     // Clear errors on input
     quill.on('text-change', function() {
       const errorDiv = document.getElementById(config.id + '-error');
       const text = quill.getText().trim();
-      
+
       if (text.length > 0) {
         if (errorDiv) errorDiv.style.display = 'none';
         editorDiv.style.border = '';
@@ -672,79 +698,58 @@ function initQuillEditors() {
   });
 }
 
-// Validate Quill editors
+// Validate Quill editors - returns error elements
 function validateQuillEditors() {
   let isValid = true;
-  let firstError = null;
-  
+  const errorElements = [];
+
   Object.keys(quillEditors).forEach(editorId => {
     const quill = quillEditors[editorId];
     const textarea = document.getElementById(editorId);
     const errorDiv = document.getElementById(editorId + '-error');
     const editorDiv = document.getElementById(editorId + '-editor');
-    
+
     if (!textarea || !textarea.hasAttribute('required')) return;
-    
-    // Get text content (strips HTML)
+
     const text = quill.getText().trim();
-    
-    // Check if empty
+
     if (text.length === 0) {
       isValid = false;
-      
-      if (errorDiv) {
-        errorDiv.style.display = 'block';
-      }
-      
+
+      if (errorDiv) errorDiv.style.display = 'block';
       if (editorDiv) {
         editorDiv.style.border = '2px solid #dc3545';
-      }
-      
-      if (!firstError) {
-        firstError = editorDiv;
+        errorElements.push(editorDiv);
       }
     } else {
       // Valid - save content to textarea
       textarea.value = quill.root.innerHTML;
-      
-      if (errorDiv) {
-        errorDiv.style.display = 'none';
-      }
-      
-      if (editorDiv) {
-        editorDiv.style.border = '';
-      }
+      if (errorDiv) errorDiv.style.display = 'none';
+      if (editorDiv) editorDiv.style.border = '';
     }
   });
-  
-  // Scroll to first error
-  if (!isValid && firstError) {
-    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-  
-  return isValid;
+
+  return { isValid, errorElements };
 }
 
-// Validate file uploads (photo and insurance)
+// Validate file uploads - returns error elements
 function validateFileUploads() {
   let isValid = true;
-  let firstError = null;
-  
+  const errorElements = [];
+
   // Validate photo
   const photoInput = document.getElementById('photo');
   const photoButton = document.getElementById('photo-button');
   const photoError = document.getElementById('photo-error');
-  
+
   if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
     isValid = false;
-    
     if (photoError) photoError.style.display = 'block';
     if (photoButton) {
       photoButton.classList.remove('btn-primary');
       photoButton.classList.add('btn-danger');
+      errorElements.push(photoButton);
     }
-    
-    if (!firstError) firstError = photoButton;
   } else {
     if (photoError) photoError.style.display = 'none';
     if (photoButton) {
@@ -752,22 +757,20 @@ function validateFileUploads() {
       photoButton.classList.add('btn-primary');
     }
   }
-  
+
   // Validate insurance
   const insuranceInput = document.getElementById('insphoto');
   const insuranceButton = document.getElementById('insurance-button');
   const insuranceError = document.getElementById('insurance-error');
-  
+
   if (insuranceInput && insuranceInput.hasAttribute('required') && insuranceInput.files.length === 0) {
     isValid = false;
-    
     if (insuranceError) insuranceError.style.display = 'block';
     if (insuranceButton) {
       insuranceButton.classList.remove('btn-primary');
       insuranceButton.classList.add('btn-danger');
+      errorElements.push(insuranceButton);
     }
-    
-    if (!firstError) firstError = insuranceButton;
   } else {
     if (insuranceError) insuranceError.style.display = 'none';
     if (insuranceButton) {
@@ -775,94 +778,258 @@ function validateFileUploads() {
       insuranceButton.classList.add('btn-primary');
     }
   }
+
+  return { isValid, errorElements };
+}
+
+// Validate radio buttons and checkboxes
+function validateRadioAndCheckboxes() {
+  let isValid = true;
+  const errorElements = [];
+
+  // Validate radio button groups
+  const radioGroups = [
+    { name: 'fields[concessions]', errorId: 'concessions-error', groupId: 'concessions-group' },
+    { name: 'fields[availability]', errorId: 'availability-error', groupId: 'availability-group' }
+  ];
+
+  radioGroups.forEach(group => {
+    const radios = document.querySelectorAll(`input[name="${group.name}"]`);
+    const checked = Array.from(radios).some(radio => radio.checked);
+    const errorDiv = document.getElementById(group.errorId);
+    const groupDiv = document.getElementById(group.groupId);
+
+    if (!checked) {
+      isValid = false;
+      if (errorDiv) {
+        errorDiv.classList.add('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.add('error-highlight');
+        errorElements.push(groupDiv);
+      }
+    } else {
+      if (errorDiv) {
+        errorDiv.classList.remove('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.remove('error-highlight');
+      }
+    }
+  });
+
+  // Validate checkbox groups (at least one required)
+  const checkboxGroups = [
+    { 
+      selector: '.type-of-client-checkbox', 
+      errorId: 'typeOfClient-error', 
+      groupId: 'typeOfClient-group' 
+    }
+  ];
+
+  checkboxGroups.forEach(group => {
+    const checkboxes = document.querySelectorAll(group.selector);
+    const checked = Array.from(checkboxes).some(cb => cb.checked);
+    const errorDiv = document.getElementById(group.errorId);
+    const groupDiv = document.getElementById(group.groupId);
+
+    if (!checked) {
+      isValid = false;
+      if (errorDiv) {
+        errorDiv.classList.add('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.add('error-highlight');
+        errorElements.push(groupDiv);
+      }
+    } else {
+      if (errorDiv) {
+        errorDiv.classList.remove('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.remove('error-highlight');
+      }
+    }
+  });
+
+  return { isValid, errorElements };
+}
+
+// Validate HTML5 fields and collect invalid elements
+function validateHTML5Fields(form) {
+  // Trigger HTML5 validation
+  form.classList.add('was-validated');
+  const isValid = form.checkValidity();
   
-  // Scroll to first error
-  if (!isValid && firstError) {
-    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const errorElements = [];
+  
+  if (!isValid) {
+    // Find all invalid fields
+    const invalidFields = form.querySelectorAll(':invalid');
+    invalidFields.forEach(field => {
+      // Skip Quill textareas (we handle those separately)
+      if (field.id && quillEditors[field.id]) {
+        return;
+      }
+      // Skip radio buttons (we handle those separately)
+      if (field.type === 'radio') {
+        return;
+      }
+      errorElements.push(field);
+    });
   }
   
-  return isValid;
+  return { isValid, errorElements };
+}
+
+// Find the first (topmost) error element on the page
+function scrollToFirstError(errorElements) {
+  if (errorElements.length === 0) return;
+
+  // Sort error elements by their position on the page (top to bottom)
+  const sortedErrors = errorElements.sort((a, b) => {
+    const rectA = a.getBoundingClientRect();
+    const rectB = b.getBoundingClientRect();
+    return (rectA.top + window.scrollY) - (rectB.top + window.scrollY);
+  });
+
+  console.log('Scrolling to first error:', sortedErrors[0]);
+  
+  // Scroll to the first error
+  sortedErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, initializing Quill editors and form validation');
-  
+
   // Initialize Quill editors
   initQuillEditors();
-  
+
   // Get form element
   const form = document.getElementById('profile-form');
-  
+
   if (!form) {
     console.error('Form #profile-form not found!');
     return;
   }
-  
+
   console.log('Form found, attaching submit handler');
-  
-  // SINGLE CONSOLIDATED FORM VALIDATION HANDLER
+
+  // FORM VALIDATION HANDLER - checks ALL fields before scrolling
   form.addEventListener('submit', function(e) {
     console.log('═══════════════════════════════════════');
     console.log('Submit event triggered - starting validation');
-    
-    // Step 1: Validate file uploads
-    const filesValid = validateFileUploads();
-    console.log('1. File validation:', filesValid ? '✓ passed' : '✗ FAILED');
-    
-    if (!filesValid) {
-      console.log('❌ BLOCKING: File validation failed');
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      return false;
-    }
-    
-    // Step 2: Validate Quill editors
-    const quillValid = validateQuillEditors();
-    console.log('2. Quill validation:', quillValid ? '✓ passed' : '✗ FAILED');
-    
-    if (!quillValid) {
-      console.log('❌ BLOCKING: Quill validation failed');
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      return false;
-    }
-    
-    // Save all Quill content to textareas
-    console.log('3. Saving Quill content to textareas...');
+
+    // First, save all Quill content to textareas so HTML5 validation can check them
+    console.log('1. Saving Quill content to textareas...');
     Object.keys(quillEditors).forEach(editorId => {
       const quill = quillEditors[editorId];
       const textarea = document.getElementById(editorId);
       if (textarea) {
         textarea.value = quill.root.innerHTML;
-        console.log('   - Saved', editorId);
       }
     });
-    
-    // Step 3: Check HTML5 validation for remaining fields
-    this.classList.add('was-validated');
-    
-    const html5Valid = this.checkValidity();
-    console.log('4. HTML5 validation:', html5Valid ? '✓ passed' : '✗ FAILED');
-    
-    if (!html5Valid) {
-      console.log('❌ BLOCKING: HTML5 validation failed');
+
+    // Collect all error elements from ALL validations
+    const allErrorElements = [];
+
+    // Step 2: Validate regular HTML5 form fields
+    const html5Validation = validateHTML5Fields(this);
+    console.log('2. HTML5 validation:', html5Validation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!html5Validation.isValid) {
+      allErrorElements.push(...html5Validation.errorElements);
+    }
+
+    // Step 3: Validate file uploads
+    const fileValidation = validateFileUploads();
+    console.log('3. File validation:', fileValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!fileValidation.isValid) {
+      allErrorElements.push(...fileValidation.errorElements);
+    }
+
+    // Step 4: Validate Quill editors (custom validation beyond HTML5)
+    const quillValidation = validateQuillEditors();
+    console.log('4. Quill validation:', quillValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!quillValidation.isValid) {
+      allErrorElements.push(...quillValidation.errorElements);
+    }
+
+    // Step 5: Validate radio buttons and checkboxes
+    const radioCheckValidation = validateRadioAndCheckboxes();
+    console.log('5. Radio/Checkbox validation:', radioCheckValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!radioCheckValidation.isValid) {
+      allErrorElements.push(...radioCheckValidation.errorElements);
+    }
+
+    // If we have any validation errors, prevent submit and scroll to first error
+    if (allErrorElements.length > 0) {
+      console.log('❌ BLOCKING: Found', allErrorElements.length, 'validation errors');
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
+      
+      // Scroll to the first error on the page (topmost)
+      scrollToFirstError(allErrorElements);
       return false;
     }
-    
-    // All validation passed - allow natural form submission
+
+    // All validation passed
     console.log('✓✓✓ ALL VALIDATION PASSED ✓✓✓');
     console.log('Allowing form to submit naturally...');
     console.log('═══════════════════════════════════════');
-    // DON'T prevent default - let the form submit naturally
     return true;
   }, false);
-  
+
+  // Add change listeners to clear errors when user makes a selection
+  // Radio buttons - clear error on change
+  const concessionsRadios = document.querySelectorAll('input[name="fields[concessions]"]');
+  concessionsRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      const errorDiv = document.getElementById('concessions-error');
+      const groupDiv = document.getElementById('concessions-group');
+      if (errorDiv) {
+        errorDiv.classList.remove('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.remove('error-highlight');
+      }
+    });
+  });
+
+  const availabilityRadios = document.querySelectorAll('input[name="fields[availability]"]');
+  availabilityRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      const errorDiv = document.getElementById('availability-error');
+      const groupDiv = document.getElementById('availability-group');
+      if (errorDiv) {
+        errorDiv.classList.remove('d-block');
+      }
+      if (groupDiv) {
+        groupDiv.classList.remove('error-highlight');
+      }
+    });
+  });
+
+  // Checkboxes - clear error when at least one is checked
+  const typeOfClientCheckboxes = document.querySelectorAll('.type-of-client-checkbox');
+  typeOfClientCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const anyChecked = Array.from(typeOfClientCheckboxes).some(cb => cb.checked);
+      
+      if (anyChecked) {
+        const errorDiv = document.getElementById('typeOfClient-error');
+        const groupDiv = document.getElementById('typeOfClient-group');
+        if (errorDiv) {
+          errorDiv.classList.remove('d-block');
+        }
+        if (groupDiv) {
+          groupDiv.classList.remove('error-highlight');
+        }
+      }
+    });
+  });
+
   // Prevent Enter key from submitting form
   form.addEventListener('keypress', function(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
@@ -871,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return false;
     }
   });
-  
+
   console.log('Form validation setup complete');
 });
           {% endjs %}

@@ -1,12 +1,12 @@
 columnSuffix: null
-handle: profileComplete
+handle: liveStatus
 instructions: null
-name: 'Profile complete'
+name: 'Live status'
 searchable: false
 settings:
   default: false
-  offLabel: null
-  onLabel: null
+  offLabel: 'Not Live'
+  onLabel: 'Status is live'
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Lightswitch

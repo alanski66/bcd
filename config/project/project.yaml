@@ -1,4 +1,4 @@
-dateModified: 1766838844
+dateModified: 1767097934
 elementSources:
   craft\elements\Entry:
     -
@@ -206,6 +206,7 @@ meta:
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
     4e3d68f6-f7e1-4f09-befe-49a5dbaff6a6: Concessions # Concessions
     5ba00d2b-52da-4b64-b6e1-64c24d426c19: 'Type of client' # Type of client
+    5d2c6718-ba21-41df-8b12-cf77dfd1b8fc: 'Live status' # Live status
     5d532788-0cc7-48de-9b9b-627e7923b222: 'Contact preference' # Contact preference
     06a9642c-32d8-43fb-8f3a-478a4d84ab5a: 'Couples rate' # Couples rate
     6aff28e4-a015-4972-b136-5efb6d158b90: 'Hero background' # Hero background
@@ -409,7 +410,7 @@ plugins:
   seomatic:
     edition: standard
     enabled: true
-    licenseKey: GQSGB9GRKKMTHKGRREBK6TWM
+    licenseKey: DOR8YCQ5VI9OJJTBZ2NU06Y1
     schemaVersion: 3.0.13
   splash:
     edition: standard

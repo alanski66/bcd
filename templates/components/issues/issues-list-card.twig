@@ -5,7 +5,7 @@
 
 {% set total = "0" %}
 {# Display the list #}
-
+<!-- category issues list card style-->
 {% for category in categories %}
 {% set numofEntries = craft.entries.section('issues').limit(null).relatedTo(category).count() %}
 <div class="col-xl-3 col-lg-4 col-md-6 col-12  align-items-stretch">

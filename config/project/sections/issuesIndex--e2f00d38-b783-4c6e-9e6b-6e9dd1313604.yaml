@@ -17,5 +17,5 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: issues/index.twig
-    uriFormat: issues-therapy-helps
+    uriFormat: issues
 type: single
