@@ -381,18 +381,32 @@ border-color: #dc3545;
                 </div>
 
                 <hr class="my-5">
-                <h3>Session info</h3>
+                <div class="row">
+                <h3>Session rates</h3>
                 <!-- fee -->
-                <div class="mb-3 col-12 col-md-6 h-100">
+                <div class="mb-3 col-12 col-sm-6 h-100">
                   {% set field = craft.app.fields.getFieldByHandle('sessionRate') %}
 
-                  <label class="form-label" for="sessionRate">{{field.name}}</label>
+                  <label class="form-label" for="sessionRate">Individual</label>
                   <h5>{{field.instructions}}</h5>
                   <span class="">£</span><input type="text" id="sessionRate" name="fields[sessionRate]"
-                    class="w-50 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
-                  <div class="invalid-feedback">Please enter your session rate.</div>
+                    class="w-75 form-control d-inline" value="{{user.sessionRate}}" placeholder="" required="">
+                  <div class="invalid-feedback">Please enter your indivudal rate.</div>
 
                 </div>
+                <!-- couple rates-->                
+                <div class="mb-3 col-12 col-sm-6 h-100">
+                  {% set cfield = craft.app.fields.getFieldByHandle('couplesRate') %}
+
+                  <label class="form-label" for="couplesRate">{{cfield.name}}</label>
+                  <h5>{{cfield.instructions}}</h5>
+                  <span class="">£</span><input type="text" id="couplesRate" name="fields[couplesRate]"
+                    class="w-75 form-control d-inline" value="{{user.couplesRate}}" placeholder="" required>
+                  <div class="invalid-feedback">Please enter your couples rate.</div>
+
+                </div>
+                </div>
+                   <hr class="my-5">
                 <!-- concessions - RADIO BUTTONS -->
 <div class="col-md-6 col-12">
   {% set field = craft.app.fields.getFieldByHandle('concessions') %}
