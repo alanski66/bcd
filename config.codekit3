@@ -3172,6 +3172,14 @@
       "oAP" : "\/templates\/users\/user-bounce.twig",
       "oF" : 0
     },
+    "\/templates\/users\/user-insurance.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-insurance.twig",
+      "oF" : 0
+    },
     "\/templates\/users\/user-list.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3186,6 +3194,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/users\/user-marquee.twig",
+      "oF" : 0
+    },
+    "\/templates\/users\/user-photo.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-photo.twig",
       "oF" : 0
     },
     "\/templates\/users\/user-profile-edit copy.twig" : {

@@ -1,0 +1,233 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+{% block content %}
+{% set user = user ?? currentUser %}
+{% requireLogin %}
+
+<main>
+  <section class="pt-5 pb-5">
+    <div class="container">
+
+      <!-- User info -->
+      <div class="row align-items-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+          <!-- Bg -->
+          <div class="rounded-top"
+            style="background: url(../assets/images/background/profile-bg.jpg) no-repeat; background-size: cover; height: 100px">
+          </div>
+          <div class="card px-4 pt-2 pb-4 shadow-sm rounded-top-0 rounded-bottom-0 rounded-bottom-md-2">
+            <div class="d-flex align-items-end justify-content-between">
+              <div class="d-flex align-items-center">
+                <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                  {% if user.photo is not empty %}
+                  <img src="{{user.photo.url('profileSmall')}}"
+                    class="avatar-xl rounded-circle border border-4 border-white" alt="avatar">
+                  {% endif %}
+                </div>
+                <div class="lh-1">
+                  <h2 class="mb-0">{{user.fullName}}</h2>
+                </div>
+              </div>
+              <div>
+                <div class="btn btn-primary btn-sm d-none d-md-block">Your account</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="row mt-0 mt-md-4">
+        {% include "users/partials/user-sidenav.twig" %}
+
+        <div class="col-lg-9 col-md-8 col-12">
+          <!-- Card -->
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">Profile Photo</h3>
+              <p class="mb-0">Upload your profile photo below.</p><p>It is important that it is square or has your face in the centre. Large file size and good quality are recommended.</p>
+              
+              {% set success = craft.app.request.getParam('status') %}
+              {% if success %}
+              <div class="alert alert-success my-2" data-timeout="4000" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                  class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                Your photo has been uploaded successfully!
+              </div>
+              {% js %}
+              // Auto-hide success alert after timeout
+              document.addEventListener('DOMContentLoaded', function () {
+                const alert = document.querySelector('.alert[data-timeout]');
+                if (alert) {
+                  const timeout = parseInt(alert.getAttribute('data-timeout'), 10);
+                  setTimeout(() => {
+                    alert.classList.add('fade-out');
+                    setTimeout(() => alert.remove(), 500);
+                  }, timeout);
+                }
+              });
+              {% endjs %}
+              {% endif %}
+            </div>
+
+            <!-- Card body -->
+            <div class="card-body">
+              <!-- Form -->
+              <form id="profile-form" class="needs-validation" novalidate method="post" accept-charset="UTF-8"
+                enctype="multipart/form-data">
+
+                {{ csrfInput() }}
+                {{ actionInput('users/save-user') }}
+                {{ hiddenInput('userId', user.id) }}
+                {{ redirectInput('/users/user-photo?status=1') }}
+
+                <!-- Profile Photo -->
+                <div class="card mb-5 p-3">
+                  <div class="d-flex align-items-center mb-4 mb-lg-0">
+                    <img src="{% if user.photo|length %}{{user.photo.url}}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23e9ecef' width='200' height='200'/%3E%3Ctext fill='%236c757d' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Photo%3C/text%3E%3C/svg%3E{% endif %}"
+                      id="img-uploaded" class="avatar-xxl rounded-circle" alt="avatar">
+                    <div class="ms-3">
+                      <h4 class="mb-0">Your profile photo</h4>
+                      <p class="mb-4">PNG or JPG square format best and no bigger than 800px wide and tall.</p>
+
+                      {{ input('file', 'photo', null, {
+                        id: 'photo',
+                        type: 'file',
+                        accept: 'image/png,image/jpeg',
+                        class: 'form-control d-none',
+                        required: user.photo is empty ? true : false
+                      }) }}
+
+                      <button type="button" class="btn btn-primary" id="photo-button"
+                        onclick="document.getElementById('photo').click()">
+                        {% if user.photo|length %}Choose New Photo{% else %}Choose Photo{% endif %}
+                      </button>
+                      <span id="photo-filename" class="ms-2 text-muted"></span>
+                      <div id="photo-error" class="invalid-feedback" style="display: none;">
+                        Please select a photo to upload.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12 text-center">
+                  <button class="btn btn-primary" type="submit">Upload Photo</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+.switch-status {
+  transition: opacity 0.3s ease-in-out;
+  min-width: 80px;
+  text-align: center;
+}
+
+.switch-status .badge {
+  font-size: 0.875rem;
+  padding: 0.5em 0.75em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.switch-status .badge svg {
+  margin-top: -1px;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.form-check-input {
+  margin-top: 0 !important;
+}
+</style>
+
+{% js %}
+// Photo preview and validation
+document.addEventListener('DOMContentLoaded', function() {
+  // Photo upload preview
+  const photoInput = document.getElementById('photo');
+  const photoButton = document.getElementById('photo-button');
+  const filenameDisplay = document.getElementById('photo-filename');
+  const photoError = document.getElementById('photo-error');
+  const imgPreview = document.getElementById('img-uploaded');
+
+  if (photoInput) {
+    photoInput.addEventListener('change', function () {
+      const file = this.files[0];
+
+      if (file) {
+        filenameDisplay.textContent = file.name;
+
+        // Clear error when file is selected
+        if (photoError) photoError.style.display = 'none';
+        if (photoButton) {
+          photoButton.classList.remove('btn-danger');
+          photoButton.classList.add('btn-primary');
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imgPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Form validation
+  const form = document.getElementById('profile-form');
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      console.log('Submit event triggered - validating photo');
+
+      let isValid = true;
+
+      // Validate photo if required
+      if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
+        isValid = false;
+        if (photoError) photoError.style.display = 'block';
+        if (photoButton) {
+          photoButton.classList.remove('btn-primary');
+          photoButton.classList.add('btn-danger');
+        }
+
+        // Scroll to photo field
+        photoButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if (!isValid) {
+        console.log('❌ BLOCKING: Photo validation failed');
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      console.log('✓✓✓ VALIDATION PASSED ✓✓✓');
+      return true;
+    });
+  }
+
+  
+});
+{% endjs %}
+
+{% endblock content %}
