@@ -36,8 +36,11 @@ class NotifySave extends BaseModule
             function(ModelEvent $event) {
                 /** @var User $user */
                 $user = $event->sender;
+                if($user->profileComplete == true) {
+                    // User profile is complete
+                    $this->sendNotificationUserSaved($user);
+                }
                 $this->sendNotificationUserSaved($user);
-            
         
             }
         );
@@ -58,7 +61,7 @@ class NotifySave extends BaseModule
         $systemEmail = Craft::$app->getProjectConfig()->get('email.fromEmail');
         Craft::$app->mailer->compose()
             ->setTo($systemEmail)
-            ->setSubject('User Saved: ' . $user->email)
+            ->setSubject('User '. $user->fullName.' Saved: ' . $user->email)
             ->setTextBody('A user was saved: ' . $user->email)
             ->send();
     }

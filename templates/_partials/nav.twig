@@ -29,7 +29,7 @@
         {% set url = "" %}
         {% for entry in menu.all() %}
         {% if entry.customUrl | length %}
-        {% set url = baseUrl~"/"~entry.customUrl %}
+        {% set url = baseUrl~""~entry.customUrl %}
         {% else %}
         {% if entry.entryLink | length %}
         {% set url = entry.entryLink.one().url %}

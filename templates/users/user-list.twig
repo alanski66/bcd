@@ -7,7 +7,9 @@
   {# Create a user query with the 'group' parameter #}
   {% set myUserQuery = craft.users()
   .hasPhoto()
-  .group('counsellors') %}
+  .group('counsellors')
+  .profileComplete(true)
+  %}
 
   {# Fetch the users #}
   {% set therapists = myUserQuery.all() %}
