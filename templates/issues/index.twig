@@ -71,16 +71,16 @@ who specialize in your specific needs
   {% endfor %}
   
   {# Create new FAQPage and replace mainEntityOfPage #}
-  {% set faqPage = seomatic.jsonLd.create({
-    'type': 'FAQPage',
-    'mainEntity': faqEntities
-  }) %}
-  
-  {# Replace the default WebPage with FAQPage #}
-  {# {% do seomatic.jsonLd.get('mainEntityOfPage').setAttributes({
+  {# {% set faqPage = seomatic.jsonLd.create({
     'type': 'FAQPage',
     'mainEntity': faqEntities
   }) %} #}
+  
+  {# Replace the default WebPage with FAQPage #}
+  {% do seomatic.jsonLd.get('mainEntityOfPage').setAttributes({
+    'type': 'FAQPage',
+    'mainEntity': faqEntities
+  }) %}
 {% endif %}
 
 
