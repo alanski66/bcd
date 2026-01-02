@@ -78,7 +78,9 @@ who specialize in your specific needs
   
   {# Replace the default WebPage with FAQPage #}
   {% do seomatic.jsonLd.get('mainEntityOfPage').setAttributes({
+    'key': 'faqPage', 
     'type': 'FAQPage',
+    'name': 'Frequently Asked Questions about issues in counselling and therapy',
     'mainEntity': faqEntities
   }) %}
 {% endif %}
