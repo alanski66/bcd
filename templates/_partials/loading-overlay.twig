@@ -1,0 +1,149 @@
+<div id="upload-loading-overlay" class="upload-overlay" style="display: none;">
+  <div class="upload-overlay-content">
+    <div class="upload-spinner"></div>
+    <h3 id="upload-message" class="upload-message">Uploading your files...</h3>
+    <p id="upload-submessage" class="upload-submessage">Please don't close this window</p>
+    <div class="upload-progress-container" id="upload-progress-container" style="display: none;">
+      <div class="upload-progress-bar">
+        <div id="upload-progress-fill" class="upload-progress-fill"></div>
+      </div>
+      <p id="upload-progress-text" class="upload-progress-text">0%</p>
+    </div>
+  </div>
+</div>
+<script>
+/**
+ * Upload Loading Overlay Manager
+ * Usage: Just add to your page and it will automatically work with forms
+ */
+(function() {
+  'use strict';
+  
+  const UploadLoader = {
+    overlay: null,
+    messageEl: null,
+    submessageEl: null,
+    progressContainer: null,
+    progressFill: null,
+    progressText: null,
+    
+    init() {
+      this.overlay = document.getElementById('upload-loading-overlay');
+      this.messageEl = document.getElementById('upload-message');
+      this.submessageEl = document.getElementById('upload-submessage');
+      this.progressContainer = document.getElementById('upload-progress-container');
+      this.progressFill = document.getElementById('upload-progress-fill');
+      this.progressText = document.getElementById('upload-progress-text');
+    },
+    
+    show(options = {}) {
+      if (!this.overlay) this.init();
+      
+      const message = options.message || 'Uploading your files...';
+      const submessage = options.submessage || "Please don't close this window";
+      const showProgress = options.showProgress || false;
+      
+      this.messageEl.textContent = message;
+      this.submessageEl.textContent = submessage;
+      
+      if (showProgress) {
+        this.progressContainer.style.display = 'block';
+        this.updateProgress(0);
+      } else {
+        this.progressContainer.style.display = 'none';
+      }
+      
+      this.overlay.style.display = 'flex';
+      document.body.classList.add('upload-in-progress');
+    },
+    
+    hide() {
+      if (!this.overlay) return;
+      this.overlay.style.display = 'none';
+      document.body.classList.remove('upload-in-progress');
+    },
+    
+    updateProgress(percent) {
+      if (!this.progressFill) return;
+      const clampedPercent = Math.min(Math.max(percent, 0), 100);
+      this.progressFill.style.width = clampedPercent + '%';
+      this.progressText.textContent = Math.round(clampedPercent) + '%';
+    },
+    
+    // Detect what's being uploaded and show appropriate message
+    detectUploadType(form) {
+      const photoInput = form.querySelector('#photo');
+      const insuranceInput = form.querySelector('#insphoto');
+      
+      let uploadingItems = [];
+      
+      if (photoInput && photoInput.files && photoInput.files.length > 0) {
+        uploadingItems.push('profile photo');
+      }
+      
+      if (insuranceInput && insuranceInput.files && insuranceInput.files.length > 0) {
+        uploadingItems.push('insurance proof');
+      }
+      
+      if (uploadingItems.length === 0) {
+        return {
+          message: 'Saving your profile...',
+          submessage: 'This will only take a moment'
+        };
+      } else if (uploadingItems.length === 1) {
+        return {
+          message: `Uploading your ${uploadingItems[0]}...`,
+          submessage: 'Large files may take a few moments'
+        };
+      } else {
+        return {
+          message: 'Uploading your files...',
+          submessage: 'Large files may take a few moments'
+        };
+      }
+    }
+  };
+  
+  // Auto-attach to forms on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form[id*="profile"]');
+    
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        // Only show loader if form validation passes
+        // This works with your existing validation
+        const formIsValid = !e.defaultPrevented;
+        
+        if (formIsValid) {
+          const uploadInfo = UploadLoader.detectUploadType(form);
+          UploadLoader.show({
+            message: uploadInfo.message,
+            submessage: uploadInfo.submessage,
+            showProgress: false // Set to true if you want progress bar
+          });
+          
+          // Optional: Simulate progress if you want visual feedback
+          // Remove this if you don't want simulated progress
+          let progress = 0;
+          const progressInterval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 90) progress = 90; // Stop at 90% until real completion
+            UploadLoader.updateProgress(progress);
+          }, 500);
+          
+          // Store interval ID to clear it later if needed
+          form.setAttribute('data-progress-interval', progressInterval);
+        }
+      });
+    });
+    
+    // Hide loader on page unload/navigation (form was successful)
+    window.addEventListener('beforeunload', function() {
+      UploadLoader.hide();
+    });
+  });
+  
+  // Make it globally accessible if you want manual control
+  window.UploadLoader = UploadLoader;
+})();
+</script>

@@ -2828,6 +2828,14 @@
       "oAP" : "\/templates\/_partials\/hero-section.twig",
       "oF" : 0
     },
+    "\/templates\/_partials\/loading-overlay.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/_partials\/loading-overlay.twig",
+      "oF" : 0
+    },
     "\/templates\/_partials\/nav.twig" : {
       "cB" : 0,
       "ft" : 8192,
