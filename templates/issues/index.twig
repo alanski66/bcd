@@ -45,26 +45,43 @@ who specialize in your specific needs
         {% set faqs = entry.faq.all() %}
         {% for faq in faqs %}
 
+        {# output faq item #}
         <div class="d-flex flex-column gap-2 ">
           <h3 class="mb-0">{{ faq.title }}</h3>
           <p class="mb-5">{{ faq.faqAnswer | striptags ('<p')}}</p>
         </div>
-        {# json ld faq #}
+
+        {# do json ld faq #}
        
-        {% set faqsArray = faqsArray | merge([seomatic.jsonLd.create({
-        'type': 'Question',
-        'name': faq.title,
-        'acceptedAnswer': {
-            'type': 'Answer',
-            'text': (faq.faqAnswer),
-        },
-    }, false)]) %}
+    
         {% endfor %}
-{# Merge in the additional properties to the FAQpage mainEntityOfPage #}
-{% set mainEntity = seomatic.jsonLd.get('mainEntityOfPage') %}
-{% do mainEntity.setAttributes({
-    'mainEntity': faqsArray,
-}) %}
+{% set faqs = entry.faq.all() %}
+{% if faqs | length %}
+  {# Build FAQ array #}
+  {% set faqEntities = [] %}
+  {% for faq in faqs %}
+    {% set faqEntities = faqEntities | merge([{
+      'type': 'Question',
+      'name': faq.title,
+      'acceptedAnswer': {
+        'type': 'Answer',
+        'text': faq.faqAnswer | striptags
+      }
+    }]) %}
+  {% endfor %}
+  
+  {# Create new FAQPage and replace mainEntityOfPage #}
+  {% set faqPage = seomatic.jsonLd.create({
+    'type': 'FAQPage',
+    'mainEntity': faqEntities
+  }) %}
+  
+  {# Replace the default WebPage with FAQPage #}
+  {# {% do seomatic.jsonLd.get('mainEntityOfPage').setAttributes({
+    'type': 'FAQPage',
+    'mainEntity': faqEntities
+  }) %} #}
+{% endif %}
 
 
       </div>
@@ -72,5 +89,5 @@ who specialize in your specific needs
   </div>
 </section>
 
-{% set crumbs = seomatic.jsonLd.get('breadcrumbList') %}
+{# {% set crumbs = seomatic.jsonLd.get('breadcrumbList') %} #}
 {% endblock %}
