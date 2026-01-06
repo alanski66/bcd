@@ -687,505 +687,411 @@ document.addEventListener('DOMContentLoaded', function () {
 					
 						{% js %}
 
-						// ═══════════════════════════════════════════════════════════
-						// UPLOAD LOADER - Must be at the TOP of your JS block
-						// ═══════════════════════════════════════════════════════════
-						(function() {
-						// Create and inject the overlay HTML and CSS
-						const style = document.createElement('style');
-						style.textContent = `
-							.upload-overlay {
-							position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-							background: rgba(0, 0, 0, 0.85); z-index: 9999;
-							display: flex; align-items: center; justify-content: center;
-							backdrop-filter: blur(4px);
-							}
-							.upload-overlay-content {
-							background: white; padding: 3rem 2rem; border-radius: 1rem;
-							text-align: center; max-width: 90%; width: 400px;
-							box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-							}
-							.upload-spinner {
-							width: 60px; height: 60px; margin: 0 auto 1.5rem;
-							border: 4px solid #f3f4f6; border-top: 4px solid #754FFE;
-							border-radius: 50%; animation: spin 1s linear infinite;
-							}
-							@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-							.upload-message { color: #1f2937; font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; }
-							.upload-submessage { color: #6b7280; font-size: 0.875rem; margin: 0; }
-							body.upload-in-progress { overflow: hidden; }
-						`;
-						document.head.appendChild(style);
-						
-						// Show loader function
-						window.showUploadLoader = function(message, submessage) {
-							let overlay = document.getElementById('upload-loading-overlay');
-							
-							if (!overlay) {
-							overlay = document.createElement('div');
-							overlay.id = 'upload-loading-overlay';
-							overlay.className = 'upload-overlay';
-							overlay.style.display = 'none';
-							overlay.innerHTML = `
-								<div class="upload-overlay-content">
-								<div class="upload-spinner"></div>
-								<h3 class="upload-message">${message}</h3>
-								<p class="upload-submessage">${submessage}</p>
-								</div>
-							`;
-							document.body.appendChild(overlay);
-							} else {
-							overlay.querySelector('.upload-message').textContent = message;
-							overlay.querySelector('.upload-submessage').textContent = submessage;
-							}
-							
-							overlay.style.display = 'flex';
-							document.body.classList.add('upload-in-progress');
-							console.log('✅ Upload loader shown:', message);
-						};
-						})();
-						// Quill editors configuration
-						const quillEditors = {};
-					
-						// Initialize Quill editors
-						function initQuillEditors() {
-						const editorConfigs = [
-						{ id: 'aboutMe', minHeight: '150px' },
-						{ id: 'trainingAndExperience', minHeight: '200px' },
-						{ id: 'practiceDescription', minHeight: '200px' }
-						];
-					
-						editorConfigs.forEach(config => {
-						const editorDiv = document.getElementById(config.id + '-editor');
-						const textarea = document.getElementById(config.id);
-					
-						if (!editorDiv || !textarea) return;
-					
-						// Initialize Quill
-						const quill = new Quill('#' + config.id + '-editor', {
-						theme: 'snow',
-						modules: {
-						toolbar: [
-						['bold', 'italic'],
-						['clean']
-						]
-						},
-						formats: ['bold', 'italic'],
-						placeholder: 'Enter text here...'
-						});
-					
-						// Custom key bindings to control Enter behavior
-						quill.keyboard.addBinding({
-						key: 'Enter',
-						shiftKey: true
-						}, function(range, context) {
-						this.quill.insertText(range.index, '\n');
-						this.quill.setSelection(range.index + 1);
-						return false;
-						});
-					
-						// Load existing content
-						const existingContent = textarea.value.trim();
-						if (existingContent) {
-						quill.root.innerHTML = existingContent;
-						}
-					
-						// Store reference
-						quillEditors[config.id] = quill;
-					
-						// Clear errors on input
-						quill.on('text-change', function() {
-						const errorDiv = document.getElementById(config.id + '-error');
-						const text = quill.getText().trim();
-					
-						if (text.length > 0) {
-						if (errorDiv) errorDiv.style.display = 'none';
-						editorDiv.style.border = '';
-						}
-						});
-						});
-						}
-					
-						// Validate Quill editors - returns error elements
-						function validateQuillEditors() {
-						let isValid = true;
-						const errorElements = [];
-					
-						Object.keys(quillEditors).forEach(editorId => {
-						const quill = quillEditors[editorId];
-						const textarea = document.getElementById(editorId);
-						const errorDiv = document.getElementById(editorId + '-error');
-						const editorDiv = document.getElementById(editorId + '-editor');
-					
-						if (!textarea || !textarea.hasAttribute('required')) return;
-					
-						const text = quill.getText().trim();
-					
-						if (text.length === 0) {
-						isValid = false;
-					
-						if (errorDiv) errorDiv.style.display = 'block';
-						if (editorDiv) {
-						editorDiv.style.border = '2px solid #dc3545';
-						errorElements.push(editorDiv);
-						}
-						} else {
-						// Valid - save content to textarea
-						textarea.value = quill.root.innerHTML;
-						if (errorDiv) errorDiv.style.display = 'none';
-						if (editorDiv) editorDiv.style.border = '';
-						}
-						});
-					
-						return { isValid, errorElements };
-						}
-					
-						// Validate file uploads - returns error elements
-						function validateFileUploads() {
-						let isValid = true;
-						const errorElements = [];
-					
-						// Validate photo
-						const photoInput = document.getElementById('photo');
-						const photoButton = document.getElementById('photo-button');
-						const photoError = document.getElementById('photo-error');
-					
-						if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
-						isValid = false;
-						if (photoError) photoError.style.display = 'block';
-						if (photoButton) {
-						photoButton.classList.remove('btn-primary');
-						photoButton.classList.add('btn-danger');
-						errorElements.push(photoButton);
-						}
-						} else {
-						if (photoError) photoError.style.display = 'none';
-						if (photoButton) {
-						photoButton.classList.remove('btn-danger');
-						photoButton.classList.add('btn-primary');
-						}
-						}
-					
-						// Validate insurance
-						const insuranceInput = document.getElementById('insphoto');
-						const insuranceButton = document.getElementById('insurance-button');
-						const insuranceError = document.getElementById('insurance-error');
-					
-						if (insuranceInput && insuranceInput.hasAttribute('required') && insuranceInput.files.length === 0) {
-						isValid = false;
-						if (insuranceError) insuranceError.style.display = 'block';
-						if (insuranceButton) {
-						insuranceButton.classList.remove('btn-primary');
-						insuranceButton.classList.add('btn-danger');
-						errorElements.push(insuranceButton);
-						}
-						} else {
-						if (insuranceError) insuranceError.style.display = 'none';
-						if (insuranceButton) {
-						insuranceButton.classList.remove('btn-danger');
-						insuranceButton.classList.add('btn-primary');
-						}
-						}
-					
-						return { isValid, errorElements };
-						}
-					
-						// Validate radio buttons and checkboxes
-						function validateRadioAndCheckboxes() {
-						let isValid = true;
-						const errorElements = [];
-					
-						// Validate radio button groups
-						const radioGroups = [
-						{ name: 'fields[concessions]', errorId: 'concessions-error', groupId: 'concessions-group' },
-						{ name: 'fields[availability]', errorId: 'availability-error', groupId: 'availability-group' }
-						];
-					
-						radioGroups.forEach(group => {
-						const radios = document.querySelectorAll(`input[name="${group.name}"]`);
-						const checked = Array.from(radios).some(radio => radio.checked);
-						const errorDiv = document.getElementById(group.errorId);
-						const groupDiv = document.getElementById(group.groupId);
-					
-						if (!checked) {
-						isValid = false;
-						if (errorDiv) {
-						errorDiv.classList.add('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.add('error-highlight');
-						errorElements.push(groupDiv);
-						}
-						} else {
-						if (errorDiv) {
-						errorDiv.classList.remove('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.remove('error-highlight');
-						}
-						}
-						});
-					
-						// Validate checkbox groups (at least one required)
-						const checkboxGroups = [
-						{
-						selector: '.type-of-client-checkbox',
-						errorId: 'typeOfClient-error',
-						groupId: 'typeOfClient-group'
-						}
-						];
-					
-						checkboxGroups.forEach(group => {
-						const checkboxes = document.querySelectorAll(group.selector);
-						const checked = Array.from(checkboxes).some(cb => cb.checked);
-						const errorDiv = document.getElementById(group.errorId);
-						const groupDiv = document.getElementById(group.groupId);
-					
-						if (!checked) {
-						isValid = false;
-						if (errorDiv) {
-						errorDiv.classList.add('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.add('error-highlight');
-						errorElements.push(groupDiv);
-						}
-						} else {
-						if (errorDiv) {
-						errorDiv.classList.remove('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.remove('error-highlight');
-						}
-						}
-						});
-					
-						return { isValid, errorElements };
-						}
-					
-						// Validate HTML5 fields and collect invalid elements
-						function validateHTML5Fields(form) {
-						// Trigger HTML5 validation
-						form.classList.add('was-validated');
-						const isValid = form.checkValidity();
-					
-						const errorElements = [];
-					
-						if (!isValid) {
-						// Find all invalid fields
-						const invalidFields = form.querySelectorAll(':invalid');
-						invalidFields.forEach(field => {
-						// Skip Quill textareas (we handle those separately)
-						if (field.id && quillEditors[field.id]) {
-						return;
-						}
-						// Skip radio buttons (we handle those separately)
-						if (field.type === 'radio') {
-						return;
-						}
-						errorElements.push(field);
-						});
-						}
-					
-						return { isValid, errorElements };
-						}
-					
-						// Find the first (topmost) error element on the page
-						function scrollToFirstError(errorElements) {
-						if (errorElements.length === 0) return;
-					
-						// Sort error elements by their position on the page (top to bottom)
-						const sortedErrors = errorElements.sort((a, b) => {
-						const rectA = a.getBoundingClientRect();
-						const rectB = b.getBoundingClientRect();
-						return (rectA.top + window.scrollY) - (rectB.top + window.scrollY);
-						});
-					
-						console.log('Scrolling to first error:', sortedErrors[0]);
-					
-						// Scroll to the first error
-						sortedErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-						}
-					
-						// Initialize everything when page loads
-						document.addEventListener('DOMContentLoaded', function() {
-						console.log('DOM loaded, initializing Quill editors and form validation');
-					
-						// Initialize Quill editors
-						initQuillEditors();
-					
-						// Get form element
-						const form = document.getElementById('profile-form');
-					
-						if (!form) {
-						console.error('Form #profile-form not found!');
-						return;
-						}
-					
-						console.log('Form found, attaching submit handler');
-					
-						// FORM VALIDATION HANDLER - checks ALL fields before scrolling
-						form.addEventListener('submit', function(e) {
-						console.log('═══════════════════════════════════════');
-						console.log('Submit event triggered - starting validation');
-					
-						// First, save all Quill content to textareas so HTML5 validation can check them
-						console.log('1. Saving Quill content to textareas...');
-						Object.keys(quillEditors).forEach(editorId => {
-						const quill = quillEditors[editorId];
-						const textarea = document.getElementById(editorId);
-						if (textarea) {
-						textarea.value = quill.root.innerHTML;
-						}
-						});
-					
-						// Collect all error elements from ALL validations
-						const allErrorElements = [];
-					
-						// Step 2: Validate regular HTML5 form fields
-						const html5Validation = validateHTML5Fields(this);
-						console.log('2. HTML5 validation:', html5Validation.isValid ? '✓ passed' : '✗ FAILED');
-						if (!html5Validation.isValid) {
-						allErrorElements.push(...html5Validation.errorElements);
-						}
-					
-						// Step 3: Validate file uploads
-						const fileValidation = validateFileUploads();
-						console.log('3. File validation:', fileValidation.isValid ? '✓ passed' : '✗ FAILED');
-						if (!fileValidation.isValid) {
-						allErrorElements.push(...fileValidation.errorElements);
-						}
-					
-						// Step 4: Validate Quill editors (custom validation beyond HTML5)
-						const quillValidation = validateQuillEditors();
-						console.log('4. Quill validation:', quillValidation.isValid ? '✓ passed' : '✗ FAILED');
-						if (!quillValidation.isValid) {
-						allErrorElements.push(...quillValidation.errorElements);
-						}
-					
-						// Step 5: Validate radio buttons and checkboxes
-						const radioCheckValidation = validateRadioAndCheckboxes();
-						console.log('5. Radio/Checkbox validation:', radioCheckValidation.isValid ? '✓ passed' : '✗ FAILED');
-						if (!radioCheckValidation.isValid) {
-						allErrorElements.push(...radioCheckValidation.errorElements);
-						}
-					
-						// If we have any validation errors, prevent submit and scroll to first error
-						if (allErrorElements.length > 0) {
-						console.log('❌ BLOCKING: Found', allErrorElements.length, 'validation errors');
-						e.preventDefault();
-						e.stopPropagation();
-						e.stopImmediatePropagation();
-					
-						// Scroll to the first error on the page (topmost)
-						scrollToFirstError(allErrorElements);
-						return false;
-						}
-					// All validation passed
-					console.log('✓✓✓ ALL VALIDATION PASSED ✓✓✓');
-					console.log('Allowing form to submit naturally...');
-					console.log('═══════════════════════════════════════');
+// ═══════════════════════════════════════════════════════════
+// UPLOAD LOADER - Must be at the TOP of your JS block
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .upload-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .upload-overlay-content {
+      background: white; padding: 3rem 2rem; border-radius: 1rem;
+      text-align: center; max-width: 90%; width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .upload-spinner {
+      width: 60px; height: 60px; margin: 0 auto 1.5rem;
+      border: 4px solid #f3f4f6; border-top: 4px solid #754FFE;
+      border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .upload-message { color: #1f2937; font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; }
+    .upload-submessage { color: #6b7280; font-size: 0.875rem; margin: 0; }
+    body.upload-in-progress { overflow: hidden; }
+  `;
+  document.head.appendChild(style);
+})();
 
-					// Detect what's being uploaded
-					const photoInput = this.querySelector('#photo');
-					const insuranceInput = this.querySelector('#insphoto');
-					const hasPhoto = photoInput && photoInput.files && photoInput.files.length > 0;
-					const hasInsurance = insuranceInput && insuranceInput.files && insuranceInput.files.length > 0;
+// Quill editors configuration
+const quillEditors = {};
 
-					// Determine message
-					let message = 'Saving your profile...';
-					let submessage = 'This will only take a moment';
+// Initialize Quill editors
+function initQuillEditors() {
+  const editorConfigs = [
+    { id: 'aboutMe', minHeight: '150px' },
+    { id: 'trainingAndExperience', minHeight: '200px' },
+    { id: 'practiceDescription', minHeight: '200px' }
+  ];
 
-					if (hasPhoto && hasInsurance) {
-					message = 'Uploading your files...';
-					submessage = 'Large files may take a few moments';
-					} else if (hasPhoto) {
-					message = 'Uploading your profile photo...';
-					submessage = 'Large files may take a few moments';
-					} else if (hasInsurance) {
-					message = 'Uploading your insurance proof...';
-					submessage = 'Large files may take a few moments';
-					}
+  editorConfigs.forEach(config => {
+    const editorDiv = document.getElementById(config.id + '-editor');
+    const textarea = document.getElementById(config.id);
 
-					// Show loader
-					const overlay = document.createElement('div');
-					overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);';
-					overlay.innerHTML = `
-					<div style="background: white; padding: 3rem 2rem; border-radius: 1rem; text-align: center; max-width: 90%; width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-						<div style="width: 60px; height: 60px; margin: 0 auto 1.5rem; border: 4px solid #f3f4f6; border-top: 4px solid #754FFE; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-						<style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
-						<h3 style="color: #1f2937; font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0;">${message}</h3>
-						<p style="color: #6b7280; font-size: 0.875rem; margin: 0;">${submessage}</p>
-					</div>
-					`;
-					document.body.appendChild(overlay);
-					document.body.style.overflow = 'hidden';
+    if (!editorDiv || !textarea) return;
 
-					console.log('✅ Upload loader shown');
+    const quill = new Quill('#' + config.id + '-editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          ['bold', 'italic'],
+          ['clean']
+        ]
+      },
+      formats: ['bold', 'italic'],
+      placeholder: 'Enter text here...'
+    });
 
-					return true;
-						}, false);
-					
-						// Add change listeners to clear errors when user makes a selection
-						// Radio buttons - clear error on change
-						const concessionsRadios = document.querySelectorAll('input[name="fields[concessions]"]');
-						concessionsRadios.forEach(radio => {
-						radio.addEventListener('change', function() {
-						const errorDiv = document.getElementById('concessions-error');
-						const groupDiv = document.getElementById('concessions-group');
-						if (errorDiv) {
-						errorDiv.classList.remove('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.remove('error-highlight');
-						}
-						});
-						});
-					
-						const availabilityRadios = document.querySelectorAll('input[name="fields[availability]"]');
-						availabilityRadios.forEach(radio => {
-						radio.addEventListener('change', function() {
-						const errorDiv = document.getElementById('availability-error');
-						const groupDiv = document.getElementById('availability-group');
-						if (errorDiv) {
-						errorDiv.classList.remove('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.remove('error-highlight');
-						}
-						});
-						});
-					
-						// Checkboxes - clear error when at least one is checked
-						const typeOfClientCheckboxes = document.querySelectorAll('.type-of-client-checkbox');
-						typeOfClientCheckboxes.forEach(checkbox => {
-						checkbox.addEventListener('change', function() {
-						const anyChecked = Array.from(typeOfClientCheckboxes).some(cb => cb.checked);
-					
-						if (anyChecked) {
-						const errorDiv = document.getElementById('typeOfClient-error');
-						const groupDiv = document.getElementById('typeOfClient-group');
-						if (errorDiv) {
-						errorDiv.classList.remove('d-block');
-						}
-						if (groupDiv) {
-						groupDiv.classList.remove('error-highlight');
-						}
-						}
-						});
-						});
-					
-						// Prevent Enter key from submitting form
-						form.addEventListener('keypress', function(e) {
-						if (e.key === 'Enter' || e.keyCode === 13) {
-						console.log('Enter key blocked');
-						e.preventDefault();
-						return false;
-						}
-						});
-					
-						console.log('Form validation setup complete');
-						});
+    quill.keyboard.addBinding({
+      key: 'Enter',
+      shiftKey: true
+    }, function(range, context) {
+      this.quill.insertText(range.index, '\n');
+      this.quill.setSelection(range.index + 1);
+      return false;
+    });
+
+    const existingContent = textarea.value.trim();
+    if (existingContent) {
+      quill.root.innerHTML = existingContent;
+    }
+
+    quillEditors[config.id] = quill;
+
+    quill.on('text-change', function() {
+      const errorDiv = document.getElementById(config.id + '-error');
+      const text = quill.getText().trim();
+
+      if (text.length > 0) {
+        if (errorDiv) errorDiv.style.display = 'none';
+        editorDiv.style.border = '';
+      }
+    });
+  });
+}
+
+// Validate Quill editors
+function validateQuillEditors() {
+  let isValid = true;
+  const errorElements = [];
+
+  Object.keys(quillEditors).forEach(editorId => {
+    const quill = quillEditors[editorId];
+    const textarea = document.getElementById(editorId);
+    const errorDiv = document.getElementById(editorId + '-error');
+    const editorDiv = document.getElementById(editorId + '-editor');
+
+    if (!textarea || !textarea.hasAttribute('required')) return;
+
+    const text = quill.getText().trim();
+
+    if (text.length === 0) {
+      isValid = false;
+      if (errorDiv) errorDiv.style.display = 'block';
+      if (editorDiv) {
+        editorDiv.style.border = '2px solid #dc3545';
+        errorElements.push(editorDiv);
+      }
+    } else {
+      textarea.value = quill.root.innerHTML;
+      if (errorDiv) errorDiv.style.display = 'none';
+      if (editorDiv) editorDiv.style.border = '';
+    }
+  });
+
+  return { isValid, errorElements };
+}
+
+// Validate file uploads
+function validateFileUploads() {
+  let isValid = true;
+  const errorElements = [];
+
+  // Validate photo
+  const photoInput = document.getElementById('photo');
+  const photoButton = document.getElementById('photo-button');
+  const photoError = document.getElementById('photo-error');
+
+  if (photoInput && photoInput.hasAttribute('required') && photoInput.files.length === 0) {
+    isValid = false;
+    if (photoError) photoError.style.display = 'block';
+    if (photoButton) {
+      photoButton.classList.remove('btn-primary');
+      photoButton.classList.add('btn-danger');
+      errorElements.push(photoButton);
+    }
+  } else {
+    if (photoError) photoError.style.display = 'none';
+    if (photoButton) {
+      photoButton.classList.remove('btn-danger');
+      photoButton.classList.add('btn-primary');
+    }
+  }
+
+  // Validate insurance
+  const insuranceInput = document.getElementById('insphoto');
+  const insuranceButton = document.getElementById('insurance-button');
+  const insuranceError = document.getElementById('insurance-error');
+
+  if (insuranceInput && insuranceInput.hasAttribute('required') && insuranceInput.files.length === 0) {
+    isValid = false;
+    if (insuranceError) insuranceError.style.display = 'block';
+    if (insuranceButton) {
+      insuranceButton.classList.remove('btn-primary');
+      insuranceButton.classList.add('btn-danger');
+      errorElements.push(insuranceButton);
+    }
+  } else {
+    if (insuranceError) insuranceError.style.display = 'none';
+    if (insuranceButton) {
+      insuranceButton.classList.remove('btn-danger');
+      insuranceButton.classList.add('btn-primary');
+    }
+  }
+
+  return { isValid, errorElements };
+}
+
+// Validate radio buttons and checkboxes
+function validateRadioAndCheckboxes() {
+  let isValid = true;
+  const errorElements = [];
+
+  const radioGroups = [
+    { name: 'fields[concessions]', errorId: 'concessions-error', groupId: 'concessions-group' },
+    { name: 'fields[availability]', errorId: 'availability-error', groupId: 'availability-group' }
+  ];
+
+  radioGroups.forEach(group => {
+    const radios = document.querySelectorAll(`input[name="${group.name}"]`);
+    const checked = Array.from(radios).some(radio => radio.checked);
+    const errorDiv = document.getElementById(group.errorId);
+    const groupDiv = document.getElementById(group.groupId);
+
+    if (!checked) {
+      isValid = false;
+      if (errorDiv) errorDiv.classList.add('d-block');
+      if (groupDiv) {
+        groupDiv.classList.add('error-highlight');
+        errorElements.push(groupDiv);
+      }
+    } else {
+      if (errorDiv) errorDiv.classList.remove('d-block');
+      if (groupDiv) groupDiv.classList.remove('error-highlight');
+    }
+  });
+
+  const checkboxGroups = [
+    {
+      selector: '.type-of-client-checkbox',
+      errorId: 'typeOfClient-error',
+      groupId: 'typeOfClient-group'
+    }
+  ];
+
+  checkboxGroups.forEach(group => {
+    const checkboxes = document.querySelectorAll(group.selector);
+    const checked = Array.from(checkboxes).some(cb => cb.checked);
+    const errorDiv = document.getElementById(group.errorId);
+    const groupDiv = document.getElementById(group.groupId);
+
+    if (!checked) {
+      isValid = false;
+      if (errorDiv) errorDiv.classList.add('d-block');
+      if (groupDiv) {
+        groupDiv.classList.add('error-highlight');
+        errorElements.push(groupDiv);
+      }
+    } else {
+      if (errorDiv) errorDiv.classList.remove('d-block');
+      if (groupDiv) groupDiv.classList.remove('error-highlight');
+    }
+  });
+
+  return { isValid, errorElements };
+}
+
+// Validate HTML5 fields
+function validateHTML5Fields(form) {
+  form.classList.add('was-validated');
+  const isValid = form.checkValidity();
+  const errorElements = [];
+
+  if (!isValid) {
+    const invalidFields = form.querySelectorAll(':invalid');
+    invalidFields.forEach(field => {
+      if (field.id && quillEditors[field.id]) return;
+      if (field.type === 'radio') return;
+      errorElements.push(field);
+    });
+  }
+
+  return { isValid, errorElements };
+}
+
+// Scroll to first error
+function scrollToFirstError(errorElements) {
+  if (errorElements.length === 0) return;
+
+  const sortedErrors = errorElements.sort((a, b) => {
+    const rectA = a.getBoundingClientRect();
+    const rectB = b.getBoundingClientRect();
+    return (rectA.top + window.scrollY) - (rectB.top + window.scrollY);
+  });
+
+  console.log('Scrolling to first error:', sortedErrors[0]);
+  sortedErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, initializing Quill editors and form validation');
+
+  initQuillEditors();
+
+  const form = document.getElementById('profile-form');
+
+  if (!form) {
+    console.error('Form #profile-form not found!');
+    return;
+  }
+
+  console.log('Form found, attaching submit handler');
+
+  // FORM VALIDATION HANDLER
+  form.addEventListener('submit', function(e) {
+    console.log('═══════════════════════════════════════');
+    console.log('Submit event triggered - starting validation');
+
+    // Save Quill content
+    console.log('1. Saving Quill content to textareas...');
+    Object.keys(quillEditors).forEach(editorId => {
+      const quill = quillEditors[editorId];
+      const textarea = document.getElementById(editorId);
+      if (textarea) {
+        textarea.value = quill.root.innerHTML;
+      }
+    });
+
+    // Collect all errors
+    const allErrorElements = [];
+
+    const html5Validation = validateHTML5Fields(this);
+    console.log('2. HTML5 validation:', html5Validation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!html5Validation.isValid) {
+      allErrorElements.push(...html5Validation.errorElements);
+    }
+
+    const fileValidation = validateFileUploads();
+    console.log('3. File validation:', fileValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!fileValidation.isValid) {
+      allErrorElements.push(...fileValidation.errorElements);
+    }
+
+    const quillValidation = validateQuillEditors();
+    console.log('4. Quill validation:', quillValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!quillValidation.isValid) {
+      allErrorElements.push(...quillValidation.errorElements);
+    }
+
+    const radioCheckValidation = validateRadioAndCheckboxes();
+    console.log('5. Radio/Checkbox validation:', radioCheckValidation.isValid ? '✓ passed' : '✗ FAILED');
+    if (!radioCheckValidation.isValid) {
+      allErrorElements.push(...radioCheckValidation.errorElements);
+    }
+
+    // If errors exist, stop here
+    if (allErrorElements.length > 0) {
+      console.log('❌ BLOCKING: Found', allErrorElements.length, 'validation errors');
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      scrollToFirstError(allErrorElements);
+      return false;
+    }
+
+    // ALL VALIDATION PASSED - Show loader
+    console.log('✓✓✓ ALL VALIDATION PASSED ✓✓✓');
+
+	// Detect what's being uploaded
+	const photoInput = this.querySelector('#photo');
+	const insuranceInput = this.querySelector('#insphoto');
+	const hasPhoto = photoInput && photoInput.files && photoInput.files.length > 0;
+	const hasInsurance = insuranceInput && insuranceInput.files && insuranceInput.files.length > 0;
+
+	let message, submessage;
+
+	if (hasPhoto || hasInsurance) {
+	// Files are being uploaded along with profile data
+	message = 'Saving profile and uploading files...';
+	submessage = 'Large files may take a few moments';
+	} else {
+	// Just saving profile data, no files
+	message = 'Saving your profile...';
+	submessage = 'This will only take a moment';
+	}
+
+    // Show loader
+    const overlay = document.createElement('div');
+    overlay.id = 'upload-overlay';
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);';
+    overlay.innerHTML = '<div style="background: white; padding: 3rem 2rem; border-radius: 1rem; text-align: center; max-width: 90%; width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);"><div style="width: 60px; height: 60px; margin: 0 auto 1.5rem; border: 4px solid #f3f4f6; border-top: 4px solid #754FFE; border-radius: 50%; animation: spin 1s linear infinite;"></div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style><h3 style="color: #1f2937; font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0;">' + message + '</h3><p style="color: #6b7280; font-size: 0.875rem; margin: 0;">' + submessage + '</p></div>';
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    console.log('✅ Upload loader shown - form will now submit');
+    return true;
+  }, false);
+
+  // Change listeners - OUTSIDE submit handler
+  const concessionsRadios = document.querySelectorAll('input[name="fields[concessions]"]');
+  concessionsRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      const errorDiv = document.getElementById('concessions-error');
+      const groupDiv = document.getElementById('concessions-group');
+      if (errorDiv) errorDiv.classList.remove('d-block');
+      if (groupDiv) groupDiv.classList.remove('error-highlight');
+    });
+  });
+
+  const availabilityRadios = document.querySelectorAll('input[name="fields[availability]"]');
+  availabilityRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      const errorDiv = document.getElementById('availability-error');
+      const groupDiv = document.getElementById('availability-group');
+      if (errorDiv) errorDiv.classList.remove('d-block');
+      if (groupDiv) groupDiv.classList.remove('error-highlight');
+    });
+  });
+
+  const typeOfClientCheckboxes = document.querySelectorAll('.type-of-client-checkbox');
+  typeOfClientCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const anyChecked = Array.from(typeOfClientCheckboxes).some(cb => cb.checked);
+      if (anyChecked) {
+        const errorDiv = document.getElementById('typeOfClient-error');
+        const groupDiv = document.getElementById('typeOfClient-group');
+        if (errorDiv) errorDiv.classList.remove('d-block');
+        if (groupDiv) groupDiv.classList.remove('error-highlight');
+      }
+    });
+  });
+
+  // Prevent Enter key from submitting form
+  form.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+      console.log('Enter key blocked');
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  console.log('Form validation setup complete');
+});
 						{% endjs %}
 					</div>
 					</div>
