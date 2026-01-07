@@ -1,0 +1,13 @@
+bcc: null
+cc: null
+ckeConfig: 39db330b-457a-4938-8ab1-b93536a6aa9b # Simple
+from: null
+fromName: null
+heading: 'When someone creates an account:'
+instructions: ''
+key: account_activation
+plain: false
+replyTo: null
+saveLogs: true
+system: true
+template: emails/template

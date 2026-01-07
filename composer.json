@@ -17,6 +17,7 @@
     "nystudio107/craft-code-field": "5.0.1",
     "nystudio107/craft-minify": "5.0.0",
     "nystudio107/craft-seomatic": "5.1.19",
+    "ryssbowh/craft-emails": "3.0.1",
     "shornuk/craft-plausible": "5.0.1",
     "studioespresso/craft-splashingimages": "5.0.4",
     "symfony/css-selector": "^7.1",
@@ -34,7 +35,7 @@
     "psr-4": {
       "modules\\fetchprofile\\": "modules/fetchprofile/src/",
       "modules\\notifysave\\": "modules/notify-save/",
-       "modules\\": "modules/"
+      "modules\\": "modules/"
     }
   },
   "config": {
