@@ -7,7 +7,7 @@
     "convergine/craft-content-buddy": "1.2.11",
     "convergine/craft-pexels": "1.0.1",
     "craftcms/ckeditor": "4.11.0",
-    "craftcms/cms": "5.8.21",
+    "craftcms/cms": "5.8.23",
     "craftcms/contact-form": "^3.1.0",
     "craftcms/element-api": "4.2.0",
     "craftcms/feed-me": "6.11.0",
@@ -16,7 +16,7 @@
     "dodecastudio/craft-blurhash": "3.0.5",
     "nystudio107/craft-code-field": "5.0.1",
     "nystudio107/craft-minify": "5.0.0",
-    "nystudio107/craft-seomatic": "5.1.19",
+    "nystudio107/craft-seomatic": "5.1.20",
     "ryssbowh/craft-emails": "3.0.1",
     "shornuk/craft-plausible": "5.0.1",
     "studioespresso/craft-splashingimages": "5.0.4",
@@ -24,7 +24,7 @@
     "symfony/dom-crawler": "^7.1",
     "topshelfcraft/wordsmith": "5.0.0",
     "verbb/navigation": "3.0.15",
-    "verbb/wishlist": "3.0.10",
+    "verbb/wishlist": "3.0.11",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
