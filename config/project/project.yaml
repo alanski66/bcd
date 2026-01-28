@@ -1,4 +1,4 @@
-dateModified: 1767790154
+dateModified: 1769608369
 elementSources:
   craft\elements\Entry:
     -
@@ -365,7 +365,7 @@ plugins:
   emails:
     edition: standard
     enabled: true
-    licenseKey: FSCCE3PBNTUX4L0YUS3YUZNE
+    licenseKey: YT1AZSJ18R3X11QEG5UVSHWV
     schemaVersion: 3.0.0
   feed-me:
     edition: standard
