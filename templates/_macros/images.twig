@@ -1,0 +1,24 @@
+{% macro responsive(image, sizes = null) %}
+  {% set defaultSizes = sizes ?? '(min-width: 1200px) 1200px, (min-width: 800px) 800px, 100vw' %}
+  
+  {% if image %}
+    <picture>
+      <source 
+        type="image/webp"
+        srcset="{{ image.srcset([400, 600, 1080]) }}"
+        sizes="{{ defaultSizes }}"
+      >
+      <source 
+        srcset="{{ image.srcset([400, 600, 1080]) }}"
+        sizes="{{ defaultSizes }}"
+      >
+      <img 
+        src="{{ image.url }}" 
+        alt="{{ image.title }}"
+        loading="lazy"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+      >
+    </picture>
+  {% endif %}
+{% endmacro %}
