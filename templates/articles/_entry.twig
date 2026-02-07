@@ -1,5 +1,8 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 {% block content %}
+{% if entry.jsonSchema %}
+  {{entry.jsonSchema|raw}}
+{% endif %}
 {% set asset = entry.featuredImage[0] ?? null %}
 <section class="py-7 py-lg-8 bg-light">
     <div class="container">
