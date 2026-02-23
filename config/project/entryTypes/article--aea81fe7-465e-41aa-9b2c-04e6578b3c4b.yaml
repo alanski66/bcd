@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -39,6 +40,7 @@ fieldLayouts:
             dateAdded: '2024-09-30T20:46:35+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 8799e074-514f-4b7a-af19-f42b60826eb9 # Featured image
             handle: null
             instructions: null
@@ -54,6 +56,7 @@ fieldLayouts:
             dateAdded: '2024-09-30T20:46:35+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
             handle: null
             instructions: null
@@ -69,6 +72,7 @@ fieldLayouts:
             dateAdded: '2024-10-24T20:46:46+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: e943d4ec-4cf4-4c3a-89e8-6308943df394 # Types of issues you can help
             handle: null
             instructions: null
@@ -84,6 +88,7 @@ fieldLayouts:
             dateAdded: '2024-09-30T20:47:49+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
             instructions: null
@@ -105,6 +110,7 @@ fieldLayouts:
             dateAdded: '2024-09-30T20:46:35+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null
             instructions: null
@@ -116,9 +122,26 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-02-07T11:18:35+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 17963774-18cc-46cc-ab8f-9d569543cf74 # JSON schema
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 81bbd246-8625-4914-9c1b-db3a1c52cec0
+            userCondition: null
+            warning: null
+            width: 100
         name: SEO
         uid: 4302d7b0-98a3-4e71-9675-103ce65e22fb
         userCondition: null
+    thumbFieldKey: null
 handle: article
 hasTitleField: true
 icon: null
@@ -130,3 +153,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

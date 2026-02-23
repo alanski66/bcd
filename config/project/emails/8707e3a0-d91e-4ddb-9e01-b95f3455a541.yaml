@@ -1,0 +1,13 @@
+bcc: ''
+cc: ''
+ckeConfig: 33aecba4-7f14-4518-9765-c62813d7a502 # CKplusIMg
+from: ''
+fromName: ''
+heading: 'Website update'
+instructions: ''
+key: websiteUpdate
+plain: false
+replyTo: ''
+saveLogs: true
+system: false
+template: emails/template

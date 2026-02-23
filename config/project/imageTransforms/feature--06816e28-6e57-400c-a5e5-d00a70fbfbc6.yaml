@@ -1,0 +1,11 @@
+fill: transparent
+format: webp
+handle: feature
+height: 600
+interlace: none
+mode: letterbox
+name: Feature
+position: center-center
+quality: 100
+upscale: true
+width: 1080

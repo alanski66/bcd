@@ -11,12 +11,12 @@
 
 {% set user = craft.users()
 .group('counsellors')
-.profileComplete(true)
+.profileComplete(false)
 .id(userId).one() %}
 {# seo #}
 
 {% if user == null %}
-  {% redirect "/users/user-profile-unavailable" %}
+  {# {% redirect "/users/user-profile-unavailable" %} #}
 {% endif %}
 
 {% set seoMetaTitle = user.fullName ~ " - "~ user.titleRole|raw %}

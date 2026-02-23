@@ -8,7 +8,7 @@
   {% set myUserQuery = craft.users()
   .hasPhoto()
   .group('counsellors')
-  .profileComplete(true)
+  .profileComplete(false)
   %}
 
   {# Fetch the users #}
