@@ -70,10 +70,171 @@ class DefaultController extends Controller
         return $this->asJson($data);
     }
 
+/*
+* used for bacp and ncps
+*/
+public function actionVerifyBacp(): Response
+{
+    $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+    $profileId  = Craft::$app->request->getBodyParam('profileId');
+    $org        = Craft::$app->request->getBodyParam('org');
+    $data = [];
+
+    // Define expected URL patterns per org
+    $patterns = [
+        'bacp' => [
+            'url'    => '/^https:\/\/www\.bacp\.co\.uk\/therapists\/' . preg_quote($profileId, '/') . '\/?$/',
+            'format' => '/^\d+$/',  // BACP IDs are numeric only
+        ],
+        'ncps' => [
+            'url'    => '/^https:\/\/www\.search-ncps\.com\/search\/FindaTherapist\/' . preg_quote($profileId, '/') . '\/?$/',
+            'format' => '/^NCS\d{2}-\d{5}$/',  // e.g. NCS23-03863
+        ],
+    ];
+
+    if (!isset($patterns[$org])) {
+        $data['statuscode'] = 'false';
+        $data['error']      = 'Unknown organisation';
+        return $this->asJson($data);
+    }
+
+    // Validate the ID format before making any HTTP request
+    if (!preg_match($patterns[$org]['format'], $profileId)) {
+        $data['statuscode'] = 'false';
+        $data['reason']     = 'invalid_id_format';
+        return $this->asJson($data);
+    }
+
+    $expectedPattern = $patterns[$org]['url'];
+
+    $client = new \GuzzleHttp\Client([
+        'cookies' => false,
+        'allow_redirects' => [
+            'max'             => 10,
+            'track_redirects' => true,
+        ],
+        'http_errors' => false,
+        'timeout'     => 15,
+        'verify'      => false,
+        'headers'     => [
+            'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language' => 'en-US,en;q=0.5',
+            'Connection'      => 'keep-alive',
+        ],
+    ]);
+
+    try {
+        $response   = $client->get($verifyLink);
+        $statusCode = $response->getStatusCode();
+
+        $redirectHistory = $response->getHeader('X-Guzzle-Redirect-History');
+        $finalUrl = !empty($redirectHistory) ? end($redirectHistory) : $verifyLink;
+
+        $urlIsValid = (bool) preg_match($expectedPattern, $finalUrl);
+
+        Craft::info([
+            'org'              => $org,
+            'requested_url'    => $verifyLink,
+            'final_url'        => $finalUrl,
+            'status_code'      => $statusCode,
+            'url_is_valid'     => $urlIsValid,
+        ], 'membership-verify');
+
+        if ($statusCode === 200 && $urlIsValid) {
+            $data['statuscode'] = 'true';
+        } else {
+            $data['statuscode'] = 'false';
+            $data['reason']     = $urlIsValid ? 'bad_status' : 'redirected_away';
+        }
+
+        return $this->asJson($data);
+
+    } catch (\GuzzleHttp\Exception\ConnectException $e) {
+        Craft::error('Connection error: ' . $e->getMessage(), 'membership-verify');
+        $data['statuscode'] = 'false';
+        $data['error']      = 'Connection failed';
+        return $this->asJson($data);
+
+    } catch (\Exception $e) {
+        Craft::error('Unexpected error: ' . $e->getMessage(), 'membership-verify');
+        $data['statuscode'] = 'false';
+        $data['error']      = 'Unexpected error';
+        return $this->asJson($data);
+    }
+}
     /*
     * used for bacp and ncps
     */
-public function actionVerifyBacp(): Response
+public function Claude1actionVerifyBacp(): Response
+{
+    $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
+    $profileId  = Craft::$app->request->getBodyParam('profileId');
+    $data = [];
+
+    $client = new \GuzzleHttp\Client([
+        'cookies' => false,
+        'allow_redirects' => [
+            'max'             => 10,
+            'track_redirects' => true,  // Key addition
+        ],
+        'http_errors' => false,
+        'timeout'     => 15,
+        'verify'      => false,
+        'headers'     => [
+            'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language' => 'en-US,en;q=0.5',
+            'Connection'      => 'keep-alive',
+        ],
+    ]);
+
+    try {
+        $response   = $client->get($verifyLink);
+        $statusCode = $response->getStatusCode();
+
+        // Get the final URL after any redirects
+        $redirectHistory = $response->getHeader('X-Guzzle-Redirect-History');
+        $finalUrl = !empty($redirectHistory)
+            ? end($redirectHistory)   // Last URL in the chain
+            : $verifyLink;            // No redirect — original URL is final
+
+        // Check the final URL still matches the expected therapist pattern
+        // e.g. https://www.bacp.co.uk/therapists/386443
+        $expectedPattern = '/^https:\/\/www\.bacp\.co\.uk\/therapists\/' . preg_quote($profileId, '/') . '\/?$/';
+        $urlIsValid = (bool) preg_match($expectedPattern, $finalUrl);
+
+        Craft::info([
+            'requested_url'    => $verifyLink,
+            'final_url'        => $finalUrl,
+            'status_code'      => $statusCode,
+            'redirect_history' => $redirectHistory,
+            'url_is_valid'     => $urlIsValid,
+        ], 'bacp-verify');
+
+        if ($statusCode === 200 && $urlIsValid) {
+            $data['statuscode'] = 'true';
+        } else {
+            $data['statuscode'] = 'false';
+            $data['reason']     = $urlIsValid ? 'bad_status' : 'redirected_away';
+        }
+
+        return $this->asJson($data);
+
+    } catch (\GuzzleHttp\Exception\ConnectException $e) {
+        Craft::error('Connection error: ' . $e->getMessage(), 'bacp-verify');
+        $data['statuscode'] = 'false';
+        $data['error']      = 'Connection failed';
+        return $this->asJson($data);
+
+    } catch (\Exception $e) {
+        Craft::error('Unexpected error: ' . $e->getMessage(), 'bacp-verify');
+        $data['statuscode'] = 'false';
+        $data['error']      = 'Unexpected error';
+        return $this->asJson($data);
+    }
+}    
+public function OLD2actionVerifyBacp(): Response
 {
     $verifyLink = Craft::$app->request->getBodyParam('verifyLink');
     $data = array();
