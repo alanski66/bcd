@@ -6,7 +6,7 @@
     "cleantalk/craft-antispam": "^1.0",
     "convergine/craft-content-buddy": "1.2.11",
     "convergine/craft-pexels": "1.0.1",
-    "craftcms/ckeditor": "^5.3.1",
+    "craftcms/ckeditor": "^5.4.0",
     "craftcms/cms": "^5.9.18",
     "craftcms/contact-form": "^3.1.0",
     "craftcms/element-api": "4.2.0",

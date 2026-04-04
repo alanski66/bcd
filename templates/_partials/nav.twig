@@ -1,3 +1,5 @@
+{% set hideTherapists = "" %}
+{% if siteSettings.hideTherapists %} {% set hideTherapists = "d-none" %} {% endif %}
 <nav class="navbar navbar-expand-lg sticky-top-mobile">
   <div class="container px-0">
 
@@ -13,9 +15,10 @@
     {# Mobile right side — bookmark + burger #}
     <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
 
+      
       {# Bookmark — mobile, next to burger #}
       <button type="button"
-        class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center justify-content-center me-2"
+        class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center justify-content-center me-2 {{ hideTherapists }}"
         style="width: 38px; height: 38px; padding: 0;"
         data-bs-toggle="offcanvas"
         data-bs-target="#savedTherapistsPanel"
@@ -78,7 +81,7 @@
         {% endfor %}
 
         {# Saved therapists — mobile only #}
-        <li class="nav-item d-lg-none border-top mt-2 pt-2">
+        <li class="nav-item d-lg-none border-top mt-2 pt-2 {{hideTherapists}}">
           <a class="nav-link d-flex align-items-center gap-2 justify-content-end"
             href="{{ alias('@baseUrl') }}/saved-therapists">
             Saved therapists
@@ -126,10 +129,10 @@
       </ul>
 
       {# Right side — desktop only #}
-      <ul class="navbar-nav navbar-right-wrap flex-row align-items-center gap-2 d-none d-lg-flex">
+      <ul class="navbar-nav navbar-right-wrap flex-row align-items-center gap-2 d-none d-lg-flex ">
 
         {# Bookmark — desktop #}
-        <li class="nav-item d-flex align-items-center">
+        <li class="nav-item d-flex align-items-center {{hideTherapists}}">
           <button type="button"
             class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center gap-1"
             id="saved-therapists-btn"
