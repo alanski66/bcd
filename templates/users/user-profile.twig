@@ -5,11 +5,11 @@
 {% block content %}
 <!-- users/user-profile twig -->
 
-{% set userId = craft.app.request.getSegment('3') %}
+{% set userId = craft.app.request.getSegment(3) %}
 
 {% set user = craft.users()
   .group('counsellors')
-  .profileComplete(false)
+  .profileComplete(true)
   .id(userId).one() %}
 
 {% if user == null %}
@@ -33,19 +33,18 @@
 
             {# Photo #}
             <div class="col-auto">
-              {% if user.photo is not empty %}
-                <img src="{{ user.photo.url('profileMedium') }}"
-                  alt="{{ user.fullName }}"
-                  class="rounded-circle border border-3 border-primary"
-                  style="width: 130px; height: 130px; object-fit: cover;">
-              {% else %}
-                <div class="rounded-circle border border-3 border-primary bg-primary-subtle d-flex align-items-center justify-content-center fw-semibold text-primary"
-                  style="width: 130px; height: 130px; font-size: 2rem;">
-                  {{ user.fullName|split(' ')|map(w => w[0])|join('') }}
-                </div>
-              {% endif %}
-            </div>
-
+  {% if user.photo is not empty %}
+    <img src="{{ user.photo.url('profileMedium') }}"
+      alt="{{ user.fullName }}"
+      class="rounded-circle border border-3 border-primary"
+      style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); object-fit: cover;">
+  {% else %}
+    <div class="rounded-circle border border-3 border-primary bg-primary-subtle d-flex align-items-center justify-content-center fw-semibold text-primary"
+      style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); font-size: clamp(1rem, 3vw, 2rem);">
+      {{ user.fullName | split(' ') | map(w => w[0]) | join('') }}
+    </div>
+  {% endif %}
+</div>
             {# Name / role / badges #}
             <div class="col">
               <div class="d-flex align-items-start gap-2 flex-wrap mb-1">

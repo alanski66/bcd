@@ -2,11 +2,17 @@
 
 {% block content %}
 <main>
-  {% set myUserQuery = craft.users()
+  {% set myUserQuery = craft.users
     .hasPhoto()
     .group('counsellors')
     .profileComplete(true)
-  %}
+    .orderBy('users.lastName ASC, users.firstName ASC')
+   %}
+  {# {% set myUserQuery = craft.users()
+    .hasPhoto()
+    .group('counsellors')
+    .profileComplete(true)
+  %} #}
   {% set therapists = myUserQuery.all() %}
 
   <section class="py-5 bg-light">
