@@ -5,7 +5,7 @@
   {% set myUserQuery = craft.users()
     .hasPhoto()
     .group('counsellors')
-    .profileComplete(false)
+    .profileComplete(true)
   %}
   {% set therapists = myUserQuery.all() %}
 
