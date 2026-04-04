@@ -29,7 +29,7 @@
 {% extends "_base/global-variables.twig" %}
 
 {%- block htmlPage -%}
-    {% minify %}
+    {% apply spaceless %}
     <!DOCTYPE html>
         {% block htmlTag %}
             <html lang="{{ craft.app.language |slice(0,2) }}">
@@ -49,7 +49,7 @@
                 {# -- Page content that should be included in the <body> -- #}
                 {% block bodyContent %}
                 {% endblock bodyContent %}
-            </body>
-        </html>
-    {% endminify %}
+                </body>
+            </html>
+    {% endapply %}
 {%- endblock htmlPage -%}

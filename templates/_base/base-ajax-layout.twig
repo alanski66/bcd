@@ -14,10 +14,10 @@
 {% extends "_layouts/global-variables.twig" %}
 
 {% block htmlPage %}
-    {% minify %}
+    {% applyspaceless %}
         {# -- Primary content block -- #}
         {% block content %}
             <code>No content block defined.</code>
         {% endblock content %}
-    {% endminify %}
+    {% endapply %}
 {% endblock htmlPage %}
