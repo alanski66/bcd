@@ -13,10 +13,10 @@
   .id(userId).one() %}
 
 {% if user == null %}
-  {# {% redirect "/users/user-profile-unavailable" %} #}
+  {% redirect "/users/user-profile-unavailable" %}
 {% endif %}
 
-{% set seoMetaTitle = user.fullName ~ " - " ~ user.titleRole|raw %}
+{% set seoMetaTitle = "{{user.fullName}}" ~ " - " ~ user.titleRole|raw %}
 {% do seomatic.meta.seoTitle(seoMetaTitle) %}
 {% do seomatic.meta.seoDescription(
   user.shortSummary | default("Helping you find support and healing in your counselling journey")

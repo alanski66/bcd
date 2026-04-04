@@ -34,9 +34,20 @@
       <div class="row gy-4">
         <div class="col-xl-7 offset-xl-1 col-12">
           <div class="d-flex flex-column mb-5 py-1 fs-4">
-            <h1>User profile is not published</h1>
-            <p>Set your profile status to live to make it visible to others.</p>
+            <h1>This therapist's profile is not yet fully published.</h1>
+
+            {% if currentUser %}
+              {# User is logged in #}
+              <p>Set your profile status to live to make it visible to others.</p>
              <a class="btn btn-outline-primary" href="{{siteUrl}}users/user-profile-edit" >Go Back</button>
+            {% else %}
+              {# Guest #}
+              <p>Please check out other therapists profiles here.</p>
+
+              <a class="btn btn-outline-primary" href="{{siteUrl}}find-a-therapist" >Go Back</button>
+
+            {% endif %}
+  
           </div>
           
 
