@@ -38,6 +38,7 @@ fieldLayouts:
         name: Content
         uid: b0f7367e-788c-4f52-adb0-0ceb7660fa97
         userCondition: null
+    thumbFieldKey: null
 fs: userInsurance
 handle: userInsurance
 name: 'User insurance'

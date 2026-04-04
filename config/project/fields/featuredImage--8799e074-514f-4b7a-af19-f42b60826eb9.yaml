@@ -22,7 +22,6 @@ settings:
   restrictedLocationSource: 'volume:6229b346-6ed9-4ba1-b01e-d4aa42b7fd07' # User photos
   restrictedLocationSubpath: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: false
   showUnpermittedFiles: false
@@ -31,7 +30,7 @@ settings:
     - 'volume:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
   targetSiteId: null
   validateRelatedElements: false
-  viewMode: large
+  viewMode: thumbs
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Assets

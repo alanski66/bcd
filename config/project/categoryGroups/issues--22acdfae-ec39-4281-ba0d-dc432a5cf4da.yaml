@@ -38,6 +38,7 @@ fieldLayouts:
             dateAdded: '2024-10-06T13:48:57+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 12f0e524-edea-401a-a140-70061e2a4795 # Icon
             handle: null
             instructions: null
@@ -53,6 +54,7 @@ fieldLayouts:
             dateAdded: '2024-10-06T13:49:03+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: e9b55431-481c-480d-9cc8-ea4734a67d0e # Category description
             handle: null
             instructions: null
@@ -67,6 +69,7 @@ fieldLayouts:
         name: Content
         uid: 3338fff8-bba5-43b1-b7fd-15c1759ca1b8
         userCondition: null
+    thumbFieldKey: null
 handle: issues
 name: Issues
 siteSettings:

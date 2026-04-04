@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -39,6 +40,7 @@ fieldLayouts:
             dateAdded: '2024-10-05T17:08:42+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 84d3be0c-c468-4664-914c-b80e544b5114 # Category
             handle: null
             instructions: null
@@ -54,6 +56,7 @@ fieldLayouts:
             dateAdded: '2024-10-03T17:23:15+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
             handle: null
             instructions: null
@@ -69,6 +72,7 @@ fieldLayouts:
             dateAdded: '2024-10-02T20:35:05+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
             instructions: null
@@ -90,6 +94,7 @@ fieldLayouts:
             dateAdded: '2024-10-02T20:35:05+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null
             instructions: null
@@ -104,6 +109,7 @@ fieldLayouts:
         name: SEO
         uid: 4e2792c9-66d1-4413-9c1e-a2f56f24bc17
         userCondition: null
+    thumbFieldKey: null
 handle: issue
 hasTitleField: true
 icon: null
@@ -115,3 +121,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

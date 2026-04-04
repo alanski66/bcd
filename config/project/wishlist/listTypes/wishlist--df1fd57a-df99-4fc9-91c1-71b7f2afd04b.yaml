@@ -6,23 +6,6 @@ itemFieldLayouts:
     tabs:
       -
         elementCondition: null
-        elements:
-          -
-            dateAdded: '2026-03-31T21:58:49+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 5942cd7b-ea0c-4234-b261-1175ac7e41ad # Custom Url
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: c8dc1a2c-5aa3-4cd9-8937-34debd2f0009
-            userCondition: null
-            warning: null
-            width: 100
         name: Content
         uid: b39a3fc5-e2d4-4654-bc3b-a8ddf0e7636c
         userCondition: null

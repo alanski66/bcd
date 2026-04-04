@@ -38,6 +38,7 @@ fieldLayouts:
         name: Content
         uid: d654ae57-fcde-4b0b-a1b0-a34f2c615b02
         userCondition: null
+    thumbFieldKey: null
 fs: tempFiles
 handle: tempFiles
 name: 'Temp files'

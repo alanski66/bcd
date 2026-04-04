@@ -38,6 +38,7 @@ fieldLayouts:
         name: Content
         uid: b3e9adae-074d-470b-8ab8-d09bbe9625e6
         userCondition: null
+    thumbFieldKey: null
 fs: userMembershipLogos
 handle: userMembershipLogos
 name: 'User membership logos'

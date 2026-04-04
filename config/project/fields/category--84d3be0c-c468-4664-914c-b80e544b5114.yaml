@@ -11,7 +11,6 @@ settings:
   maxRelations: 4
   minRelations: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: true
   source: 'group:22acdfae-ec39-4281-ba0d-dc432a5cf4da' # Issues

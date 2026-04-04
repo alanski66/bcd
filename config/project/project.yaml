@@ -1,4 +1,4 @@
-dateModified: 1774994329
+dateModified: 1775326894
 elementSources:
   craft\elements\Entry:
     -
@@ -129,9 +129,11 @@ elementSources:
       defaultSort:
         - email
         - asc
+      defaultViewMode: ''
       disabled: false
       key: 'group:b49c197d-26ab-4194-bf60-959a99761cb0' # Counsellors
       tableAttributes:
+        - 'field:e5d33c8a-f8ba-41cc-a093-889571ae2fa5' # Profile complete
         - status
         - fullName
         - email
@@ -214,6 +216,7 @@ meta:
     6aff28e4-a015-4972-b136-5efb6d158b90: 'Hero background' # Hero background
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
     07cda64f-7146-4394-8bdc-2db54defd781: 'Professional Memberships' # Professional Memberships
+    7f61e4a8-97a8-4556-8ca6-c4053ba5cb9c: Location # Location
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
     9fe836ef-ed2f-4a2d-afae-4db9c920e3c6: 'Author Url' # Author Url
     12f0e524-edea-401a-a140-70061e2a4795: Icon # Icon
@@ -225,6 +228,7 @@ meta:
     39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
     45f99bef-ed2c-476b-a382-35d04507ba5e: Icons # Icons
+    47be18fe-51eb-407a-a365-c203b5a5b101: 'Site settings' # Site settings
     48d70559-0861-4360-9c66-df0a47415a8d: FAQ # FAQ
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
     49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
@@ -254,6 +258,7 @@ meta:
     a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
     a1736c2d-efe2-4d60-a66c-6834c06ef483: 'User membership logos' # User membership logos
     a8055963-f807-47a4-9d1c-438e42b5aed3: Images # Images
+    ad3bc3b2-61a4-4948-a082-93b4628d1316: 'Hide therapists' # Hide therapists
     adccc74b-e492-4515-903f-798f62bb0256: Body # Body
     ae52dbda-1496-43d4-a8e1-c9d0c45c41f0: 'Membership org id' # Membership org id
     ae114463-f12c-454b-99e4-8f356f97759e: Qualifications # Qualifications
@@ -412,10 +417,6 @@ plugins:
                 -
                   - authorUid
                   - bde7d644-9335-4a1c-9d8b-4cadbaf0696b
-  minify:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
   plausible:
     edition: standard
     enabled: true
@@ -466,7 +467,7 @@ plugins:
       purgeEmptyGuestListsOnly: true
       purgeEmptyListsOnly: true
       purgeInactiveGuestListsDuration: P1D
-      purgeInactiveLists: false
+      purgeInactiveLists: true
       purgeInactiveListsDuration: P3M
       showListInfoTab: true
       templateEmail: null

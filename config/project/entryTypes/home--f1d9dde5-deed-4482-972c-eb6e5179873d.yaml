@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -45,6 +46,7 @@ fieldLayouts:
             dateAdded: '2024-10-24T20:12:59+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null
             instructions: null
@@ -59,6 +61,7 @@ fieldLayouts:
         name: SEO
         uid: 60fdece5-19b8-49f5-8221-bcc9875ebb7a
         userCondition: null
+    thumbFieldKey: null
 handle: home
 hasTitleField: true
 icon: null
@@ -70,3 +73,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

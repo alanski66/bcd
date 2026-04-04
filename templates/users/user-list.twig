@@ -63,7 +63,7 @@
                 </svg>
                 <h5 class="mb-0 fw-semibold">Verified therapists</h5>
               </div>
-              <p class="text-muted  mb-0">Every therapist listed on Brighton Counselling Directory has been independently verified by our team to confirm they have professional membership and appropriate qualifications to practise.</p>
+              <p class="text-muted  mb-0">Every therapist listed on Brighton Counselling Directory has been independently verified by our team to confirm they have appropriate qualifications to practise.</p>
             </div>
           </div>
 
@@ -192,7 +192,9 @@
                         {% for entry in memberships %}
                           {% set org    = entry.memberOrganisation.label %}
                           {% set status = entry.memberstatus.value %}
-                          {% if status == 'Snr Accredited' or status == 'Accredited' %}
+                           {# {% set pillBg   = 'bg-primary' %}
+                            {% set pillText = 'text-white' %} #}
+                          {% if status == "Registered" or status == "Snr Accredited" or status == "Accredited" %}
                             {% set pillBg   = 'bg-primary' %}
                             {% set pillText = 'text-white' %}
                           {% else %}
@@ -211,9 +213,10 @@
                     <hr class="mt-auto mb-2">
 
                     <div class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
-
+{% set hideTherapists = "" %}
+{% if siteSettings.hideTherapists %} {% set hideTherapists = "d-none" %} {% endif %}
                       <button type="button"
-                        class="btn btn-outline-secondary wishlist-toggle d-flex align-items-center justify-content-center p-0"
+                        class="btn btn-outline-secondary wishlist-toggle d-flex align-items-center justify-content-center p-0 {{hideTherapists}}"
                         style="width: 44px; height: 40px;"
                         data-element-id="{{ user.id }}"
                         data-element-site-id="{{ user.siteId }}"

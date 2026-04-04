@@ -38,6 +38,7 @@ fieldLayouts:
         name: Content
         uid: 5c80e01d-4284-4e5b-94e8-23d45db65bb4
         userCondition: null
+    thumbFieldKey: null
 fs: icons
 handle: icons
 name: Icons

@@ -25,7 +25,6 @@ settings:
   restrictedLocationSource: 'volume:f738e4ee-a559-4e36-8c9a-a559088a75af' # User insurance
   restrictedLocationSubpath: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: true
   showUnpermittedFiles: false

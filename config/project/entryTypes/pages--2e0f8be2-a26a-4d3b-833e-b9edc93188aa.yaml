@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -39,6 +40,7 @@ fieldLayouts:
             dateAdded: '2025-01-14T17:46:09+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: e39ad651-432c-40e1-9140-c9cfeda98e60 # Hide
             handle: null
             instructions: 'Use to hide from nav and search'
@@ -54,6 +56,7 @@ fieldLayouts:
             dateAdded: '2025-01-14T17:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 015c4aa9-1da9-442b-869a-1315bc916a30 # Intro
             handle: null
             instructions: null
@@ -69,6 +72,7 @@ fieldLayouts:
             dateAdded: '2025-01-14T17:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: adccc74b-e492-4515-903f-798f62bb0256 # Body
             handle: null
             instructions: null
@@ -90,6 +94,7 @@ fieldLayouts:
             dateAdded: '2025-01-14T17:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae # SEO
             handle: null
             instructions: null
@@ -104,6 +109,7 @@ fieldLayouts:
         name: SEO
         uid: 215c43fa-1591-4830-b1d0-216a42e50820
         userCondition: null
+    thumbFieldKey: null
 handle: pages
 hasTitleField: true
 icon: null
@@ -115,3 +121,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

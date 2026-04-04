@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -38,6 +39,7 @@ fieldLayouts:
         name: Content
         uid: 10f76177-04ca-4722-9f98-c43db74034a5
         userCondition: null
+    thumbFieldKey: null
 handle: therapist
 hasTitleField: true
 icon: null
@@ -49,3 +51,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

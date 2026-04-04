@@ -7,6 +7,7 @@ settings:
   default: false
   offLabel: 'Not Live'
   onLabel: Live
+  showLabelsInCards: false
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Lightswitch

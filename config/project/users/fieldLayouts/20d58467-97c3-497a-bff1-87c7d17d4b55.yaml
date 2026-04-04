@@ -233,6 +233,22 @@ tabs:
         warning: null
         width: 100
       -
+        dateAdded: '2026-04-01T13:58:32+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 7f61e4a8-97a8-4556-8ca6-c4053ba5cb9c # Location
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: ef464f40-0d5a-41ab-a62c-4dc0f7811162
+        userCondition: null
+        warning: null
+        width: 100
+      -
         dateAdded: '2024-10-06T22:10:12+00:00'
         editCondition: null
         elementCondition: null

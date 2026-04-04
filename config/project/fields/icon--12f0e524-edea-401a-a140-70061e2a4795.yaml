@@ -22,7 +22,6 @@ settings:
   restrictedLocationSource: 'volume:45f99bef-ed2c-476b-a382-35d04507ba5e' # Icons
   restrictedLocationSubpath: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: true
   showUnpermittedFiles: false

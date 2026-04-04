@@ -1,0 +1,30 @@
+fieldLayouts:
+  e12f103d-48e3-495b-b7c1-efa435593bea:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-04T13:43:41+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ad3bc3b2-61a4-4948-a082-93b4628d1316 # Hide therapists
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7b3e33c4-76d3-4f32-b759-206c0a5cb54d
+            userCondition: null
+            warning: null
+            width: 100
+        name: 'Site settings'
+        uid: df82ef35-7550-4226-9a5d-f7088ed10e42
+        userCondition: null
+    thumbFieldKey: null
+handle: siteSettings
+name: 'Site settings'
+sortOrder: 1

@@ -38,6 +38,7 @@ fieldLayouts:
         name: Content
         uid: f27a0f60-2122-42d5-a3a9-63ee8dbb2dfd
         userCondition: null
+    thumbFieldKey: null
 fs: userphotos
 handle: userphotos
 name: 'User photos'

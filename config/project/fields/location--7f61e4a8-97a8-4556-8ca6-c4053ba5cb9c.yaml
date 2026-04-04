@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: location
+instructions: 'Add the are of Brighton in which you most frequently see clients, eg Brighton, Hove, Portslade, Fiveways etc'
+name: Location
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: false
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

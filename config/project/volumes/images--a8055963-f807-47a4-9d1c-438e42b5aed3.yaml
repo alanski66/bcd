@@ -39,6 +39,7 @@ fieldLayouts:
             dateAdded: '2024-10-22T21:59:40+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 9fe836ef-ed2f-4a2d-afae-4db9c920e3c6 # Author Url
             handle: null
             instructions: null
@@ -78,6 +79,7 @@ fieldLayouts:
             dateAdded: '2024-10-22T21:49:53+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 319c85fe-482c-4f11-aa21-cb3849b718d3 # Credit
             handle: null
             instructions: null
@@ -92,6 +94,7 @@ fieldLayouts:
         name: Content
         uid: 954b8e47-bf10-4c42-9eaa-36797b270e88
         userCondition: null
+    thumbFieldKey: null
 fs: generalImages
 handle: images
 name: Images

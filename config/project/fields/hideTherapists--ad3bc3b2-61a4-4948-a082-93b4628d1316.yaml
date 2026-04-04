@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: hideTherapists
+instructions: 'Used to hide therapy listings and book marks in development globally'
+name: 'Hide therapists'
+searchable: false
+settings:
+  default: true
+  offLabel: 'Therapist listings are live'
+  onLabel: 'Therapist listings are hidden'
+  showLabelsInCards: true
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch
