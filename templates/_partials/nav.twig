@@ -1,3 +1,16 @@
+{% macro navActive(itemUri, currentPath) %}
+  {% set itemUri = itemUri | trim('/') %}
+  {% set currentPath = currentPath | trim('/') %}
+  {% if itemUri == '__home__' or itemUri == '' %}
+    {{ currentPath == '' ? 'active' : '' }}
+  {% else %}
+    {{ (currentPath == itemUri or currentPath starts with itemUri ~ '/') ? 'active' : '' }}
+  {% endif %}
+{% endmacro %}
+
+{% from _self import navActive %}
+{% set currentPath = craft.app.request.pathInfo %}
+
 {% set hideTherapists = "" %}
 {% if siteSettings.hideTherapists %} {% set hideTherapists = "d-none" %} {% endif %}
 <nav class="navbar navbar-expand-lg sticky-top-mobile">
@@ -15,7 +28,6 @@
     {# Mobile right side — bookmark + burger #}
     <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
 
-      
       {# Bookmark — mobile, next to burger #}
       <button type="button"
         class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center justify-content-center me-2 {{ hideTherapists }}"
@@ -37,25 +49,25 @@
       </button>
 
       {# Burger #}
-<button class="navbar-toggler collapsed border-0" type="button"
-  data-bs-toggle="collapse"
-  data-bs-target="#navbar-default"
-  aria-controls="navbar-default"
-  aria-expanded="false"
-  aria-label="Toggle navigation">
-  <svg id="burger-icon" width="38" height="38" viewBox="0 0 38 38"
-  fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g id="burger-lines">
-    <line x1="7" y1="11" x2="31" y2="11" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
-    <line x1="7" y1="19" x2="31" y2="19" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
-    <line x1="7" y1="27" x2="31" y2="27" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
-  </g>
-  <g id="cross-lines" style="display:none;">
-    <line x1="9" y1="9" x2="29" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
-    <line x1="29" y1="9" x2="9" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
-  </g>
-</svg>
-</button>
+      <button class="navbar-toggler collapsed border-0" type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-default"
+        aria-controls="navbar-default"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <svg id="burger-icon" width="38" height="38" viewBox="0 0 38 38"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="burger-lines">
+            <line x1="7" y1="11" x2="31" y2="11" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+            <line x1="7" y1="19" x2="31" y2="19" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+            <line x1="7" y1="27" x2="31" y2="27" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <g id="cross-lines" style="display:none;">
+            <line x1="9" y1="9" x2="29" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+            <line x1="29" y1="9" x2="9" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </button>
 
     </div>
 
@@ -66,22 +78,28 @@
       <ul class="navbar-nav mt-3 mt-lg-0 justify-content-between w-75">
 
         {% set menu = craft.entries.section('navigation') %}
-        {% set url = "" %}
         {% for entry in menu.all() %}
+          {% set url = '' %}
+          {% set itemUri = '' %}
+
           {% if entry.customUrl | length %}
-            {% set url = baseUrl ~ "" ~ entry.customUrl %}
-          {% else %}
-            {% if entry.entryLink | length %}
-              {% set url = entry.entryLink.one().url %}
-            {% endif %}
+            {% set url = baseUrl ~ entry.customUrl %}
+            {% set itemUri = entry.customUrl %}
+          {% elseif entry.entryLink | length %}
+            {% set linkedEntry = entry.entryLink.one() %}
+            {% set url = linkedEntry.url %}
+            {% set itemUri = linkedEntry.uri %}
           {% endif %}
+
           <li class="nav-item">
-            <a class="nav-link" href="{{ url }}">{{ entry.title }}</a>
+            <a class="nav-link {{ navActive(itemUri, currentPath) }}" href="{{ url }}">
+              {{ entry.title }}
+            </a>
           </li>
         {% endfor %}
 
         {# Saved therapists — mobile only #}
-        <li class="nav-item d-lg-none border-top mt-2 pt-2 {{hideTherapists}}">
+        <li class="nav-item d-lg-none border-top mt-2 pt-2 {{ hideTherapists }}">
           <a class="nav-link d-flex align-items-center gap-2 justify-content-end"
             href="{{ alias('@baseUrl') }}/saved-therapists">
             Saved therapists
@@ -129,10 +147,10 @@
       </ul>
 
       {# Right side — desktop only #}
-      <ul class="navbar-nav navbar-right-wrap flex-row align-items-center gap-2 d-none d-lg-flex ">
+      <ul class="navbar-nav navbar-right-wrap flex-row align-items-center gap-2 d-none d-lg-flex">
 
         {# Bookmark — desktop #}
-        <li class="nav-item d-flex align-items-center {{hideTherapists}}">
+        <li class="nav-item d-flex align-items-center {{ hideTherapists }}">
           <button type="button"
             class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center gap-1"
             id="saved-therapists-btn"
@@ -163,7 +181,7 @@
               data-bs-display="static"
               aria-expanded="false">
               <div class="avatar avatar-md avatar-indicators avatar-online">
-                {% if user.photo|length %}
+                {% if user.photo | length %}
                   <img src="{{ user.photo.url }}" class="rounded-circle" />
                 {% else %}
                   <img alt="avatar"
@@ -176,7 +194,7 @@
               <div class="dropdown-item">
                 <div class="d-flex">
                   <div class="avatar avatar-md avatar-indicators avatar-online">
-                    {% if user.photo|length %}
+                    {% if user.photo | length %}
                       <img src="{{ user.photo.url }}" class="rounded-circle" />
                     {% else %}
                       <img alt="avatar"
@@ -246,6 +264,23 @@
 
   </div>
 </nav>
+
+{% css %}
+.navbar .nav-link.active {
+  position: relative;
+  border-bottom:1px solid #5e3fcb;
+}
+.navbar .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 2px;
+  background-color: #5e3fcb;
+  border-radius: 1px;
+}
+{% endcss %}
 
 {% js %}
 document.addEventListener('DOMContentLoaded', function () {
