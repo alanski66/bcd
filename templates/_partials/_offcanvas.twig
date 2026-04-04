@@ -1,0 +1,284 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="savedTherapistsPanel"
+  aria-labelledby="savedTherapistsPanelLabel"
+  style="width: 85%;max-width:800px;">
+
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title" id="savedTherapistsPanelLabel">
+      Saved therapists
+      <span id="oc-count-badge"
+        class="badge bg-primary ms-2 d-none"
+        style="font-size: 0.7rem;">
+      </span>
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body p-4">
+
+    {# Loading state #}
+    <div id="oc-loading" class="d-flex align-items-center justify-content-center py-5">
+      <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+      <span class="text-muted">Loading...</span>
+    </div>
+
+    {# List — populated by JS #}
+    <ul id="oc-list" class="list-unstyled mb-0 d-none"></ul>
+
+    {# Empty state #}
+    <div id="oc-empty" class="d-none text-center py-5 px-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+        fill="currentColor" class="text-muted mb-3 d-block mx-auto" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+          13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+          0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+      </svg>
+      <p class="text-muted mb-3">No saved therapists yet.</p>
+      <a href="/find-a-therapist" class="btn btn-primary btn-sm"
+        data-bs-dismiss="offcanvas">Find a therapist</a>
+    </div>
+<div class="py-8">
+    <p class="muted">Finding the right therapist is a personal journey and rarely a quick decision. To help you take your time, you can bookmark any therapist profile you want to revisit later — no account or login needed.
+Simply click the bookmark icon on any therapist card to save them to your list. Your saved therapists are stored in your browser, so they'll still be there when you come back.</p>
+  </div>
+  </div>
+
+  <div class="offcanvas-footer border-top p-3">
+    <a href="{{ alias('@baseUrl') }}/saved-therapists" target="_self" class="btn btn-outline-primary w-100"
+      data-bs-dismiss="offcanvas">
+      View full saved list
+    </a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+
+  const panel    = document.getElementById('savedTherapistsPanel');
+  const list     = document.getElementById('oc-list');
+  const loading  = document.getElementById('oc-loading');
+  const empty    = document.getElementById('oc-empty');
+  const ocBadge  = document.getElementById('oc-count-badge');
+  const navBadge = document.getElementById('nav-count-badge');
+
+  if (!panel) return;
+
+  function getCsrfToken() {
+    return fetch('/actions/users/session-info', {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(d => ({ name: d.csrfTokenName, value: d.csrfTokenValue }));
+  }
+
+  // Exposed on window so bookmark toggle JS can call it immediately
+window.updateNavBadge = function (count) {
+  ['oc-count-badge', 'nav-count-badge', 'nav-count-badge-mobile', 'nav-count-badge-mobile-btn'].forEach(function (id) {
+    const badge = document.getElementById(id);
+    if (!badge) return;
+    if (count > 0) {
+      badge.textContent = count;
+      badge.classList.remove('d-none');
+    } else {
+      badge.classList.add('d-none');
+    }
+  });
+};
+
+  function renderRow(t) {
+    const li = document.createElement('li');
+    li.id    = 'oc-row-' + t.itemId;
+    li.style.cssText = 'transition: opacity 0.2s; margin-bottom: 12px;';
+
+    const photo = t.photo
+      ? `<img src="${t.photo}"
+           class="rounded-circle border border-3 border-primary"
+           style="width:80px; height:80px; object-fit:cover; display:block; flex-shrink:0;"
+           alt="${t.name}">`
+      : `<div class="rounded-circle border border-3 border-primary bg-primary-subtle
+           d-flex align-items-center justify-content-center fw-semibold text-primary"
+           style="width:80px; height:80px; font-size:1.25rem; flex-shrink:0;">
+           ${t.initials}
+         </div>`;
+
+    const badges = t.memberships && t.memberships.length
+      ? t.memberships.map(function (m) {
+          const pillBg   = (m.status === 'Snr Accredited' || m.status === 'Accredited')
+            ? 'background:#5e3fcb; color:#fff;'
+            : 'background:#d1f5ea; color:#139a74;';
+          return `<span style="display:inline-flex; border-radius:20px; overflow:hidden;
+                    border:0.5px solid; font-size:0.65rem; font-weight:500; line-height:1;">
+                    <span style="padding:3px 7px; background:#ede9fe; color:#593cc1;
+                      border-color:#5e3fcb; border-right:0.5px solid #5e3fcb;">${m.org}</span>
+                    <span style="padding:3px 7px; ${pillBg}">${m.status}</span>
+                  </span>`;
+        }).join('')
+      : '';
+
+    li.innerHTML = `
+      <div class="d-flex rounded-4 overflow-hidden shadow bg-white">
+
+        <div class="flex-shrink-0 d-flex flex-column align-items-center justify-content-center gap-2 p-2"
+          style="width:110px; background-color:#e4e3e9;">
+          ${photo}
+          ${t.location ? `<span class="text-muted text-center" style="font-size:0.65rem; line-height:1.3;">${t.location}</span>` : ''}
+        </div>
+
+        <div class="d-flex flex-column gap-1 flex-grow-1 p-3" style="min-width:0;">
+
+          <div class="fw-semibold" style="font-size:0.95rem;">
+            <a href="${t.profileUrl}" class="text-reset text-decoration-none text-truncate d-block">
+              ${t.name}
+            </a>
+          </div>
+
+          ${t.role
+            ? `<p class="text-muted mb-0 text-truncate" style="font-size:0.8rem;">${t.role}</p>`
+            : ''}
+
+          ${t.bio
+            ? `<p class="mb-0 text-body"
+                style="font-size:0.8rem; line-height:1.5;
+                       display:-webkit-box; -webkit-line-clamp:2;
+                       -webkit-box-orient:vertical; overflow:hidden;">
+                ${t.bio}
+               </p>`
+            : ''}
+
+          ${badges
+            ? `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">${badges}</div>`
+            : ''}
+
+          <hr class="mt-auto mb-2">
+
+          <div class="d-flex gap-2">
+            <a href="${t.profileUrl}"
+              class="btn btn-primary btn-sm flex-fil">
+              View profile
+            </a>
+            <button type="button"
+              class="btn btn-outline-danger btn-sm oc-remove flex-shrink-0"
+              data-item-id="${t.itemId}"
+              data-element-id="${t.elementId}"
+              data-element-site-id="${t.siteId}"
+              data-toggle-url="${t.toggleUrl}"
+              title="Remove">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>`;
+
+    return li;
+  }
+
+  function showState(state) {
+    loading.classList.toggle('d-none', state !== 'loading');
+    list.classList.toggle('d-none',    state !== 'list');
+    empty.classList.toggle('d-none',   state !== 'empty');
+  }
+
+  function loadPanel() {
+    showState('loading');
+    list.innerHTML = '';
+
+    fetch('/wishlist-data', {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(function (therapists) {
+      window.updateNavBadge(therapists.length);
+
+      if (!therapists.length) {
+        showState('empty');
+        return;
+      }
+
+      therapists.forEach(function (t) {
+        list.appendChild(renderRow(t));
+      });
+
+      showState('list');
+    })
+    .catch(function (err) {
+      console.error('Offcanvas load failed:', err);
+      showState('empty');
+    });
+  }
+
+  panel.addEventListener('show.bs.offcanvas', loadPanel);
+
+  list.addEventListener('click', function (e) {
+    const btn = e.target.closest('.oc-remove');
+    if (!btn) return;
+
+    const elementId = btn.dataset.elementId;
+    const siteId    = btn.dataset.elementSiteId;
+    const toggleUrl = btn.dataset.toggleUrl;
+    const itemId    = btn.dataset.itemId;
+    const row       = document.getElementById('oc-row-' + itemId);
+
+    if (row) row.style.opacity = '0';
+
+    getCsrfToken()
+      .then(csrf => fetch(toggleUrl, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Accept':           'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token':     csrf.value
+        },
+        body: new URLSearchParams({
+          'elementId':     elementId,
+          'elementSiteId': siteId,
+          [csrf.name]:     csrf.value
+        })
+      }))
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error ' + res.status);
+
+        setTimeout(function () {
+          if (row) row.remove();
+
+          const remaining = list.querySelectorAll('li').length;
+          window.updateNavBadge(remaining);
+
+          if (remaining === 0) showState('empty');
+
+          // Sync bookmark icon on listing page
+          if (window.savedIds) window.savedIds.delete(String(elementId));
+          const listingBtn = document.querySelector(
+            `.wishlist-toggle[data-element-id="${elementId}"]`
+          );
+          if (listingBtn && typeof window.setButtonSaved === 'function') {
+            window.setButtonSaved(listingBtn, false);
+          }
+        }, 200);
+      })
+      .catch(function (err) {
+        console.error('Remove failed:', err);
+        if (row) row.style.opacity = '1';
+      });
+  });
+
+  // Initial count on page load
+  fetch('/wishlist-items', {
+    credentials: 'same-origin',
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(r => r.json())
+  .then(function (ids) {
+    window.updateNavBadge(ids ? ids.length : 0);
+  })
+  .catch(function () {});
+
+})();
+</script>

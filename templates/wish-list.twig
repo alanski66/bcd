@@ -1,0 +1,141 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+
+{% block content %}
+
+<main>
+    <!--wish-list-->
+    <section class="py-6 py-lg-8 bg-light">
+        <div class="container py-lg-6">
+        <div class="row">
+            <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+            <div class="text-center mb-6 d-flex flex-column gap-2">
+                <h2 class="mb-0 mx-xl-8 h1">Your Wish List</h2>
+                <p class="mb-0">Your wish list is currently empty. Browse our directory and add therapists to your wish list to keep track of them.</p>
+            </div>
+            </div>
+        </div>              
+        </div>
+        <div class="container">
+              {# Create a user query with the 'group' parameter #}
+  {% set myUserQuery = craft.users()
+  .hasPhoto()
+  .group('counsellors')
+  .profileComplete(false)
+  %}
+  {% set therapists = myUserQuery.all() %}
+
+    <div class="row g-4">
+  {# Fetch the users #}
+          {% for user in therapists %}
+              
+        <div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-6 d-flex align-items-stretch">
+          <div class="card rounded-4 card-bordered card-lift {% if not user.memberOrganisation %}opacity-75{% endif %}">
+            <div class="p-3 d-flex flex-column gap-3 flex-grow-1">
+
+              {# Photo #}
+              <a href="{{ alias('@baseUrl') }}/counsellors/{{ user.fullname|kebab }}/{{ user.id }}">
+                {{ picture([user.photo, 'user-photo'], 'user img-fluid w-100 rounded-4') }}
+              </a>
+
+              {# Content #}
+              <div class="d-flex flex-column gap-3 flex-grow-1">
+
+                {# Name + verified tick #}
+                <div>
+               {# Name row #}
+                  <div class="d-flex align-items-center gap-2">
+                    <h3 class="mb-0">
+                      <a href="{{ alias('@baseUrl') }}/counsellors/{{ user.username|kebab }}/{{ user.id }}"
+                        class="text-reset">{{ user.fullName }}</a>
+                    </h3>
+                    {% if user.memberships.count() %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-patch-check-fill text-success flex-shrink-0" viewBox="0 0 16 16"
+                      title="Professionally registered">
+                      <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0
+        0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89
+        2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89
+        .011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0
+        0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287
+        5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7
+        8.793l2.646-2.647a.5.5 0 0 1 .708.708" />
+                    </svg>
+                    {% endif %}
+                  </div>
+
+                  {# Role subtitle #}
+                  <span class="text-muted small">{{ user.titleRole }}</span>
+
+                  {# Membership badges #}
+                  {% set memberships = user.memberships.all() %}
+                  {% if memberships|length %}
+                  <div class="mt-2">
+                    <p class="mb-1 text-uppercase text-muted" style="font-size: 0.6rem; letter-spacing: 0.07em;">
+                      Professional memberships</p>
+                    <div class="d-flex flex-wrap gap-1">
+                      {% for entry in memberships %}
+                      {% set org = entry.memberOrganisation.label %}
+                      {% set status = entry.memberstatus.value %}
+
+                      {# Map status to Bootstrap colour classes for each half of the split badge #}
+                      {% if status == 'Accredited' %}
+                      {% set nameClasses = 'bg-success-subtle text-success-emphasis border-success-subtle' %}
+                      {% set statusClasses = 'bg-success text-white' %}
+                      {% elseif status == 'Registered' %}
+                      {% set nameClasses = 'bg-success-subtle text-success-emphasis border-success-subtle' %}
+                      {% set statusClasses = 'bg-success-subtle text-success-emphasis' %}
+                      {% else %}{# Member #}
+                      {% set nameClasses = 'bg-light text-secondary border-secondary-subtle' %}
+                      {% set statusClasses = 'bg-light text-secondary' %}
+                      {% endif %}
+
+                      <span class="d-inline-flex rounded-pill overflow-hidden border"
+                        style="font-size: 0.7rem; font-weight: 500; line-height: 1;">
+                        <span class="px-2 py-1 border-end {{ nameClasses }}">{{ org }}</span>
+                        <span class="px-2 py-1 {{ statusClasses }}">{{ status }}</span>
+                      </span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% else %}
+                  <p class="mt-2 mb-0 text-muted fst-italic" style="font-size: 0.75rem;">
+                    Memberships not listed
+                  </p>
+                  {% endif %}
+                </div>
+
+
+
+
+                {# CTA #}
+                <div class="mt-auto pt-2 border-top">
+                    <form method="POST">
+        <input type="hidden" name="action" value="wishlist/items/add">
+        {{ csrfInput() }}
+
+        <input type="hidden" name="elementId" value="{{ user.id }}">
+        <input type="hidden" name="elementSiteId" value="{{ user.siteId }}">
+
+        {# Optional: Pass content for custom fields #}
+        <input type="hidden" name="fields[customUrl]" value="{{ alias('@baseUrl') }}/counsellors/{{ user.username|kebab }}/{{ user.id }}">
+
+        {# Optional: Pass specific list type handle #}
+        <input type="hidden" name="listType" value="wishlist">
+
+        <input type="submit" value="Add to List">
+    </form>
+                  <a href="{{ alias('@baseUrl') }}/counsellors/{{ user.username|kebab }}/{{ user.id }}"
+                    class="btn btn-outline-primary btn-sm w-100">View profile</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+    </section>
+</main> 
+
+{% endblock %}

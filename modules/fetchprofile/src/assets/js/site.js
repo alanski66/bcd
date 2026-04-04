@@ -372,3 +372,12 @@ function getCookie(name) {
   const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '=([^;]*)'));
   return m ? decodeURIComponent(m[1]) : null;
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+    new bootstrap.Popover(el, {
+      container: 'body' // renders outside the card so overflow:hidden doesn't clip it
+    });
+  });
+});

@@ -1,0 +1,45 @@
+{% header "Cache-Control: no-store, no-cache, must-revalidate" %}
+{% header "Pragma: no-cache" %}
+{% header "Content-Type: application/json" %}
+
+{% set list   = craft.wishlist.lists().one() %}
+{% set output = [] %}
+
+{% if list %}
+  {% set items = craft.wishlist.items().listId(list.id).all() %}
+  {% for item in items %}
+    {% set t = item.element %}
+    {% if t %}
+      {% set nameParts = t.fullName|split(' ') %}
+      {% set initials  = '' %}
+      {% for part in nameParts %}
+        {% set initials = initials ~ part|first %}
+      {% endfor %}
+
+      {% set membershipData = [] %}
+      {% for entry in t.memberships.all() %}
+        {% set membershipData = membershipData|merge([{
+          org:    entry.memberOrganisation.label,
+          status: entry.memberstatus.value
+        }]) %}
+      {% endfor %}
+
+      {% set output = output|merge([{
+        itemId:      item.id,
+        elementId:   t.id,
+        siteId:      t.siteId,
+        name:        t.fullName,
+        role:        t.titleRole ?? '',
+        bio:         t.aboutMe ? t.aboutMe|striptags|slice(0, 200) : '',
+        location:    t.location ?? '',
+        memberships: membershipData,
+        photo:       t.photo ? t.photo.url('profileSmall') : null,
+        initials:    initials,
+        profileUrl:  siteUrl ~ 'counsellors/' ~ (t.username|kebab) ~ '/' ~ t.id,
+        toggleUrl:   craft.wishlist.toggleItemUrl(t)
+      }]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{{ output|json_encode|raw }}

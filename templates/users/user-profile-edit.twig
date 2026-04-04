@@ -422,7 +422,138 @@ document.addEventListener('DOMContentLoaded', function () {
 										{{ _self.errorList(user.getErrors('shortSummary')) }}
 										<div class="invalid-feedback">Please enter your summary.</div>
 									</div>
-					
+									<hr class="my-5">
+									<!-- memberships -->
+									<div class="row">
+										<h3>Memberships</h3>
+										{# Existing memberships #}
+{% set existingMemberships = currentUser.memberships.all() %}
+
+<div id="memberships-wrapper">
+
+  {# Render one row per existing entry #}
+  {# <button type="button" id="debug-btn" class="btn btn-sm btn-secondary">
+  Debug POST data
+</button>
+
+<pre id="debug-output" style="font-size:0.75rem;"></pre>
+
+<script>
+document.getElementById('debug-btn').addEventListener('click', function() {
+  const form = document.querySelector('form');
+  const data = new FormData(form);
+  const out  = {};
+  for (let [key, val] of data.entries()) {
+    out[key] = val;
+  }
+  document.getElementById('debug-output').textContent = JSON.stringify(out, null, 2);
+});
+</script> #}
+  {% for entry in existingMemberships %}
+  <div class="membership-row d-flex align-items-center gap-2 mb-2"
+    data-index="{{ loop.index0 }}">
+
+    <input type="hidden"
+      name="fields[memberships][{{ loop.index0 }}][entryId]"
+      value="{{ entry.id }}">
+    <input type="hidden"
+      name="fields[memberships][{{ loop.index0 }}][type]"
+      value="membership">
+
+    <select name="fields[memberships][{{ loop.index0 }}][fields][memberOrganisation]"
+      class="form-select form-select-sm w-auto">
+      {% for option in entry.memberOrganisation.options %}
+        <option value="{{ option.value }}"
+          {{ option.selected ? 'selected' : '' }}>
+          {{ option.label }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <select name="fields[memberships][{{ loop.index0 }}][fields][memberstatus]"
+      class="form-select form-select-sm w-auto">
+      {% for option in entry.memberstatus.options %}
+        <option value="{{ option.value }}"
+          {{ option.selected ? 'selected' : '' }}>
+          {{ option.label }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <button type="button" class="btn btn-sm btn-outline-danger remove-membership">
+      Remove
+    </button>
+  </div>
+{% endfor %}
+  <div id="memberships-error" class="invalid-feedback" style="min-height: 1.25rem;">
+  Please add at least one professional membership.
+</div>
+<button type="button" id="add-membership" class="btn btn-sm btn-outline-secondary w-25 mt-2">
+  + Add membership
+</button>
+</div>
+{# This block exists only to feed the JS below #}
+{% if existingMemberships|length %}
+  {% set _firstEntry         = existingMemberships|first %}
+  {% set orgOptions          = _firstEntry.memberOrganisation.options %}
+  {% set memberstatusOptions = _firstEntry.memberstatus.options %}
+{% else %}
+  {% set orgField            = craft.app.fields.getFieldByHandle('memberOrganisation') %}
+  {% set memberstatusField   = craft.app.fields.getFieldByHandle('memberstatus') %}
+  {% set orgOptions          = orgField.options %}
+  {% set memberstatusOptions = memberstatusField.options %}
+{% endif %}
+
+
+<script>
+const ORG_OPTIONS = {{ orgOptions|map(o => {value: o.value, label: o.label})|json_encode|raw }};
+const STATUS_OPTIONS = {{ memberstatusOptions|map(o => {value: o.value, label: o.label})|json_encode|raw }};
+</script>
+
+<script>
+(function () {
+  const wrapper = document.getElementById('memberships-wrapper');
+  const addBtn  = document.getElementById('add-membership');
+
+  let index = wrapper.querySelectorAll('.membership-row').length;
+
+  function buildSelect(name, options) {
+    return `<select name="${name}" class="form-select form-select-sm w-auto">
+      ${options.map(o => `<option value="${o.value}">${o.label}</option>`).join('')}
+    </select>`;
+  }
+
+addBtn.addEventListener('click', function () {
+	document.getElementById('memberships-error').style.display = 'none'; 
+    const row = document.createElement('div');
+    row.className = 'membership-row d-flex align-items-center gap-2 mb-2';
+    row.dataset.index = index;
+
+    row.innerHTML = `
+      <input type="hidden" name="fields[memberships][${index}][entryId]" value="">
+      <input type="hidden" name="fields[memberships][${index}][type]" value="membership">
+      ${buildSelect(`fields[memberships][${index}][fields][memberOrganisation]`, ORG_OPTIONS)}
+      ${buildSelect(`fields[memberships][${index}][fields][memberstatus]`, STATUS_OPTIONS)}
+      <button type="button" class="btn btn-sm btn-outline-danger remove-membership">
+        Remove
+      </button>
+    `;
+
+    addBtn.insertAdjacentElement('beforebegin', row); // ← was wrapper.appendChild(row)
+    index++;
+  });
+
+wrapper.addEventListener('click', function (e) {
+  if (e.target.classList.contains('remove-membership')) {
+    e.target.closest('.membership-row').remove();
+    validateMemberships();
+  }
+});
+})();
+</script>
+
+
+									</div>					
 									<hr class="my-5">
 									<div class="row">
 										<h3>Session rates</h3>
@@ -947,6 +1078,23 @@ function scrollToFirstError(errorElements) {
   sortedErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+// handle mmembership validation
+// Validate memberships
+function validateMemberships() {
+  const wrapper = document.getElementById('memberships-wrapper');
+  const errorDiv = document.getElementById('memberships-error');
+  const rows = wrapper.querySelectorAll('.membership-row');
+
+  if (rows.length === 0) {
+    if (errorDiv) errorDiv.classList.add('d-block');     // ← was style.display = 'block'
+    return { isValid: false, errorElements: [wrapper] };
+  }
+
+  if (errorDiv) errorDiv.classList.remove('d-block');    // ← was style.display = 'none'
+
+  return { isValid: true, errorElements: [] };
+}
+
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, initializing Quill editors and form validation');
@@ -1004,6 +1152,11 @@ document.addEventListener('DOMContentLoaded', function() {
       allErrorElements.push(...radioCheckValidation.errorElements);
     }
 
+	const membershipValidation = validateMemberships();
+	console.log('6. Membership validation:', membershipValidation.isValid ? '✓ passed' : '✗ FAILED');
+	if (!membershipValidation.isValid) {
+	allErrorElements.push(...membershipValidation.errorElements);
+	}
     // If errors exist, stop here
     if (allErrorElements.length > 0) {
       console.log('❌ BLOCKING: Found', allErrorElements.length, 'validation errors');

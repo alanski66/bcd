@@ -1,0 +1,80 @@
+{% header "Cache-Control: no-store, no-cache, must-revalidate" %}
+
+{% set sessionId = craft.app.session.id %}
+{% set list      = craft.wishlist.lists().one() %}
+{% set items     = list ? craft.wishlist.items().listId(list.id).all() : [] %}
+{% set allLists  = craft.wishlist.lists(false).all() %}
+
+<style>
+  body { font-family: sans-serif; padding: 2rem; max-width: 800px; }
+  h2 { border-bottom: 2px solid #5e3fcb; padding-bottom: 4px; margin-top: 2rem; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  td, th { border: 1px solid #ddd; padding: 8px 12px; text-align: left; font-size: 14px; }
+  th { background: #f4f4f4; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+  .green { background: #d1f5ea; color: #139a74; }
+  .purple { background: #ede9fe; color: #5e3fcb; }
+  .gray { background: #e4e3e9; color: #5c596d; }
+</style>
+
+<h1>Wishlist debug</h1>
+
+<h2>Session</h2>
+<table>
+  <tr><th>Key</th><th>Value</th></tr>
+  <tr><td>Session ID</td><td>{{ sessionId ? sessionId : '<span class="badge gray">empty</span>'|raw }}</td></tr>
+  <tr><td>Current user</td><td>{{ currentUser ? currentUser.email ~ ' (logged in)' : '<span class="badge gray">Guest</span>'|raw }}</td></tr>
+</table>
+
+<h2>This session's list</h2>
+{% if list %}
+  <table>
+    <tr><th>Key</th><th>Value</th></tr>
+    <tr><td>List ID</td><td>{{ list.id }}</td></tr>
+    <tr><td>Reference</td><td>{{ list.reference }}</td></tr>
+    <tr><td>Owner</td><td>{{ list.userId ?? 'guest' }}</td></tr>
+    <tr><td>Item count</td><td>{{ items|length }}</td></tr>
+  </table>
+{% else %}
+  <p><span class="badge gray">No list found for this session</span></p>
+{% endif %}
+
+<h2>This session's items ({{ items|length }})</h2>
+{% if items|length %}
+  <table>
+    <tr><th>Item ID</th><th>List ID</th><th>Element ID</th><th>Element title</th></tr>
+    {% for item in items %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.listId }}</td>
+        <td>{{ item.elementId }}</td>
+        <td>{{ item.element ? item.element.title ?? item.element.fullName : '<span class="badge gray">deleted</span>'|raw }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p><span class="badge gray">No items in this session's list</span></p>
+{% endif %}
+
+<h2>All lists in database ({{ allLists|length }})</h2>
+{% if allLists|length %}
+  <table>
+    <tr><th>List ID</th><th>Reference</th><th>Owner</th><th>Item count</th></tr>
+    {% for l in allLists %}
+      {% set lItems = craft.wishlist.items().listId(l.id).all() %}
+      <tr>
+        <td>
+          {{ l.id }}
+          {% if list and l.id == list.id %}
+            <span class="badge purple">current session</span>
+          {% endif %}
+        </td>
+        <td>{{ l.reference }}</td>
+        <td>{{ l.userId ? l.userId ~ ' (user)' : '<span class="badge gray">guest</span>'|raw }}</td>
+        <td>{{ lItems|length }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p><span class="badge gray">No lists in database</span></p>
+{% endif %}

@@ -1,137 +1,265 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg sticky-top-mobile">
   <div class="container px-0">
-    <a class="navbar-brand" href="{{ alias('@baseUrl') }}">
-      <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo.svg" alt="" height="110px" class="mg-fluid" />
-    </a>
-    <!-- Mobile view nav wrap -->
-    {# <div class="ms-auto d-flex align-items-center order-lg-3">
-      <div class="d-flex gap-2 align-items-center">
 
-        <a href="sign-in" class="btn btn-outline-dark">Sign in</a>
-        <a href="sign-up" class="btn btn-primary d-none d-md-block">For professionals</a>
-      </div>
-    </div> #}
-    <div>
-      <!-- Button -->
-      <button class="navbar-toggler collapsed ms-2 border-0" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="icon-bar top-bar mt-0"></span>
-        <span class="icon-bar middle-bar"></span>
-        <span class="icon-bar bottom-bar"></span>
+    {# Logo — icon only on mobile, full logo on desktop #}
+    <a class="navbar-brand" href="{{ alias('@baseUrl') }}">
+      <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo.svg"
+        alt="" class="img-fluid navbar-logo d-none d-lg-block" />
+      <img src="{{ alias('@baseUrl') }}/assets/images/brand/logo/logo-icon.svg"
+        alt="" class="img-fluid navbar-logo-icon d-lg-none"
+        style="max-height: 44px; width: auto;" />
+    </a>
+
+    {# Mobile right side — bookmark + burger #}
+    <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+
+      {# Bookmark — mobile, next to burger #}
+      <button type="button"
+        class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center justify-content-center me-2"
+        style="width: 38px; height: 38px; padding: 0;"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#savedTherapistsPanel"
+        aria-controls="savedTherapistsPanel"
+        title="Saved therapists">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          fill="currentColor" viewBox="0 0 16 16">
+          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+            13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+            0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+        </svg>
+        <span id="nav-count-badge-mobile-btn"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary d-none"
+          style="font-size: 0.55rem;">
+        </span>
       </button>
+
+      {# Burger #}
+<button class="navbar-toggler collapsed border-0" type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#navbar-default"
+  aria-controls="navbar-default"
+  aria-expanded="false"
+  aria-label="Toggle navigation">
+  <svg id="burger-icon" width="38" height="38" viewBox="0 0 38 38"
+  fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="burger-lines">
+    <line x1="7" y1="11" x2="31" y2="11" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+    <line x1="7" y1="19" x2="31" y2="19" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+    <line x1="7" y1="27" x2="31" y2="27" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g id="cross-lines" style="display:none;">
+    <line x1="9" y1="9" x2="29" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+    <line x1="29" y1="9" x2="9" y2="29" stroke="#5e3fcb" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>
+</button>
+
     </div>
-    <!-- Collapse -->
-    <div class="collapse navbar-collapse justify-content-evenly" id="navbar-default">
-      <ul class="navbar-nav mt-3 mt-lg-0  justify-content-between w-75">
+
+    {# Collapse #}
+    <div class="collapse navbar-collapse justify-content-between" id="navbar-default">
+
+      {# Main nav links #}
+      <ul class="navbar-nav mt-3 mt-lg-0 justify-content-between w-75">
 
         {% set menu = craft.entries.section('navigation') %}
         {% set url = "" %}
         {% for entry in menu.all() %}
-        {% if entry.customUrl | length %}
-        {% set url = baseUrl~""~entry.customUrl %}
-        {% else %}
-        {% if entry.entryLink | length %}
-        {% set url = entry.entryLink.one().url %}
-        {% endif %}
-        {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url }}">{{ entry.title }}</a>
-        </li>
+          {% if entry.customUrl | length %}
+            {% set url = baseUrl ~ "" ~ entry.customUrl %}
+          {% else %}
+            {% if entry.entryLink | length %}
+              {% set url = entry.entryLink.one().url %}
+            {% endif %}
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url }}">{{ entry.title }}</a>
+          </li>
         {% endfor %}
 
-      </ul>
-      {% set user = user ?? currentUser %}
-   
-      <ul class="navbar-nav navbar-right-wrap mx-2 flex-row">
-  
-      {% if user %}
-
-        <li class="dropdown ms-2 d-inline-block position-static">
-          <a class="rounded-circle" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-            <div class="avatar avatar-md avatar-indicators avatar-online">
-              {% if user.photo|length %}
-              <img src="{{user.photo.url}}" class="rounded-circle" />
-              {% else %}
-              <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
-              {% endif %}
-            </div>
+        {# Saved therapists — mobile only #}
+        <li class="nav-item d-lg-none border-top mt-2 pt-2">
+          <a class="nav-link d-flex align-items-center gap-2 justify-content-end"
+            href="{{ alias('@baseUrl') }}/saved-therapists">
+            Saved therapists
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+              fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+                13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+                0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+            </svg>
+            <span id="nav-count-badge-mobile"
+              class="badge bg-primary rounded-pill d-none"
+              style="font-size: 0.6rem;">
+            </span>
           </a>
-          <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
-            <div class="dropdown-item">
-              <div class="d-flex">
-                <div class="avatar avatar-md avatar-indicators avatar-online">
+        </li>
 
-                  {% if user.photo|length %}
-                  <img src="{{user.photo.url}}" class="rounded-circle" />
-                  {% else %}
-                  <img alt="avatar" src="{{baseUrl}}assets/images/avatar/avatar.jpg" class="rounded-circle" />
-                  {% endif %}
-                </div>
-                <div class="ms-3 lh-1">
-                  <h5 class="mb-1">{{user.fullName ?? null}}</h5>
-                  <p class="mb-0">{{user.email ?? null}}</p>
+        {# For professionals — mobile only #}
+        {% set user = user ?? currentUser %}
+        {% if not user %}
+          <li class="nav-item d-lg-none border-top mt-2 pt-2">
+            <a class="nav-link d-flex justify-content-end" href="{{ baseUrl }}sign-in">
+              Login
+            </a>
+          </li>
+          <li class="nav-item d-lg-none">
+            <a class="nav-link d-flex justify-content-end" href="{{ baseUrl }}sign-up">
+              Sign up as a professional
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item d-lg-none border-top mt-2 pt-2">
+            <a class="nav-link d-flex justify-content-end"
+              href="{{ baseUrl }}users/user-profile-edit">
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item d-lg-none">
+            <a class="nav-link d-flex justify-content-end"
+              href="{{ baseUrl }}logout">
+              Sign out
+            </a>
+          </li>
+        {% endif %}
+
+      </ul>
+
+      {# Right side — desktop only #}
+      <ul class="navbar-nav navbar-right-wrap flex-row align-items-center gap-2 d-none d-lg-flex">
+
+        {# Bookmark — desktop #}
+        <li class="nav-item d-flex align-items-center">
+          <button type="button"
+            class="btn btn-outline-secondary btn-sm position-relative d-flex align-items-center gap-1"
+            id="saved-therapists-btn"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#savedTherapistsPanel"
+            aria-controls="savedTherapistsPanel"
+            title="Saved therapists">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+                13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+                0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+            </svg>
+            <span>Saved</span>
+            <span id="nav-count-badge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary d-none"
+              style="font-size: 0.6rem;">
+            </span>
+          </button>
+        </li>
+
+        {% set user = user ?? currentUser %}
+
+        {% if user %}
+          <li class="dropdown ms-2 d-inline-block position-static">
+            <a class="rounded-circle" href="#"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              aria-expanded="false">
+              <div class="avatar avatar-md avatar-indicators avatar-online">
+                {% if user.photo|length %}
+                  <img src="{{ user.photo.url }}" class="rounded-circle" />
+                {% else %}
+                  <img alt="avatar"
+                    src="{{ baseUrl }}assets/images/avatar/avatar.jpg"
+                    class="rounded-circle" />
+                {% endif %}
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
+              <div class="dropdown-item">
+                <div class="d-flex">
+                  <div class="avatar avatar-md avatar-indicators avatar-online">
+                    {% if user.photo|length %}
+                      <img src="{{ user.photo.url }}" class="rounded-circle" />
+                    {% else %}
+                      <img alt="avatar"
+                        src="{{ baseUrl }}assets/images/avatar/avatar.jpg"
+                        class="rounded-circle" />
+                    {% endif %}
+                  </div>
+                  <div class="ms-3 lh-1">
+                    <h5 class="mb-1">{{ user.fullName ?? null }}</h5>
+                    <p class="mb-0">{{ user.email ?? null }}</p>
+                  </div>
                 </div>
               </div>
+              <div class="dropdown-divider"></div>
+              <ul class="list-unstyled">
+                <li>
+                  <a class="dropdown-item" href="{{ baseUrl }}users/user-profile-edit">
+                    <i class="fe fe-user me-2"></i>
+                    Dashboard
+                  </a>
+                </li>
+              </ul>
+              <div class="dropdown-divider"></div>
+              <ul class="list-unstyled">
+                <li>
+                  <a class="dropdown-item" href="{{ baseUrl }}logout">
+                    <i class="fe fe-power me-2"></i>
+                    Sign Out
+                  </a>
+                </li>
+              </ul>
             </div>
-            <div class="dropdown-divider"></div>
-            <ul class="list-unstyled">
+          </li>
 
-              <li>
-                <a class="dropdown-item" href="{{baseUrl}}users/user-profile-edit">
-                  <i class="fe fe-user me-2"></i>
-                  Dashboard
-                </a>
-              </li>
-              <li class="d-none">
-                <a class="dropdown-item" href="#">
-                  <i class="fe fe-settings me-2"></i>
-                  Settings
-                </a>
-              </li>
-            </ul>
-            <div class="dropdown-divider"></div>
-            <ul class="list-unstyled">
-              <li>
-                <a class="dropdown-item" href="{{baseUrl}}logout">
-                  <i class="fe fe-power me-2"></i>
-                  Sign Out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      
-      {% else %}
-       <li class="dropdown ms-2 d-inline-block position-relative">
-          <a class="btn btn-outline-primary d-block" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-        For professionals</a>
-      <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
-            
-            <div class="dropdown-divider"></div>
-            <ul class="list-unstyled">
+        {% else %}
 
-              <li>
-                <a class="dropdown-item" href="{{baseUrl}}sign-in">
-                  <i class="fe fe-user me-2"></i>
-                  Login
-                </a>
-              </li>
-              <li class=" ">
-                <a class="dropdown-item" href="{{baseUrl}}sign-up">
-                  <i class="fe fe-settings me-2"></i>
-                  Sign-up
-                </a>
-              </li>
-            </ul>
-            
-          </div>  
-      </li>
+          <li class="dropdown ms-2 d-inline-block position-relative">
+            <a class="btn btn-outline-primary btn-sm d-block" href="#"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              aria-expanded="false">
+              For professionals
+            </a>
+            <div class="dropdown-menu dropdown-menu-end position-absolute mx-3 my-5">
+              <div class="dropdown-divider"></div>
+              <ul class="list-unstyled">
+                <li>
+                  <a class="dropdown-item" href="{{ baseUrl }}sign-in">
+                    <i class="fe fe-user me-2"></i>
+                    Login
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ baseUrl }}sign-up">
+                    <i class="fe fe-settings me-2"></i>
+                    Sign-up
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
 
-      {% endif %}
+        {% endif %}
+
       </ul>
     </div>
 
   </div>
 </nav>
-<!-- /.navbar -->
+
+{% js %}
+document.addEventListener('DOMContentLoaded', function () {
+  const collapse    = document.getElementById('navbar-default');
+  const burgerLines = document.getElementById('burger-lines');
+  const crossLines  = document.getElementById('cross-lines');
+
+  if (!collapse || !burgerLines || !crossLines) return;
+
+  collapse.addEventListener('show.bs.collapse', function () {
+    burgerLines.style.display = 'none';
+    crossLines.style.display  = 'block';
+  });
+
+  collapse.addEventListener('hide.bs.collapse', function () {
+    burgerLines.style.display = 'block';
+    crossLines.style.display  = 'none';
+  });
+});
+{% endjs %}

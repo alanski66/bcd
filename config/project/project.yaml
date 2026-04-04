@@ -1,4 +1,4 @@
-dateModified: 1774268998
+dateModified: 1774994329
 elementSources:
   craft\elements\Entry:
     -
@@ -213,13 +213,16 @@ meta:
     06a9642c-32d8-43fb-8f3a-478a4d84ab5a: 'Couples rate' # Couples rate
     6aff28e4-a015-4972-b136-5efb6d158b90: 'Hero background' # Hero background
     7b2532c7-d315-4039-9398-2bdf9550067b: home # home
+    07cda64f-7146-4394-8bdc-2db54defd781: 'Professional Memberships' # Professional Memberships
     8f52ea5a-d933-4740-bc02-d0e5ec935219: 'Temp files' # Temp files
     9fe836ef-ed2f-4a2d-afae-4db9c920e3c6: 'Author Url' # Author Url
     12f0e524-edea-401a-a140-70061e2a4795: Icon # Icon
     015c4aa9-1da9-442b-869a-1315bc916a30: Intro # Intro
     17f66194-2bba-4d08-a705-9823e9054f86: Pages # Pages
     22acdfae-ec39-4281-ba0d-dc432a5cf4da: Issues # Issues
+    33aecba4-7f14-4518-9765-c62813d7a502: CKplusIMg # CKplusIMg
     36dc80ef-c566-4b45-a3fa-53319d7ab7ba: 'Member organisation' # Member organisation
+    39db330b-457a-4938-8ab1-b93536a6aa9b: Simple # Simple
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
     45f99bef-ed2c-476b-a382-35d04507ba5e: Icons # Icons
     48d70559-0861-4360-9c66-df0a47415a8d: FAQ # FAQ
@@ -233,6 +236,8 @@ meta:
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
     520a0e55-accd-41b4-addc-97ed1155aa67: Card # Card
     835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
+    1369bc0d-8f89-4585-8602-f8a9add3550e: Membership # Membership
+    1510c01a-849d-440a-b84e-ccca1d29861b: 'Member Status' # Member Status
     4925fc69-c87a-4cf0-8d77-8830d8053b62: 'Entry link' # Entry link
     5942cd7b-ea0c-4234-b261-1175ac7e41ad: 'Custom Url' # Custom Url
     6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
@@ -358,6 +363,10 @@ plugins:
       ctApiKey: 8uje7e8e7azu7yj
       errorMsg: ''
       keyIsOk: 1
+  doxter:
+    edition: standard
+    enabled: true
+    schemaVersion: 4.0.0
   easy-image:
     edition: standard
     enabled: true
@@ -457,7 +466,7 @@ plugins:
       purgeEmptyGuestListsOnly: true
       purgeEmptyListsOnly: true
       purgeInactiveGuestListsDuration: P1D
-      purgeInactiveLists: true
+      purgeInactiveLists: false
       purgeInactiveListsDuration: P3M
       showListInfoTab: true
       templateEmail: null

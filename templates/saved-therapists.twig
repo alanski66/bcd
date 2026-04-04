@@ -1,0 +1,214 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+{% block content %}
+
+<main>
+  <section class="pt-5 pb-5">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7 col-xl-6">
+
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="mb-0">Saved Therapists</h2>
+            <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="btn btn-outline-primary btn-sm">
+              Find more
+            </a>
+          </div>
+
+          {% set savedItems = craft.wishlist.items().all() %}
+
+          {% if savedItems|length %}
+
+            <div id="saved-list" class="d-flex flex-column gap-3">
+
+              {% for item in savedItems %}
+                {% set therapist = item.element %}
+
+                {% if therapist %}
+                  <div class="card rounded-4" id="saved-row-{{ item.id }}">
+                    <div class="card-body p-3 d-flex align-items-center gap-3">
+
+                      {# Photo #}
+                      {% if therapist.photo %}
+                        <img src="{{ therapist.photo.url('profileMedium') }}"
+                          class="rounded-3 flex-shrink-0"
+                          width="150" height="150"
+                          style="object-fit: cover;"
+                          alt="{{ therapist.fullName }}">
+                      {% else %}
+                        <div class="rounded-3 bg-secondary-subtle flex-shrink-0 d-flex align-items-center justify-content-center"
+                          style="width:150px; height:150px; font-size:2rem; font-weight:500; color: var(--bs-secondary-color);">
+                          {{ therapist.fullName|split(' ')|map(w => w[0])|join('') }}
+                        </div>
+                      {% endif %}
+
+                      {# Info — middle column #}
+                      <div class="flex-grow-1" style="min-width:0;">
+
+                        <div class="d-flex align-items-center gap-1 flex-wrap mb-1">
+                          <span class="fw-medium">{{ therapist.fullName }}</span>
+                          {% if therapist.memberships.count() %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                              fill="currentColor" class="bi bi-patch-check-fill text-success flex-shrink-0"
+                              viewBox="0 0 16 16" title="Professionally registered">
+                              <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0
+                                0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89
+                                2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89
+                                .011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0
+                                0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287
+                                5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7
+                                8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+                            </svg>
+                          {% endif %}
+                        </div>
+
+                        <div class="text-muted small mb-3">{{ therapist.titleRole }}</div>
+
+                        {# Membership badges — stacked #}
+                        {% set memberships = therapist.memberships.all() %}
+                        {% if memberships|length %}
+                          <div class="d-flex flex-column gap-1">
+                            {% for entry in memberships %}
+                              {% set org    = entry.memberOrganisation.label %}
+                              {% set status = entry.memberstatus.value %}
+                              {% if status == 'Snr Accredited' %}
+                                {% set nameClasses   = 'bg-success-subtle text-success-emphasis border-success-subtle' %}
+                                {% set statusClasses = 'bg-success text-white' %}
+                              {% elseif status == 'Accredited' %}
+                                {% set nameClasses   = 'bg-success-subtle text-success-emphasis border-success-subtle' %}
+                                {% set statusClasses = 'bg-success-subtle text-success-emphasis' %}
+                              {% else %}
+                                {% set nameClasses   = 'bg-light text-secondary border-secondary-subtle' %}
+                                {% set statusClasses = 'bg-light text-secondary' %}
+                              {% endif %}
+                              <span class="d-inline-flex rounded-pill overflow-hidden border"
+                                style="font-size: 0.7rem; font-weight: 500; line-height: 1; align-self: flex-start;">
+                                <span class="px-2 py-1 border-end {{ nameClasses }}">{{ org }}</span>
+                                <span class="px-2 py-1 {{ statusClasses }}">{{ status }}</span>
+                              </span>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+
+                      </div>
+
+                      {# Buttons — vertically centred right column #}
+                      <div class="d-flex flex-column gap-2 flex-shrink-0 align-self-center" style="width: 120px;">
+                        <a href="{{ alias('@baseUrl') }}/counsellors/{{ therapist.username|kebab }}/{{ therapist.id }}"
+                          class="btn btn-outline-primary btn-sm w-100">
+                          View profile
+                        </a>
+                        <button type="button"
+                          class="btn btn-outline-danger btn-sm w-100 d-flex align-items-center justify-content-center gap-1 remove-saved"
+                          data-item-id="{{ item.id }}"
+                          data-element-id="{{ therapist.id }}"
+                          data-element-site-id="{{ therapist.siteId }}"
+                          data-toggle-url="{{ craft.wishlist.toggleItemUrl(therapist) }}">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                          </svg>
+                          Remove
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                {% endif %}
+
+              {% endfor %}
+
+            </div>
+
+            <div id="empty-state" class="text-center py-5 d-none">
+              <p class="text-muted mb-3">You haven't saved any therapists yet.</p>
+              <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="btn btn-primary">
+                Find a therapist
+              </a>
+            </div>
+
+          {% else %}
+
+            <div class="text-center py-5">
+              <p class="text-muted mb-3">You haven't saved any therapists yet.</p>
+              <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="btn btn-primary">
+                Find a therapist
+              </a>
+            </div>
+
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  function getCsrfToken() {
+    return fetch('/actions/users/session-info', {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => ({
+      name:  data.csrfTokenName,
+      value: data.csrfTokenValue
+    }));
+  }
+
+  document.body.addEventListener('click', function (e) {
+    const btn = e.target.closest('.remove-saved');
+    if (!btn) return;
+
+    const elementId     = btn.dataset.elementId;
+    const elementSiteId = btn.dataset.elementSiteId;
+    const toggleUrl     = btn.dataset.toggleUrl;
+    const itemId        = btn.dataset.itemId;
+    const row           = document.getElementById('saved-row-' + itemId);
+
+    if (row) {
+      row.style.transition = 'opacity 0.25s';
+      row.style.opacity    = '0';
+    }
+
+    getCsrfToken()
+      .then(csrf => fetch(toggleUrl, {
+        method: 'POST',
+        headers: {
+          'Accept':           'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token':     csrf.value
+        },
+        body: new URLSearchParams({
+          'elementId':     elementId,
+          'elementSiteId': elementSiteId,
+          [csrf.name]:     csrf.value
+        })
+      }))
+      .then(res => {
+        if (!res.ok) throw new Error('Server error ' + res.status);
+        setTimeout(function () {
+          if (row) row.remove();
+          const remaining = document.querySelectorAll('#saved-list .card');
+          if (remaining.length === 0) {
+            const list       = document.getElementById('saved-list');
+            const emptyState = document.getElementById('empty-state');
+            if (list) list.remove();
+            if (emptyState) emptyState.classList.remove('d-none');
+          }
+        }, 250);
+      })
+      .catch(function (err) {
+        console.error('Remove failed:', err);
+        if (row) row.style.opacity = '1';
+      });
+  });
+
+});
+</script>
+
+{% endblock %}

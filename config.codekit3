@@ -2198,6 +2198,19 @@
       "oS" : 3,
       "pg" : 0
     },
+    "\/src\/scss\/theme\/components\/.navbartmp.scss" : {
+      "aP" : 1,
+      "bl" : 0,
+      "co" : 1,
+      "ec" : 1,
+      "ft" : 4,
+      "ma" : 1,
+      "oA" : 0,
+      "oAP" : "\/public_html\/css\/theme-min.css",
+      "oF" : 0,
+      "oS" : 3,
+      "pg" : 0
+    },
     "\/src\/scss\/theme\/helpers\/_text-truncate.scss" : {
       "aP" : 1,
       "bl" : 0,
@@ -2820,6 +2833,14 @@
       "oAP" : "\/templates\/_macros\/images.twig",
       "oF" : 0
     },
+    "\/templates\/_partials\/_offcanvas.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 1,
+      "oAP" : "\/templates\/_partials\/_offcanvas.twig",
+      "oF" : 0
+    },
     "\/templates\/_partials\/footer.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -2850,6 +2871,22 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/_partials\/nav.twig",
+      "oF" : 0
+    },
+    "\/templates\/_wishlist-data.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 1,
+      "oAP" : "\/templates\/_wishlist-data.twig",
+      "oF" : 0
+    },
+    "\/templates\/_wishlist-items.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/_wishlist-items.twig",
       "oF" : 0
     },
     "\/templates\/.gitkeep" : {
@@ -2906,6 +2943,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/components\/issues\/issues-list-card.twig",
+      "oF" : 0
+    },
+    "\/templates\/components\/orgs\/org-tiles.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/components\/orgs\/org-tiles.twig",
       "oF" : 0
     },
     "\/templates\/components\/typesoftherapy\/typesoftherapy-list-card.twig" : {
@@ -3116,6 +3161,14 @@
       "oAP" : "\/templates\/reset-password.twig",
       "oF" : 0
     },
+    "\/templates\/saved-therapists.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/saved-therapists.twig",
+      "oF" : 0
+    },
     "\/templates\/set-password.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3220,6 +3273,14 @@
       "oAP" : "\/templates\/users\/user-photo.twig",
       "oF" : 0
     },
+    "\/templates\/users\/user-profile-bak.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-profile-bak.twig",
+      "oF" : 0
+    },
     "\/templates\/users\/user-profile-edit copy.twig" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3274,6 +3335,22 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/templates\/verify-email.twig",
+      "oF" : 0
+    },
+    "\/templates\/wish-list.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/wish-list.twig",
+      "oF" : 0
+    },
+    "\/templates\/wishlist-debug.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/wishlist-debug.twig",
       "oF" : 0
     },
     "\/vendor" : {

@@ -1,0 +1,61 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  ce2f8ac3-a31c-43ab-8759-967aa34b60d7:
+    cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:be295619-a464-4c0c-b9ea-5712ab3252ab'
+      - 'layoutElement:4f9eb40e-2488-4fc6-8e0d-b24a4ee50522'
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-03-28T18:09:40+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 36dc80ef-c566-4b45-a3fa-53319d7ab7ba # Member organisation
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4f9eb40e-2488-4fc6-8e0d-b24a4ee50522
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-03-28T18:12:51+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1510c01a-849d-440a-b84e-ccca1d29861b # Member Status
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: be295619-a464-4c0c-b9ea-5712ab3252ab
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 9ef3ff99-407d-470e-ba0b-eb1e84b3b200
+        userCondition: null
+    thumbFieldKey: null
+handle: membership
+hasTitleField: false
+icon: null
+name: Membership
+showSlugField: true
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,0 +1,12 @@
+{% header "Cache-Control: no-store, no-cache, must-revalidate" %}
+{% header "Pragma: no-cache" %}
+{% header "Content-Type: application/json" %}
+
+{% set list = craft.wishlist.lists().one() %}
+{% if list %}
+  {% set items = craft.wishlist.items().listId(list.id).all() %}
+  {% set elementIds = items|map(item => item.elementId) %}
+  {{ elementIds|json_encode|raw }}
+{% else %}
+  {{ []|json_encode|raw }}
+{% endif %}
