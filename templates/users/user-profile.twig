@@ -63,25 +63,50 @@
 {% set issueNames      = issues|map(i => i.title) %}
 
 {% do seomatic.jsonLd.create({
-  'type':        'Person',
+  'type':         'ProfilePage',
+  'dateCreated':  user.dateCreated|date('c'),
+  'dateModified': user.dateUpdated|date('c'),
+  'url':          profileUrl,
+  'name':         user.fullName ~ ' — therapist profile',
+  'description':  user.shortSummary ? user.shortSummary|striptags : '',
+  'mainEntity': {
+    '@type':         'Person',
+    'name':          user.fullName,
+    'jobTitle':      user.titleRole ?? '',
+    'description':   user.shortSummary ? user.shortSummary|striptags : '',
+    'url':           profileUrl,
+    'image':         user.photo ? user.photo.url('profileMedium') : null,
+    'address': {
+      '@type':           'PostalAddress',
+      'addressLocality': 'Brighton',
+      'addressCountry':  'GB'
+    },
+    'knowsAbout':    issueNames,
+    'hasCredential': membershipNames,
+    'offers': {
+      '@type':         'Offer',
+      'name':          'Therapy session',
+      'price':         user.sessionRate ?? '',
+      'priceCurrency': 'GBP'
+    }
+  }
+}) %}
+
+{% do seomatic.jsonLd.create({
+  'type':        'LocalBusiness',
   'name':        user.fullName,
-  'jobTitle':    user.titleRole ?? '',
   'description': user.shortSummary ? user.shortSummary|striptags : '',
   'url':         profileUrl,
   'image':       user.photo ? user.photo.url('profileMedium') : null,
   'address': {
     '@type':           'PostalAddress',
     'addressLocality': 'Brighton',
+    'addressRegion':   'East Sussex',
     'addressCountry':  'GB'
   },
-  'knowsAbout':    issueNames,
-  'hasCredential': membershipNames,
-  'offers': {
-    '@type':         'Offer',
-    'name':          'Therapy session',
-    'price':         user.sessionRate ?? '',
-    'priceCurrency': 'GBP'
-  }
+  'priceRange':  '££',
+  'telephone':   user.phoneNumber ?? '',
+  'medicalSpecialty': therapyNames|join(', ')
 }) %}
 
 {# ── FAQPage JSON-LD via SEOmatic ─────────────────────────── #}
