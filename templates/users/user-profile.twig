@@ -17,7 +17,7 @@
 
 {# ── SEOmatic meta overrides ──────────────────────────────── #}
 
-{% set profileUrl = alias('@baseUrl') ~ '/counsellors/' ~ user.username|kebab ~ '/' ~ user.id %}
+{% set profileUrl = alias('@baseUrl') ~ '/counsellors/' ~ user.fullName|kebab ~ '/' ~ user.id %}
 
 {# Override meta title — use custom field or auto-generate #}
 {% set metaTitle = user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' %}
