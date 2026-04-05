@@ -3305,6 +3305,14 @@
       "oAP" : "\/templates\/users\/user-profile-indash.twig",
       "oF" : 0
     },
+    "\/templates\/users\/user-profile-seo.twig" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/templates\/users\/user-profile-seo.twig",
+      "oF" : 0
+    },
     "\/templates\/users\/user-profile-unavailable.twig" : {
       "cB" : 0,
       "ft" : 8192,

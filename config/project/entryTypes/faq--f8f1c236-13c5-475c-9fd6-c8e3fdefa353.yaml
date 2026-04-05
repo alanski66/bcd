@@ -5,42 +5,25 @@ fieldLayouts:
   646c5904-f778-4751-998e-eb31551a6c28:
     cardThumbAlignment: end
     cardView:
-      - 'generatedField:276837fc-df72-47b5-b2d8-98cb2eefccec'
-    generatedFields:
-      -
-        handle: answer
-        name: Answer
-        template: ''
-        uid: 276837fc-df72-47b5-b2d8-98cb2eefccec
+      - 'layoutElement:60b43e24-fcd7-407f-bfc1-5222677d8e85'
+      - 'layoutElement:fa54788f-c9bf-46cd-b735-4ab57db32467'
     tabs:
       -
         elementCondition: null
         elements:
           -
-            autocapitalize: true
-            autocomplete: false
-            autocorrect: true
-            class: null
-            dateAdded: '2025-12-15T13:32:50+00:00'
-            disabled: false
+            dateAdded: '2026-04-05T18:15:20+00:00'
+            editCondition: null
             elementCondition: null
-            id: null
-            inputType: null
+            elementEditCondition: null
+            fieldUid: f71f3f44-4e1d-48be-95f2-e14e0150ca2b # Question
+            handle: null
             instructions: null
             label: null
-            max: null
-            min: null
-            name: null
-            orientation: null
-            placeholder: null
-            readonly: false
-            required: true
-            size: null
-            step: null
+            required: false
             tip: null
-            title: null
-            type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: c46c8914-3272-4c45-b8cd-3a72790669f3
+            type: craft\fieldlayoutelements\CustomField
+            uid: fa54788f-c9bf-46cd-b735-4ab57db32467
             userCondition: null
             warning: null
             width: 100
@@ -49,7 +32,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 19806719-974d-4751-a309-d4795d39918f # Faq answer
+            fieldUid: 19806719-974d-4751-a309-d4795d39918f # Answer
             handle: null
             instructions: null
             label: null
@@ -64,10 +47,10 @@ fieldLayouts:
         uid: 1fd4fccf-3335-4cb2-851e-b26291e54de1
         userCondition: null
     thumbFieldKey: null
-handle: faqSection
-hasTitleField: true
+handle: faq
+hasTitleField: false
 icon: null
-name: _FAQ
+name: FAQ
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: faq
+handle: faqs
 instructions: null
-name: FAQ
+name: FAQs
 searchable: false
 settings:
   createButtonLabel: null
@@ -12,7 +12,10 @@ settings:
       __assoc__:
         -
           - uid
-          - f8f1c236-13c5-475c-9fd6-c8e3fdefa353 # _FAQ
+          - f8f1c236-13c5-475c-9fd6-c8e3fdefa353 # FAQ
+        -
+          - name
+          - faq
         -
           - group
           - General

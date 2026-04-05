@@ -1,10 +1,6 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 
 {% set bodyClass = "" %}
-
-{% block content %}
-<!-- users/user-profile twig -->
-
 {% set userId = craft.app.request.getSegment(3) %}
 
 {% set user = craft.users()
@@ -12,180 +8,340 @@
   .profileComplete(true)
   .id(userId).one() %}
 
-{% if user == null %}
+{# Redirect immediately if user not found — before any block runs #}
+{% if not user %}
   {% redirect "/users/user-profile-unavailable" %}
 {% endif %}
 
-{% set seoMetaTitle = "{{user.fullName}}" ~ " - " ~ user.titleRole|raw %}
-{% do seomatic.meta.seoTitle(seoMetaTitle) %}
-{% do seomatic.meta.seoDescription(
-  user.shortSummary | default("Helping you find support and healing in your counselling journey")
-) %}
+{% block headContent %}
+
+{# ── SEOmatic meta overrides ──────────────────────────────── #}
+
+{% set profileUrl = alias('@baseUrl') ~ '/counsellors/' ~ user.username|kebab ~ '/' ~ user.id %}
+
+{# Override meta title — use custom field or auto-generate #}
+{% set metaTitle = user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' %}
+{% do seomatic.meta.seoTitle(metaTitle) %}
+
+{# Override meta description — use custom field or fall back to short summary #}
+{% if user.seoDescription %}
+  {% do seomatic.meta.seoDescription(user.seoDescription) %}
+{% elseif user.shortSummary %}
+  {% do seomatic.meta.seoDescription(user.shortSummary|striptags) %}
+{% endif %}
+
+{# Override keywords if set #}
+{% if user.seoKeywords %}
+  {% do seomatic.meta.seoKeywords(user.seoKeywords) %}
+{% endif %}
+
+{# Override SEO image — custom > profile photo > SEOmatic default #}
+{% if user.ogImage|length %}
+  {% set ogImg = user.ogImage.one() %}
+  {% do seomatic.meta.seoImage(ogImg.url) %}
+  {% do seomatic.meta.seoImageWidth(ogImg.width) %}
+  {% do seomatic.meta.seoImageHeight(ogImg.height) %}
+  {% do seomatic.meta.seoImageDescription(user.fullName ~ ' — therapist profile photo') %}
+{% elseif user.photo %}
+  {% do seomatic.meta.seoImage(user.photo.url('profileMedium')) %}
+  {% do seomatic.meta.seoImageDescription(user.fullName ~ ' — therapist profile photo') %}
+{% endif %}
+
+{# Set canonical URL #}
+{% do seomatic.meta.canonicalUrl(profileUrl) %}
+
+{# Set page type #}
+{% do seomatic.meta.ogType('profile') %}
+
+{# ── Person JSON-LD via SEOmatic ──────────────────────────── #}
+
+{% set memberships     = user.memberships.all() %}
+{% set membershipNames = memberships|map(m => m.memberOrganisation.label ~ ' ' ~ m.memberstatus.value) %}
+{% set therapyTypes    = user.typesOfTherapyOfferred.all() %}
+{% set therapyNames    = therapyTypes|map(t => t.title) %}
+{% set issues          = user.typesOfIssuesYouCanHelp.all() %}
+{% set issueNames      = issues|map(i => i.title) %}
+
+{% do seomatic.jsonLd.create({
+  'type':        'Person',
+  'name':        user.fullName,
+  'jobTitle':    user.titleRole ?? '',
+  'description': user.shortSummary ? user.shortSummary|striptags : '',
+  'url':         profileUrl,
+  'image':       user.photo ? user.photo.url('profileMedium') : null,
+  'address': {
+    '@type':           'PostalAddress',
+    'addressLocality': 'Brighton',
+    'addressCountry':  'GB'
+  },
+  'knowsAbout':    issueNames,
+  'hasCredential': membershipNames,
+  'offers': {
+    '@type':         'Offer',
+    'name':          'Therapy session',
+    'price':         user.sessionRate ?? '',
+    'priceCurrency': 'GBP'
+  }
+}) %}
+
+{# ── FAQPage JSON-LD via SEOmatic ─────────────────────────── #}
+
+{% set autoFaqs = [] %}
+
+{% if user.titleRole %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'What type of therapist are you?',
+    answer:   user.titleRole
+  }]) %}
+{% endif %}
+
+{% if user.sessionRate %}
+  {% set rateAnswer = 'Individual sessions are £' ~ user.sessionRate ~ ' per session.' %}
+  {% if user.couplesRate %}
+    {% set rateAnswer = rateAnswer ~ ' Couples sessions are £' ~ user.couplesRate ~ '.' %}
+  {% endif %}
+  {% if user.concessions.value == 'yes' %}
+    {% set rateAnswer = rateAnswer ~ ' Reduced rates are available — please get in touch to discuss.' %}
+  {% endif %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'How much do sessions cost?',
+    answer:   rateAnswer
+  }]) %}
+{% endif %}
+
+{% if user.availability %}
+  {% set availMap = {
+    'available':     'Yes, I am currently accepting new clients.',
+    'limited':       'I have limited availability at the moment — please get in touch to check.',
+    'not-available': 'I am not currently accepting new clients, but please contact me to join a waiting list.'
+  } %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'Are you currently taking new clients?',
+    answer:   availMap[user.availability.value] ?? user.availability.value
+  }]) %}
+{% endif %}
+
+{% if therapyNames|length %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'What therapy approaches do you use?',
+    answer:   'I work with the following approaches: ' ~ therapyNames|join(', ') ~ '.'
+  }]) %}
+{% endif %}
+
+{% if issueNames|length %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'What issues do you specialise in?',
+    answer:   'I have experience working with: ' ~ issueNames|join(', ') ~ '.'
+  }]) %}
+{% endif %}
+
+{% set clientTypes = user.typeOfClient %}
+{% if clientTypes|length %}
+  {% set clientNames = clientTypes|map(c => c.label)|join(', ') %}
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'Who do you work with?',
+    answer:   'I work with: ' ~ clientNames ~ '.'
+  }]) %}
+{% endif %}
+
+{% set manualFaqs = user.faqs ? user.faqs.all() : [] %}
+{% set allFaqs    = autoFaqs %}
+{% for entry in manualFaqs %}
+  {% if entry.question and entry.answer %}
+    {% set allFaqs = allFaqs|merge([{
+      question: entry.question,
+      answer:   entry.answer
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{% if allFaqs|length %}
+  {% set faqEntries = [] %}
+  {% for faq in allFaqs %}
+    {% set faqEntries = faqEntries|merge([{
+      'type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        'type': 'Answer',
+        'text': faq.answer
+      }
+    }]) %}
+  {% endfor %}
+
+  {% do seomatic.jsonLd.create({
+    'type':       'FAQPage',
+    'mainEntity': faqEntries
+  }) %}
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
 
 <main>
-  <section class=" bg-light">
+  <section class="bg-light">
     <div class="container-fluid p-0 bg-white">
-<div class="container pt-3 ">
-      {# ── Hero card ────────────────────────────────────────── #}
-      <div class="card rounded-0 border-0 shadow-none mb-4 overflow-hidden">
-        <div class="card-body p-4 p-md-5 border-0 shadow-none">
-          <div class="row align-items-center g-4">
+      <div class="container pt-3">
 
-            {# Photo #}
-            <div class="col-auto">
-  {% if user.photo is not empty %}
-    <img src="{{ user.photo.url('profileMedium') }}"
-      alt="{{ user.fullName }}"
-      class="rounded-circle border border-3 border-primary"
-      style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); object-fit: cover;">
-  {% else %}
-    <div class="rounded-circle border border-3 border-primary bg-primary-subtle d-flex align-items-center justify-content-center fw-semibold text-primary"
-      style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); font-size: clamp(1rem, 3vw, 2rem);">
-      {{ user.fullName | split(' ') | map(w => w[0]) | join('') }}
-    </div>
-  {% endif %}
-</div>
-            {# Name / role / badges #}
-            <div class="col">
-              <div class="d-flex align-items-start gap-2 flex-wrap mb-1">
-                <h1 class="fw-bold mb-0 me-1">{{ user.fullName }}</h1>
+        {# ── Hero card ──────────────────────────────────────── #}
+        <div class="card rounded-0 border-0 shadow-none mb-4 overflow-hidden">
+          <div class="card-body p-4 p-md-5 border-0 shadow-none">
+            <div class="row align-items-center g-4">
 
-                {# Verified tick #}
-                {% if user.memberships.count() %}
-                  <span
-                    data-bs-toggle="popover"
-                    data-bs-trigger="hover focus"
-                    data-bs-placement="top"
-                    data-bs-title="Verified therapist"
-                    data-bs-content="Every therapist listed on Brighton Counselling Directory has been independently verified by our team to confirm they hold appropriate qualifications and professional insurance to practise."
-                    style="cursor: pointer; line-height: 1; margin-top: 4px;">
-                    <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" class="text-primary">
-                      <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0
-                        0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89
-                        2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89
-                        .011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0
-                        0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287
-                        5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7
-                        8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
-                    </svg>
-                  </span>
+              {# Photo #}
+              <div class="col-auto">
+                {% if user.photo is not empty %}
+                  <img src="{{ user.photo.url('profileMedium') }}"
+                    alt="{{ user.fullName }}"
+                    class="rounded-circle border border-3 border-primary"
+                    style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); object-fit: cover;">
+                {% else %}
+                  <div class="rounded-circle border border-3 border-primary bg-primary-subtle d-flex align-items-center justify-content-center fw-semibold text-primary"
+                    style="width: clamp(80px, 15vw, 180px); height: clamp(80px, 15vw, 180px); font-size: clamp(1rem, 3vw, 2rem);">
+                    {{ user.fullName|split(' ')|map(w => w[0])|join('') }}
+                  </div>
                 {% endif %}
-
-                {# Bookmark button #}
-                <button type="button"
-                  class="btn btn-outline-secondary wishlist-toggle d-flex align-items-center justify-content-center p-0 "
-                  style="width: 44px; height: 40px;"
-                  data-element-id="{{ user.id }}"
-                  data-element-site-id="{{ user.siteId }}"
-                  data-toggle-url="{{ craft.wishlist.toggleItemUrl(user) }}"
-                  title="Save therapist"
-                  aria-label="Save therapist">
-                  <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
-                      13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
-                      0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                  </svg>
-                </button>
               </div>
 
-              {% if user.titleRole %}
-                <p class="text-muted mb-2">{{ user.titleRole }}</p>
-              {% endif %}
+              {# Name / role / badges #}
+              <div class="col">
+                <div class="d-flex align-items-start gap-2 flex-wrap mb-1">
+                  <h1 class="fw-bold mb-0 me-1">{{ user.fullName }}</h1>
 
-              {# Short summary #}
-          {% if user.shortSummary %}
-               <p class="d-none d-sm-block mb-0 text-body">{{ user.shortSummary }}</p>
-             
-          {% endif %}
-
-              {# Location #}
-              {% if user.location %}
-                <p class="text-muted mb-2" style="font-size: 0.9rem;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                    class="me-1" viewBox="0 0 16 16">
-                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                  </svg>
-                  {{ user.location }}
-                </p>
-              {% endif %}
-
-              {# Membership pills #}
-              {% set memberships = user.memberships.all() %}
-              {% if memberships|length %}
-                <div class="d-flex flex-wrap gap-1 mt-2">
-                  {% for entry in memberships %}
-                    {% set org    = entry.memberOrganisation.label %}
-                    {% set status = entry.memberstatus.value %}
-                    {% if status == 'Snr Accredited' or status == 'Accredited' %}
-                      {% set pillBg   = 'bg-primary' %}
-                      {% set pillText = 'text-white' %}
-                    {% else %}
-                      {% set pillBg   = 'bg-success-subtle' %}
-                      {% set pillText = 'text-success-emphasis' %}
-                    {% endif %}
-                    <span class="d-inline-flex rounded-pill overflow-hidden border"
-                      style="font-size: 0.7rem; font-weight: 500; line-height: 1;">
-                      <span class="px-2 py-1 bg-primary-subtle text-primary-emphasis border-end">{{ org }}</span>
-                      <span class="px-2 py-1 {{ pillBg }} {{ pillText }}">{{ status }}</span>
+                  {# Verified tick #}
+                  {% if user.memberships.count() %}
+                    <span
+                      data-bs-toggle="popover"
+                      data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-title="Verified therapist"
+                      data-bs-content="Every therapist listed on Brighton Counselling Directory has been independently verified by our team to confirm they hold appropriate qualifications and professional insurance to practise."
+                      style="cursor: pointer; line-height: 1; margin-top: 4px;">
+                      <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" class="text-primary">
+                        <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0
+                          0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89
+                          2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89
+                          .011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0
+                          0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287
+                          5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7
+                          8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+                      </svg>
                     </span>
-                  {% endfor %}
+                  {% endif %}
+
+                  {# Bookmark button #}
+                  <button type="button"
+                    class="btn btn-outline-secondary wishlist-toggle d-flex align-items-center justify-content-center p-0"
+                    style="width: 44px; height: 40px;"
+                    data-element-id="{{ user.id }}"
+                    data-element-site-id="{{ user.siteId }}"
+                    data-toggle-url="{{ craft.wishlist.toggleItemUrl(user) }}"
+                    title="Save therapist"
+                    aria-label="Save therapist">
+                    <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+                        13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+                        0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                    </svg>
+                  </button>
                 </div>
-              {% endif %}
-            </div>
 
-            {# Quick-action buttons (hero level) #}
-            <div class="col-12 col-sm-auto d-flex gap-2 flex-wrap">
-              <a href="tel:{{ user.phoneNumber }}"
-                class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45
-                    1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211
-                    1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68
-                    0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0
-                    1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/>
-                </svg>
-                Call now
-              </a>
-              <form action="{{ baseUrl }}enquiry" method="post"
-                accept-charset="UTF-8" enctype="multipart/form-data" class="m-0">
-                {{ csrfInput() }}
-                <input type="hidden" name="therapistID" value="{{ user.id }}">
-                <button type="submit"
-                  class="btn btn-primary d-inline-flex align-items-center gap-2">
+                {% if user.titleRole %}
+                  <p class="text-muted mb-2">{{ user.titleRole }}</p>
+                {% endif %}
+
+                {% if user.shortSummary %}
+                  <p class="d-none d-sm-block mb-0 text-body">{{ user.shortSummary }}</p>
+                {% endif %}
+
+                {% if user.location %}
+                  <p class="text-muted mb-2" style="font-size: 0.9rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                      class="me-1" viewBox="0 0 16 16">
+                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                    </svg>
+                    {{ user.location }}
+                  </p>
+                {% endif %}
+
+                {# Membership pills #}
+                {% set memberships = user.memberships.all() %}
+                {% if memberships|length %}
+                  <div class="d-flex flex-wrap gap-1 mt-2">
+                    {% for entry in memberships %}
+                      {% set org    = entry.memberOrganisation.label %}
+                      {% set status = entry.memberstatus.value %}
+                      {% if status == 'Snr Accredited' or status == 'Accredited' %}
+                        {% set pillBg   = 'bg-primary' %}
+                        {% set pillText = 'text-white' %}
+                      {% else %}
+                        {% set pillBg   = 'bg-success-subtle' %}
+                        {% set pillText = 'text-success-emphasis' %}
+                      {% endif %}
+                      <span class="d-inline-flex rounded-pill overflow-hidden border"
+                        style="font-size: 0.7rem; font-weight: 500; line-height: 1;">
+                        <span class="px-2 py-1 bg-primary-subtle text-primary-emphasis border-end">{{ org }}</span>
+                        <span class="px-2 py-1 {{ pillBg }} {{ pillText }}">{{ status }}</span>
+                      </span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              {# Quick-action buttons #}
+              <div class="col-12 col-sm-auto d-flex gap-2 flex-wrap">
+                <a href="tel:{{ user.phoneNumber }}"
+                  class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0
-                      1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13
-                      2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64
-                      3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45
+                      1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211
+                      1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68
+                      0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0
+                      1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/>
                   </svg>
-                  Send enquiry
-                </button>
-              </form>
-            </div>
+                  Call now
+                </a>
+                <form action="{{ baseUrl }}enquiry" method="post"
+                  accept-charset="UTF-8" enctype="multipart/form-data" class="m-0">
+                  {{ csrfInput() }}
+                  <input type="hidden" name="therapistID" value="{{ user.id }}">
+                  <button type="submit"
+                    class="btn btn-primary d-inline-flex align-items-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0
+                        1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13
+                        2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64
+                        3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                    </svg>
+                    Send enquiry
+                  </button>
+                </form>
+              </div>
 
+            </div>
           </div>
         </div>
-      </div>
-      {# end hero card #}
-      </div>
-      </div> {# end container #}
-</section>
-       <section class="pb-5 bg-light">
-      <div class="container">
+        {# end hero card #}
 
-      {# ── Two-column body ──────────────────────────────────── #}
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5 bg-light">
+    <div class="container">
+
       <div class="row g-4 align-items-start">
 
-        {# ── Left column — bio content ────────────────────────── #}
+        {# ── Left column ────────────────────────────────────── #}
         <div class="col-12 col-lg-8">
 
-          
           {# About me #}
           {% if user.aboutMe %}
             <div class="card rounded-4 border-0 shadow-sm mb-4">
               <div class="card-body p-4">
                 <h2 class="fw-semibold mb-3">About me</h2>
-                <div class="text-body">{{ user.aboutMe | raw }}</div>
+                <div class="text-body">{{ user.aboutMe|raw }}</div>
               </div>
             </div>
           {% endif %}
@@ -195,7 +351,7 @@
             <div class="card rounded-4 border-0 shadow-sm mb-4">
               <div class="card-body p-4">
                 <h2 class="fw-semibold mb-3">Training and experience</h2>
-                <div class="text-body">{{ user.trainingAndExperience | raw }}</div>
+                <div class="text-body">{{ user.trainingAndExperience|raw }}</div>
               </div>
             </div>
           {% endif %}
@@ -215,7 +371,7 @@
             <div class="card rounded-4 border-0 shadow-sm mb-4">
               <div class="card-body p-4">
                 <h2 class="fw-semibold mb-3">How I work</h2>
-                <div class="text-body">{{ user.practiceDescription | raw }}</div>
+                <div class="text-body">{{ user.practiceDescription|raw }}</div>
               </div>
             </div>
           {% endif %}
@@ -237,127 +393,231 @@
             </div>
           {% endif %}
 
+          {# FAQ accordion — built from auto + manual FAQs #}
+          {% set autoFaqs = [] %}
+
+          {% if user.titleRole %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'What type of therapist are you?',
+              answer:   user.titleRole
+            }]) %}
+          {% endif %}
+
+          {% if user.sessionRate %}
+            {% set rateAnswer = 'Individual sessions are £' ~ user.sessionRate ~ ' per session.' %}
+            {% if user.couplesRate %}
+              {% set rateAnswer = rateAnswer ~ ' Couples sessions are £' ~ user.couplesRate ~ '.' %}
+            {% endif %}
+            {% if user.concessions.value == 'yes' %}
+              {% set rateAnswer = rateAnswer ~ ' Reduced rates are available — please get in touch to discuss.' %}
+            {% endif %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'How much do sessions cost?',
+              answer:   rateAnswer
+            }]) %}
+          {% endif %}
+
+          {% if user.availability %}
+            {% set availMap = {
+              'available':     'Yes, I am currently accepting new clients.',
+              'limited':       'I have limited availability at the moment — please get in touch to check.',
+              'not-available': 'I am not currently accepting new clients, but please contact me to join a waiting list.'
+            } %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'Are you currently taking new clients?',
+              answer:   availMap[user.availability.value] ?? user.availability.value
+            }]) %}
+          {% endif %}
+
+          {% set therapyTypes = user.typesOfTherapyOfferred.all() %}
+          {% if therapyTypes|length %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'What therapy approaches do you use?',
+              answer:   'I work with the following approaches: ' ~ therapyTypes|map(t => t.title)|join(', ') ~ '.'
+            }]) %}
+          {% endif %}
+
+          {% set issues = user.typesOfIssuesYouCanHelp.all() %}
+          {% if issues|length %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'What issues do you specialise in?',
+              answer:   'I have experience working with: ' ~ issues|map(i => i.title)|join(', ') ~ '.'
+            }]) %}
+          {% endif %}
+
+          {% set clientTypes = user.typeOfClient %}
+          {% if clientTypes|length %}
+            {% set autoFaqs = autoFaqs|merge([{
+              question: 'Who do you work with?',
+              answer:   'I work with: ' ~ clientTypes|map(c => c.label)|join(', ') ~ '.'
+            }]) %}
+          {% endif %}
+
+          {% set manualFaqs = user.faqs ? user.faqs.all() : [] %}
+          {% set allFaqs    = autoFaqs %}
+          {% for entry in manualFaqs %}
+            {% if entry.question and entry.answer %}
+              {% set allFaqs = allFaqs|merge([{
+                question: entry.question,
+                answer:   entry.answer
+              }]) %}
+            {% endif %}
+          {% endfor %}
+
+          {% if allFaqs|length %}
+            <div class="card rounded-4 shadow-sm mb-4">
+              <div class="card-body p-4">
+                <h2 class="fw-semibold mb-4">Frequently asked questions</h2>
+                <div class="accordion accordion-flush" id="faq-accordion">
+                  {% for faq in allFaqs %}
+                    <div class="accordion-item border-bottom">
+                      <h3 class="accordion-header" id="faq-heading-{{ loop.index }}">
+                        <button class="accordion-button collapsed px-0 fw-medium"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#faq-body-{{ loop.index }}"
+                          aria-expanded="false"
+                          aria-controls="faq-body-{{ loop.index }}">
+                          {{ faq.question }}
+                        </button>
+                      </h3>
+                      <div id="faq-body-{{ loop.index }}"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="faq-heading-{{ loop.index }}"
+                        data-bs-parent="#faq-accordion">
+                        <div class="accordion-body px-0 text-muted">
+                          {{ faq.answer }}
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
         </div>
         {# end left column #}
 
-        {# ── Right column — sticky sidebar ────────────────────── #}
-<div class="col-12 col-lg-4" style="position: sticky; top: 1.5rem; align-self: start;">
+        {# ── Right column — sticky sidebar ──────────────────── #}
+        <div class="col-12 col-lg-4" style="position: sticky; top: 1.5rem; align-self: start;">
 
-            {# Fees card #}
-            <div class="card rounded-4 border-0 shadow-sm mb-4">
-              <div class="card-body p-4">
-                <h5 class="fw-semibold mb-3">Fees</h5>
+          {# Fees card #}
+          <div class="card rounded-4 border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <h5 class="fw-semibold mb-3">Fees</h5>
 
+              <div class="d-flex justify-content-between border-bottom py-2">
+                <span class="fw-medium">Individuals</span>
+                <span>£{{ user.sessionRate }}</span>
+              </div>
+
+              {% if user.couplesRate is not empty %}
                 <div class="d-flex justify-content-between border-bottom py-2">
-                  <span class="fw-medium">Individuals</span>
-                  <span>£{{ user.sessionRate }}</span>
+                  <span class="fw-medium">Couples</span>
+                  <span>£{{ user.couplesRate }}</span>
                 </div>
+              {% endif %}
 
-                {% if user.couplesRate is not empty %}
-                  <div class="d-flex justify-content-between border-bottom py-2">
-                    <span class="fw-medium">Couples</span>
-                    <span>£{{ user.couplesRate }}</span>
-                  </div>
-                {% endif %}
+              <div class="d-flex justify-content-between border-bottom py-2">
+                <span class="fw-medium">Availability</span>
+                <span class="text-warning d-flex align-items-center gap-1">
+                  {{ user.availability|capitalize }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                    viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173
+                      6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927
+                      0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83
+                      4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+                </span>
+              </div>
 
-                <div class="d-flex justify-content-between border-bottom py-2">
-                  <span class="fw-medium">Availability</span>
-                  <span class="text-warning d-flex align-items-center gap-1">
-                    {{ user.availability | capitalize }}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                      viewBox="0 0 16 16">
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173
-                        6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927
-                        0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83
-                        4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                    </svg>
-                  </span>
-                </div>
+              <div class="d-flex justify-content-between pt-2">
+                <span class="fw-medium">Concessions</span>
+                <span>{{ user.concessions }}</span>
+              </div>
 
-                <div class="d-flex justify-content-between pt-2">
-                  <span class="fw-medium">Concessions</span>
-                  <span>{{ user.concessions }}</span>
-                </div>
+              <hr class="my-3">
 
-                <hr class="my-3">
-
-                <div class="d-flex flex-column gap-2">
-                  <form action="{{ baseUrl }}enquiry" method="post"
-                    accept-charset="UTF-8" enctype="multipart/form-data" class="m-0">
-                    {{ csrfInput() }}
-                    <input type="hidden" name="therapistID" value="{{ user.id }}">
-                    <button type="submit"
-                      class="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center gap-2">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0
-                          1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13
-                          2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64
-                          3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
-                      </svg>
-                      Send enquiry
-                    </button>
-                  </form>
-                  <a href="tel:{{ user.phoneNumber }}"
-                    class="btn btn-outline-secondary w-100 d-inline-flex align-items-center justify-content-center gap-2">
+              <div class="d-flex flex-column gap-2">
+                <form action="{{ baseUrl }}enquiry" method="post"
+                  accept-charset="UTF-8" enctype="multipart/form-data" class="m-0">
+                  {{ csrfInput() }}
+                  <input type="hidden" name="therapistID" value="{{ user.id }}">
+                  <button type="submit"
+                    class="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center gap-2">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661
-                        1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608
-                        4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0
-                        0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0
-                        1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0
-                        0-.122-.58z"/>
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0
+                        1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13
+                        2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64
+                        3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
                     </svg>
-                    Call now
-                  </a>
+                    Send enquiry
+                  </button>
+                </form>
+                <a href="tel:{{ user.phoneNumber }}"
+                  class="btn btn-outline-secondary w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661
+                      1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608
+                      4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0
+                      0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0
+                      1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0
+                      0-.122-.58z"/>
+                  </svg>
+                  Call now
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {# I work with + expertise #}
+          <div class="card rounded-4 border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+
+              {% set clients = user.typeOfClient %}
+              {% if clients|length %}
+                <h5 class="fw-semibold mb-3">I work with</h5>
+                <ul class="list-unstyled mb-0">
+                  {% for item in clients %}
+                    <li class="d-flex align-items-center gap-2 mb-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="text-success flex-shrink-0" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0
+                          0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97
+                          11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                      <span>{{ item.label }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <hr class="my-3">
+              {% endif %}
+
+              {% set expertCats = user.category %}
+              {% if expertCats|length %}
+                <h5 class="fw-semibold mb-3">Areas of expertise</h5>
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                  {% for cat in expertCats %}
+                    <a href="{{ cat.url }}" class="btn btn-sm btn-light rounded-pill">{{ cat.title }}</a>
+                  {% endfor %}
                 </div>
-              </div>
+              {% endif %}
+
+              {% set issues = user.typesOfIssuesYouCanHelp.all() %}
+              {% if issues|length %}
+                <h5 class="fw-semibold mb-3">Issues I can help with</h5>
+                <div class="d-flex flex-wrap gap-1">
+                  {% for issue in issues %}
+                    <a href="{{ issue.url }}" class="btn btn-sm btn-light rounded-pill">{{ issue.title }}</a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
             </div>
+          </div>
 
-            {# I work with + expertise #}
-            <div class="card rounded-4 border-0 shadow-sm mb-4">
-              <div class="card-body p-4">
-
-                {% set clients = user.typeOfClient %}
-                {% if clients|length %}
-                  <h5 class="fw-semibold mb-3">I work with</h5>
-                  <ul class="list-unstyled mb-0">
-                    {% for item in clients %}
-                      <li class="d-flex align-items-center gap-2 mb-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="text-success flex-shrink-0" viewBox="0 0 16 16">
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0
-                            0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97
-                            11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                        </svg>
-                        <span>{{ item.label }}</span>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                  <hr class="my-3">
-                {% endif %}
-
-                {% set expertCats = user.category %}
-                {% if expertCats|length %}
-                  <h5 class="fw-semibold mb-3">Areas of expertise</h5>
-                  <div class="d-flex flex-wrap gap-1 mb-3">
-                    {% for cat in expertCats %}
-                      <a href="{{ cat.url }}" class="btn btn-sm btn-light rounded-pill">{{ cat.title }}</a>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-                {% set issues = user.typesOfIssuesYouCanHelp.all() %}
-                {% if issues|length %}
-                  <h5 class="fw-semibold mb-3">Issues I can help with</h5>
-                  <div class="d-flex flex-wrap gap-1">
-                    {% for issue in issues %}
-                      <a href="{{ issue.url }}" class="btn btn-sm btn-light rounded-pill">{{ issue.title }}</a>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-              </div>
-            </div>
         </div>
         {# end right sticky sidebar #}
 
@@ -366,6 +626,7 @@
 
     </div>
   </section>
+
 </main>
 
 {% js %}
@@ -410,7 +671,6 @@
     });
   }
 
-  // Load saved state for this profile's bookmark button
   fetch('/wishlist-items', {
     credentials: 'same-origin',
     headers: { 'Accept': 'application/json' }
@@ -490,7 +750,6 @@
       });
   });
 
-  // Initialise popovers
   document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
     new bootstrap.Popover(el, { container: 'body' });
   });

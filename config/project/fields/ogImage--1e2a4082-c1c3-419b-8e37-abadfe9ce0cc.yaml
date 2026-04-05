@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: ogImage
+instructions: 'Upload a landscape image at 1200×630px. This appears in Google, Facebook, LinkedIn and other platforms when your profile is shared or appears in search results. A default Brighton Counselling directory one will be used by default if none exists for your profile'
+name: 'SEO Image'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: 'volume:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
+  defaultUploadLocationSubpath: seo
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: 0
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:6229b346-6ed9-4ba1-b01e-d4aa42b7fd07' # User photos
+  restrictedLocationSubpath: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:a8055963-f807-47a4-9d1c-438e42b5aed3' # Images
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

@@ -1,4 +1,4 @@
-dateModified: 1775326894
+dateModified: 1775415537
 elementSources:
   craft\elements\Entry:
     -
@@ -206,6 +206,7 @@ graphql:
 meta:
   __names__:
     0d2c9898-3ec4-4a84-a6c2-012d385c7fa3: 'Practice description' # Practice description
+    1e2a4082-c1c3-419b-8e37-abadfe9ce0cc: 'SEO Image' # SEO Image
     2a807641-d923-4a22-8412-0e6fe9cde8e6: mainnav # mainnav
     2e0f8be2-a26a-4d3b-833e-b9edc93188aa: Pages # Pages
     3a0c7965-1bd5-481a-a6dc-4aae3c19067f: therapist # therapist
@@ -229,7 +230,7 @@ meta:
     43f6ee32-dbe7-405f-ba2a-3fbe8b2dd0ae: SEO # SEO
     45f99bef-ed2c-476b-a382-35d04507ba5e: Icons # Icons
     47be18fe-51eb-407a-a365-c203b5a5b101: 'Site settings' # Site settings
-    48d70559-0861-4360-9c66-df0a47415a8d: FAQ # FAQ
+    48d70559-0861-4360-9c66-df0a47415a8d: FAQs # FAQs
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
     49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
     84d3be0c-c468-4664-914c-b80e544b5114: Category # Category
@@ -245,14 +246,16 @@ meta:
     4925fc69-c87a-4cf0-8d77-8830d8053b62: 'Entry link' # Entry link
     5942cd7b-ea0c-4234-b261-1175ac7e41ad: 'Custom Url' # Custom Url
     6229b346-6ed9-4ba1-b01e-d4aa42b7fd07: 'User photos' # User photos
+    6723f4cd-0495-47e4-808a-e397b8d6589d: 'SEO Keywords' # SEO Keywords
     06816e28-6e57-400c-a5e5-d00a70fbfbc6: Feature # Feature
     8742d0e0-5abb-4774-b8a6-05a5668e9098: 'Short summary' # Short summary
     8799e074-514f-4b7a-af19-f42b60826eb9: 'Featured image' # Featured image
     13311efd-c22d-440c-9713-216f3cf5e4bd: Availability # Availability
     49141ff0-5149-43b7-91d1-5c8d09a915ed: 'Types of Therapy' # Types of Therapy
     90155b7e-865d-4cb6-a76b-76906dedad56: 'Type of Issues' # Type of Issues
+    371423d2-029e-42a6-aa9a-6e6040bef89d: 'SEO Title' # SEO Title
     17963774-18cc-46cc-ab8f-9d569543cf74: 'JSON schema' # JSON schema
-    19806719-974d-4751-a309-d4795d39918f: 'Faq answer' # Faq answer
+    19806719-974d-4751-a309-d4795d39918f: Answer # Answer
     99287739-b68e-4cec-b31c-9f8b612d8fa6: Articles # Articles
     a01fdd0f-90f7-4242-8e96-f7ea7db5e752: 'Verified membership' # Verified membership
     a7da37e8-4e55-4596-b38a-edd9266963a5: 'Session rate' # Session rate
@@ -267,6 +270,7 @@ meta:
     b6914cb8-a88f-4607-a3ca-a82a45a4b9a0: Enquiry # Enquiry
     c0ed5fcd-bf5e-4d52-9094-794f737b4080: 'Brighton Counselling Directory' # Brighton Counselling Directory
     c8e19182-bf6c-49f8-9aa6-9c9fd87ea0d6: Issue # Issue
+    c40b9e8b-d65a-47ac-85be-4e2f6fabe4e4: 'SEO Description' # SEO Description
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
@@ -283,8 +287,9 @@ meta:
     e19118e6-96fb-4dc3-b422-7eaa46f16d1e: 'Training & experience' # Training & experience
     f1d9dde5-deed-4482-972c-eb6e5179873d: Home # Home
     f4e6a838-c1ce-4c50-b340-6883d40eeec4: Blur # Blur
-    f8f1c236-13c5-475c-9fd6-c8e3fdefa353: _FAQ # _FAQ
+    f8f1c236-13c5-475c-9fd6-c8e3fdefa353: FAQ # FAQ
     f11c0ca4-477e-4f64-b73d-97084f9d6a56: Email # Email
+    f71f3f44-4e1d-48be-95f2-e14e0150ca2b: Question # Question
     f738e4ee-a559-4e36-8c9a-a559088a75af: 'User insurance' # User insurance
 plugins:
   blur-hash:
