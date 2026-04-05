@@ -62,6 +62,26 @@
 {% set issues          = user.typesOfIssuesYouCanHelp.all() %}
 {% set issueNames      = issues|map(i => i.title) %}
 
+
+{# 1. Build all data variables first #}
+{% set memberships     = user.memberships.all() %}
+{% set membershipNames = memberships|map(m => m.memberOrganisation.label ~ ' ' ~ m.memberstatus.value) %}
+
+{% set therapyTypes    = user.typesOfTherapyOfferred.all() %}
+{% set therapyNames    = therapyTypes|map(t => t.title) %}
+
+{% set issues          = user.typesOfIssuesYouCanHelp.all() %}
+{% set expertCats      = user.category.all() %}
+{% set allTopics       = [] %}
+{% if expertCats|length %}
+  {% set allTopics = allTopics|merge(expertCats|map(c => c.title)) %}
+{% endif %}
+{% if issues|length %}
+  {% set allTopics = allTopics|merge(issues|map(i => i.title)) %}
+{% endif %}
+{% set allTopics = allTopics|unique %}
+
+
 {% do seomatic.jsonLd.create({
   'type':         'ProfilePage',
   'dateCreated':  user.dateCreated|date('c'),
@@ -81,7 +101,7 @@
       'addressLocality': 'Brighton',
       'addressCountry':  'GB'
     },
-    'knowsAbout':    issueNames,
+    'knowsAbout':    allTopics,
     'hasCredential': membershipNames,
     'offers': {
       '@type':         'Offer',
@@ -153,10 +173,26 @@
   }]) %}
 {% endif %}
 
-{% if issueNames|length %}
+{% set issues     = user.typesOfIssuesYouCanHelp.all() %}
+{% set expertCats = user.category.all() %}
+
+{% if issues|length or expertCats|length %}
+  {% set allTopics = [] %}
+
+  {% if expertCats|length %}
+    {% set allTopics = allTopics|merge(expertCats|map(c => c.title)) %}
+  {% endif %}
+
+  {% if issues|length %}
+    {% set allTopics = allTopics|merge(issues|map(i => i.title)) %}
+  {% endif %}
+
+  {# Deduplicate in case there is overlap #}
+  {% set allTopics = allTopics|unique %}
+
   {% set autoFaqs = autoFaqs|merge([{
-    question: 'What issues do you specialise in?',
-    answer:   'I have experience working with: ' ~ issueNames|join(', ') ~ '.'
+    question: 'What issues and areas do you specialise in?',
+    answer:   'I have experience working with: ' ~ allTopics|join(', ') ~ '.'
   }]) %}
 {% endif %}
 
@@ -462,13 +498,28 @@
             }]) %}
           {% endif %}
 
-          {% set issues = user.typesOfIssuesYouCanHelp.all() %}
-          {% if issues|length %}
-            {% set autoFaqs = autoFaqs|merge([{
-              question: 'What issues do you specialise in?',
-              answer:   'I have experience working with: ' ~ issues|map(i => i.title)|join(', ') ~ '.'
-            }]) %}
-          {% endif %}
+{% set issues     = user.typesOfIssuesYouCanHelp.all() %}
+{% set expertCats = user.category.all() %}
+
+{% if issues|length or expertCats|length %}
+  {% set allTopics = [] %}
+
+  {% if expertCats|length %}
+    {% set allTopics = allTopics|merge(expertCats|map(c => c.title)) %}
+  {% endif %}
+
+  {% if issues|length %}
+    {% set allTopics = allTopics|merge(issues|map(i => i.title)) %}
+  {% endif %}
+
+  {# Deduplicate in case there is overlap #}
+  {% set allTopics = allTopics|unique %}
+
+  {% set autoFaqs = autoFaqs|merge([{
+    question: 'What issues and areas do you specialise in?',
+    answer:   'I have experience working with: ' ~ allTopics|join(', ') ~ '.'
+  }]) %}
+{% endif %}
 
           {% set clientTypes = user.typeOfClient %}
           {% if clientTypes|length %}
