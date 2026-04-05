@@ -12,11 +12,22 @@
   {% if errors %}{{ ul(errors, {class: 'errors'}) }}{% endif %}
 {% endmacro %}
 
+{# Determine which image will be used for social sharing #}
+{% if user.ogImage|length %}
+  {% set previewImage    = user.ogImage.one().url %}
+  {% set previewImageSrc = 'Custom SEO image' %}
+{% elseif user.photo|length %}
+  {% set previewImage    = user.photo.url('profileMedium') %}
+  {% set previewImageSrc = 'Profile photo (fallback)' %}
+{% else %}
+  {% set previewImage    = null %}
+  {% set previewImageSrc = 'Site default (no image uploaded)' %}
+{% endif %}
+
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
 
-      {# User info header — same as main edit page #}
       <div class="row align-items-center">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
           <div class="rounded-top"
@@ -70,10 +81,15 @@
                 {{ hiddenInput('userId', user.id) }}
                 {{ redirectInput('/users/user-profile-seo?status=1') }}
 
+                {# ── Previews ──────────────────────────────────── #}
                 <div class="card mb-4 p-3">
+
                   <h4 class="mb-1">Search engine preview</h4>
-                  <p class="text-muted small mb-3">This is how your profile may appear in Google search results.</p>
-                  <div id="seo-preview" class="p-3 bg-light rounded-3">
+                  <p class="text-muted small mb-3">
+                    How your profile may appear in Google search results.
+                  </p>
+
+                  <div id="seo-preview" class="p-3 bg-light rounded-3 mb-4">
                     <div id="preview-title"
                       class="text-primary fw-medium mb-1"
                       style="font-size: 1.1rem;">
@@ -86,6 +102,78 @@
                       {{ user.seoDescription ?? user.shortSummary }}
                     </div>
                   </div>
+
+                  <h4 class="mb-1">Social media sharing preview</h4>
+                  <p class="text-muted small mb-3">
+                    How your profile will appear when shared on Facebook, LinkedIn and other platforms.
+                    <span class="badge bg-secondary ms-1" style="font-size:0.7rem;">
+                      Using: {{ previewImageSrc }}
+                    </span>
+                  </p>
+
+                  <div class="border rounded-3 overflow-hidden" style="max-width: 500px;">
+
+                    <div style="background: #e9ecef; aspect-ratio: 1.91/1; overflow: hidden; position: relative;">
+                      {% if previewImage %}
+                        <img id="og-preview-img"
+                          src="{{ previewImage }}"
+                          alt="Social share preview"
+                          style="width: 100%; height: 100%; object-fit: cover;">
+                      {% else %}
+                        <div id="og-preview-img"
+                          class="d-flex align-items-center justify-content-center h-100 text-muted"
+                          style="font-size: 0.85rem;">
+                          No image — site default will be used
+                        </div>
+                      {% endif %}
+                      <div style="position: absolute; bottom: 8px; right: 8px;">
+                        <span id="og-preview-badge"
+                          class="badge bg-dark bg-opacity-75"
+                          style="font-size: 0.65rem;">
+                          {{ previewImageSrc }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="p-3 border-top bg-white">
+                      <div class="text-muted text-uppercase mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 0.05em;">
+                        brightoncounsellingdirectory.co.uk
+                      </div>
+                      <div id="og-preview-title"
+                        class="fw-semibold mb-1"
+                        style="font-size: 0.9rem; line-height: 1.3;">
+                        {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' }}
+                      </div>
+                      <div id="og-preview-desc"
+                        class="text-muted"
+                        style="font-size: 0.8rem; line-height: 1.4;
+                          display: -webkit-box; -webkit-line-clamp: 2;
+                          -webkit-box-orient: vertical; overflow: hidden;">
+                        {{ user.seoDescription ?? user.shortSummary }}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {% if user.ogImage|length %}
+                    <p class="text-muted small mt-2 mb-0">
+                      To revert to your profile photo, upload a replacement SEO image below.
+                    </p>
+                  {% elseif not user.photo|length %}
+                    <p class="text-warning small mt-2 mb-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                        fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091
+                          1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535
+                          0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0
+                          0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                      No profile photo uploaded — the site default image will be used when sharing.
+                      Add a profile photo or upload a custom SEO image below.
+                    </p>
+                  {% endif %}
+
                 </div>
 
                 <hr class="my-4">
@@ -176,10 +264,9 @@
                     accept="image/png,image/jpeg">
 
                   <div class="form-text">
-                    This image appears in Google and when your profile is shared
-                    on Facebook, LinkedIn and other platforms. Upload a landscape
-                    image at 1200×630px for best results. If left blank your
-                    profile photo is used, though it may be cropped.
+                    This image appears in Google and when your profile is shared on Facebook,
+                    LinkedIn and other platforms. Upload a landscape image at 1200×630px for
+                    best results. If left blank your profile photo is used, though it may be cropped.
                   </div>
                 </div>
 
@@ -187,7 +274,11 @@
 
                 {# FAQ section #}
                 <h4 class="mb-1">Frequently asked questions</h4>
-                <p class="text-muted mb-4">Add questions and answers that potential clients commonly ask. These are displayed on your profile and help search engines understand what you offer. Many questions are generated automatically from your profile — add any extras here.</p>
+                <p class="text-muted mb-4">
+                  Add questions and answers that potential clients commonly ask. These are
+                  displayed on your profile and help search engines understand what you offer.
+                  Many questions are generated automatically from your profile — add any extras here.
+                </p>
 
                 {% set existingFaqs = user.faqs ? user.faqs.all() : [] %}
 
@@ -245,7 +336,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                       fill="currentColor" class="bi bi-exclamation-triangle-fill me-2"
                       viewBox="0 0 16 16">
-                      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091
+                        1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535
+                        0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0
+                        0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                     </svg>
                     {{ errorMessage }}
                   </div>
@@ -287,24 +381,60 @@
   update();
 });
 
-// Live search preview
-const titleInput = document.getElementById('seoTitle');
-const descInput  = document.getElementById('seoDescription');
+// Live previews — search engine + social card
+const titleInput   = document.getElementById('seoTitle');
+const descInput    = document.getElementById('seoDescription');
 const previewTitle = document.getElementById('preview-title');
 const previewDesc  = document.getElementById('preview-description');
+const ogTitle      = document.getElementById('og-preview-title');
+const ogDesc       = document.getElementById('og-preview-desc');
 
 const defaultTitle = '{{ user.fullName }} — {{ user.titleRole }} | Brighton Counselling Directory';
-const defaultDesc  = '{{ user.shortSummary|replace({"'": "\\'"}) }}';
+const defaultDesc  = '{{ (user.seoDescription ?? user.shortSummary)|striptags|replace({"'": "\\'", "\n": " ", "\r": ""}) }}';
 
-if (titleInput && previewTitle) {
+if (titleInput) {
   titleInput.addEventListener('input', function () {
-    previewTitle.textContent = this.value || defaultTitle;
+    const val = this.value || defaultTitle;
+    if (previewTitle) previewTitle.textContent = val;
+    if (ogTitle)      ogTitle.textContent      = val;
   });
 }
 
-if (descInput && previewDesc) {
+if (descInput) {
   descInput.addEventListener('input', function () {
-    previewDesc.textContent = this.value || defaultDesc;
+    const val = this.value || defaultDesc;
+    if (previewDesc) previewDesc.textContent = val;
+    if (ogDesc)      ogDesc.textContent      = val;
+  });
+}
+
+// Live OG image preview when a new file is selected
+const ogImageInput = document.getElementById('ogImage');
+const ogBadge      = document.getElementById('og-preview-badge');
+
+if (ogImageInput) {
+  ogImageInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      let imgEl = document.getElementById('og-preview-img');
+
+      // If placeholder div exists replace it with an img element
+      if (imgEl && imgEl.tagName !== 'IMG') {
+        const newImg     = document.createElement('img');
+        newImg.id        = 'og-preview-img';
+        newImg.alt       = 'Social share preview';
+        newImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+        imgEl.parentNode.replaceChild(newImg, imgEl);
+        imgEl = newImg;
+      }
+
+      if (imgEl) imgEl.src = e.target.result;
+      if (ogBadge) ogBadge.textContent = 'New image (unsaved)';
+    };
+    reader.readAsDataURL(file);
   });
 }
 
