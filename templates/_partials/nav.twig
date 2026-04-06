@@ -136,12 +136,71 @@
               Dashboard
             </a>
           </li>
-          <li class="nav-item d-lg-none">
+                                <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" target="_blank"
+                            href="{{ alias('@baseUrl') }}/counsellors/{{user.fullname|kebab}}/{{user.id}}">
+
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            View profile
+
+                        </a>
+                    </li>
+                    <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link"
+                            href="{{ alias('@baseUrl') }}/users/my-enquiries">
+
+                            <i class="bi bi-bell"></i>
+                            My enquiries
+
+                        </a>
+                    </li>                    
+                    <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-profile-edit">
+                            <i class="fe fe-settings nav-icon"></i>
+                            Edit Profile
+                        </a>
+                    </li>
+  <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-profile-seo">
+                            <i class="fe fe-settings nav-icon"></i>
+                            Edit SEO
+                        </a>
+                    </li>
+
+                   
+                    <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-photo">
+                            <i class="bi bi-camera nav-icon"></i>
+                            Add Profile Photo
+                        </a>
+                    </li>
+                    <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/users/user-insurance">
+                            <i class="bi bi-file-earmark-medical nav-icon"></i>
+                            Add Insurance proof
+                        </a>
+                    </li>                    
+                    
+                    <!-- Nav item -->
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="{{ alias('@baseUrl') }}/logout">
+                            <i class="fe fe-power nav-icon"></i>
+                            Sign Out
+                        </a>
+                    </li>
+
+          {# <li class="nav-item d-lg-none">
             <a class="nav-link d-flex justify-content-end"
               href="{{ baseUrl }}logout">
               Sign out
             </a>
-          </li>
+          </li> #}
         {% endif %}
 
       </ul>
@@ -216,6 +275,7 @@
                     Dashboard
                   </a>
                 </li>
+                
               </ul>
               <div class="dropdown-divider"></div>
               <ul class="list-unstyled">
