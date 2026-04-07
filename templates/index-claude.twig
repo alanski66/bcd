@@ -1,0 +1,279 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+{% block content %}
+
+{% set issues     = craft.entries.section('issues').orderBy('title asc').limit(null).all() %}
+{% set therapists = craft.users().group('counsellors').profileComplete(true).all() %}
+
+<main>
+
+  {# ── Hero ──────────────────────────────────────────────── #}
+  <section style="position: relative; min-height: 520px; display: flex; align-items: center; background: #1a1a2e; overflow: hidden;">
+
+    {# Background image with dark overlay #}
+    <div style="position: absolute; inset: 0;
+      background: url('{{ alias('@baseUrl') }}/assets/images/stock/seating.jpeg') center/cover no-repeat;
+      opacity: 0.25;">
+    </div>
+
+    <div class="container py-5" style="position: relative; z-index: 1;">
+      <div class="row">
+        <div class="col-12 col-lg-8 col-xl-7">
+
+          <p class="mb-3 text-uppercase fw-semibold"
+            style="font-size: 0.75rem; letter-spacing: 0.08em; color: #c4b5fd;">
+            Brighton &amp; Hove — verified therapists
+          </p>
+
+          <h1 class="fw-bold mb-3"
+            style="font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; color: #fff;">
+            Find the right therapist<br>
+            <span style="color: #c4b5fd;">for you in Brighton</span>
+          </h1>
+
+          <p class="mb-4" style="font-size: 1.1rem; color: #ddd6fe; max-width: 540px; line-height: 1.6;">
+            Browse verified, qualified counsellors and psychotherapists based in Brighton and Hove.
+            Search by issue, approach or availability.
+          </p>
+
+          {# Search bar #}
+          <form action="{{ alias('@baseUrl') }}/find-a-therapist" method="get"
+            class="mb-3" style="max-width: 580px;">
+            <div class="d-flex rounded-3 overflow-hidden"
+              style="background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
+              <label for="hero-search" class="visually-hidden">Search by issue</label>
+              <input type="text"
+                id="hero-search"
+                name="issue"
+                class="form-control border-0 shadow-none ps-4"
+                style="font-size: 1rem;"
+                placeholder="Search by issue, e.g. anxiety, bereavement...">
+              <button type="submit" class="btn btn-primary px-4 rounded-0 fw-semibold"
+                style="white-space: nowrap;">
+                Find a therapist
+              </button>
+            </div>
+          </form>
+
+          <p style="font-size: 0.875rem; color: #c4b5fd;">
+            Or
+            <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="text-white">browse all therapists</a>
+            &nbsp;·&nbsp;
+            <a href="#browse-issues" class="text-white">browse by issue</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ── Trust bar ─────────────────────────────────────────── #}
+  <section class="bg-white border-bottom py-3">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center gap-4">
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+          </svg>
+          <span class="small text-muted">All therapists independently verified</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+          </svg>
+          <span class="small text-muted">BACP, UKCP &amp; BPS registered</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+          </svg>
+          <span class="small text-muted">Brighton &amp; Hove based</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10h14V4zM2 5h12v8H2z"/>
+          </svg>
+          <span class="small text-muted">Free to search — no account needed</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {# ── Browse by issue ───────────────────────────────────── #}
+  <section id="browse-issues" class="py-5 py-lg-7 bg-white">
+    <div class="container">
+
+      <p class="text-primary fw-semibold mb-2 text-uppercase"
+        style="font-size: 0.75rem; letter-spacing: 0.08em;">
+        Browse by issue
+      </p>
+      <h2 class="fw-bold mb-2" style="color: #1a1a2e;">What brings you to therapy?</h2>
+      <p class="text-muted mb-4">Select an issue to find therapists with relevant experience.</p>
+
+      <div class="row g-2">
+        {% for issue in issues %}
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <a href="{{ issue.url }}"
+              class="d-block text-center rounded-3 py-3 px-2 text-decoration-none fw-medium"
+              style="background: #f8f7ff; border: 1px solid #e4e3e9; font-size: 0.85rem; color: #5e3fcb; transition: all 0.15s;">
+              {{ issue.title }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+  {# ── How it works ──────────────────────────────────────── #}
+  <section class="py-5 py-lg-7" style="background: #f8f7ff;">
+    <div class="container">
+
+      <p class="text-primary fw-semibold mb-2 text-uppercase"
+        style="font-size: 0.75rem; letter-spacing: 0.08em;">
+        How it works
+      </p>
+      <h2 class="fw-bold mb-5" style="color: #1a1a2e;">Get started in 3 steps</h2>
+
+      <div class="row g-4">
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              1
+            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Find your therapist</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Search by issue, therapy type or browse all verified Brighton therapists.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/find-a-therapist"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              Browse therapists
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              2
+            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Save &amp; compare</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Bookmark profiles as you browse and come back to them — no account needed.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/saved-therapists"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              View saved
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              3
+            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Make contact</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Email or call directly from their profile. No middleman, no fees.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/articles"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              Learn more
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {# ── Therapist CTA ─────────────────────────────────────── #}
+  <section class="py-5 py-lg-7" style="background: #1a1a2e;">
+    <div class="container">
+      <div class="row align-items-center g-5">
+
+        <div class="col-12 col-lg-7">
+          <p class="fw-semibold mb-2 text-uppercase"
+            style="font-size: 0.75rem; letter-spacing: 0.08em; color: #c4b5fd;">
+            For therapists
+          </p>
+          <h2 class="fw-bold mb-3" style="color: #fff; font-size: clamp(1.5rem, 3vw, 2rem);">
+            Are you a Brighton therapist?
+          </h2>
+          <p class="mb-4" style="color: #aaa; font-size: 0.95rem; max-width: 500px; line-height: 1.7;">
+            Join the directory for free. Create your profile, get found by clients searching
+            for support in Brighton and Hove, and manage your enquiries — all at no cost.
+          </p>
+          <a href="{{ baseUrl }}sign-up" class="btn btn-primary px-4 py-2 fw-semibold">
+            Join the directory
+          </a>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="d-flex flex-column gap-3">
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10h14V4z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Free to join</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Full profile, photo &amp; bio</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Verified listing</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Credentials checked by our team</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Direct enquiries</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Clients contact you directly</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}

@@ -28,7 +28,7 @@ class DefaultController extends Controller
     // Properties
     // =========================================================================
 
-    protected array|bool|int $allowAnonymous = ['get-data', 'verify-id','verify-ukcp','verify-bacp'];
+    protected array|bool|int $allowAnonymous = ['get-data', 'verify-id','verify-ukcp','verify-bacp','verify-bacp-register'];
 
 
     // Public Methods
@@ -494,5 +494,69 @@ public function OLD2actionVerifyBacp(): Response
                 // return $this->asJson($responseBodyAsString);
             }
         }
+
+    public function actionVerifyBacpRegister(): Response
+    {
+        $profileId = Craft::$app->request->getBodyParam('profileId');
+        $data = [];
+
+        if (!$profileId || !preg_match('/^\d+$/', $profileId)) {
+            $data['statuscode'] = 'false';
+            $data['error'] = 'Invalid membership ID format';
+            return $this->asJson($data);
+        }
+
+        $searchUrl = 'https://www.bacp.co.uk/search/Register?UserLocation=&q=' . urlencode($profileId) . '&SortOrder';
+
+        $client = new \GuzzleHttp\Client([
+            'cookies' => false,
+            'allow_redirects' => ['max' => 5, 'track_redirects' => true],
+            'http_errors' => false,
+            'timeout' => 15,
+            'verify' => false,
+            'headers' => [
+                'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language' => 'en-GB,en;q=0.5',
+            ],
+        ]);
+
+        try {
+            $response   = $client->get($searchUrl);
+            $statusCode = $response->getStatusCode();
+            $html       = (string) $response->getBody()->getContents();
+
+            // Log the full HTML so we can inspect the result card structure
+            Craft::info([
+                'profileId'   => $profileId,
+                'searchUrl'   => $searchUrl,
+                'statusCode'  => $statusCode,
+                'htmlPreview' => substr($html, 0, 5000),
+            ], 'bacp-register-verify');
+
+            $needle = 'aria-label="Membership number: ' . $profileId . '"';
+            if ($statusCode === 200 && strpos($html, $needle) !== false) {
+                $data['statuscode'] = 'true';
+            } else {
+                $data['statuscode'] = 'false';
+                $data['reason']     = $statusCode !== 200 ? 'bad_status' : 'not_found_on_register';
+            }
+
+            Craft::info([
+                'profileId'  => $profileId,
+                'searchUrl'  => $searchUrl,
+                'statusCode' => $statusCode,
+                'matched'    => $data['statuscode'] === 'true',
+            ], 'bacp-register-verify');
+
+            return $this->asJson($data);
+
+        } catch (\Exception $e) {
+            Craft::error('BACP Register fetch error: ' . $e->getMessage(), 'bacp-register-verify');
+            $data['statuscode'] = 'false';
+            $data['error']      = 'Fetch failed';
+            return $this->asJson($data);
+        }
+    }
 
 }

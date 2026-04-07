@@ -100,22 +100,9 @@ function verifybacp(params) {
 
     
     if (profileId.length > 0) {
-        var preFixUrl = ""
-        console.log("Match go verify ID");
-        // bacp url https://www.bacp.co.uk/therapists/386443
-        if (memberOrg.value == "bacp") {
-            var preFixUrl = "https://www.bacp.co.uk/therapists/"  
-        }
-
-        let idLink = preFixUrl + profileId;
-        console.log(idLink)
-        params.append('verifyLink', preFixUrl + profileId);
-        params.append('org', memberOrg.value);
         params.append('profileId', profileId);
-        
-        // console.log([...params]);
-        
-        fetch('/actions/fetch-profile/default/verify-bacp', {
+
+        fetch('/actions/fetch-profile/default/verify-bacp-register', {
             method: 'POST',
             body: params,
             headers: {
