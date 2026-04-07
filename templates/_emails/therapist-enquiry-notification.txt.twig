@@ -1,0 +1,23 @@
+NEW ENQUIRY — {{ siteName }}
+============================================================
+
+Hi {{ therapistName }},
+
+You have received a new enquiry. Please find the full details below
+and respond directly to the contact details provided.
+
+------------------------------------------------------------
+ENQUIRY DETAILS
+------------------------------------------------------------
+
+Name:                  {{ enquirerName }}
+Email:                 {{ enquirerEmail }}
+Phone:                 {{ enquirerPhone ?: 'Not provided' }}
+Preferred contact:     {{ contactPreference ?: 'No preference stated' }}
+
+Message:
+{{ message ?: 'No message provided.' }}
+
+------------------------------------------------------------
+This notification was sent automatically by {{ siteName }}.
+Please do not reply to this email.

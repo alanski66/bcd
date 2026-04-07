@@ -40,9 +40,9 @@ class Module extends BaseModule
             function(SaveEvent $event) {
                 /** @var Entry $entry */
                 $entry = $event->entry;
-                
-                // Send notification email
+
                 $this->sendNotificationEmail($entry);
+                $this->sendTherapistNotificationEmail($entry);
             }
         );
     }
@@ -123,6 +123,56 @@ class Module extends BaseModule
                 "Error sending guest entry notification: {$e->getMessage()}",
                 __METHOD__
             );
+        }
+    }
+
+    private function sendTherapistNotificationEmail(Entry $entry)
+    {
+        try {
+            // therapistID is a Users relation field
+            $therapist = $entry->therapistID->one() ?? null;
+
+            if (!$therapist || !$therapist->email) {
+                Craft::warning('Therapist not found or has no email for entry ID: ' . $entry->id, __METHOD__);
+                return;
+            }
+
+            $variables = [
+                'entry'             => $entry,
+                'therapistName'     => $therapist->fullName,
+                'enquirerName'      => $entry->title,
+                'enquirerEmail'     => $entry->email,
+                'enquirerPhone'     => $entry->phoneNumber,
+                'contactPreference' => $entry->contactPreference,
+                'message'           => $entry->body,
+                'siteName'          => Craft::$app->getSites()->getCurrentSite()->name,
+            ];
+
+            $htmlBody = Craft::$app->getView()->renderTemplate(
+                '_emails/therapist-enquiry-notification',
+                $variables
+            );
+
+            $textBody = Craft::$app->getView()->renderTemplate(
+                '_emails/therapist-enquiry-notification.txt',
+                $variables
+            );
+
+            $sent = Craft::$app->mailer->compose()
+                ->setTo($therapist->email)
+                ->setSubject('New enquiry from ' . $entry->title)
+                ->setHtmlBody($htmlBody)
+                ->setTextBody($textBody)
+                ->send();
+
+            if ($sent) {
+                Craft::info("Therapist enquiry notification sent to {$therapist->email} for entry ID {$entry->id}", __METHOD__);
+            } else {
+                Craft::warning("Failed to send therapist notification to {$therapist->email} for entry ID {$entry->id}", __METHOD__);
+            }
+
+        } catch (\Exception $e) {
+            Craft::error("Error sending therapist enquiry notification: {$e->getMessage()}", __METHOD__);
         }
     }
 }
