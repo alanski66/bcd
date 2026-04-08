@@ -36,12 +36,13 @@ class NotifySave extends BaseModule
             function(ModelEvent $event) {
                 /** @var User $user */
                 $user = $event->sender;
-                if($user->profileComplete == true) {
-                    // User profile is complete
-                    $this->sendNotificationUserSaved($user);
+
+                // Only notify for front-end saves, not control panel edits
+                if (Craft::$app->request->isCpRequest) {
+                    return;
                 }
+
                 $this->sendNotificationUserSaved($user);
-        
             }
         );
     
