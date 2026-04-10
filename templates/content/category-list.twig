@@ -2,6 +2,31 @@
 
 
 {% block content %}
+<!-- category list -->
+
+{# ── Therapist query (used both inline + bottom section) ── #}
+{% set matchedTherapists = craft.users()
+  .group('counsellors')
+  .hasPhoto()
+  .profileComplete(true)
+  .relatedTo({
+    targetElement: category,
+    field: 'category'
+  })
+  .limit(6)
+  .all() %}
+
+{% set isFallback = matchedTherapists | length == 0 %}
+
+{% if isFallback %}
+  {% set matchedTherapists = craft.users()
+    .group('counsellors')
+    .hasPhoto()
+    .profileComplete(true)
+    .orderBy('RAND()')
+    .limit(6)
+    .all() %}
+{% endif %}
 
 <section class="py-8 bg-light">
     <div class="container my-lg-8">
@@ -11,10 +36,39 @@
                     <h1 class="display-4 fw-semibold">{{category.title}}</h1>
 
                     {{category.categoryDescription}}
+
                     {% set catEntries = craft.entries.section('issues').limit(null).relatedTo(category).all() %}
+                    {% set totalIssues = catEntries | length %}
+
                     {% for entry in catEntries %}
-                    <div class="col-12 mb-4"></div>
-                    
+
+                        {# ── Therapist interstitial after issue 8 ── #}
+                        {% if loop.index == 9 and totalIssues > 8 %}
+                          <div class="my-5 p-4 rounded-4" style="background: #f8f7ff; border: 1px solid #e4e3e9;">
+                            <p class="text-primary fw-semibold text-uppercase mb-1"
+                              style="font-size: 0.7rem; letter-spacing: 0.08em;">
+                              Therapists who can help
+                            </p>
+                            <h3 class="fw-bold mb-4" style="font-size: 1.1rem; color: #1a1a2e;">
+                              {% if not isFallback %}
+                                Looking for support with {{ category.title | lower }}?
+                              {% else %}
+                                Looking for a therapist in Brighton?
+                              {% endif %}
+                            </h3>
+                            <div class="row g-3">
+                              {% for user in matchedTherapists | slice(0, 2) %}
+                                {% include 'components/users/user-card-horizontal' %}
+                              {% endfor %}
+                            </div>
+                            <a href="{{ alias('@baseUrl') }}/find-a-therapist"
+                              class="btn btn-outline-primary btn-sm mt-4">
+                              View all therapists
+                            </a>
+                          </div>
+                        {% endif %}
+
+                        <div class="col-12 mb-4"></div>
                         <div class="card border">
                             <div class="card-body d-flex flex-column gap-5 p-5">
                                 <article>
@@ -24,19 +78,51 @@
                                     <span>{{entry.intro}}</span>
                                 </article>
                             </div>
+                        </div>
+
+                    {% endfor %}
                 </div>
-
-
-                {% endfor %}
             </div>
         </div>
 
     </div>
-    </div>
 </section>
+<!-- Counsellors who work with issues in this category -->
+
+{% if matchedTherapists | length %}
+<section class="py-6 py-lg-8 bg-white">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        {% if isFallback %}
+          <h2 class="h1 mb-2">Therapists in Brighton &amp; Hove</h2>
+          <p class="text-muted">Browse our verified therapists — many work across a wide range of issues and may be able to help.</p>
+        {% else %}
+          <h2 class="h1 mb-2">Therapists who can help with {{ category.title | lower }}</h2>
+          <p class="text-muted">All therapists listed are verified and based in Brighton &amp; Hove.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row g-4">
+      {% for user in matchedTherapists %}
+        {% include 'components/users/user-card-horizontal' %}
+      {% endfor %}
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="btn btn-primary btn-lg">
+          View all therapists
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+<!-- Counsellors who work with issues in this category end -->
+
 <!-- category other issues -->
 <!-- category issues list-->
-<section class="py-xl-8 py-6">
+<section class="py-xl-8 py-6 bg-light">
     <div class="container">
         <div class="row">
             <div class="col-xl-10 col-md-10 col-12 mx-auto">
@@ -70,22 +156,67 @@
             </div>
 
             {% endfor %}
-
-            <div class="col-12">
-                <div class="">
-                    <a href="#!" class="btn btn-outline-primary">
-                        <span>Show All Category</span>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                            class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8">
-                            </path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </section>
+{% js %}
+(function () {
+  const savedIds   = new Set();
+  const inProgress = new Set();
+
+  function filledBookmark() {
+    return '<svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>';
+  }
+  function outlineBookmark() {
+    return '<svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/></svg>';
+  }
+  function setButtonSaved(btn, isSaved) {
+    btn.innerHTML = isSaved ? filledBookmark() : outlineBookmark();
+    btn.title     = isSaved ? 'Remove from saved' : 'Save therapist';
+    btn.setAttribute('aria-label', isSaved ? 'Remove from saved' : 'Save therapist');
+    btn.classList.toggle('btn-outline-secondary', !isSaved);
+    btn.classList.toggle('btn-secondary', isSaved);
+  }
+  function getCsrfToken() {
+    return fetch('/actions/users/session-info', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+      .then(r => r.json()).then(d => ({ name: d.csrfTokenName, value: d.csrfTokenValue }));
+  }
+
+  fetch('/wishlist-items', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+    .then(r => r.json()).then(ids => {
+      if (!ids || !ids.length) return;
+      ids.forEach(id => savedIds.add(String(id)));
+      document.querySelectorAll('.wishlist-toggle').forEach(btn => {
+        if (savedIds.has(btn.dataset.elementId)) setButtonSaved(btn, true);
+      });
+    }).catch(() => {});
+
+  document.body.addEventListener('click', function (e) {
+    const btn = e.target.closest('.wishlist-toggle');
+    if (!btn) return;
+    const { elementId, elementSiteId, toggleUrl } = btn.dataset;
+    if (inProgress.has(elementId)) return;
+    const wasSaved = savedIds.has(elementId);
+    const nowSaved = !wasSaved;
+    inProgress.add(elementId);
+    nowSaved ? savedIds.add(elementId) : savedIds.delete(elementId);
+    setButtonSaved(btn, nowSaved);
+    if (typeof window.updateNavBadge === 'function') window.updateNavBadge(savedIds.size);
+    getCsrfToken().then(csrf => fetch(toggleUrl, {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': csrf.value },
+      body: new URLSearchParams({ elementId, elementSiteId, [csrf.name]: csrf.value })
+    })).then(r => { if (!r.ok) throw new Error(); inProgress.delete(elementId); })
+    .catch(() => {
+      wasSaved ? savedIds.add(elementId) : savedIds.delete(elementId);
+      setButtonSaved(btn, wasSaved);
+      if (typeof window.updateNavBadge === 'function') window.updateNavBadge(savedIds.size);
+      inProgress.delete(elementId);
+    });
+  });
+
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => new bootstrap.Popover(el, { container: 'body' }));
+})();
+{% endjs %}
+
 {% endblock %}

@@ -2,8 +2,9 @@
 
 
 {% block content %}
-<section class="pt-8 bg-light">
-  <div class="container my-lg-8">
+<!-- category entry -->
+<section class="pt-8 bg-light mb-8">
+  <div class="container mb-">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-12">
         <div class="mb-8">
@@ -19,26 +20,64 @@
   </div>
 </section>
 <!-- Counsellors who work with this issue -->
-<section class="d-none">
+{% set matchedTherapists = craft.users()
+  .group('counsellors')
+  .hasPhoto()
+  .profileComplete(true)
+  .relatedTo({
+    targetElement: entry,
+    field: 'typesOfIssuesYouCanHelp'
+  })
+  .limit(6)
+  .all() %}
+
+{% set isFallback = matchedTherapists | length == 0 %}
+
+{% if isFallback %}
+  {% set matchedTherapists = craft.users()
+    .group('counsellors')
+    .hasPhoto()
+    .profileComplete(true)
+    .orderBy('RAND()')
+    .limit(6)
+    .all() %}
+{% endif %}
+
+{% if matchedTherapists | length %}
+<section class="   bg-white">
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <hr>
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        {% if isFallback %}
+          <h2 class="h1 mb-2">Therapists in Brighton &amp; Hove</h2>
+          <p class="text-muted">Browse our verified therapists — many work across a wide range of issues and may be able to help.</p>
+        {% else %}
+          <h2 class="h1 mb-2">Therapists who can help with {{ entry.title | lower }}</h2>
+          <p class="text-muted">All therapists listed are verified and based in Brighton &amp; Hove.</p>
+        {% endif %}
       </div>
-      <div class="col-xl-10 col-md-10 col-12 mx-auto">
-        <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
-          <h2 class="h1 mb-0">Counsellors who work with this issue</h2>
-          <p class="mb-0 px-xl-5">  </p>
-        </div>
-        {% include 'components/users/user-slider' %}
+    </div>
+    <div class="row g-4">
+             
+      {% for user in matchedTherapists %}
+        {% include 'components/users/user-card-horizontal' %}
+      {% endfor %}
+    
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <a href="{{ alias('@baseUrl') }}/find-a-therapist{% if not isFallback %}?issue={{ entry.title | url_encode }}{% endif %}" class="btn btn-primary btn-lg">
+          View all therapists
+        </a>
       </div>
     </div>
   </div>
 </section>
+{% endif %}
 <!-- Counsellors who work with this issue end -->
 <!-- category other issues -->
 <!-- category issues list-->
-<section class="py-xl-8 py-6">
+<section class="py-xl-8 py-6 bg-light hhh">
   <div class="container">
     <div class="row">
       <div class="col-xl-10 col-md-10 col-12 mx-auto">
@@ -77,4 +116,64 @@
     </div>
   </div>
 </section>
+{% js %}
+(function () {
+  const savedIds   = new Set();
+  const inProgress = new Set();
+
+  function filledBookmark() {
+    return '<svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>';
+  }
+  function outlineBookmark() {
+    return '<svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/></svg>';
+  }
+  function setButtonSaved(btn, isSaved) {
+    btn.innerHTML = isSaved ? filledBookmark() : outlineBookmark();
+    btn.title     = isSaved ? 'Remove from saved' : 'Save therapist';
+    btn.setAttribute('aria-label', isSaved ? 'Remove from saved' : 'Save therapist');
+    btn.classList.toggle('btn-outline-secondary', !isSaved);
+    btn.classList.toggle('btn-secondary', isSaved);
+  }
+  function getCsrfToken() {
+    return fetch('/actions/users/session-info', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+      .then(r => r.json()).then(d => ({ name: d.csrfTokenName, value: d.csrfTokenValue }));
+  }
+
+  fetch('/wishlist-items', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+    .then(r => r.json()).then(ids => {
+      if (!ids || !ids.length) return;
+      ids.forEach(id => savedIds.add(String(id)));
+      document.querySelectorAll('.wishlist-toggle').forEach(btn => {
+        if (savedIds.has(btn.dataset.elementId)) setButtonSaved(btn, true);
+      });
+    }).catch(() => {});
+
+  document.body.addEventListener('click', function (e) {
+    const btn = e.target.closest('.wishlist-toggle');
+    if (!btn) return;
+    const { elementId, elementSiteId, toggleUrl } = btn.dataset;
+    if (inProgress.has(elementId)) return;
+    const wasSaved = savedIds.has(elementId);
+    const nowSaved = !wasSaved;
+    inProgress.add(elementId);
+    nowSaved ? savedIds.add(elementId) : savedIds.delete(elementId);
+    setButtonSaved(btn, nowSaved);
+    if (typeof window.updateNavBadge === 'function') window.updateNavBadge(savedIds.size);
+    getCsrfToken().then(csrf => fetch(toggleUrl, {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': csrf.value },
+      body: new URLSearchParams({ elementId, elementSiteId, [csrf.name]: csrf.value })
+    })).then(r => { if (!r.ok) throw new Error(); inProgress.delete(elementId); })
+    .catch(() => {
+      wasSaved ? savedIds.add(elementId) : savedIds.delete(elementId);
+      setButtonSaved(btn, wasSaved);
+      if (typeof window.updateNavBadge === 'function') window.updateNavBadge(savedIds.size);
+      inProgress.delete(elementId);
+    });
+  });
+
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => new bootstrap.Popover(el, { container: 'body' }));
+})();
+{% endjs %}
+
 {% endblock %}

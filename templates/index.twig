@@ -1,345 +1,312 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 
-
 {% block content %}
 
-<!-- Page Content -->
+{% set issues = craft.entries.section('issues').orderBy('title asc').limit(null).all() %}
+{% set issueCategories = craft.categories().group('issues').all() %}
+
+{# Build a JS-safe map of title -> url for autocomplete navigation #}
+{% set issueMap = {} %}
+{% for issue in issues %}
+  {% set issueMap = issueMap | merge({ (issue.title): issue.url }) %}
+{% endfor %}
+
 <main>
-  <!--Hero section-->
-  <section class="py-md-8 py-3"
-    style="background-image: url(../assets/images/stock/seating.jpeg); background-repeat: no-repeat; background-size: cover; height:65vh">
-    <div class="container py-lg-3">
-      <!--row-->
-      <div class="row align-items-center gy-3 justify-content-center">
-        <div class="col-xxl-5 col-xl-6 col-md-10">
-          <div class="d-flex flex-column gap-5 text-center">
-            <div class="d-flex flex-column gap-2">
-              <span class="text-dark fs-5">Connecting you for help with your mental health.</span>
-              <!--heading-->
-              <h1 class="mb-0 display-2 fw-bold">
-                <span>Launching soon</span>
-                <span class="headingTyped text-primary"></span>
-              </h1>
-              <p>Therapists please </p>
-              <a class="d-flex-inline align-self-center btn btn-primary w-50" href="{{baseUrl}}sign-up">sign up here</a>
+
+  {# ── Hero ──────────────────────────────────────────────── #}
+  <section style="position: relative; min-height: 520px; display: flex; align-items: center; background: #1a1a2e; overflow: hidden;">
+
+    <div style="position: absolute; inset: 0;
+      background: url('{{ alias('@baseUrl') }}/assets/images/stock/seating.jpeg') center/cover no-repeat;
+      opacity: 0.25;">
+    </div>
+
+    <div class="container py-5" style="position: relative; z-index: 1;">
+      <div class="row">
+        <div class="col-12 col-lg-8 col-xl-7">
+
+          <p class="mb-3 text-uppercase fw-semibold"
+            style="font-size: 0.75rem; letter-spacing: 0.08em; color: #c4b5fd;">
+            Brighton &amp; Hove — verified therapists
+          </p>
+
+          <h1 class="fw-bold mb-3"
+            style="font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; color: #fff;">
+            Find the right therapist<br>
+            <span style="color: #c4b5fd;">for you in Brighton</span>
+          </h1>
+
+          <p class="mb-4" style="font-size: 1.1rem; color: #ddd6fe; max-width: 540px; line-height: 1.6;">
+            Browse verified, qualified counsellors and psychotherapists based in Brighton and Hove.
+            Search by issue, approach or availability.
+          </p>
+
+          {# Search bar #}
+          <form id="hero-search-form" action="{{ alias('@baseUrl') }}/find-a-therapist" method="get"
+            class="mb-3" style="max-width: 580px;">
+            <div class="input-group" style="box-shadow: 0 4px 24px rgba(0,0,0,0.3); border-radius: 6px;">
+              <label for="hero-search" class="visually-hidden">Search by issue</label>
+              <input type="text"
+                id="hero-search"
+                name="issue"
+                class="awesomplete form-control border-0 shadow-none ps-4"
+                style="font-size: 1rem; border-radius: 6px 0 0 6px;"
+                placeholder="Search by issue, e.g. anxiety, bereavement..."
+                autocomplete="off"
+                data-list="{{ issues | map(i => i.title) | join(', ') }}">
+              <button type="submit" class="btn btn-primary px-4 fw-semibold"
+                style="white-space: nowrap; border-radius: 0 6px 6px 0;">
+                Find a therapist
+              </button>
             </div>
-            <div class="d-flex flex-column gap-5">
-              <!--form-->
-              <!-- form autocomplete of issues list-->
-              {% set issues = craft.entries.section('issues').limit(null).all() %}
-              <form class="d-none" action="find-a-therapist">
-                <div class="input-group mb-3 justify-content-center">
-                  <label for="issue" class="form-label visually-hidden">Find a counsellor</label>
-                  <input type="text" class="ps-3 awesomplete form-control form-control-lg " data-list=" {% for entry in issues %}
-                        {{entry.title}}, 
-                      {% endfor %}" id="issue" name="issue"
-                    placeholder="Search by issue" aria-label="Search by issue" aria-describedby="basic-addon2" />
-                 
-                  <button class="btn btn-primary btn-lg px-3" id="basic-addon2">Search</button>
-                </div>
-              </form>
-            </div>
-          </div>
+          </form>
+
+          <p style="font-size: 0.875rem; color: #c4b5fd;">
+            Or
+            <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="text-white">browse all therapists</a>
+            &nbsp;·&nbsp;
+            <a href="#browse-issues" class="text-white">browse by issue</a>
+          </p>
+
         </div>
       </div>
     </div>
-    
-  </section>
-  <section>
-    {# <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <hr>
-        </div>
-      </div>
-    </div> #}
   </section>
 
-
-    <!-- category issues list-->
-  <section class="py-xl-8 py-6 bg-gray-100">
+  {# ── Trust bar ─────────────────────────────────────────── #}
+  <section class="bg-white border-bottom py-3">
     <div class="container">
-      <div class="row">
-        <div class="col-xl-10 col-md-10 col-12 mx-auto">
-          <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
-            <h2 class="h1 mb-0">Issues therapy can help with</h2>
-            <p class="mb-0 px-xl-5">Discover valuable information on common mental health issues, and how counseling can
-              help.</p>
-          </div>
+      <div class="d-flex flex-wrap align-items-center gap-4">
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+          </svg>
+          <span class="small text-muted">All therapists independently verified</span>
         </div>
-      </div>
-      <div class="row gy-4">
-        {% include('/components/issues/issues-list-card.twig') %}
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+          </svg>
+          <span class="small text-muted">BACP, UKCP &amp; BPS registered</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+          </svg>
+          <span class="small text-muted">Brighton &amp; Hove based</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#5e3fcb">
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10h14V4zM2 5h12v8H2z"/>
+          </svg>
+          <span class="small text-muted">Free to search — no account needed</span>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!--Easy steps-->
-  <section class="py-lg-8 py-6">
-    <div class="container py-lg-6">
-      <!--row-->
-      <div class="row mb-8">
-        <div class="col-12">
-          <div class="text-center d-flex flex-column gap-2">
-            <!--heading-->
-            <h2 class="mb-0 h1">Get Started with therapy in Brighton in 3 Easy Steps</h2>
-            <!--para-->
-            <p class="mb-0">Follow these three simple steps to get started with a local Brighton counsellor</p>
+{# ── Browse by category ────────────────────────────────── #}
+<section id="browse-issues" class="py-5 py-lg-7 bg-white">
+  <div class="container">
+
+    <p class="text-primary fw-semibold mb-2 text-uppercase"
+      style="font-size: 0.75rem; letter-spacing: 0.08em;">
+      Browse by category
+    </p>
+    <h2 class="fw-bold mb-2" style="color: #1a1a2e;">What brings you to therapy?</h2>
+    <p class="text-muted mb-4">Select a category to find therapists with relevant experience.</p>
+
+    <div class="row g-2 mb-4">
+      {% for cat in issueCategories %}
+        <div class="col-6 col-sm-4 col-md-2">
+          <a href="{{ cat.url }}"
+            class="d-block text-center rounded-3 py-3 px-2 text-decoration-none fw-medium"
+            style="background: #f8f7ff; border: 1px solid #e4e3e9; font-size: 0.85rem; color: #5e3fcb;">
+            {{ cat.title }}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <a href="{{ alias('@baseUrl') }}/issues" class="btn btn-outline-primary">
+      Browse all issues
+    </a>
+
+  </div>
+</section>
+
+  {# ── How it works ──────────────────────────────────────── #}
+  <section class="py-5 py-lg-7" style="background: #f8f7ff;">
+    <div class="container">
+
+      <p class="text-primary fw-semibold mb-2 text-uppercase"
+        style="font-size: 0.75rem; letter-spacing: 0.08em;">
+        How it works
+      </p>
+      <h2 class="fw-bold mb-5" style="color: #1a1a2e;">Get started in 3 steps</h2>
+
+      <div class="row g-4">
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              1
+            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Find your therapist</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Search by issue, therapy type or browse all verified Brighton therapists.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/find-a-therapist"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              Browse therapists
+            </a>
           </div>
         </div>
-      </div>
-      <!--row-->
-      <div class="row">
-        <div class="col-12">
-          <div class="row mb-8 align-items-center gy-4">
-            <div class="col-md-6 offset-xxl-2 col-xxl-4 col-xl-5 offset-xl-1 mb-xxl-6">
-              <div class="d-flex flex-column gap-4">
-                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">1</div>
-                <div class="d-flex flex-column gap-2">
-                  <!--heading-->
-                  <h3 class="mb-0 h2">Find Your Therapist</h3>
-                  <!--para-->
-                  <p class="mb-0 fs-3">Browse from our qualified and registered therapists according to your
-                    preferences</p>
-                </div>
-                <div>
-                  <a href="{{baseUrl}}find-a-therapist" class="btn btn-outline-secondary">Find a therapist</a>
-                </div>
-              </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              2
             </div>
-            <div class="col-md-6 col-xxl-5 col-xl-6 mb-xxl-6">
-              <!--img-->
-              <div>
-                <img src="../assets/images/mentor/mento-step-one.jpg" alt="stpes 1" class="img-fluid rounded-4 w-100" />
-              </div>
-            </div>
-          </div>
-          <div class="row mb-8 align-items-center gy-4">
-            <div class="col-md-6 col-xxl-5 offset-xxl-1 col-xl-5 offset-xl-1 order-md-1 order-2 mb-xxl-6">
-              <!--img-->
-              <div>
-                <img src="../assets/images/mentor/mento-step-two.jpg" alt="stpes 2" class="img-fluid rounded-4 w-100" />
-              </div>
-            </div>
-            <div class="col-md-6 col-xxl-4 offset-xxl-1 col-xl-5 offset-xl-1 order-xl-2 order-1 mb-xxl-6">
-              <div class="d-flex flex-column gap-4">
-                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">2</div>
-                <div class="d-flex flex-column gap-2">
-                  <!--heading-->
-                  <h3 class="mb-0 h2">Contact them to book a session</h3>
-                  <!--para-->
-                  <p class="mb-0 fs-3">Connect with a therapist and discuss how mentor they can support and help you achieve your goals and get the support you need.</p>
-                </div>
-                <div>
-                  <a href="{{baseUrl}}find-a-therapist" class="btn btn-outline-secondary">Contact a therapist</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row align-items-center gy-4">
-            <div class="col-md-6 offset-xxl-2 col-xxl-4 col-xl-5 offset-xl-1 mb-xxl-6">
-              <div class="d-flex flex-column gap-4">
-                <div class="border border-2 border-primary rounded-circle icon-shape icon-xl fs-3 text-primary">3</div>
-                <div class="d-flex flex-column gap-2">
-                  <!--heading-->
-                  <h3 class="mb-0 h2">Learn and explore</h3>
-                  <!--para-->
-                  <p class="mb-0 fs-3">Find out about different types of counselling and therapy available or read specific articles about the issues you are intertested in.</p>
-                </div>
-                <div>
-                  <a href="{{baseUrl}}articles" class="btn btn-outline-secondary">Start learning</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xxl-5 col-xl-6 mb-xxl-6">
-              <!--img-->
-              <div>
-                <img src="../assets/images/mentor/mento-step-three.jpg" alt="stpes 3"
-                  class="img-fluid rounded-4 w-100" />
-              </div>
-            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Save &amp; compare</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Bookmark profiles as you browse and come back to them — no account needed.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/saved-therapists"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              View saved
+            </a>
           </div>
         </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card rounded-4 border-0 shadow-sm h-100 p-4">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-4"
+              style="width: 40px; height: 40px; background: #5e3fcb; color: #fff; font-size: 0.9rem; flex-shrink: 0;">
+              3
+            </div>
+            <h3 class="fw-bold mb-2" style="font-size: 1.1rem; color: #1a1a2e;">Make contact</h3>
+            <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">
+              Email or call directly from their profile. No middleman, no fees.
+            </p>
+            <a href="{{ alias('@baseUrl') }}/articles"
+              class="btn btn-outline-primary btn-sm mt-auto align-self-start">
+              Learn more
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
-  <!--Easy steps-->
 
-  <!--Call to action-->
-  <section class="py-lg-8 py-6 bg-gray-100">
-    <div class="container py-lg-8">
-      <!--row-->
-      <div class="row align-items-center">
-        <div class="offset-xl-1 col-xl-4 col-lg-6 d-none d-lg-block">
-          <!--img-->
-          <div class="position-relative">
-            <img src="../assets/images/mentor/become-mentor.jpg" alt="mentor img" class="img-fluid w-100 rounded-4" />
+  {# ── Therapist CTA ─────────────────────────────────────── #}
+  <section class="py-5 py-lg-7" style="background: #1a1a2e;">
+    <div class="container">
+      <div class="row align-items-center g-5">
 
-            <img src="../assets/images/mentor/schedule.svg" alt="schedule"
-              class="position-absolute top-50 start-100 translate-middle mt-n8 d-xl-block d-none" />
-            <img src="../assets/images/mentor/verify.svg" alt="verify"
-              class="position-absolute top-50 start-0 translate-middle mt-n2 d-xl-block d-none" />
-
-            <img src="../assets/images/mentor/card.svg" alt="card"
-              class="position-absolute top-50 start-0 translate-middle mt-8 d-xl-block d-none" />
-          </div>
+        <div class="col-12 col-lg-7">
+          <p class="fw-semibold mb-2 text-uppercase"
+            style="font-size: 0.75rem; letter-spacing: 0.08em; color: #c4b5fd;">
+            For therapists
+          </p>
+          <h2 class="fw-bold mb-3" style="color: #fff; font-size: clamp(1.5rem, 3vw, 2rem);">
+            Are you a Brighton therapist?
+          </h2>
+          <p class="mb-4" style="color: #aaa; font-size: 0.95rem; max-width: 500px; line-height: 1.7;">
+            Join the directory for free. Create your profile, get found by clients searching
+            for support in Brighton and Hove, and manage your enquiries — all at no cost.
+          </p>
+          <a href="{{ baseUrl }}sign-up" class="btn btn-primary px-4 py-2 fw-semibold">
+            Join the directory
+          </a>
         </div>
-        <div class="col-xl-6 col-lg-5 offset-lg-1 offset-xl-1">
-          <div class="d-flex flex-column gap-6">
-            <div class="d-flex flex-column gap-2">
-              <!--heading-->
-              <h2 class="mb-0 h1">For therapists: Sign up to join the directory</h2>
-              <!--para-->
-              <p class="mb-0 fs-5">Follow these three simple steps to get started.</p>
-            </div>
-            <div class="d-flex flex-column gap-8">
-              <div class="d-flex flex-column gap-5">
-                <div class="row gap-xxl-3 gap-0">
-                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
-                    <!--svg-->
-                    <div class="icon-shape icon-lg bg-danger-subtle rounded-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        class="bi bi-bullseye text-danger" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8" />
-                        <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                      </svg>
-                    </div>
-                  </div>
-                  <!--text-->
-                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                    <h4 class="mb-0">You've invested a lot of time to learn your skill, craft, or expertise</h4>
-                  </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="d-flex flex-column gap-3">
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10h14V4z"/>
+                  </svg>
                 </div>
-                <div class="row gap-xxl-3">
-                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
-                    <!--svg-->
-                    <div class="icon-shape icon-lg bg-warning-subtle rounded-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        class="bi bi-cash-stack text-warning" viewBox="0 0 16 16">
-                        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                        <path
-                          d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
-                      </svg>
-                    </div>
-                  </div>
-                  <!--text-->
-                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                    <h4 class="mb-0">Add and edit your profile to share your expertise.</h4>
-                  </div>
-                </div>
-                <div class="row gap-xxl-3">
-                  <div class="col-md-1 col-lg-2 col-xxl-1 col-2">
-                    <!--svg-->
-                    <div class="icon-shape icon-lg bg-success-subtle rounded-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        class="bi bi-calendar-check text-success" viewBox="0 0 16 16">
-                        <path
-                          d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
-                        <path
-                          d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                      </svg>
-                    </div>
-                  </div>
-                  <!--text-->
-                  <div class="col-md-6 col-lg-10 col-xxl-6 col-10">
-                    <h4 class="mb-0">Monitor your enquiries - we will handle directory promotion - all for free.</h4>
-                  </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Free to join</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Full profile, photo &amp; bio</div>
                 </div>
               </div>
-              <div>
-                <a href="{{baseUrl}}join" class="btn btn-primary">Join Now</a>
+            </div>
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89A2.89 2.89 0 0 0 10.69 1.5l-.89.01zM7.354 10.354l-3-3 .707-.708L7 9.293l3.646-3.647.708.708z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Verified listing</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Credentials checked by our team</div>
+                </div>
               </div>
             </div>
+
+            <div class="rounded-4 p-4" style="background: #2a2a4e;">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                  style="width: 40px; height: 40px; background: #5e3fcb;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="#fff">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="color: #fff; font-size: 0.9rem;">Direct enquiries</div>
+                  <div style="color: #aaa; font-size: 0.8rem;">Clients contact you directly</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   </section>
-  <!--Call to action-->
+
 </main>
 
-<!-- Modal -->
-<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h3 class="fw-bold mb-0">Sign up</h3>
-          <div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <!-- Form -->
-        <form class="needs-validation" novalidate="">
-          <!-- Username -->
-          <div class="mb-3">
-            <label for="mentorsUserName" class="form-label">User Name</label>
-            <input type="text" id="mentorsUserName" class="form-control" name="mentorsUserName" placeholder="User Name"
-              required="" />
-            <div class="invalid-feedback">Please enter valid username.</div>
-          </div>
-          <!-- Email -->
-          <div class="mb-3">
-            <label for="mentorUserEmail" class="form-label">Email</label>
-            <input type="email" id="mentorUserEmail" class="form-control" name="mentorUserEmail"
-              placeholder="Email address here" required="" />
-            <div class="invalid-feedback">Please enter valid Email.</div>
-          </div>
-          <!-- Password -->
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" class="form-control" name="password" placeholder="**************"
-              required="" />
-            <div class="invalid-feedback">Please enter valid password.</div>
-          </div>
-          <!-- Checkbox -->
+<script>
+(function () {
+  var issueMap = {{ issueMap | json_encode | raw }};
+  var input = document.getElementById('hero-search');
+  if (!input) return;
 
-          <div>
-            <!-- Button -->
-            <div>
-              <button type="submit" class="btn btn-primary">Create Free Account</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="d-flex flex-row gap-3 align-items-center">
-          <img src="../assets/images/avatar/avatar-1.jpg" alt="avatar" class="avatar avatar-md rounded-circle" />
-          <h5 class="mb-0">John Deo</h5>
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-4">
-          <p class="mb-0 fst-italic fs-4 pe-xxl-5">
-            “The generated lorem Ipsum is therefore always free from repetition,
-            <span class="text-primary">injected humour, or words etc generate</span>
-            lorem Ipsum which looks racteristic reasonable...”
-          </p>
-        </div>
-        <div class="d-flex flex-xl-row gap-2 align-items-center bg-light rounded-pill px-3 py-2">
-          <img src="../assets/images/avatar/avatar-10.jpg" alt="avatar"
-            class="avatar avatar-md rounded-circle d-none d-xl-block" />
-          <div>
-            <div class="d-flex flex-row gap-2 align-items-center">
-              <h4 class="mb-0">Akshay sharma</h4>
-              <span
-                class="rounded-pill fs-6 px-2 text-success-emphasis bg-success-subtle border border-success">Mentor</span>
-            </div>
-            <span class="fs-6">Software Engineer at Palantir</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  // On autocomplete selection → navigate directly to the issue page
+  input.addEventListener('awesomplete-selectcomplete', function (e) {
+    var url = issueMap[e.text.value];
+    if (url) window.location.href = url;
+  });
+
+  // On form submit → exact match goes to issue page, otherwise find-a-therapist
+  document.getElementById('hero-search-form').addEventListener('submit', function (e) {
+    var url = issueMap[input.value.trim()];
+    if (url) {
+      e.preventDefault();
+      window.location.href = url;
+    }
+  });
+})();
+</script>
+
 {% endblock %}

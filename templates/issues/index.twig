@@ -11,9 +11,9 @@
         <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
           <h2 class="h1 mb-0">Get help with</h2>
           <p class="mb-0 px-xl-5">
-            Find specialized counselling in Brighton for your mental health concerns. 
-Whether you're experiencing anxiety, relationship difficulties, trauma, or 
-other challenges, our directory connects you with qualified local therapists 
+            Find specialized counselling in Brighton for your mental health concerns.
+Whether you're experiencing anxiety, relationship difficulties, trauma, or
+other challenges, our directory connects you with qualified local therapists
 who specialize in your specific needs
           </p>
         </div>
@@ -21,75 +21,80 @@ who specialize in your specific needs
     </div>
     <div class="row gy-4">
  {% include('/components/issues/issues-list-card.twig') %}
-      
-    </div>
-    <!-- faq -->
-    
-  </div>
-</section>
-<section class="py-8">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-8 col-md-8 col-12 mx-auto">
-        <div class="d-flex flex-column gap-2 text-center mb-5">
-          <h2 class="h1 mb-0">Frequently asked questions</h2>
-          
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-8 col-md-8 col-12 mx-auto">
 
-        
- {% set faqsArray = [] %}
-        {% set faqs = entry.faq.all() %}
-        {% for faq in faqs %}
-
-        {# output faq item #}
-        <div class="d-flex flex-column gap-2 ">
-          <h3 class="mb-0">{{ faq.title }}</h3>
-          <p class="mb-5">{{ faq.faqAnswer | striptags ('<p')}}</p>
-        </div>
-
-        {# do json ld faq #}
-       
-    
-        {% endfor %}
-{% set faqs = entry.faq.all() %}
-{% if faqs | length %}
-  {# Build FAQ array #}
-  {% set faqEntities = [] %}
-  {% for faq in faqs %}
-    {% set faqEntities = faqEntities | merge([{
-      'type': 'Question',
-      'name': faq.title,
-      'acceptedAnswer': {
-        'type': 'Answer',
-        'text': faq.faqAnswer | striptags
-      }
-    }]) %}
-  {% endfor %}
-  
-  {# Create new FAQPage and replace mainEntityOfPage #}
-  {# {% set faqPage = seomatic.jsonLd.create({
-    'type': 'FAQPage',
-    'mainEntity': faqEntities
-  }) %} #}
-  
-  {# Replace the default WebPage with FAQPage #}
-  {% do seomatic.jsonLd.get('mainEntityOfPage').setAttributes({
-    'key': 'faqPage', 
-    'type': 'FAQPage',
-    'name': 'Frequently Asked Questions about issues in counselling and therapy',
-    'mainEntity': faqEntities
-  }) %}
-{% endif %}
-
-
-      </div>
     </div>
   </div>
 </section>
 
 {# {% set crumbs = seomatic.jsonLd.get('breadcrumbList') %} #}
+
+{# ── Learn more: latest articles ──────────────────────── #}
+{% set latestArticles = craft.entries()
+  .section('articles')
+  .with(['featuredImage'])
+  .orderBy('postDate DESC')
+  .limit(6)
+  .all() %}
+
+{% if latestArticles | length %}
+<section class="py-5 py-lg-7 bg-white">
+  <div class="container">
+
+    <p class="text-primary fw-semibold mb-2 text-uppercase"
+      style="font-size: 0.75rem; letter-spacing: 0.08em;">
+      Resources
+    </p>
+    <h2 class="fw-bold mb-2" style="color: #1a1a2e;">Find out more about mental health</h2>
+    <p class="text-muted mb-5">Read our latest articles on common issues and how therapy can help.</p>
+
+    <div class="row g-4">
+      {% for entry in latestArticles %}
+        {% set asset = entry.featuredImage[0] ?? null %}
+        {% set issuetag = entry.typesOfIssuesYouCanHelp.orderBy('RAND()').one() %}
+        <div class="col-xl-4 col-lg-4 col-md-6 col-12 d-flex align-items-stretch">
+          <div class="card mb-4 shadow-lg card-lift w-100">
+            <a href="{{ entry.url }}">
+              {% if asset | length %}
+                {{ picture([
+                  [asset, 'card']
+                ], {
+                  class: 'card-img-top img-fluid',
+                  alt: 'image for article: ' ~ entry.title
+                }) }}
+              {% endif %}
+            </a>
+            <div class="card-body flex-column">
+              {% if issuetag | length %}
+                <a href="#" class="fs-5 mb-2 fw-semibold d-block text-success">{{ issuetag.title }}</a>
+              {% endif %}
+              <h3><a href="{{ entry.url }}" class="text-inherit">{{ entry.title }}</a></h3>
+              <p>{{ entry.intro }}</p>
+            </div>
+            <div class="row p-4 align-items-center g-0 mt-auto">
+              <div class="col-auto">
+                <img src="{{ entry.author.photo.url ?? '' }}" alt="avatar" class="rounded-circle avatar-sm me-2">
+              </div>
+              <div class="col lh-1">
+                <h5 class="mb-1">{{ entry.author }}</h5>
+                <p class="fs-6 mb-0">{{ entry.postDate|datetime('F d, Y') }}</p>
+              </div>
+              <div class="col-auto">
+                <p class="fs-6 mb-0">5 Min Read</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ alias('@baseUrl') }}/articles" class="btn btn-outline-primary">
+        Read all articles
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endif %}
+
 {% endblock %}

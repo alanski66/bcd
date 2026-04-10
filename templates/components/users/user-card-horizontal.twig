@@ -1,0 +1,128 @@
+<div class="col-12 col-lg-6 therapist-card mb-5">
+  <div class="d-flex rounded-4 overflow-hidden shadow bg-white h-100">
+
+    {# Left panel #}
+    <div class="left-panel flex-shrink-0 d-flex flex-column align-items-center justify-content-center gap-2 p-3"
+      style="width: 200px; background-color: #e4e3e9;">
+
+      {% if user.photo %}
+        <img src="{{ user.photo.url('profileMedium') }}"
+          class="profile-pic rounded-circle border border-3 border-primary"
+          alt="{{ user.fullName }}">
+      {% else %}
+        <div class="rounded-circle border border-3 border-primary bg-primary-subtle d-flex align-items-center justify-content-center fw-semibold text-primary"
+          style="width: 150px; height: 150px; font-size: 2rem;">
+          {{ user.fullName|split(' ')|map(w => w[0])|join('') }}
+        </div>
+      {% endif %}
+
+      <span class="text-muted text-center" style="font-size: 0.7rem; line-height: 1.4;">
+        {{ user.location | default('Brighton') }}
+      </span>
+
+    </div>
+
+    {# Right — content #}
+    <div class="d-flex flex-column gap-2 flex-grow-1 p-3 p-md-4" style="min-width: 0;">
+
+      <h3 class="fw-semibold mb-0 d-flex align-items-center gap-2 flex-wrap">
+        <a href="{{ alias('@baseUrl') }}/counsellors/{{ user.fullName|kebab }}/{{ user.id }}"
+          class="text-reset text-decoration-none">
+          {{ user.fullName }}
+        </a>
+        {% if user.memberships.count() %}
+          <span
+            data-bs-toggle="popover"
+            data-bs-trigger="hover focus"
+            data-bs-placement="top"
+            data-bs-title="Verified therapist"
+            data-bs-content="Every therapist listed on Brighton Counselling Directory has been independently verified by our team to confirm they hold appropriate qualifications and professional insurance to practise."
+            style="cursor: pointer; line-height: 1;">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" class="text-primary flex-shrink-0">
+              <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0
+                0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89
+                2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89
+                .011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0
+                0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287
+                5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7
+                8.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+            </svg>
+          </span>
+        {% endif %}
+      </h3>
+
+      {% if user.titleRole %}
+        <p class="text-muted mb-0">{{ user.titleRole }}</p>
+      {% endif %}
+
+      {% if user.aboutMe %}
+        <p class="mb-0 text-body"
+          style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6;">
+          {{ user.aboutMe|striptags }}
+        </p>
+      {% endif %}
+
+      {% set memberships = user.memberships.all() %}
+      {% if memberships|length %}
+        <div class="d-flex flex-wrap gap-1">
+          {% for entry in memberships %}
+            {% set org    = entry.memberOrganisation.label %}
+            {% set status = entry.memberstatus.value %}
+            {% if status == "Registered" or status == "Snr Accredited" or status == "Accredited" %}
+              {% set pillBg   = 'bg-primary' %}
+              {% set pillText = 'text-white' %}
+            {% else %}
+              {% set pillBg   = 'bg-success-subtle' %}
+              {% set pillText = 'text-success-emphasis' %}
+            {% endif %}
+            <span class="d-inline-flex rounded-pill overflow-hidden border"
+              style="font-size: 0.7rem; font-weight: 500; line-height: 1;">
+              <span class="px-2 py-1 bg-primary-subtle text-primary-emphasis border-end">{{ org }}</span>
+              <span class="px-2 py-1 {{ pillBg }} {{ pillText }}">{{ status }}</span>
+            </span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <hr class="mt-auto mb-2">
+
+      <div class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
+        <button type="button"
+          class="btn btn-outline-secondary wishlist-toggle d-flex align-items-center justify-content-center p-0"
+          style="width: 44px; height: 40px;"
+          data-element-id="{{ user.id }}"
+          data-element-site-id="{{ user.siteId }}"
+          data-toggle-url="{{ craft.wishlist.toggleItemUrl(user) }}"
+          title="Save therapist"
+          aria-label="Save therapist">
+          <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8
+              13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5
+              0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+          </svg>
+        </button>
+
+        <form action="{{ baseUrl }}enquiry" method="post"
+          accept-charset="UTF-8" enctype="multipart/form-data" class="m-0">
+          {{ csrfInput() }}
+          <input type="hidden" name="therapistID" value="{{ user.id }}">
+          <button type="submit" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0
+                1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13
+                2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64
+                3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+            </svg>
+            Email me
+          </button>
+        </form>
+
+        <a href="{{ alias('@baseUrl') }}/counsellors/{{ user.fullName|kebab }}/{{ user.id }}"
+          class="btn btn-primary d-inline-flex align-items-center">
+          View profile
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
