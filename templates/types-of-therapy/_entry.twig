@@ -2,6 +2,32 @@
 
 
 {% block content %}
+
+{# ── Therapists offering this type of therapy ── #}
+{% set matchedTherapists = craft.users()
+  .group('counsellors')
+  .hasPhoto()
+  .profileComplete(true)
+  .relatedTo({
+    targetElement: entry,
+    field: 'typesOfTherapyOfferred'
+  })
+  .orderBy('RAND()')
+  .limit(6)
+  .all() %}
+
+{% set isFallback = matchedTherapists | length == 0 %}
+
+{% if isFallback %}
+  {% set matchedTherapists = craft.users()
+    .group('counsellors')
+    .hasPhoto()
+    .profileComplete(true)
+    .orderBy('RAND()')
+    .limit(6)
+    .all() %}
+{% endif %}
+
 <section class="pt-8 bg-light">
   <div class="container my-lg-8">
     <div class="row">
@@ -11,13 +37,43 @@
 
           {{entry.body}}
         </div>
-        
-        
+
+
       </div>
 
     </div>
   </div>
 </section>
+
+{% if matchedTherapists | length %}
+<section class="py-6 py-lg-8 bg-white">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        {% if isFallback %}
+          <h2 class="h1 mb-2">Therapists in Brighton &amp; Hove</h2>
+          <p class="text-muted">Browse our verified therapists — many work across a range of approaches and may be able to help.</p>
+        {% else %}
+          <h2 class="h1 mb-2">Therapists offering {{ entry.title | lower }}</h2>
+          <p class="text-muted">All therapists listed are verified and based in Brighton &amp; Hove.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row g-4">
+      {% for user in matchedTherapists %}
+        {% include 'components/users/user-card-horizontal' %}
+      {% endfor %}
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <a href="{{ alias('@baseUrl') }}/find-a-therapist" class="btn btn-primary btn-lg">
+          View all therapists
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <section class="d-none">
   <div class="container">

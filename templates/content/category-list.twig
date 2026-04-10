@@ -13,6 +13,7 @@
     targetElement: category,
     field: 'category'
   })
+  .orderBy('RAND()')
   .limit(6)
   .all() %}
 
