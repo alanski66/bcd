@@ -42,6 +42,15 @@
             {% block headContent %}
             {% endblock headContent %}
             </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8FCZTB2EC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8FCZTB2EC');
+</script>
 
             {% block bodyTag %}
             <body  class="bg-white {% if bodyClass is defined %} {{ bodyClass }} {% endif %}"> 
