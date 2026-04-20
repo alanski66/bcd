@@ -1,0 +1,12 @@
+{% header "Content-Type: application/xml; charset=utf-8" %}
+{% set issues = craft.entries().section('issues').all() %}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for issue in issues %}
+  <url>
+    <loc>{{ alias('@baseUrl') }}/therapists/{{ issue.slug }}/brighton</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+{% endfor %}
+</urlset>

@@ -11,6 +11,10 @@
           <h1 class="display-4 fw-semibold mb-8">{{entry.title}}</h1>
 
           {{entry.body}}
+
+          <a href="{{ alias('@baseUrl') }}/therapists/{{ entry.slug }}/brighton" class="btn btn-primary mt-4">
+            Find {{ entry.title }} therapists in Brighton &amp; Hove
+          </a>
         </div>
         
         

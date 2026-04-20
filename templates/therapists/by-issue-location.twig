@@ -1,0 +1,163 @@
+{% extends "_layouts/generic-page-layout.twig" %}
+
+{# ── Resolve the issue entry from the URL slug ───────────────────────────── #}
+{% set issueSlug = issueSlug ?? craft.app.request.getSegment(2) %}
+{% set issue = craft.entries().section('issues').slug(issueSlug).one() %}
+
+{% if not issue %}
+  {% exit 404 %}
+{% endif %}
+
+{# ── Page labels ─────────────────────────────────────────────────────────── #}
+{% set pageTitle       = issue.title ~ ' Therapists in Brighton & Hove' %}
+{% set metaDescription = 'Find qualified ' ~ issue.title | lower ~ ' therapists in Brighton & Hove. Browse verified local counsellors who specialise in ' ~ issue.title | lower ~ ' and book a session today.' %}
+
+{# ── SEOmatic overrides ───────────────────────────────────────────────────── #}
+{% do seomatic.meta.seoTitle(pageTitle ~ ' | Brighton Counselling Directory') %}
+{% do seomatic.meta.seoDescription(metaDescription) %}
+{% do seomatic.meta.canonicalUrl(craft.app.request.absoluteUrl) %}
+
+{% block content %}
+
+{# ── Hero / intro ─────────────────────────────────────────────────────────── #}
+<section class="pt-8 bg-light mb-8">
+  <div class="container mb-">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-12">
+        <div class="mb-8">
+          <h1 class="display-4 fw-semibold mb-4">{{ pageTitle }}</h1>
+          {% if issue.body %}
+            {{ issue.body }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Therapist listings ───────────────────────────────────────────────────── #}
+{% set matchedTherapists = craft.users()
+  .group('counsellors')
+  .hasPhoto()
+  .profileComplete(true)
+  .relatedTo({
+    targetElement: issue,
+    field: 'typesOfIssuesYouCanHelp'
+  })
+  .limit(6)
+  .all() %}
+
+{% set isFallback = matchedTherapists | length == 0 %}
+
+{% if isFallback %}
+  {% set matchedTherapists = craft.users()
+    .group('counsellors')
+    .hasPhoto()
+    .profileComplete(true)
+    .orderBy('RAND()')
+    .limit(6)
+    .all() %}
+{% endif %}
+
+{% if matchedTherapists | length %}
+<section class="bg-white">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        {% if isFallback %}
+          <h2 class="h1 mb-2">Therapists in Brighton &amp; Hove</h2>
+          <p class="text-muted">Browse our verified therapists — many work across a wide range of issues and may be able to help.</p>
+        {% else %}
+          <h2 class="h1 mb-2">{{ issue.title }} specialists based in Brighton &amp; Hove</h2>
+          <p class="text-muted">All therapists listed are verified and based in Brighton &amp; Hove.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row g-4">
+      {% for user in matchedTherapists %}
+        {% include 'components/users/user-card-horizontal' %}
+      {% endfor %}
+    </div>
+    <div class="row py-5">
+      <div class="col-12 text-center">
+        <a href="{{ alias('@baseUrl') }}/find-a-therapist{% if not isFallback %}?issue={{ issue.title | url_encode }}{% endif %}" class="btn btn-primary btn-lg">
+          View all {{ issue.title | lower }} therapists
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── Related articles ─────────────────────────────────────────────────────── #}
+{% set relatedArticles = craft.entries()
+  .section('articles')
+  .relatedTo(issue)
+  .with(['featuredImage'])
+  .orderBy('postDate DESC')
+  .limit(6)
+  .all() %}
+
+
+{% if relatedArticles | length %}
+<section class="py-5 py-lg-7 bg-light">
+  <div class="container">
+    <p class="text-primary fw-semibold mb-2 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.08em;">Resources</p>
+    <h2 class="fw-bold mb-2" style="color: #1a1a2e;">Find out more about {{ issue.title | lower }}</h2>
+    <p class="text-muted mb-5">Read our latest articles on {{ issue.title | lower }} and how therapy can help.</p>
+    <div class="row g-4">
+      {% for entry in relatedArticles %}
+        {% set asset = entry.featuredImage[0] ?? null %}
+        <div class="col-xl-4 col-lg-4 col-md-6 col-12 d-flex align-items-stretch">
+          <div class="card mb-4 shadow-lg card-lift w-100">
+            <a href="{{ entry.url }}">
+              {% if asset %}
+                {{ picture([[asset, 'card']], { class: 'card-img-top img-fluid', alt: 'image for article: ' ~ entry.title }) }}
+              {% endif %}
+            </a>
+            <div class="card-body flex-column">
+              <h3><a href="{{ entry.url }}" class="text-inherit">{{ entry.title }}</a></h3>
+              <p>{{ entry.intro }}</p>
+            </div>
+            <div class="row p-4 align-items-center g-0 mt-auto">
+              <div class="col-auto">
+                <img src="{{ entry.author.photo.url ?? '' }}" alt="avatar" class="rounded-circle avatar-sm me-2">
+              </div>
+              <div class="col lh-1">
+                <h5 class="mb-1">{{ entry.author }}</h5>
+                <p class="fs-6 mb-0">{{ entry.postDate|datetime('F d, Y') }}</p>
+              </div>
+              <div class="col-auto">
+                <p class="fs-6 mb-0">5 Min Read</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5">
+      <a href="{{ alias('@baseUrl') }}/articles" class="btn btn-outline-primary">Read all articles</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── JSON-LD LocalBusiness schema ─────────────────────────────────────────── #}
+{% do seomatic.jsonLd.create({
+  'type': 'MedicalBusiness',
+  'name': 'Brighton Counselling Directory',
+  'description': metaDescription,
+  'url': craft.app.request.absoluteUrl,
+  'areaServed': {
+    'type': 'City',
+    'name': 'Brighton and Hove'
+  },
+  'address': {
+    'type': 'PostalAddress',
+    'addressLocality': 'Brighton',
+    'addressRegion': 'East Sussex',
+    'addressCountry': 'GB'
+  }
+}) %}
+
+{% endblock %}
