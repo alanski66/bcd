@@ -7,7 +7,7 @@
     "convergine/craft-content-buddy": "1.2.11",
     "convergine/craft-pexels": "1.0.1",
     "craftcms/ckeditor": "^5.4.0",
-    "craftcms/cms": "^5.9.19",
+    "craftcms/cms": "^5.9.20",
     "craftcms/contact-form": "^3.1.0",
     "craftcms/element-api": "4.2.0",
     "craftcms/feed-me": "6.11.0",
@@ -24,7 +24,7 @@
     "symfony/dom-crawler": "^7.1",
     "topshelfcraft/wordsmith": "5.0.0",
     "verbb/navigation": "3.0.15",
-    "verbb/wishlist": "3.0.12",
+    "verbb/wishlist": "^3.0.13",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
