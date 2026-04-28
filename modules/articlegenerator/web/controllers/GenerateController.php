@@ -148,7 +148,8 @@ EOT;
             $raw     = $this->callClaude($systemPrompt, $userPrompt, $apiKey);
             $data    = $this->parseJson($raw);
         } catch (\Exception $e) {
-            return $this->asJson(['success' => false, 'error' => $e->getMessage()]);
+            Craft::error('[ArticleGenerator] create failed: ' . $e->getMessage(), __METHOD__);
+            return $this->asJson(['success' => false, 'error' => 'Generation failed. Check the Craft logs for details.']);
         }
 
         $intro = mb_substr($data['intro'] ?? '', 0, 115);
@@ -162,7 +163,8 @@ EOT;
         $this->saveFaqs($entry, $data['faqs'] ?? []);
 
         if (!Craft::$app->elements->saveElement($entry)) {
-            return $this->asJson(['success' => false, 'error' => implode(', ', $entry->getFirstErrors())]);
+            Craft::error('[ArticleGenerator] save failed: ' . implode(', ', $entry->getFirstErrors()), __METHOD__);
+            return $this->asJson(['success' => false, 'error' => 'Content generated but save failed. Check the Craft logs.']);
         }
 
         return $this->asJson([
@@ -224,14 +226,16 @@ EOT;
             $raw  = $this->callClaude($systemPrompt, $userPrompt, $apiKey);
             $data = $this->parseJson($raw);
         } catch (\Exception $e) {
-            return $this->asJson(['success' => false, 'error' => $e->getMessage()]);
+            Craft::error('[ArticleGenerator] enrich failed: ' . $e->getMessage(), __METHOD__);
+            return $this->asJson(['success' => false, 'error' => 'Generation failed. Check the Craft logs for details.']);
         }
 
         $entry->setFieldValues(['keyTakeaways' => $data['keyTakeaways'] ?? '']);
         $this->saveFaqs($entry, $data['faqs'] ?? []);
 
         if (!Craft::$app->elements->saveElement($entry)) {
-            return $this->asJson(['success' => false, 'error' => implode(', ', $entry->getFirstErrors())]);
+            Craft::error('[ArticleGenerator] save failed: ' . implode(', ', $entry->getFirstErrors()), __METHOD__);
+            return $this->asJson(['success' => false, 'error' => 'Content generated but save failed. Check the Craft logs.']);
         }
 
         return $this->asJson([

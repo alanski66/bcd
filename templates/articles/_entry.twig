@@ -1,8 +1,35 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 {% block content %}
 
-{# Auto-generate FAQPage schema from FAQs Matrix #}
-{% if entry.faqs|length %}
+{% set articleImage = entry.featuredImage.one() %}
+{% set siteName = craft.app.sites.currentSite.name %}
+{% set siteUrl = craft.app.sites.currentSite.baseUrl %}
+{% set articleType = entry.articleType.value ?? '' %}
+
+{# Article schema — always present #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ entry.title|json_encode|raw }},
+  "description": {{ entry.intro|json_encode|raw }},
+  "datePublished": "{{ entry.postDate|date('Y-m-d') }}",
+  "dateModified": "{{ entry.dateUpdated|date('Y-m-d') }}",
+  "author": {
+    "@type": "Person",
+    "name": {{ entry.author|json_encode|raw }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ siteName|json_encode|raw }},
+    "url": {{ siteUrl|json_encode|raw }}
+  }{% if articleImage %},
+  "image": {{ articleImage.url|json_encode|raw }}{% endif %}
+}
+</script>
+
+{# FAQPage schema — when FAQs are present and article type is not howto #}
+{% if entry.faqs|length and articleType != 'howto' %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -23,9 +50,30 @@
 </script>
 {% endif %}
 
-{# Manual JSON schema override (for Article, HowTo, or custom schemas) #}
+{# HowTo schema — when article type is howto and FAQs are used as steps #}
+{% if articleType == 'howto' and entry.faqs|length %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": {{ entry.title|json_encode|raw }},
+  "description": {{ entry.intro|json_encode|raw }},
+  "step": [
+    {% for faq in entry.faqs.all() %}
+    {
+      "@type": "HowToStep",
+      "name": {{ faq.question|json_encode|raw }},
+      "text": {{ faq.answer|striptags|json_encode|raw }}
+    }{{ not loop.last ? ',' }}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+{# Manual JSON schema — override/supplement for anything custom #}
 {% if entry.jsonSchema %}
-  {{entry.jsonSchema|raw}}
+  {{ entry.jsonSchema|raw }}
 {% endif %}
 {% set asset = entry.featuredImage[0] ?? null %}
 <section class="py-7 py-lg-8 bg-light">
