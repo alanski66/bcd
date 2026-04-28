@@ -28,7 +28,8 @@ return [
     'modules' => [
         'fetch-profile' => \modules\fetchprofile\FetchProfile::class, 'notify-save' => NotifySave::class,
         'guestentrynotify' => \modules\guestentrynotify\Module::class,
-        'updateprofilestatus' => \modules\updateprofilestatus\Module::class
+        'updateprofilestatus' => \modules\updateprofilestatus\Module::class,
+        'articlegenerator' => \modules\articlegenerator\Module::class,
         ],
-    'bootstrap' => ['fetch-profile', 'notify-save', 'guestentrynotify', 'updateprofilestatus'],
+    'bootstrap' => ['fetch-profile', 'notify-save', 'guestentrynotify', 'updateprofilestatus', 'articlegenerator'],
 ];

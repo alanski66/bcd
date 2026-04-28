@@ -1,0 +1,47 @@
+{% do view.registerAssetBundle('modules\\articlegenerator\\assets\\ArticleGeneratorAsset') %}
+
+<div class="meta">
+    <div class="field">
+        <div class="heading">
+            <label>AI Generator</label>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="heading">
+            <label for="ag-perspective">Perspective</label>
+        </div>
+        <div class="instructions"><p>Optional. e.g. <em>Ericksonian therapist</em>, <em>CBT therapist</em></p></div>
+        <div class="input">
+            <input type="text" id="ag-perspective" class="text fullwidth" placeholder="Leave blank for general">
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="heading">
+            <label for="ag-brief">Brief</label>
+        </div>
+        <div class="instructions"><p>Optional. Angles or points to include.</p></div>
+        <div class="input">
+            <textarea id="ag-brief" class="text fullwidth" rows="3" placeholder="- Cover the role of the unconscious&#10;- Mention the mind-body connection"></textarea>
+        </div>
+    </div>
+
+    <div class="field" style="display:flex; align-items:center; justify-content:center;">
+        <button type="button" id="ag-generate-all-btn" class="btn submit"
+            data-entry-id="{{ entry.id }}"
+            data-action="{{ actionUrl('articlegenerator/generate/create') }}">
+            Generate Full Article
+        </button>
+    </div>
+
+    <div class="field" style="display:flex; align-items:center; justify-content:center;">
+        <button type="button" id="ag-enrich-btn" class="btn"
+            data-entry-id="{{ entry.id }}"
+            data-action="{{ actionUrl('articlegenerator/generate/enrich') }}">
+            Takeaways &amp; FAQs only
+        </button>
+    </div>
+
+    <div id="ag-status" class="instructions"></div>
+</div>

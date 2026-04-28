@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: keyTakeaways
+instructions: 'Enter 3–5 key takeaways, one per line. Displayed as a summary bullet list and helps with featured snippet targeting.'
+name: 'Key Takeaways'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 5
+  multiline: true
+  placeholder: "What readers will learn from this article\nOne takeaway per line"
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

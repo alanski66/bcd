@@ -37,6 +37,38 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-04-26T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 80f7accf-4744-4fcd-bef4-7c9bb728988f # Article Type
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e6a884da-c19d-4b72-bd4f-ef70799b776f
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-04-26T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0754b2bf-153d-4795-b9c7-96b595e9c45e # Primary Keyword
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 83564e77-3c5d-4deb-96b3-6f992526e8e3
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2024-09-30T20:46:35+00:00'
             editCondition: null
             elementCondition: null
@@ -97,6 +129,38 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: e87a7e20-a992-44b7-9670-0a3dcdba9dd0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-26T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d32c90a9-e4a0-4482-8940-cd4096e5f0e4 # Key Takeaways
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 84d724ae-711f-4c65-8846-5806bc5a1f71
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-26T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 48d70559-0861-4360-9c66-df0a47415a8d # FAQs
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4ecaac5d-ebe7-435f-848a-543aff8be421
             userCondition: null
             warning: null
             width: 100

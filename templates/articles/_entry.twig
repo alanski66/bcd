@@ -1,5 +1,29 @@
 {% extends "_layouts/generic-page-layout.twig" %}
 {% block content %}
+
+{# Auto-generate FAQPage schema from FAQs Matrix #}
+{% if entry.faqs|length %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in entry.faqs.all() %}
+    {
+      "@type": "Question",
+      "name": {{ faq.question|json_encode|raw }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ faq.answer|striptags|json_encode|raw }}
+      }
+    }{{ not loop.last ? ',' }}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+{# Manual JSON schema override (for Article, HowTo, or custom schemas) #}
 {% if entry.jsonSchema %}
   {{entry.jsonSchema|raw}}
 {% endif %}
@@ -24,7 +48,10 @@
               </div>
             </div>
             <div class="d-flex align-items-center">
-            <span><i class="bi bi-clock"></i> 4 min read</span>
+            {% set wordCount = entry.body|striptags|split(' ')|length %}
+            {% set readMins = (wordCount / 200)|round %}
+            {% set readMins = readMins < 1 ? 1 : readMins %}
+            <span><i class="bi bi-clock"></i> {{ readMins }} min read</span>
             </div>
           </div>
         </div>
@@ -91,7 +118,45 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mb-2 main-content">
           <!-- Descriptions -->
           <p class="lead">{{entry.intro}}</p>
+
+          {# Key Takeaways #}
+          {% if entry.keyTakeaways %}
+          {% set takeaways = entry.keyTakeaways|split('\n')|filter %}
+          <div class="card border-0 bg-light rounded-3 p-4 mb-5">
+            <h2 class="h5 fw-bold mb-3">Key Takeaways</h2>
+            <ul class="mb-0">
+              {% for item in takeaways %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
           {{entry.body}}
+
+          {# FAQs #}
+          {% set faqs = entry.faqs.all() %}
+          {% if faqs|length %}
+          <div class="mt-6">
+            <h2 class="h4 fw-bold mb-4">Frequently Asked Questions</h2>
+            <div class="accordion" id="articleFAQ">
+              {% for faq in faqs %}
+              <div class="accordion-item border-0 mb-2">
+                <h3 class="accordion-header">
+                  <button class="accordion-button {% if not loop.first %}collapsed{% endif %} fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}">
+                    {{ faq.question }}
+                  </button>
+                </h3>
+                <div id="faq{{ loop.index }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" data-bs-parent="#articleFAQ">
+                  <div class="accordion-body text-muted">
+                    {{ faq.answer }}
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
 
           <!-- Media -->
           <hr class="mt-8 mb-5">

@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: primaryKeyword
+instructions: 'The main search term this article targets. Used for content strategy reference only.'
+name: 'Primary Keyword'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: 100
+  code: false
+  initialRows: 1
+  multiline: false
+  placeholder: 'e.g. anxiety therapy london'
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText
