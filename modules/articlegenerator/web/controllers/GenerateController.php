@@ -41,10 +41,16 @@ Return only valid JSON. No markdown, no extra text — just the raw JSON object.
 EOT;
     }
 
-    private function buildBriefSection(string $brief): string
+    private function buildBriefSection(string $brief, string $keyword): string
     {
-        if (!$brief) return '';
-        return "\n\nBrief/notes from the editor:\n{$brief}";
+        $parts = [];
+        if ($keyword) {
+            $parts[] = "Target keyword: \"{$keyword}\"\nEnsure this phrase appears naturally in the intro, the first H2, and at least two body paragraphs. Do not force it — write for the reader first.";
+        }
+        if ($brief) {
+            $parts[] = "Brief/notes from the editor:\n{$brief}";
+        }
+        return $parts ? "\n\n" . implode("\n\n", $parts) : '';
     }
 
     private function callClaude(string $systemPrompt, string $userPrompt, string $apiKey): string
@@ -121,12 +127,13 @@ EOT;
             return $this->asJson(['success' => false, 'error' => 'Entry not found or has no title. Save the entry with a title first.']);
         }
 
+        $keyword = trim((string)($entry->primaryKeyword ?? ''));
         $systemPrompt = $this->buildSystemPrompt($perspective);
 
         $userPrompt = <<<EOT
 Write a complete SEO and AEO-optimised article for a Brighton & Hove counselling directory.
 
-Title: "{$entry->title}"{$this->buildBriefSection($brief)}
+Title: "{$entry->title}"{$this->buildBriefSection($brief, $keyword)}
 
 Return this exact JSON structure:
 {
@@ -200,10 +207,11 @@ EOT;
             return $this->asJson(['success' => false, 'error' => 'Body is too short. Write the article body first, then generate takeaways and FAQs.']);
         }
 
+        $keyword = trim((string)($entry->primaryKeyword ?? ''));
         $systemPrompt = $this->buildSystemPrompt($perspective);
 
         $userPrompt = <<<EOT
-Read this article body and generate structured fields from it.{$this->buildBriefSection($brief)}
+Read this article body and generate structured fields from it.{$this->buildBriefSection($brief, $keyword)}
 
 Return this exact JSON structure:
 {
