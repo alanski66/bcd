@@ -1,4 +1,4 @@
-dateModified: 1776677362
+dateModified: 1788945980
 elementSources:
   craft\elements\Entry:
     -
@@ -256,6 +256,7 @@ meta:
     48d70559-0861-4360-9c66-df0a47415a8d: FAQs # FAQs
     48e5cd5f-156a-4a9b-9323-1139b7dda01f: 'Phone number' # Phone number
     49a16490-f1a4-45d4-8189-dda278265b5a: 'Title role' # Title role
+    80f7accf-4744-4fcd-bef4-7c9bb728988f: 'Article Type' # Article Type
     84d3be0c-c468-4664-914c-b80e544b5114: Category # Category
     85d7f167-b012-4f56-9d61-9157c12fc036: 'Insurance proof' # Insurance proof
     92bed5f0-da6f-4abc-8a49-47690cf6b3b7: Therapists # Therapists
@@ -263,6 +264,7 @@ meta:
     319c85fe-482c-4f11-aa21-cb3849b718d3: Credit # Credit
     374a5750-6957-4022-9d77-07e164a153b1: 'About me' # About me
     520a0e55-accd-41b4-addc-97ed1155aa67: Card # Card
+    0754b2bf-153d-4795-b9c7-96b595e9c45e: 'Primary Keyword' # Primary Keyword
     835ade6f-a0d3-4cc0-86e6-c979a28f4521: 'Profile medium' # Profile medium
     1369bc0d-8f89-4585-8602-f8a9add3550e: Membership # Membership
     1510c01a-849d-440a-b84e-ccca1d29861b: 'Member Status' # Member Status
@@ -297,6 +299,7 @@ meta:
     c53fedbd-f0cc-4695-b607-17403adb9be9: 'Types of therapy you offer' # Types of therapy you offer
     cba221ca-cce1-410c-a060-923d5b9bcb90: 'Type of therapy' # Type of therapy
     d0511a46-015b-4858-b016-9a9af57d2f74: 'Brighton Counselling Directory' # Brighton Counselling Directory
+    d32c90a9-e4a0-4482-8940-cd4096e5f0e4: 'Key Takeaways' # Key Takeaways
     de726837-6d2f-494c-921c-8dfbd363fbf4: 'Issues index' # Issues index
     df1fd57a-df99-4fc9-91c1-71b7f2afd04b: Wishlist # Wishlist
     e2f00d38-b783-4c6e-9e6b-6e9dd1313604: 'Issues index' # Issues index
@@ -458,6 +461,50 @@ plugins:
     enabled: true
     licenseKey: DOR8YCQ5VI9OJJTBZ2NU06Y1
     schemaVersion: 3.0.13
+    settings:
+      addHrefLang: true
+      addPaginatedHreflang: true
+      addXDefaultHrefLang: true
+      alwaysIncludeCanonicalUrls: false
+      cpTitlePrefix: '⚙ '
+      cspNonce: ''
+      cspScriptSrcPolicies:
+        -
+          __assoc__:
+            -
+              - policy
+              - "'self'"
+      devModeCpTitlePrefix: '🚧⚙ '
+      devModeTitlePrefix: '🚧 '
+      displayPreviewSidebar: true
+      enableDebugToolbarPanel: true
+      enableJsonLdEndpoint: false
+      enableMetaContainerEndpoint: false
+      enableSeoFileLinkEndpoint: false
+      environment: live
+      excludeNonCanonicalUrls: false
+      generatorEnabled: true
+      headersEnabled: true
+      includeHomepageInBreadcrumbs: true
+      lowercaseCanonicalUrl: true
+      manuallySetEnvironment: false
+      maxDescriptionLength: 155
+      maxTitleLength: 75
+      metaCacheDuration: 0
+      pluginName: SEOmatic
+      renderEnabled: true
+      separatorChar: '|'
+      sidebarDisplayPreviewTypes:
+        - google
+        - twitter
+        - facebook
+      siteGroupsSeparate: true
+      siteUrlOverride: ''
+      sitemapsEnabled: true
+      socialMediaPreviewTarget: true
+      truncateDescriptionTags: true
+      truncateTitleTags: true
+      xDefaultSite: 0
   splash:
     edition: standard
     enabled: true

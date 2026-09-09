@@ -24,6 +24,29 @@
   {% set previewImageSrc = 'Site default (no image uploaded)' %}
 {% endif %}
 
+{# ── SEO preview values ────────────────────────────────────
+   Mirrors exactly what templates/users/user-profile.twig sends to SEOmatic,
+   plus SEOmatic's own site-name append + truncation, so this preview always
+   matches the real <title>/og:title/description Google and social platforms see —
+   whether a field is left blank (auto-generated) or edited (live via JS below). #}
+{% set seoSiteName    = 'Brighton Counselling Directory' %}
+{% set titleMaxLen    = seomatic.config.maxTitleLength|default(70) %}
+{% set descMaxLen     = seomatic.config.maxDescriptionLength|default(155) %}
+
+{% set defaultSeoTitle       = user.fullName ~ ' — ' ~ user.titleRole %}
+{% set defaultSeoDescription = user.shortSummary is not empty
+  ? user.shortSummary|striptags
+  : 'Browse our directory of certified Psychotherapists and Counsellors, all conveniently located in the Brighton & Hove area' %}
+
+{% set rawSeoTitle       = user.seoTitle is not empty ? user.seoTitle : defaultSeoTitle %}
+{% set rawSeoDescription = user.seoDescription is not empty ? user.seoDescription : defaultSeoDescription %}
+
+{# What <title> actually becomes: SEOmatic appends " | {siteName}", then truncates #}
+{% set renderedTitle   = (rawSeoTitle ~ ' | ' ~ seoSiteName)|truncate(titleMaxLen, '…') %}
+{# og:title has no site-name append (ogSiteNamePosition: none) but is truncated the same way #}
+{% set renderedOgTitle = rawSeoTitle|truncate(titleMaxLen, '…') %}
+{% set renderedDesc    = rawSeoDescription|truncate(descMaxLen, '…') %}
+
 <main>
   <section class="pt-5 pb-5">
     <div class="container">
@@ -93,13 +116,13 @@
                     <div id="preview-title"
                       class="text-primary fw-medium mb-1"
                       style="font-size: 1.1rem;">
-                      {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole }} | Brighton Counselling Directory
+                      {{ renderedTitle }}
                     </div>
                     <div class="text-success small mb-1">
                       {{ alias('@baseUrl') }}/counsellors/{{ user.username|kebab }}/{{ user.id }}
                     </div>
                     <div id="preview-description" class="text-muted small">
-                      {{ user.seoDescription ?? user.shortSummary }}
+                      {{ renderedDesc }}
                     </div>
                   </div>
 
@@ -143,14 +166,14 @@
                       <div id="og-preview-title"
                         class="fw-semibold mb-1"
                         style="font-size: 0.9rem; line-height: 1.3;">
-                        {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole }}
+                        {{ renderedOgTitle }}
                       </div>
                       <div id="og-preview-desc"
                         class="text-muted"
                         style="font-size: 0.8rem; line-height: 1.4;
                           display: -webkit-box; -webkit-line-clamp: 2;
                           -webkit-box-orient: vertical; overflow: hidden;">
-                        {{ user.seoDescription ?? user.shortSummary }}
+                        {{ renderedDesc }}
                       </div>
                     </div>
 
@@ -383,6 +406,30 @@
 });
 
 // Live previews — search engine + social card
+// Mirrors craft\helpers\StringHelper::safeTruncate() (what SEOmatic itself
+// calls to truncate <title>/og:title/description) so the live preview matches
+// what Google/Facebook will actually receive, not just a naive character cut.
+function safeTruncate(str, maxLength, suffix) {
+  suffix = suffix === undefined ? '…' : suffix;
+  if (str === '' || maxLength <= 0) return suffix;
+  if (maxLength >= str.length) return str;
+
+  const trimLength = maxLength - suffix.length;
+  if (trimLength <= 0) return suffix;
+
+  let truncated = str.slice(0, trimLength);
+  if (truncated === '') return '';
+
+  const spacePosition = str.indexOf(' ', trimLength - 1);
+  if (spacePosition !== trimLength) {
+    const lastSpace = truncated.lastIndexOf(' ');
+    if (lastSpace !== -1) {
+      truncated = truncated.slice(0, lastSpace);
+    }
+  }
+  return truncated + suffix;
+}
+
 const titleInput   = document.getElementById('seoTitle');
 const descInput    = document.getElementById('seoDescription');
 const previewTitle = document.getElementById('preview-title');
@@ -390,26 +437,29 @@ const previewDesc  = document.getElementById('preview-description');
 const ogTitle      = document.getElementById('og-preview-title');
 const ogDesc       = document.getElementById('og-preview-desc');
 
-const defaultTitle = '{{ user.fullName }} — {{ user.titleRole }}';
-const defaultDesc  = '{{ (user.seoDescription ?? user.shortSummary)|striptags|replace({"'": "\\'", "\n": " ", "\r": ""}) }}';
+const seoSiteName    = {{ seoSiteName|json_encode|raw }};
+const titleMaxLen    = {{ titleMaxLen }};
+const descMaxLen     = {{ descMaxLen }};
+const defaultSeoTitle       = {{ defaultSeoTitle|json_encode|raw }};
+const defaultSeoDescription = {{ defaultSeoDescription|json_encode|raw }};
 
-if (titleInput) {
-  titleInput.addEventListener('input', function () {
-    const val = this.value || defaultTitle;
-    // SEOmatic appends " | Brighton Counselling Directory" to <title> automatically
-    // (Site Name Position: after) but not to og:title, so mirror that here.
-    if (previewTitle) previewTitle.textContent = val + ' | Brighton Counselling Directory';
-    if (ogTitle)      ogTitle.textContent      = val;
-  });
+function updateTitlePreview() {
+  const raw = (titleInput && titleInput.value) || defaultSeoTitle;
+  // SEOmatic appends " | Brighton Counselling Directory" to <title> automatically
+  // (Site Name Position: after) but not to og:title, so mirror that here.
+  if (previewTitle) previewTitle.textContent = safeTruncate(raw + ' | ' + seoSiteName, titleMaxLen, '…');
+  if (ogTitle)      ogTitle.textContent      = safeTruncate(raw, titleMaxLen, '…');
 }
 
-if (descInput) {
-  descInput.addEventListener('input', function () {
-    const val = this.value || defaultDesc;
-    if (previewDesc) previewDesc.textContent = val;
-    if (ogDesc)      ogDesc.textContent      = val;
-  });
+function updateDescPreview() {
+  const raw = (descInput && descInput.value) || defaultSeoDescription;
+  const truncated = safeTruncate(raw, descMaxLen, '…');
+  if (previewDesc) previewDesc.textContent = truncated;
+  if (ogDesc)      ogDesc.textContent      = truncated;
 }
+
+if (titleInput) titleInput.addEventListener('input', updateTitlePreview);
+if (descInput)  descInput.addEventListener('input', updateDescPreview);
 
 // Live OG image preview when a new file is selected
 const ogImageInput = document.getElementById('ogImage');
