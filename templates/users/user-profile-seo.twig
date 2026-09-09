@@ -93,7 +93,7 @@
                     <div id="preview-title"
                       class="text-primary fw-medium mb-1"
                       style="font-size: 1.1rem;">
-                      {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' }}
+                      {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole }} | Brighton Counselling Directory
                     </div>
                     <div class="text-success small mb-1">
                       {{ alias('@baseUrl') }}/counsellors/{{ user.username|kebab }}/{{ user.id }}
@@ -143,7 +143,7 @@
                       <div id="og-preview-title"
                         class="fw-semibold mb-1"
                         style="font-size: 0.9rem; line-height: 1.3;">
-                        {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' }}
+                        {{ user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole }}
                       </div>
                       <div id="og-preview-desc"
                         class="text-muted"
@@ -190,10 +190,11 @@
                     class="form-control"
                     maxlength="60"
                     value="{{ user.seoTitle }}"
-                    placeholder="{{ user.fullName }} — {{ user.titleRole }} | Brighton Counselling Directory">
+                    placeholder="{{ user.fullName }} — {{ user.titleRole }}">
                   <div class="d-flex justify-content-between">
                     <div class="form-text">
-                      Auto-generated: <em>{{ user.fullName }} — {{ user.titleRole }} | Brighton Counselling Directory</em>
+                      Auto-generated: <em>{{ user.fullName }} — {{ user.titleRole }}</em> —
+                      "| Brighton Counselling Directory" is added automatically, don't include it here.
                     </div>
                     <div id="seoTitle-counter" class="form-text text-end"></div>
                   </div>
@@ -389,13 +390,15 @@ const previewDesc  = document.getElementById('preview-description');
 const ogTitle      = document.getElementById('og-preview-title');
 const ogDesc       = document.getElementById('og-preview-desc');
 
-const defaultTitle = '{{ user.fullName }} — {{ user.titleRole }} | Brighton Counselling Directory';
+const defaultTitle = '{{ user.fullName }} — {{ user.titleRole }}';
 const defaultDesc  = '{{ (user.seoDescription ?? user.shortSummary)|striptags|replace({"'": "\\'", "\n": " ", "\r": ""}) }}';
 
 if (titleInput) {
   titleInput.addEventListener('input', function () {
     const val = this.value || defaultTitle;
-    if (previewTitle) previewTitle.textContent = val;
+    // SEOmatic appends " | Brighton Counselling Directory" to <title> automatically
+    // (Site Name Position: after) but not to og:title, so mirror that here.
+    if (previewTitle) previewTitle.textContent = val + ' | Brighton Counselling Directory';
     if (ogTitle)      ogTitle.textContent      = val;
   });
 }

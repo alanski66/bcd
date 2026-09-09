@@ -19,8 +19,11 @@
 
 {% set profileUrl = alias('@baseUrl') ~ '/counsellors/' ~ user.fullName|kebab ~ '/' ~ user.id %}
 
-{# Override meta title — use custom field or auto-generate #}
-{% set metaTitle = user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole ~ ' | Brighton Counselling Directory' %}
+{# Override meta title — use custom field or auto-generate.
+   Site name is NOT appended here: SEOmatic's global "Site Name Position"
+   setting already appends " | Brighton Counselling Directory" to <title>,
+   so adding it here would duplicate it and blow the truncation budget. #}
+{% set metaTitle = user.seoTitle ?? user.fullName ~ ' — ' ~ user.titleRole %}
 {% do seomatic.meta.seoTitle(metaTitle) %}
 
 {# Override meta description — use custom field or fall back to short summary #}
@@ -239,7 +242,7 @@
 
 
 {% block content %}
-
+<!-- User profile page content -->
 <main>
   <section class="bg-light">
     <div class="container-fluid p-0 bg-white">
