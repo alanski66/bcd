@@ -17,7 +17,7 @@
   "dateModified": "{{ entry.dateUpdated|date('Y-m-d') }}",
   "author": {
     "@type": "Person",
-    "name": {{ entry.author|json_encode|raw }}
+    "name": {{ entry.author.fullName|json_encode|raw }}
   },
   "publisher": {
     "@type": "Organization",
